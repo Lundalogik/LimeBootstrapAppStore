@@ -1,0 +1,691 @@
+<html>
+	<head>
+		<style type="text/css" title="currentStyle" media="screen">@import "css/styles.css";</style>
+		
+		<script language="javascript" src="../../../system/js/appInvoker/resources.js"></script>
+		<script language="javascript" src="../../../system/js/appInvoker/ErrorInfo.js"></script>
+		<title>Koppla alternativ</title>
+	</head>
+
+	<body onload="onInitPage()" onunload="onTerminatePage()">
+	    <div resid="alternativeDialog.linkOptions" style="float:left;" class="header"></div>
+		<div class="header">
+			<span class="buttons">
+				<button resid="alternativeDialog.buttonCancel" class="usebutton" onclick="onCancel()">Avbryt</button>
+				<button resid="alternativeDialog.buttonSave" class="usebutton" onclick="onSave()">Spara</button>
+			</span>
+			<div class="line"></div>
+		</div>
+		
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		        <tr>
+		            <td width="260px" resid="alternativeDialog.filter" class="columnHeader" id="filterHeaderTD">Urval</td>
+		            <td width="*" resid="alternativeDialog.default" class="columnHeader">Standardvärde</td>
+		        </tr>
+		        <tr>
+		            <td id="filterListTD"><select id="filterSelect" class="selectbox" onchange="onFilterChanged(this);" style="width:215px;" name="filterSelect"></select></td>
+		            <td><select id="defaultselect" class="selectbox" onchange="onDefaultChanged(this);" style="width:152px;" name="defaultselect"></select></td>
+		        </tr>
+		        <tr>
+		            <td>
+		                <span style="height=30px;">
+		                    <table cellspacing="0px" cellpadding="0px" border="0px" width="215px">
+		                        <tr>
+		                            <td width="155px"><input class="textInput" id="txtSearchResult" type="text" style="width:100%; display:none"/></td>
+		                            <td><button resid="alternativeDialog.buttonSearch" style="display:none" id="btnSearchResult" class="usebutton" onclick="SearchResultClicked()">Sök</button></td>
+		                        </tr>
+		                    </table>
+		                </span>
+		            </td>
+		            <td class="hits" id="hitsTD"></td>
+		        </tr>
+		</table>
+
+		
+
+		<div id="tableHeader"></div>
+		<div id="main">
+		<table cellspacing="1" cellpadding="0" border="0" width="427px" ID="tbodysort">	
+				<THEAD>
+				<TR>
+					<TH style="height:0px;" width="37%"></TH>
+					<TH width="23%"></TH>
+					<TH width="40%"></TH>
+				</TR>
+				</THEAD>
+				<TBODY id="alternativeLines">
+					
+				</TBODY>
+			</table>
+		</div>
+	</body>
+
+<script language="javascript" src="scripts/general.js"></script>
+<script>
+var m_xmlDocument = null;
+
+function onAlternativeChanged(selectObj) {
+    var spanStarObj = null;
+    var optionObj = null;
+    var optionNode = null;
+    var xmlPath = "/options/fileoptions/fileoption[@text=\"%1\"]";
+
+    try {
+        xmlPath = xmlPath.replace('%1', selectObj.parentElement.parentElement.firstChild.title);
+        xmlPath = xmlPath.replace('&amp;', '&');
+        xmlPath = xmlPath.replace('&lt;', '<');
+        xmlPath = xmlPath.replace('&gt;', '>');
+        
+        optionNode = m_xmlDocument.selectSingleNode(xmlPath);
+        
+        if (optionNode != null) {
+            optionObj = selectObj.children[selectObj.selectedIndex];
+            optionNode.setAttribute('limetext', optionObj.innerHTML);
+            optionNode.setAttribute('limevalue', optionObj.value);
+        }
+    
+        removeChangedStar(selectObj);
+    }
+    catch (error) {
+        ErrorInfo.showError(error, "onAlternativeChanged");
+    }
+}
+
+function removeChangedStar(selectObj){
+    var spanStarObj = selectObj.parentElement.all("changedStar");
+        
+    if(spanStarObj != null){
+        if (spanStarObj[0] != undefined){
+	        if (spanStarObj[0] != null)
+		        spanStarObj[0].removeNode(true);
+        }
+        else{
+	        if (spanStarObj != null)
+		        spanStarObj.removeNode(true);
+        }
+    }
+}
+
+function onCancel(){
+    if (m_xmlDocument != null)
+        m_xmlDocument = null;
+        
+    window.close();
+}
+
+function onDefaultChanged(selectObj) {
+    var defaultSelectObj = null;
+    var intLength = 0
+		    
+    try {
+	    spanStarObj = window.document.all('changedStar');
+		defaultSelectObj = window.document.all('defaultselect');
+		defaultNode = m_xmlDocument.selectSingleNode('/options/defaultoption');
+
+        if (defaultNode == null) {
+            defaultNode = m_xmlDocument.createElement('defaultoption');
+            m_xmlDocument.selectSingleNode('/options').appendChild(defaultNode);
+        }
+        
+        defaultNode.attributes.getNamedItem('value').nodeValue = defaultSelectObj.children[defaultSelectObj.selectedIndex].value;
+        defaultNode.attributes.getNamedItem('text').nodeValue = defaultSelectObj.children[defaultSelectObj.selectedIndex].innerHTML;
+        
+	    if (spanStarObj != null){
+		    
+		    intLength = spanStarObj.length;
+		    if (intLength > -1){
+			    for (var i=0; i < intLength; i++){
+				    spanStarObj[0].parentElement.getElementsByTagName('SELECT')[0].selectedIndex = defaultSelectObj.selectedIndex;
+				    onAlternativeChanged(spanStarObj[0].parentElement.getElementsByTagName('SELECT')[0]);
+			    }
+		    }
+		    else{
+			    spanStarObj.parentElement.getElementsByTagName('SELECT')[0].selectedIndex = defaultSelectObj.selectedIndex;
+			    onAlternativeChanged(spanStarObj.parentElement.getElementsByTagName('SELECT')[0]);
+		    }
+	    }
+	    
+	    if(selectObj.firstChild.value == -101){
+			selectObj.removeChild(selectObj.firstChild);
+	    }
+    }
+    catch (error) {
+        ErrorInfo.showError(error, "onDefaultChanged");
+    }
+}
+
+function setDefaultValue(selectObj) {
+    var defaultNode = null;
+
+    try {
+        defaultNode = m_xmlDocument.selectSingleNode('/options/defaultoption');
+        
+        if (defaultNode == null) {
+            defaultNode = m_xmlDocument.createElement('defaultoption');
+            m_xmlDocument.selectSingleNode('/options').appendChild(defaultNode);
+        }
+        
+        defaultNode.setAttribute('text', selectObj.children[selectObj.selectedIndex].innerHTML);
+        defaultNode.setAttribute('value', selectObj.children[selectObj.selectedIndex].value);
+    }
+    catch (error) {
+        ErrorInfo.throwAgain(error, "setDefaultValue");
+    }
+}
+
+function SetHits(){
+    var strHits = m_xmlDocument.selectNodes('/options/limeoptions/limeoption[@value > 0]').length;
+    var strMax = m_xmlDocument.selectSingleNode('/options/limeoptions/filters').attributes.getNamedItem('maxhits').nodeValue;
+    if (strHits > strMax){
+        strHits = strMax + '+';
+    }
+    window.document.all('hitsTD').innerHTML = Resources.getText("alternativeDialog.hitsOfMax", strHits, strMax);
+}
+
+function ControlFilterList(){
+    var limeFilterList = null;
+    var limeFilterList = m_xmlDocument.selectNodes('/options/limeoptions/filters/filter')
+    var selected = false;
+        
+    if (limeFilterList.length == 0){
+        window.document.all('filterHeaderTD').innerHTML='&nbsp;'
+        window.document.all('filterListTD').innerHTML='&nbsp;'
+    }
+    else{ 
+        SetHits();
+        var filterSelectList = window.document.all('filterSelect');
+        var firstOption = document.createElement('option');
+        firstOption.value = '';
+        firstOption.innerHTML = Resources.getText("alternativeDialog.selectFilter");
+        filterSelectList.appendChild(firstOption);
+        
+        for (i = 0; i < limeFilterList.length; i++) {
+            var optionObj = document.createElement('option');
+            optionObj.value = limeFilterList[i].attributes.getNamedItem('name').nodeValue;
+            optionObj.innerHTML = limeFilterList[i].attributes.getNamedItem('name').nodeValue;
+            filterSelectList.appendChild(optionObj);
+            if (limeFilterList[i].attributes.getNamedItem('selected').nodeValue == '1'){
+                optionObj.selected = true;
+                selected = true;
+                if (firstOption.innerHTML == Resources.getText("alternativeDialog.selectFilter"))
+                    filterSelectList.removeChild(firstOption);
+                
+                    
+                if (limeFilterList[i].attributes.getNamedItem('searchresult') != null ){
+                    displayResultSearch('block');
+                    window.document.all('txtSearchResult').value = limeFilterList[i].attributes.getNamedItem('searchresult').nodeValue;
+                }
+            }               
+        }
+        
+        if (!selected)
+            window.document.all('defaultselect').disabled = true;
+    }
+}
+
+
+function ReloadSelectBox(pSelectObj){
+    var selectedValue = '';
+    var limeValue = '';
+    var fileValue = '';
+    var fileNode = null;
+    var selected = false;
+    var pOption = null;   
+    var selected = false;   
+    var selectedValue = '';
+    
+    if(pSelectObj.value.length > 0){
+        selected = true;
+        selectedValue = pSelectObj.value;
+    }
+    pSelectObj.innerHTML = '';  
+    
+    
+    //fileValue  = pSelectObj.parentElement.parentElement.firstChild.innerHTML;
+    fileValue  = pSelectObj.parentElement.parentElement.firstChild.title;
+    
+    if (fileValue.indexOf("'") > -1)
+        fileNode = m_xmlDocument.selectSingleNode('/options/fileoptions/fileoption[@text="' + fileValue + '"]');
+    else
+        fileNode = m_xmlDocument.selectSingleNode("/options/fileoptions/fileoption[@text='" + fileValue + "']");
+    
+    limeOptionList = m_xmlDocument.selectNodes('/options/limeoptions/limeoption');
+    
+    for (n2 = 0; n2 < limeOptionList.length; n2++) {
+        limeValue = limeOptionList[n2].attributes.getNamedItem('value').nodeValue;
+        limeText = limeOptionList[n2].attributes.getNamedItem('text').nodeValue;
+        
+        pOption = document.createElement('option');
+        pOption.value = limeValue;
+        pOption.innerHTML = limeText;
+
+        if (selected){
+            if (limeValue == selectedValue){
+                pOption.selected = true;
+                selected = true;
+                removeChangedStar(pSelectObj);
+            }
+        }
+        else if (!selected  && fileNode != null){
+            if (fileNode.attributes.getNamedItem('limevalue').nodeValue != '' && fileNode.attributes.getNamedItem('limevalue').nodeValue == pOption.value) {
+                pOption.selected = true;
+                selected = true;
+                removeChangedStar(pSelectObj);
+            }
+       }
+        pSelectObj.appendChild(pOption);
+    }
+        
+    if (!selected){
+        pOption = document.createElement('option');
+        pOption.value = ''; 
+        pOption.innerHTML = Resources.getText("alternativeDialog.noSelection");
+        
+        if (pSelectObj.hasChildNodes) {
+            var pFirstChild = pSelectObj.firstChild
+            pSelectObj.insertBefore(pOption, pFirstChild);
+            pSelectObj.selectedIndex = 0;
+        }
+        else{
+            pOption.selected = true;
+            pSelectObj.appendChild(pOption);
+        }
+    }
+}
+
+function SearchResultClicked(){
+    var txtSearchResult = window.document.all('txtSearchResult');
+    if (txtSearchResult.value.length == 0){
+        alert (Resources.getText("alert.enterSearchResult"));
+        window.document.all('txtSearchResult').focus();
+    }
+    else{
+        var pSearchResultNode =  m_xmlDocument.selectSingleNode("/options/limeoptions/filters/filter[@searchresult!='']")
+        if (pSearchResultNode != null){
+            pSearchResultNode.attributes.getNamedItem('searchresult').nodeValue = txtSearchResult.value;
+        }
+        GetFilterDataAndFillBoxes();
+        SetHits();
+    }
+}
+
+function GetFilterDataAndFillBoxes(){ 
+   var xmlImportObj = window.dialogArguments.GetVBAInstance();
+   xmlImportObj.SetMousePointer(11)
+   var strClassName = m_xmlDocument.selectSingleNode("options").attributes.getNamedItem('classname').nodeValue
+   strSelectedXMLDoc = xmlImportObj.GetLinkedObjects(strClassName, m_xmlDocument, window.document.all('filterSelect').value);
+   
+   m_xmlDocument = createXmlDocument(strSelectedXMLDoc);
+   
+   pLimeSelectLists = window.document.all('limeselectvalue');
+   window.document.all('defaultselect').disabled = false;
+   
+   for (var i=0; i<pLimeSelectLists.length; i++){
+        if (pLimeSelectLists[i].tagName == 'OPTION'){
+            ReloadSelectBox(pLimeSelectLists);
+            pLimeSelectLists.disabled = false;
+        }
+        else{
+            ReloadSelectBox(pLimeSelectLists[i]);
+            pLimeSelectLists[i].disabled = false;
+        }
+   }
+   
+   loadDefault();
+   
+   var filterSelectList = window.document.all('filterSelect');
+   if(filterSelectList.children[0].innerHTML == Resources.getText("alternativeDialog.selectFilter") && filterSelectList.children.length > 1){
+        filterSelectList.removeChild(filterSelectList.children[0]);
+   }
+   
+   xmlImportObj.SetMousePointer(0)
+}
+
+function displayResultSearch(strDisplay){
+    window.document.all('txtSearchResult').style.display = strDisplay;
+    window.document.all('btnSearchResult').style.display = strDisplay;
+}
+
+function onFilterChanged(selectObj) {
+    var defaultSelectObj = null;
+    var intLength = 0
+    var strSelectedXMLDoc = '';
+    var pLimeSelectLists = null;
+    
+		    
+    try {
+        var filterSelect = window.document.all('filterSelect');
+        if (filterSelect[filterSelect.selectedIndex].value != ''){
+            if (filterSelect[filterSelect.selectedIndex].value != Resources.getText("alternativeDialog.searchResults")){
+                displayResultSearch('none');
+                GetFilterDataAndFillBoxes();
+                SetHits();
+            }
+            else{
+                window.document.all('txtSearchResult').value='';
+                displayResultSearch('block');
+                window.document.all('txtSearchResult').focus();
+            }
+       }
+       else{
+            displayResultSearch('none');
+       }
+    }
+    catch (error) {
+        ErrorInfo.showError(error, "onFilterChanged");
+    }
+}
+
+function FillLists(){
+    var fileOptionList = null;
+    var limeOptionList = null;
+    var divObj = null;
+    var spanObj = null;
+    var spanStarObj = null;
+    var selectObj = null;
+    var optionObj = null;	
+    var selValue = '';
+    var limeValue = '';
+    var limeText = '';
+    var n1 = 0;
+    var n2 = 0;
+    var selected = false;
+    var strHits = '';
+    
+    var table = null;
+    var thead = null;
+    var tbody = null;
+    var row = null;
+    var cell = null;
+    
+    try {
+        fileOptionList = m_xmlDocument.selectNodes('/options/fileoptions/fileoption');
+        limeOptionList = m_xmlDocument.selectNodes('/options/limeoptions/limeoption');
+    
+        for (n1 = 0; n1 < fileOptionList.length; n1++) {
+            selected = false;
+            strHits = '';
+            
+            row = document.createElement('TR');
+            row.className = n1 % 2 == 0 ? 'dark' : 'light';
+            
+            cell1 = document.createElement('TD');
+            cell1.className = 'alternatives';
+            cell1.width = '37%';
+            if (fileOptionList[n1].attributes.getNamedItem('text').nodeValue.length > 18)
+				cell1.innerHTML = fileOptionList[n1].attributes.getNamedItem('text').nodeValue.substring(0, 17) + '...';
+			else
+				cell1.innerHTML = fileOptionList[n1].attributes.getNamedItem('text').nodeValue;
+			cell1.title = fileOptionList[n1].attributes.getNamedItem('text').nodeValue;
+            row.appendChild(cell1);
+            
+            cell2 = document.createElement('TD');
+            cell2.className = 'alternatives';
+            cell2.width = '23%';
+            if (fileOptionList[n1].attributes.getNamedItem('hits') != undefined)
+				cell2.innerHTML = fileOptionList[n1].attributes.getNamedItem('hits').nodeValue;
+			else
+				cell2.innerHTML = 0;
+            row.appendChild(cell2);                
+            
+            selValue = fileOptionList[n1].attributes.getNamedItem('limevalue').nodeValue;
+            
+            selectObj = document.createElement('select');
+            selectObj.className = 'selectbox';
+            selectObj.style.width = '152px';
+            selectObj.id = 'limeselectvalue';
+            selectObj.onchange = function() {onAlternativeChanged(this)};
+            if (m_xmlDocument.selectNodes('/options/limeoptions/filters/filter').length > 0){
+                if (m_xmlDocument.selectNodes("/options/limeoptions/filters/filter[@selected='1']").length == 0){
+                    selectObj.disabled = true;
+                }
+            }
+            
+            cell3 = document.createElement('TD');
+            cell3.className = 'alternatives';
+            cell3.width = '40%';
+            cell3.appendChild(selectObj);
+            row.appendChild(cell3);
+            
+            if (limeOptionList.length > 0){
+                for (n2 = 0; n2 < limeOptionList.length; n2++) {
+                    limeValue = limeOptionList[n2].attributes.getNamedItem('value').nodeValue;
+                    limeText = limeOptionList[n2].attributes.getNamedItem('text').nodeValue;
+                    
+                    if (limeValue.replace(";", "").replace(";", "") > 0){
+                        optionObj = document.createElement('option');
+                        optionObj.value = limeValue;
+                        optionObj.innerHTML = limeText;
+
+                        if (limeValue!= '' && limeValue == selValue) {
+                            optionObj.selected = true;
+                            selected = true;
+                        }
+                            
+                        selectObj.appendChild(optionObj);
+                   }
+                }
+            }
+            
+            if (!selected) {
+			    optionObj = document.createElement('option');
+                optionObj.value = "";
+                optionObj.innerHTML = Resources.getText("alternativeDialog.noSelection");
+                optionObj.selected = true;
+                selected = true;
+                
+                var pFirstChild = selectObj.firstChild;
+                selectObj.insertBefore(optionObj, pFirstChild);
+                selectObj.selectedIndex = 0;
+            
+		        var spanStarObj = document.createElement('span');
+		        spanStarObj.innerHTML = '*';
+		        spanStarObj.className = 'star';
+		        spanStarObj.id = 'changedStar';
+		        cell3.appendChild(spanStarObj);
+		        
+	        }
+
+			document.getElementById('alternativeLines').appendChild(row);
+
+        }
+        
+        loadDefault();
+    }
+    catch (error) {
+        ErrorInfo.showError(error, "FillLists")
+    }
+}
+
+function onInitPage() {
+    var fileOptionList = null;
+    var limeOptionList = null;
+    var divObj = null;
+    var spanObj = null;
+    var spanStarObj = null;
+    var selectObj = null;
+    var optionObj = null;	
+    var selValue = '';
+    var limeValue = '';
+    var limeText = '';
+    var n1 = 0;
+    var n2 = 0;
+    var selected = false;
+    var strHits = '';
+    
+    var table = null;
+    var thead = null;
+    var tbody = null;
+    var row = null;
+    var cell = null;
+    
+    ErrorInfo.init("window.dialogArguments.getApplication();");
+    
+    try {
+        var xmlImportObj = window.dialogArguments.GetVBAInstance();
+        xmlImportObj.SetMousePointer(11)
+        Resources.initializeResources("textfileimport", "window.dialogArguments.getApplication();");
+        document.title = Resources.getText("alternativeDialog.caption");
+
+        m_xmlDocument = window.dialogArguments.m_pXmlArgument;
+        
+        ControlFilterList();
+        FillLists()
+        
+        xmlImportObj.SetMousePointer(0)
+    }
+    catch (error) {
+        xmlImportObj.SetMousePointer(11)
+        ErrorInfo.showError(error, "onInitPage")
+    }
+    
+    CreateHeaderTable();
+}
+
+function CreateHeaderTable(){
+	var table = document.createElement('TABLE');
+	table.cellspacing = '2';
+	table.cellpadding = '0';
+	table.border = '0';
+	table.width = '427px';
+	table.id = 'alternativeHeaders';
+	table.className = "sort striped='true'";
+	
+	var thead = document.createElement('THEAD');
+	table.appendChild(thead);
+	
+	var row = document.createElement('TR');
+	thead.appendChild(row);
+	
+	var cell1 = document.createElement('TH');
+	cell1.className = 'columnHeader underlined ascHeader';
+	cell1.id = 'firstColumn';
+	cell1.width='37%';
+	cell1.innerHTML = Resources.getText("alternativeDialog.options")
+	row.appendChild(cell1);
+	
+	var cell2 = document.createElement('TH');
+	cell2.className = 'columnHeader underlined';
+	cell2.width='23%';
+	cell2.innerHTML = Resources.getText("alternativeDialog.occurring")
+	row.appendChild(cell2);
+	
+	var cell3 = document.createElement('TH');
+	cell3.width='40%';
+	row.appendChild(cell3);
+	
+	window.document.all("tableHeader").appendChild(table);
+}
+
+function onSave() {
+    try {
+		if (window.document.all("defaultselect").value == -101){
+			alert (Resources.getText("alert.selectDefault"));
+		}
+		else {
+			setDefaultValue (window.document.all('defaultselect'));
+			if (window.document.all('filterSelect') != null)
+			    setSelectedFilter();
+			window.returnValue = m_xmlDocument.xml;
+			m_xmlDocument = null;
+	    
+			window.close();	
+		}
+    }
+    catch (error) {
+        ErrorInfo.showError(error, "onSave");
+    }
+}
+
+function setSelectedFilter(){
+    var pSelectFilterList = window.document.all('filterSelect');
+    var pNodeList = m_xmlDocument.selectNodes("/options/limeoptions/filters/filter[@selected='1' or @name='" + pSelectFilterList[pSelectFilterList.selectedIndex].innerHTML + "']");
+    
+    for (i = 0; i < pNodeList.length; i++) {
+        if (pNodeList[i].attributes.getNamedItem('name').nodeValue == pSelectFilterList[pSelectFilterList.selectedIndex].innerHTML){
+            pNodeList[i].attributes.getNamedItem('selected').nodeValue = '1';
+        }
+        else{
+            pNodeList[i].attributes.getNamedItem('selected').nodeValue = '0';
+        }
+    }
+}
+
+function onTerminatePage() {
+    if (m_xmlDocument != null)
+        m_xmlDocument = null;
+}   
+
+function loadDefault() {
+    var limeOptionList = null;
+    var defaultNode = null;
+    var optionDefaultNode = null;
+    var optionObj = null;
+    var limeValue = '';
+    var limeText = '';
+    var n1 = 0;
+    var selected = false;
+    var pSelectObj = null;
+    
+    try {
+        pSelectObj = document.getElementById('defaultselect')
+        pSelectObj.innerHTML = '';
+        limeOptionList = m_xmlDocument.selectNodes('/options/limeoptions/limeoption');
+        defaultNode = m_xmlDocument.selectSingleNode('/options/defaultoption');
+
+
+        if (defaultNode == null) {
+            defaultNode = m_xmlDocument.createElement('defaultoption');
+            m_xmlDocument.selectSingleNode('/options').appendChild(defaultNode);
+            
+            optionDefaultNode = m_xmlDocument.selectSingleNode("/options/limeoptions/limeoption[@default='1']");
+            
+            if (optionDefaultNode != null) {
+                defaultNode.setAttribute('text', optionDefaultNode.attributes.getNamedItem('text').nodeValue);
+                defaultNode.setAttribute('value', optionDefaultNode.attributes.getNamedItem('value').nodeValue);
+            }
+            else {
+                defaultNode.setAttribute('text', '');
+                defaultNode.setAttribute('value', '');
+                defaultNode = null;
+            }
+        }
+            
+        for (n1 = 0; n1 < limeOptionList.length; n1++) {
+            limeValue = limeOptionList[n1].attributes.getNamedItem('value').nodeValue;
+            limeText = limeOptionList[n1].attributes.getNamedItem('text').nodeValue;
+            
+            optionObj = document.createElement('option');
+            optionObj.value = limeValue;
+            optionObj.innerHTML = limeText;
+            
+            if (defaultNode != null) {
+                if (defaultNode.attributes.getNamedItem('value').nodeValue == limeValue) {
+                    optionObj.selected = true;
+                    defaultNode = null;
+                    selected = true;
+                }
+            }
+            
+            pSelectObj.appendChild(optionObj);
+        }
+        
+        if (!selected){
+            optionObj = document.createElement('option');
+            if (m_xmlDocument.selectSingleNode('/options').attributes.getNamedItem('required').nodeValue == "True")
+                optionObj.value = '-101';
+            else
+                optionObj.value = '0';
+            optionObj.innerHTML = Resources.getText("alternativeDialog.selectDefault");
+            var pFirstChild = pSelectObj.firstChild
+            pSelectObj.insertBefore(optionObj, pFirstChild);
+            pSelectObj.selectedIndex = 0;
+        }
+    }
+    catch (error) {
+        ErrorInfo.throwAgain(error, "loadDefault");
+    }
+}
+    
+</script>
+</html>

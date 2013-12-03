@@ -1,0 +1,168 @@
+<html>
+    <head>
+    <title>Hjälp för att slå samman dubbletter</title>
+        <link href="help.css" rel="stylesheet" type="text/css"/>
+        <script language="javascript" src="../../../system/js/appInvoker/resources.js"></script>
+    </head>
+
+<body bgcolor="#ECE9D8" onload="initPage();">
+	<table cellspacing="0" cellpadding="0" border="0" width="100%" class="bread">
+		<tr>
+			<td resid="help.overview" colspan="3" class="title" align="center"></td>
+		</tr>
+		<tr><td height="20px"/></tr>
+		<tr>
+			<td colspan="3" valign="top">
+			    <span resid="help.overview1"></span><br/><br/>
+                <span resid="help.overview2"></span><br/><br/>
+                <span resid="help.overview3"></span><br/><br/><br/>
+			</td>
+		</tr>
+		<tr>
+			<td resid="help.howto" colspan="3" class="title"></td>
+		</tr>
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td width="*" colspan="3" valign="top">
+			    <span resid="help.howto1"></span><br/><br/>
+                <span resid="help.howto2"></span>
+			</td>
+		</tr>
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td width="50px"/>
+			<td width="25px" valign="top">a.</td>
+			<td resid="help.howtoa" valign="top"></td>
+		</tr>
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td width="50px"/>
+			<td width="25px" valign="top">b.</td>
+			<td resid="help.howtob" valign="top"></td>
+		</tr>
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td width="50px"/>
+			<td width="25px" valign="top">c.</td>
+			<td resid="help.howtoc" valign="top"></td>
+		</tr>
+	</table>
+
+	<table cellspacing="0" cellpadding="0" border="0" width="100%" class="bread" ID="Table2">
+		<tr><td height="30px"/></tr>
+		<tr>
+			<td resid="help.noDoublet" colspan="2" class="title">Ej dubblett:</td>
+		</tr>
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td valign="top">
+			    <span resid="help.noDoublet1"></span>
+            </td>
+		</tr>
+	</table>
+
+	<table cellspacing="0" cellpadding="0" border="0" width="100%" class="bread">
+		<tr><td height="30px"/></tr>
+		<tr>
+			<td resid="help.buttons" colspan="2" class="title">Knappar:</td>
+		</tr>
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td resid="help.buttonCancel" width="120px">Avbryt:</td>
+			<td resid="help.buttonCancelText" valign="top">Avbryter och stänger ner formuläret</td>
+		</tr>
+
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td resid="help.buttonMoveRelations">Flytta alla relationer:</td>
+			<td resid="help.buttonMoveRelationsText" valign="top">Flyttar alla poster i alla multirelationsfält från "Dubblett" till "Behåll".</td>
+		</tr>
+
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td resid="help.buttonFillEmpty">Fyll tomma i Behåll:</td>
+			<td resid="help.buttonFillEmptyText" valign="top">Flyttar innehållet från alla "Dubblett"-fält (utom multirelationsfält) där "Dubblett"-fältet är ifyllt och "Behåll" är tomt. Även förkryssade alternativ i "Dubblett"-postens mängdfälten flyttas över. </td>
+		</tr>
+
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td resid="help.buttonNext">Nästa:</td>
+			<td resid="help.buttonNextText">Laddar in nästa post. Posten presenteras tillsammans med den post du valt som "Behåll". </td>
+		</tr>
+	</table>
+
+	<table cellspacing="0" cellpadding="0" border="0" width="100%" class="bread" ID="Table1">
+		<tr><td height="30px"/></tr>
+		<tr>
+			<td resid="help.icons" colspan="2" class="title"></td>
+		</tr>
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td resid="help.iconNone" width="80px" valign="top"></td>
+			<td resid="help.iconNoneText" width="*"></td>
+		</tr>
+
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td width="80px" valign="top"><img src="images/date.gif"</td>
+			<td resid="help.iconDate" width="*"></td>
+		</tr>
+
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td width="80px" valign="top"><img src="images/links.gif"</td>
+			<td resid="help.iconLink" width="*"></td>
+		</tr>
+
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td width="80px" valign="top"><img src="images/grade.gif"</td>
+			<td resid="help.iconGrade" width="*"></td>
+		</tr>
+
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td width="80px" valign="top"><img src="images/alternative.gif"</td>
+			<td resid="help.iconOption" width="*"></td>
+		</tr>
+
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td width="80px" valign="top"><img src="images/dataset.gif"</td>
+			<td resid="help.iconSet" width="*"></td>
+		</tr>
+
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td width="80px" valign="top"><img src="images/dataset.gif"</td>
+			<td resid="help.iconMultiRelation" width="*"></td>
+		</tr>
+
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td width="80px" valign="top"><img src="images/numeral.gif"</td>
+			<td resid="help.iconNumeric" width="*"></td>
+		</tr>
+
+		<tr><td height="10px"/></tr>
+		<tr>
+			<td width="80px" valign="top"><img src="images/color.gif"</td>
+			<td resid="help.iconColor" width="*"></td>
+		</tr>
+
+	</table>
+</body>
+    
+<script language="javascript" type="text/javascript">
+
+function getApplication() {
+    return window.dialogArguments.getApplication();
+}
+
+function initPage() {
+    Resources.initializeResources("mergedoubles", "getApplication();");
+    document.title = Resources.getText("help.windowTitle");
+}
+
+</script>
+</html>

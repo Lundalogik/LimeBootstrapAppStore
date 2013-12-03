@@ -1,0 +1,434 @@
+<!-- ---------------------------------------------------------------------
+//
+//  File:         rowover_js.htc
+//
+//  Description:  This behavior adds striping, hovering and other useful
+//                features to regular and data-bound table rows. 
+//
+//-------------------------------------------------------------------- -->
+
+<PROPERTY NAME="selectable" />
+<PROPERTY NAME="striped"    />
+
+<METHOD   NAME="Format"     />
+<METHOD   NAME="reset"      />
+
+<EVENT    NAME="onrowover"   ID="rowover"  />
+<EVENT    NAME="onrowout"    ID="rowout"   />
+<EVENT    NAME="onrowclick"  ID="rowclick" />
+<EVENT    NAME="onerror"     ID="error"    />
+
+<ATTACH   EVENT="onreadystatechange" HANDLER="DoInit"/>
+<ATTACH   EVENT="onselectstart"      HANDLER="DoSelectStart" />
+
+<SCRIPT LANGUAGE="jscript">
+
+//+----------------------------------------------------------------------------
+//
+//  Global variables
+//
+//-----------------------------------------------------------------------------
+
+var oCurrRow;               //Tracks current mouseover row
+var oSelectRow;             //Tracks currently selected row
+var sSelectClass;            //Tracks previous backgroundColor of selected row
+var sDefaultClass;           //Tracks previous backgroundColor of mouseover row
+var sUndoClass;				//Tracks backgroundColor for unselecting selected row
+
+// sort var
+var tbody=null;					
+var theadrow=null;
+var colCount = null;
+var lastclick = 0;					// stores the object of our last used object
+var oTR = null;
+var oStatus = null;
+var none = 0;
+
+
+//+----------------------------------------------------------------------------
+//  Function:       DoInit
+//  Description:    Calls functions to initialize behavior
+//  Arguments:      none
+//  Returns:        nothing
+//-----------------------------------------------------------------------------
+function DoInit(){
+	SetDefaults();
+	sortInit();
+	Format();
+}
+
+
+function sortInit() {
+
+	tbody = tbodysort.tBodies(0);
+	if (!tbody) return;
+ 
+	var thead = element.tHead;
+	if (!thead)  return;
+	
+	theadrow = thead.children[0]; 
+
+	if (theadrow.tagName != "TR") return;
+
+	theadrow.runtimeStyle.cursor = "hand";
+
+	colCount = theadrow.children.length;
+  
+	var l, clickCell;
+	for (var i=0; i<2; i++) 
+	{
+		l=document.createElement("SPAN");
+		l.id="sortSpan";
+
+		clickCell = theadrow.children[i];
+		clickCell.selectIndex = i;
+		clickCell.insertAdjacentElement("beforeEnd", l)
+		clickCell.attachEvent("onclick", doClick);
+	}
+}
+
+
+function doClick(e) 
+{
+	var clickObject = e.srcElement;
+	while (clickObject.tagName != "TH") {
+		clickObject = clickObject.parentElement;
+	}
+
+	// clear the sort images in the head
+	var imgcol= theadrow.all('sortSpan');
+	for(var x = 0; x < imgcol.length; x++) 
+	    imgcol[x].parentElement.className = "columnHeader underlined";
+
+    if(lastclick == clickObject.selectIndex){
+		if(clickObject.reverse == true){
+			 clickObject.className = "columnHeader underlined ascHeader"  
+			 clickObject.reverse = false;
+		}
+		else {
+			clickObject.className = "columnHeader underlined descHeader"
+			clickObject.reverse = true;
+		}
+	}
+	else{
+		clickObject.className = "columnHeader underlined ascHeader"
+		clickObject.reverse = false;
+		lastclick = clickObject.selectIndex;
+	}
+
+	insertionSort(tbody, tbody.rows.length-1,  clickObject.reverse, clickObject.selectIndex);
+}
+
+function insertionSort(t, iRowEnd, fReverse, iColumn){
+    var iRowInsertRow, iRowWalkRow, current, insert;
+    
+    for ( iRowInsert = 0 + 1 ; iRowInsert <= iRowEnd ; iRowInsert++ ){
+        if (iColumn) {	
+		if( typeof(t.children[iRowInsert].children[iColumn]) != "undefined")
+     		      textRowInsert = t.children[iRowInsert].children[iColumn].innerText;
+		else
+			textRowInsert = "";
+        } 
+        else {
+           textRowInsert = t.children[iRowInsert].innerText;
+        }
+		
+        for ( iRowWalk = 0; iRowWalk <= iRowInsert ; iRowWalk++ ){
+            if (iColumn) {
+			if(typeof(t.children[iRowWalk].children[iColumn]) != "undefined")
+				textRowCurrent = t.children[iRowWalk].children[iColumn].innerText;
+			else
+				textRowCurrent = "";
+            } else {
+			textRowCurrent = t.children[iRowWalk].innerText;
+            }
+
+		current = textRowCurrent;
+		insert  = textRowInsert;
+
+		if ( !isNaN(current) ||  !isNaN(insert)) {
+			current= eval(current);
+			insert= eval(insert);
+		}
+		else{
+			current	= current.toLowerCase();
+			insert	= insert.toLowerCase();
+		}
+
+
+            if (((!fReverse && insert < current) || (fReverse && insert > current)) && (iRowInsert != iRowWalk)){
+		        eRowInsert = t.children[iRowInsert];
+                eRowWalk = t.children[iRowWalk];
+                t.insertBefore(eRowInsert, eRowWalk);
+                iRowWalk = iRowInsert; 
+            }
+        }
+    }
+    Stripes(eval(striped));
+}
+
+
+
+
+//+----------------------------------------------------------------------------
+//  Function:       SetDefaults
+//  Description:    Called during the initialization of the behavior.  Sets
+//                  the defaults for custom CSS properties (calls the
+//                  CustomDefault() function), regular CSS properties (the
+//                  NormalDefault() function), and attribute/properties.
+//  Arguments:      none
+//  Returns:        nothing
+//-----------------------------------------------------------------------------
+
+function SetDefaults(){
+    //  Custom CSS Property Defaults
+	CustomDefault('ro--hover-background',   'roHoverClass',    'columnHeader');
+	CustomDefault('ro--selected-background','roSelectedClass', 'columnHeader');
+	CustomDefault('ro--shade-background',   'roShadeClass',    'dark');
+	CustomDefault('ro--light-background',   'roLightClass',    'light');
+
+    //  CSS Property Defaults
+    NormalDefault('cursor',  'auto',  'default');
+
+    //  Attribute | Property Defaults
+    if (selectable  == null)    selectable  = false;
+    if (striped     == null)    striped     = true;
+}
+
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       CustomDefault
+//
+//  Description:    Sets the defaults for custom CSS properties and establishes
+//                  a scriptable name for the property
+//
+//  Arguments:      sCSSName - the CSS name of the property
+//                  sScriptName - the desired Scriptable name of the property
+//                  sDefault - the desired default value
+//
+//  Returns:        nothing
+//
+//-----------------------------------------------------------------------------
+
+function CustomDefault(sCSSName, sScriptName, sDefault){
+    if (currentStyle[sCSSName] == null){
+        style[sCSSName] = sDefault;
+    }
+    else style[sCSSName] = currentStyle[sCSSName];
+    
+    style[sScriptName] = style[sCSSName];
+}
+
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       NormalDefault
+//
+//  Description:    Sets the defaults for CSS properties by checking the
+//                  currentStyle and style of the object against the IE
+//                  default.
+//
+//  Arguments:      sCSSName - the CSS name of the property
+//                  sIEDefault - the IE standard default of the property
+//                  sDefault - the desired default of the property
+//
+//  Returns:        nothing
+//
+//-----------------------------------------------------------------------------
+
+function NormalDefault(sCSSName, sIEDefault, sDefault){
+    if (currentStyle[sCSSName] == sIEDefault && (style[sCSSName] == "" || style[sCSSName] == null)){
+        style[sCSSName] = sDefault;
+    }
+}
+
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       Format
+//
+//  Description:    Calls the Stripes() function to format as necessary and
+//                  attaches appropriate events.  These events are not attached
+//                  in the <EVENT> section so that they do not fire during
+//                  the initialization process.  If the table is not yet ready,
+//                  this function loops until it is.
+//
+//  Arguments:      none
+//
+//  Returns:        nothing
+//
+//-----------------------------------------------------------------------------
+
+function Format()
+{
+    //  If the table's readyState is not complete, wait
+	if (readyState != "complete" && readyState != 4){
+	    window.setTimeout(uniqueID + ".Format()", 50);
+	}
+
+    //  If the table's readyState is complete, attachEvents and apply formatting
+    else {
+        Stripes(eval(striped));
+        attachEvent("onclick",          DoClick);
+    }
+}
+
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       reset
+//
+//  Description:    Resets the current row and selected row to null (including
+//                  returning the backgroundColor and color of the selected
+//                  row to their original color.
+//
+//  Arguments:      none
+//
+//  Returns:        nothing
+//
+//-----------------------------------------------------------------------------
+    
+function reset(){
+    oCurrRow = null;
+    
+    //  If there is a row currently selected, unselect it.
+    if (oSelectRow != null){
+        ColorCells(oSelectRow, sUndoClass, '');   
+    }
+    	
+	sDefaultClass = sUndoClass;
+    oSelectRow = null;
+}
+
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       Stripes
+//
+//  Description:    Formats the background color of the table rows according
+//                  to the Striped property and applicable CSS properties.
+//
+//  Arguments:      bColor - if true, add color; if false, remove color
+//
+//  Returns:        nothing
+//
+//-----------------------------------------------------------------------------
+
+function Stripes(bColor){
+    //
+    //  Iterate through the rows of the table, alternately applying the shade
+    //  and light colors
+    //
+    for (j=0; j<tbody.rows.length; j++){
+        if (tbody.rows(j) == oSelectRow && eval(selectable)) continue;
+    
+        if (tbody.rows(j).parentElement.tagName.toLowerCase() != "tbody") continue;
+    
+        if (tbody.rows(j).rowIndex%2){
+            var sColShade = (bColor ? style.roShadeClass : "transparent");
+            ColorCells(tbody.rows(j), sColShade, '');
+        }
+        else{
+            var sColLight = (bColor ? style.roLightClass : "transparent");
+            ColorCells(tbody.rows(j), sColLight, '');
+        }
+    }
+}
+
+
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       ColorCells
+//
+//  Description:    Applies a backgroundColor and color to the row.
+//
+//  Arguments:      oRow - row to apply the styles to
+//                  sClor - color to apply to row
+//                  sBack - backgroundColor to apply to row
+//
+//  Returns:        nothing
+//
+//-----------------------------------------------------------------------------
+
+function ColorCells(oRow, sClass, sCursor){
+	if (oRow == false) return false;
+	
+	oRow.className = sClass;
+	if (sCursor != '')
+		oRow.style.cursor = sCursor;
+
+}
+
+
+
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       DoClick 
+//
+//  Description:    If the selectable property is true, this function gets the
+//                  row that was clicked, "bookmarks" the styles (for undoing
+//                  them later), calls the ColorCells() function to apply the
+//                  appropriate styles, and fires the onrowclick event
+//
+//  Arguments:      none
+//
+//  Returns:        nothing
+//
+//-----------------------------------------------------------------------------
+//
+function DoClick(){
+    if (!eval(selectable)) return true;
+
+    //  Get the row
+    var oRow = GetRow(window.event.srcElement);
+    
+    //  Remove formatting from any currently selected rows
+    if (oSelectRow != null){
+        ColorCells(oSelectRow, sSelectClass, '');
+    }
+
+    //  Set the variables to record the current background and color of the row    
+    sSelectClass = sDefaultClass;
+    
+    if (oSelectRow == oRow){
+		reset();
+		return;
+	}
+	
+	sUndoClass = sDefaultClass;
+    oSelectRow = oRow;
+
+    //  Apply the formatting to the row
+    ColorCells(oSelectRow, style.roSelectedClass, '');
+    
+    //  Fire rowclick event with the srcRow property
+    var oEvent = createEventObject();
+    oEvent.setAttribute("srcRow", oRow);
+	rowclick.fire(oEvent);
+}
+
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       ReturnError
+//
+//  Description:    Fires the error event, along with a descriptive text
+//                  message.
+//
+//  Arguments:      sMsg - descriptive text message
+//
+//  Returns:        nothing
+//
+//-----------------------------------------------------------------------------
+
+function ReturnError(sMsg){
+    var oEvent = createEventObject();
+    oEvent.setAttribute("error", sMsg);
+    error.fire(oEvent);
+}
+
+
+</SCRIPT>

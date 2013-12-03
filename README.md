@@ -1,4 +1,1 @@
-LimeBootstrapAppStore
-=====================
-
-LimeBootstrap AppStore
+[Please read more here](../system/docs/Manual/BuildningApps.md)

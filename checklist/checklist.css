@@ -1,0 +1,111 @@
+.checklist {
+    padding-top:10px;
+    padding-left: 0px;
+    margin: :0;
+    background-color:inherit;
+}
+
+.checklist #counter{
+	background-color: inherit;
+	color: inherit;
+}
+
+.checklist input[type=checkbox] {
+	visibility: hidden;
+	position: absolute;
+}
+
+
+.checklist .taskText{
+	height: 100%;
+	margin-bottom: 6px;
+	display:inline-block;
+	height: 15px;
+	vertical-align: middle;
+	}
+
+.checklist label {
+
+	margin-left: -5px;
+	cursor: default;
+	display:inline-block;
+	width: 15px;
+	height: 15px;
+	margin-top: 6px;
+	border-radius: 3px;
+	border:solid 1px #425899;
+
+}
+
+.checklist label:after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+	opacity: 0;
+	content: '';
+	display:inline-block;
+	width: 7px;
+	height: 3px;
+	background: transparent;
+    margin:0 0 5px 4px;
+	border: 2px solid #425899;
+	border-top: none;
+	border-right: none;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+
+.checklist input[type=checkbox]:checked ~ span {
+	text-decoration: line-through;
+}
+
+.checklist input[type=checkbox]:checked + label:after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+
+.checklist #new-task{
+	border: none;
+	width: 100px;
+	height: 100%;
+	color: inherit;
+	background-color: transparent;
+	font-size: inherit;	
+	vertical-align: baseline;
+	padding:5px 0 10px 0 ;
+}
+
+.checklist #add-new-task{
+	text-align: center;
+	background-color: #83BA1F ;
+	color: #FFF;
+}
+.checklist #add-new-task:hover{
+
+	background-color: #6A951A ;
+
+}
+.checklist .notComplete{
+	background-color: #EBEBEB;
+	color:#A7A7A7 !important;
+	opacity: 0.5;
+}
+
+.checklist .icon-remove{
+	background-color: inherit;
+	visibility: hidden;
+	padding-top: 7px;
+}
+
+.checklist .task:hover > .icon-remove{
+	visibility: visible;
+	color: inherit;
+}
+
+.checklist .task:hover > .icon-remove:hover{
+	color: red;
+	font-size: 15px;
+}

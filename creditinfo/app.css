@@ -1,0 +1,68 @@
+.creditinfo{
+
+  margin-left: -10px;
+  margin-right:-10px;
+  margin-top: 10px;
+  cursor: pointer;
+  background-color: #E3EDFC;
+}
+
+.rating-value {
+   background-color: #C1D3ED; 
+}
+
+.creditinfo:hover{
+ box-shadow: inset 0px 0px 4px #888;
+}
+
+/* Variations */
+.bad {
+  background-color: #fdf7f7;
+ 
+  color: #b94a48;
+}
+
+.bad .rating-value {
+    background-color: #eed3d7;
+}
+
+.medium {
+  background-color: #faf8f0;
+
+  color: #c09853;
+}
+.medium .rating-value {
+    background-color: #faebcc;
+}
+
+.good {
+  background-color: #E3F7DE;
+  color: #486400;
+}
+
+.good .rating-value{
+    background-color: #B2E89D;
+}
+
+.rating-value{
+    font-size: 32px;
+    
+    font-weight: 100;
+    padding: 5px;
+    margin: 0;
+    float: left;
+    letter-spacing:0.1px
+}
+
+.rating-text{
+    font-size: 12px;
+    white-space:  normal;
+    overflow: hidden;
+    display:block;
+    height: 56px;
+    margin-left:-5px;
+    padding-left: 5px;
+    vertical-align: middle;
+    display: table-cell;
+}
+

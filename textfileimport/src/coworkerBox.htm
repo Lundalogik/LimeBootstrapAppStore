@@ -1,0 +1,274 @@
+<html>
+	<head>
+		<script language="JavaScript" src="scripts/general.js"></script>
+		<script language="javascript" src="../../../system/js/appInvoker/Resources.js"></script>
+		<script language="javascript" src="../../../system/js/appInvoker/ErrorInfo.js"></script>
+		<style type="text/css" title="currentStyle" media="screen">@import "css/styles.css";</style>
+		<title>Medarbetare</title>
+	</head>
+
+	<body onload="initPage()" >
+	    <div resid="coworkerDialog.selectCoworker" style="float:left;" class="header"></div>
+		<div class="header">
+			<span class="buttons">
+				<button resid="coworkerDialog.buttonCancel" class="usebutton" onclick="cancel()">Avbryt</button>
+				<button resid="coworkerDialog.buttonSave" class="usebutton" onclick="save()">Spara</button>
+			</span>
+			<div class="line"></div>
+		</div>
+		
+		<div id="altSpan" style="padding-bottom:15px;padding-left:15px; 15px;padding-right:15px;">
+			
+			
+			<table cellpadding="0" cellspacing="0" border="0" width="408px">
+		        <tr>
+		            <td width="195px" resid="alternativeDialog.filter" class="columnHeader" id="filterHeaderTD">Urval</td>
+		            <td width="*"></td>
+		        </tr>
+		        <tr>
+		            <td id="filterListTD"><select id="filterSelect" class="selectbox" onchange="onFilterChanged(this);" style="width:175px;" name="filterSelect"></select></td>
+		             <td>
+		                <span style="height=30px;">
+		                    <table cellspacing="0px" cellpadding="0px" border="0px" width="210px">
+		                        <tr>
+		                            <td width="155px"><input class="textInput" id="txtSearchResult" type="text" style="width:100%; display:none"/></td>
+		                            <td><button resid="alternativeDialog.buttonSearch" style="display:none" id="btnSearchResult" class="usebutton" onclick="SearchResultClicked()">Sök</button></td>
+		                        </tr>
+		                    </table>
+		                </span>
+		            </td>
+		        </tr>
+		        <tr>
+		            <td colspan="2" class="hits" id="hitsTD" align="right">&nbsp;</td>
+		        </tr>
+		    </table>
+			
+			
+			
+			<span class="columnHeader">
+				<span resid="coworkerDialog.coworkers" class="firstColumn">Medarbetare</span>
+			</span>
+			<div id="maincoworker" >
+				<div>
+					<select class="selectbox"  multiple="true"  style="width:408px; height: 240px;" id="coworkersSelect"></select>
+				</div>
+				
+				<div resid="coworkerDialog.random" style="padding-bottom:5px;">
+				    Valda medarbetare kommer slumpvis att tilldelas importerade poster.
+			    </div>
+			</div>
+			
+		</div>
+	</body>
+
+<script language="javascript">
+
+var m_xmlDocument = null;
+
+function initPage() {
+    var selectObj = null;
+    var optionObj = null;
+    var limeOptionList = null;
+
+    ErrorInfo.init("window.dialogArguments.getApplication();");
+    
+    try {
+        Resources.initializeResources("textfileimport", "window.dialogArguments.getApplication();");
+        document.title = Resources.getText("coworkerDialog.caption");
+        
+   	    m_xmlDocument  = window.dialogArguments.m_pXmlArgument;
+   	    ControlFilterList();
+   	    FillCoworkerBox();
+   	    
+    }
+    catch (error) {
+        ErrorInfo.showError(error, "initPage");
+    }
+}
+
+function displayResultSearch(strDisplay){
+    window.document.all('txtSearchResult').style.display = strDisplay;
+    window.document.all('btnSearchResult').style.display = strDisplay;
+}
+
+function SearchResultClicked(){
+    var txtSearchResult = window.document.all('txtSearchResult');
+    if (txtSearchResult.value.length == 0){
+        alert (Resources.getText("alert.enterSearchResult"));
+        window.document.all('txtSearchResult').focus();
+    }
+    else{
+        var pSearchResultNode =  m_xmlDocument.selectSingleNode("/options/limeoptions/filters/filter[@searchresult!='']")
+        if (pSearchResultNode != null){
+            pSearchResultNode.attributes.getNamedItem('searchresult').nodeValue = txtSearchResult.value;
+        }
+        FillCoworkerList();
+        SetHits();
+    }
+}
+
+function FillCoworkerList(){
+   var xmlImportObj = window.dialogArguments.GetVBAInstance();
+   xmlImportObj.SetMousePointer(11)
+   var strClassName = m_xmlDocument.selectSingleNode("options").attributes.getNamedItem('classname').nodeValue
+   strSelectedXMLDoc = xmlImportObj.GetLinkedObjects(strClassName, m_xmlDocument, window.document.all('filterSelect').value);
+   
+   m_xmlDocument = createXmlDocument(strSelectedXMLDoc);
+   
+   FillCoworkerBox();
+   
+   var filterSelectList = window.document.all('filterSelect');
+   if(filterSelectList.children[0].innerHTML == Resources.getText("alternativeDialog.selectFilter") && filterSelectList.children.length > 1){
+        filterSelectList.removeChild(filterSelectList.children[0]);
+   }
+   
+   xmlImportObj.SetMousePointer(0)
+
+}
+
+function setSelectedFilter(){
+    var pSelectFilterList = window.document.all('filterSelect');
+    var pNodeList = m_xmlDocument.selectNodes("/options/limeoptions/filters/filter[@selected='1' or @name='" + pSelectFilterList[pSelectFilterList.selectedIndex].innerHTML + "']");
+    
+    for (i = 0; i < pNodeList.length; i++) {
+        if (pNodeList[i].attributes.getNamedItem('name').nodeValue == pSelectFilterList[pSelectFilterList.selectedIndex].innerHTML){
+            pNodeList[i].attributes.getNamedItem('selected').nodeValue = '1';
+        }
+        else{
+            pNodeList[i].attributes.getNamedItem('selected').nodeValue = '0';
+        }
+    }
+}
+
+function FillCoworkerBox(){
+    limeOptionList = m_xmlDocument.selectNodes('/options/limeoptions/limeoption');
+   	    
+    selectObj = window.document.getElementById('coworkersSelect');
+	selectObj.innerHTML = '';
+	for (var n1 = 0; n1 < limeOptionList.length; n1++){   
+	    var optionObj = document.createElement("option");
+
+        if  (limeOptionList[n1].attributes.getNamedItem('selected') != null){
+	        if (limeOptionList[n1].attributes.getNamedItem('selected').nodeValue == '1')
+		        optionObj.selected = true;
+		}
+			
+	    optionObj.value = limeOptionList[n1].attributes.getNamedItem('value').nodeValue;
+	    optionObj.innerHTML = limeOptionList[n1].attributes.getNamedItem('text').nodeValue;    		
+	    selectObj.appendChild(optionObj);
+    }
+}
+
+
+function onFilterChanged(selectObj) {
+    var defaultSelectObj = null;
+    var intLength = 0
+    var strSelectedXMLDoc = '';
+    var pLimeSelectLists = null;
+    
+		    
+    try {
+        var filterSelect = window.document.all('filterSelect');
+        if (filterSelect[filterSelect.selectedIndex].value != ''){
+            if (filterSelect[filterSelect.selectedIndex].value != Resources.getText("alternativeDialog.searchResults")){
+                displayResultSearch('none');
+                FillCoworkerList();
+                SetHits();
+            }
+            else{
+                window.document.all('txtSearchResult').value='';
+                displayResultSearch('block');
+                window.document.all('txtSearchResult').focus();
+            }
+       }
+       else{
+            displayResultSearch('none');
+       }
+    }
+    catch (error) {
+        ErrorInfo.showError(error, "onFilterChanged");
+    }
+}
+
+function SetHits(){
+    var strHits = m_xmlDocument.selectNodes('/options/limeoptions/limeoption[@value > 0]').length;
+    var strMax = m_xmlDocument.selectSingleNode('/options/limeoptions/filters').attributes.getNamedItem('maxhits').nodeValue;
+    if (strHits > strMax){
+        strHits = strMax + '+';
+    }
+    window.document.all('hitsTD').innerHTML = Resources.getText("alternativeDialog.hitsOfMax", strHits, strMax);
+}
+
+function ControlFilterList(){
+    var limeFilterList = null;
+    var limeFilterList = m_xmlDocument.selectNodes('/options/limeoptions/filters/filter')
+    var selected = false;
+        
+    if (limeFilterList.length == 0){
+        window.document.all('filterHeaderTD').innerHTML='&nbsp;'
+        window.document.all('filterListTD').innerHTML='&nbsp;'
+    }
+    else{ 
+        SetHits();
+        var filterSelectList = window.document.all('filterSelect');
+        var firstOption = document.createElement('option');
+        firstOption.value = '';
+        firstOption.innerHTML = Resources.getText("alternativeDialog.selectFilter");
+        filterSelectList.appendChild(firstOption);
+        
+        for (i = 0; i < limeFilterList.length; i++) {
+            var optionObj = document.createElement('option');
+            optionObj.value = limeFilterList[i].attributes.getNamedItem('name').nodeValue;
+            optionObj.innerHTML = limeFilterList[i].attributes.getNamedItem('name').nodeValue;
+            filterSelectList.appendChild(optionObj);
+            if (limeFilterList[i].attributes.getNamedItem('selected').nodeValue == '1'){
+                optionObj.selected = true;
+                selected = true;
+                if (firstOption.innerHTML == Resources.getText("alternativeDialog.selectFilter"))
+                    filterSelectList.removeChild(firstOption);
+                
+                    
+                if (limeFilterList[i].attributes.getNamedItem('searchresult') != null ){
+                    displayResultSearch('block');
+                    window.document.all('txtSearchResult').value = limeFilterList[i].attributes.getNamedItem('searchresult').nodeValue;
+                }
+            }               
+        }
+    }
+}
+
+function save() {
+    var optionsObj = null;
+    var coworkersData = '';
+    var pNode = null;
+    
+    try {
+        optionsObj = window.document.all('coworkersSelect').options;
+        
+        for (var i = 0; i < optionsObj.length; i++) {
+            pNode = m_xmlDocument.selectSingleNode("/options/limeoptions/limeoption[@value='" + optionsObj[i].value + "']")
+            if (optionsObj[i].selected == true && pNode.attributes.getNamedItem('selected').nodeValue == '0') {
+                pNode.attributes.getNamedItem('selected').nodeValue = '1';    
+            }
+            else if (optionsObj[i].selected == false && pNode.attributes.getNamedItem('selected').nodeValue == '1') {
+                pNode.attributes.getNamedItem('selected').nodeValue = '0';    
+            }
+        }
+        
+        if (window.document.all('filterSelect') != null)
+            setSelectedFilter();
+        window.returnValue = m_xmlDocument.xml;
+    	    
+	    window.close();
+    }
+    catch (error) {
+        ErrorInfo.showError(error, "save");
+    }
+}
+
+function cancel(){
+	window.close();
+}
+
+</script>
+</html>

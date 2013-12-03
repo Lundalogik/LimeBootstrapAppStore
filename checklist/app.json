@@ -1,0 +1,61 @@
+{
+	"name": "checklist",
+	"author":"FPE",
+	"status":"Beta",
+	"versions":[
+		{
+			"version":"0.9",
+			"date":"2013-11-18",
+			"comments":"The first stable beta of the checklist"
+		}
+	],
+	"install":{
+		"localize":[
+			{
+			"owner":"checklist",
+			"context":"title",
+			"sv":"Checklista",
+			"en_us":"Checklist",
+			"no":"Checklista",
+			"fi":"Holy shit!"
+			},
+			{
+			"owner":"checklist",
+			"context":"create",
+			"sv":"Skapa ny",
+			"en_us":"Add new",
+			"no":"Skap ny",
+			"fi":"Mumamamakkkk!"
+			}
+		],
+		"tables":[
+		{
+			"name":"checklist",
+			"sv":"Checklista",
+			"en_us":"Checklist",
+			"fields":[
+				{
+					"name":"title",
+					"sv":"Titel",
+					"en_us":"Title"
+				},
+				{
+					"name":"origin",
+					"sv":"Tillhörighet",
+					"en_us":"Origin"
+				},
+				{
+					"name":"order",
+					"sv":"Plats i listan",
+					"en_us":"Order"
+				},
+				{
+					"name":"mouseover",
+					"sv":"Utökad beskrivning",
+					"en_us":"Mouse over message"
+				}
+			]
+		}
+		]
+	}
+}

@@ -1,0 +1,870 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<resourcebundle>
+
+<locales default="sv">
+	<locale id="sv">Svenska</locale>
+	<locale id="en-us">U.S. English</locale>
+	<locale id="fi">Finska</locale>
+</locales>
+
+
+<application id="textfileimport">
+<section id="textfileimport">
+<resource id="windowTitle">
+<string locale="sv">Importera till Lime</string>
+<string locale="en-us">Lime Import</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="page">
+<resource id="importFields">
+<string locale="sv">Fält från importfilen</string>
+<string locale="en-us">Fields from the import file</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="useAsKey">
+<string locale="sv">Kryssa för om du vill använda fältet som nyckel</string>
+<string locale="en-us">Check to use the field as a key</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="doublet">
+<string locale="sv"></string>
+<string locale="en-us"></string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="optKeep">
+<string locale="sv"></string>
+<string locale="en-us"></string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="optNotDoublet">
+<string locale="sv"></string>
+<string locale="en-us"></string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="identical">
+<string locale="sv"></string>
+<string locale="en-us"></string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noDescription">
+<string locale="sv"></string>
+<string locale="en-us"></string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noPercent">
+<string locale="sv"></string>
+<string locale="en-us"></string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noColor">
+<string locale="sv"></string>
+<string locale="en-us"></string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="tooManyRecords">
+<string locale="sv"></string>
+<string locale="en-us"></string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="importfield">
+<resource id="coworker">
+<string locale="sv">Medarbetare</string>
+<string locale="en-us">Coworker</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="buttons">
+<resource id="saveConfig">
+<string locale="sv">Spara</string>
+<string locale="en-us">Save</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="loadConfig">
+<string locale="sv">Ladda</string>
+<string locale="en-us">Load</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="saveOverview">
+<string locale="sv">Översikt</string>
+<string locale="en-us">Overview</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="cancel">
+<string locale="sv">Avbryt</string>
+<string locale="en-us">Cancel</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="preview">
+<string locale="sv">Förhandsgranska</string>
+<string locale="en-us">Preview</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="import">
+<string locale="sv">Importera</string>
+<string locale="en-us">Import</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="characters">
+<resource id="caption">
+<string locale="sv">Specialtecken</string>
+<string locale="en-us">Special characters</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="space">
+<string locale="sv">Mellanslag</string>
+<string locale="en-us">Space</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="enter">
+<string locale="sv">Radbrytning</string>
+<string locale="en-us">Linefeed</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="tab">
+<string locale="sv">Tabb</string>
+<string locale="en-us">Tab</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="tooltip">
+<resource id="yesno">
+<string locale="sv">(Ja/Nej)</string>
+<string locale="en-us">(Yes/No)</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="currency">
+<string locale="sv">(Valuta)</string>
+<string locale="en-us">(Currency)</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="time">
+<string locale="sv">(Tid)</string>
+<string locale="en-us">(Time)</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="date">
+<string locale="sv">(Datum)</string>
+<string locale="en-us">(Date)</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="decimal">
+<string locale="sv">(Decimaltal)</string>
+<string locale="en-us">(Decimal)</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="grade">
+<string locale="sv">(Betyg)</string>
+<string locale="en-us">(Grade)</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="relation">
+<string locale="sv">(Relationsfält)</string>
+<string locale="en-us">(Relation field)</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="option">
+<string locale="sv">(Alternativfält)</string>
+<string locale="en-us">(Option field)</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="integer">
+<string locale="sv">(Heltal)</string>
+<string locale="en-us">(Integer)</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="set">
+<string locale="sv">(Mängdfält)</string>
+<string locale="en-us">(Set field)</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="length">
+<string locale="sv">(%1 tecken)</string>
+<string locale="en-us">(%1 characters)</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="checkMapping">
+<string locale="sv">Kontrollera mappningen av alternativ.</string>
+<string locale="en-us">Check mappings of options.</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="coworkerDialog">
+<resource id="caption">
+<string locale="sv">Medarbetare</string>
+<string locale="en-us">Coworkers</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="selectCoworker">
+<string locale="sv">Välj medarbetare</string>
+<string locale="en-us">Select coworkers</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="buttonCancel">
+<string locale="sv">Avbryt</string>
+<string locale="en-us">Cancel</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="buttonSave">
+<string locale="sv">Spara</string>
+<string locale="en-us">Save</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="random">
+<string locale="sv">Valda medarbetare kommer slumpvis att tilldelas importerade poster.</string>
+<string locale="en-us">Selected coworkers will be randomly assigned</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="coworkers">
+<string locale="sv">Medarbetare</string>
+<string locale="en-us">Coworkers</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="alternativeDialog">
+<resource id="caption">
+<string locale="sv">Koppla alternativ</string>
+<string locale="en-us">Link options</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="linkOptions">
+<string locale="sv">Koppla alternativ</string>
+<string locale="en-us">Link options</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="buttonCancel">
+<string locale="sv">Avbryt</string>
+<string locale="en-us">Cancel</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="buttonSave">
+<string locale="sv">Spara</string>
+<string locale="en-us">Save</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="default">
+<string locale="sv">Standardvärde</string>
+<string locale="en-us">Default value</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="defaultOption">
+<string locale="sv">[Standardvärde]</string>
+<string locale="en-us">[Default value]</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="options">
+<string locale="sv">Alternativ i fil</string>
+<string locale="en-us">Options in file</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="occurring">
+<string locale="sv">Förekomst</string>
+<string locale="en-us">Occurs</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="filter">
+<string locale="sv">Urval</string>
+<string locale="en-us">Filters</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="selectFilter">
+<string locale="sv">Välj urval...</string>
+<string locale="en-us">Select filter...</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="selectDefault">
+<string locale="sv">[Välj standardvärde...]</string>
+<string locale="en-us">[Select default value...] </string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="searchResults">
+<string locale="sv">[Snabbsökning]</string>
+<string locale="en-us">[Search results]</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="buttonSearch">
+<string locale="sv">Sök</string>
+<string locale="en-us">Search</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noSelection">
+<string locale="sv">[Ej valt = tomt]</string>
+<string locale="en-us">[No selection = empty]</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="hitsOfMax">
+<string locale="sv">Träffar: %1 av max: %2</string>
+<string locale="en-us">Hits: %1 of max: %2</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="alert">
+<resource id="noFieldSelection">
+<string locale="sv">Du måste importera minst ett fält till fliken '%1'.</string>
+<string locale="en-us">You must select at lease one field for the tab '%1'.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="mappingRequired">
+<string locale="sv">Fältet måste ha en godkänd mappning.</string>
+<string locale="en-us">The field requires a valid mapping.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="importDone">
+<string locale="sv">Imported har genomförts. Se information i den aktiva tilläggsfliken.</string>
+<string locale="en-us">The import is done. View the log in the active pane.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noRecordsImported">
+<string locale="sv">Inga rader importerades...</string>
+<string locale="en-us">No records where imported...</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="selectDefault">
+<string locale="sv">Du måste ange ett standardvärde.</string>
+<string locale="en-us">You have to specify a default value.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="enterSearchResult">
+<string locale="sv">Du måste ange ett värde för snabbsökning.</string>
+<string locale="en-us">You have to specify a search result value.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="coworkerRequired">
+<string locale="sv">Länkfält med kopplat medarbetarfält måste ha minst en vald medarbetare.</string>
+<string locale="en-us">Link fields with a connected coworker field must have at least one coworker selected.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="mappingErrors">
+<string locale="sv">Det finns mappningsfel i formuläret. Kontrollera boxar med röda ikoner.</string>
+<string locale="en-us">The mapping contains errors. Check the boxes with red icons.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="mandatoryField">
+<string locale="sv">Fältet är obligatoriskt, utan kopplat filfält används standardvärden. </string>
+<string locale="en-us">This field is mandatory, default value will be use if no file field is connected.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="mapWarning">
+<string locale="sv">Fältet har alternativ som saknar mappning.</string>
+<string locale="en-us">This field has alternative without mapping. </string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="overviewNotSaved">
+<string locale="sv">Importöversikten skapades inte.</string>
+<string locale="en-us">The import overview was not created.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="mapMissing">
+<string locale="sv">Alternativ-, mängd-, länk och ja/nej-fält måste ha sina alternativ mappade. </string>
+<string locale="en-us">Alternative-, set-, link- and yes/no fields needs its alternatives to be mapped.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="importCancelled">
+<string locale="sv">Importen avbröts...</string>
+<string locale="en-us">The import was cancelled...</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="confirm">
+<resource id="requiredFieldsNotMapped">
+<string locale="sv">Alla obligatoriska fält är inte mappade vilket innebär att nyskapade poster kommer att ha standardvärde i dessa fält.</string>
+<string locale="en-us">Not all required fields which means that the default values will be used for any new records.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="mappingWarnings">
+<string locale="sv">Det finns mappningsvarningar vilket innebär att alternativ som inte är mappade sätts till standardvärdet.</string>
+<string locale="en-us">There are mapping warnings, which means that the default value will be used for options missing mapping.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noKeyFields">
+<string locale="sv">Du har inte valt nyckelfält för '%1' vilket innebär att alla poster läggs in som nya.</string>
+<string locale="en-us">You have not selected any key fields for '%1' which means all records will be created.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="question">
+<string locale="sv">Vill du ändå</string>
+<string locale="en-us">Continue anyway?</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="import">
+<string locale="sv">genomföra importen?</string>
+<string locale="en-us"></string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="overview">
+<string locale="sv">skapa översikten?</string>
+<string locale="en-us"></string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="workDialog">
+<resource id="caption">
+<string locale="sv">Importerar till Lime</string>
+<string locale="en-us">Lime import</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="readFile">
+<string locale="sv">Läser importfil och kontrollerar värden...</string>
+<string locale="en-us">Reading import file and checking the data...</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="checkRecords">
+<string locale="sv">Kontrollerar värden för fliken %1...</string>
+<string locale="en-us">Checking data for the tab '%1...</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="importNbrOfRecords">
+<string locale="sv">Importerar %1 - post: %2 av %3</string>
+<string locale="en-us">Imports %1 - record: %2 of %3</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="cancelOperation">
+<string locale="sv">Vill du verkligen avbryta importen?</string>
+<string locale="en-us">Do you really want to cancel the import? </string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="cancelButton">
+<string locale="sv">Avbryt</string>
+<string locale="en-us">Cancel</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="xmlImport">
+<resource id="invalidColumnNames">
+<string locale="sv">Kolumnnamnen i filen innehåller ogiltiga tecken ('.', ',', '[', ']').</string>
+<string locale="en-us">The file contains invalid charactes in the column headers ('.', ',', '[', ']').</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="columnNameDoubles">
+<string locale="sv">Filen innehåller kolumn som inte är unika och det är inte tillåtet.</string>
+<string locale="en-us">The file contains multiple columns with the same name.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noColumnNames">
+<string locale="sv">Filen innehåller inte någon kolumninformation.</string>
+<string locale="en-us">The file doesn't contain any column information.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noFields">
+<string locale="sv">Det finns inga fält att importera till på fliken '%1'.</string>
+<string locale="en-us">The tab '%1' contains no fields to import to.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="selectTab">
+<string locale="sv">Du måste aktivera en flik för att kunna importera.</string>
+<string locale="en-us">You must select a tab to import to.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="loadConfigFailed">
+<string locale="sv">Konfigurationsfilen kunde inte laddas.</string>
+<string locale="en-us">Failed to load the config file.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="nothingImported">
+<string locale="sv">Inga rader importerades...</string>
+<string locale="en-us">No rows were imported...</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="paneCaption">
+<string locale="sv">Importlogg</string>
+<string locale="en-us">Import log</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="xmlLog">
+<resource id="buttonClose">
+<string locale="sv">Stäng</string>
+<string locale="en-us">Close</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="buttonSave">
+<string locale="sv">Spara</string>
+<string locale="en-us">Save</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="header">
+<string locale="sv">Information om importen</string>
+<string locale="en-us">Import log</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="mainList">
+<string locale="sv">Huvudlista</string>
+<string locale="en-us">Main tab</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="created">
+<string locale="sv">Antal nyskapade</string>
+<string locale="en-us">Created</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="updated">
+<string locale="sv">Antal uppdaterade</string>
+<string locale="en-us">Updated</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="notImported">
+<string locale="sv">Ej importerade</string>
+<string locale="en-us">Not imported</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="message">
+<string locale="sv">Meddelande</string>
+<string locale="en-us">Message</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="record">
+<string locale="sv">Post/radnr</string>
+<string locale="en-us">Record/lino no</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="field">
+<string locale="sv">Fält</string>
+<string locale="en-us">Field</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="originalValue">
+<string locale="sv">Originalvärde</string>
+<string locale="en-us">Original value</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="replacedWith">
+<string locale="sv">Ersättningsvärde</string>
+<string locale="en-us">Replaced with</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="maxLength">
+<string locale="sv">Maxlängd överskriden</string>
+<string locale="en-us">Exceeded max length</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="notNumeric">
+<string locale="sv">Ej numerisk</string>
+<string locale="en-us">Not numeric</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="notDate">
+<string locale="sv">Ej datum</string>
+<string locale="en-us">Not a date</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="tooLow">
+<string locale="sv">För lågt värde</string>
+<string locale="en-us">Value too small</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="toHigh">
+<string locale="sv">För högt värde</string>
+<string locale="en-us">Value too big</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="emptyRequired">
+<string locale="sv">Tomt obligatoriskt</string>
+<string locale="en-us">Empty required</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="valueRemoved">
+<string locale="sv">Värdet togs bort - [TOMT]</string>
+<string locale="en-us">Value was removed - [EMPTY]</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="lineNotImported">
+<string locale="sv">Ej importerad</string>
+<string locale="en-us">Not imported</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="htmltitle">
+<string locale="sv">Importlogg: %1</string>
+<string locale="en-us">Import log: %1</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="filepath">
+<string locale="sv">Sökväg:</string>
+<string locale="en-us">File path:</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="start">
+<string locale="sv">Importen påbörjades:</string>
+<string locale="en-us">Import started:</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="end">
+<string locale="sv">Klar:</string>
+<string locale="en-us">Finished:</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="diff">
+<string locale="sv">Antal minuter:</string>
+<string locale="en-us">Number of minutes:</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="error">
+<resource id="missingDiv">
+<string locale="sv">Din actionpad innehåller inte en div-tag med id 'TextFileImport' vilket innebär att det går att lägga till det grafiska gränssnittet för applikationen.</string>
+<string locale="en-us">Your actionpad is missing a div tag with the id 'TextFileImport' which is required to use the graphical interface of the application.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noXmlInstance">
+<string locale="sv">Det gick inte att skapa nödvändiga objekt för att kunna köra applikationen.</string>
+<string locale="en-us">Failed to create objects required to run the application.</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="validate">
+<resource id="noMainExplorer">
+<string locale="sv">Aktivera den huvudflik som du vill importera till.</string>
+<string locale="en-us">Activate the main tab you would like to import to.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="disabled">
+<string locale="sv">Det är inte tillåtet att importera poster av denna typ.</string>
+<string locale="en-us">Import of this type of records is not allowed.</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="logtitle">
+<resource id="originalvalue">
+<string locale="sv">Orginalvärde från filen.</string>
+<string locale="en-us">Original value from file.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="replacedWith">
+<string locale="sv">Värdet som används istället för det som fanns i filen.</string>
+<string locale="en-us">Value used instead of the one written in file.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="maxLength">
+<string locale="sv">Värdet har kortats ner eftersom det var för långt för fältet.</string>
+<string locale="en-us">The value has been shorted since it was too long for the field.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="notNumeric">
+<string locale="sv">Det importerade värdet kunde inte tolkas som ett numeriskt värde.</string>
+<string locale="en-us">The imported value interpret as a numeric value.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="notDate">
+<string locale="sv">Det importerade värdet kunde inte tolkas som ett datum.</string>
+<string locale="en-us">The imported value interpret as a date.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="tooLow">
+<string locale="sv">Värdet var lägre än tillåtet.</string>
+<string locale="en-us">The value was lower than allowed.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="tooHigh">
+<string locale="sv">Värdet var högre än tillåtet.</string>
+<string locale="en-us">The value was higher than allowed.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="emptyRequired">
+<string locale="sv">En tom sträng skickades till ett obligatoriskt fält. Fältet har tilldelats ett standardvärde.</string>
+<string locale="en-us">An empty value was sent to a mandatory field. The field has received a default value.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="mainNotImported">
+<string locale="sv">Posten och dess eventuella underposter importerades inte - nyckelfält tomt.</string>
+<string locale="en-us">The record and its possible subrecords were not imported - key field empty.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="subNotImported">
+<string locale="sv">Posten importerades inte - nyckelfält tomt.</string>
+<string locale="en-us">The record was not imported - key field empty.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="lineno">
+<string locale="sv">Radnummer i importfilen.</string>
+<string locale="en-us">Line number in import file.</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="saveDialog">
+<resource id="title">
+<string locale="sv">Spara importloggen...</string>
+<string locale="en-us">Save import log...</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="overviewMapping">
+<resource id="fixedValue">
+<string locale="sv">Fast värde: %1</string>
+<string locale="en-us">Fixed value: %1</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="yesNoAlternatives">
+<resource id="yes">
+<string locale="sv">Ja</string>
+<string locale="en-us">Yes</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="no">
+<string locale="sv">Nej</string>
+<string locale="en-us">No</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+</application>
+
+<application id="Sheet2">
+</application>
+
+<application id="Sheet3">
+</application>
+
+</resourcebundle>
+

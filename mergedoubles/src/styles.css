@@ -1,0 +1,313 @@
+
+/*
+	Needs comment
+*/
+.title {
+	font-family: Verdana, Geneva, Arial;
+	color: rgb(88,89,91);
+	font-size: 10px;
+	font-weight: bold;
+	margin-bottom: 6px;
+}
+
+.bread {
+	font-family: Verdana, Geneva, Arial;
+	color: rgb(0,0,0);
+	font-size: 9px;
+	font-weight: normal;
+}
+
+.separatorTitle {
+	font-family: Verdana, Geneva, Arial;
+	color: rgb(0,0,0);
+	font-size: 10px;
+	font-weight: bold;
+}
+
+.hand{
+	cursor: hand;
+}
+
+.dark{
+	BACKGROUND-COLOR: #DEDEDE;
+}
+
+/*
+	Needs comment
+*/
+.IEMenu
+{
+	BORDER-RIGHT: thin outset;
+	BORDER-TOP: thin outset;
+	FONT-SIZE: 8pt;
+	BORDER-LEFT: thin outset;
+	CURSOR: default;
+	COLOR: black;
+	BORDER-BOTTOM: thin outset;
+	FONT-FAMILY: Verdana;
+	BACKGROUND-COLOR: #FCFCF9;
+}
+
+.SetMenu
+{
+	BORDER: 1px solid black;
+	FONT-SIZE: 8pt;
+	CURSOR: default;
+	COLOR: black;
+	FONT-FAMILY: Verdana;
+	BACKGROUND-COLOR: #FCFCF9;
+}
+
+/*
+	Needs comment
+*/
+.btn
+{
+	BORDER-RIGHT: outset 1pt;
+	BORDER-TOP: outset 1pt;
+	FONT-SIZE: 8pt;
+	BORDER-LEFT: outset 1pt;
+	WIDTH: 100pt;
+	CURSOR: hand;
+	COLOR: black;
+	BORDER-BOTTOM: outset 1pt;
+	FONT-FAMILY: Verdana, Arial;
+	HEIGHT: 15pt;
+	BACKGROUND-COLOR: #FCFCF9;
+	TEXT-ALIGN: center
+}
+	
+.btnActive
+{
+	BORDER-RIGHT: outset 1pt;
+	BORDER-TOP: outset 1pt;
+	FONT-SIZE: 8pt;
+	BORDER-LEFT: outset 1pt;
+	WIDTH: 100pt;
+	CURSOR: hand;
+	COLOR: black;
+	BORDER-BOTTOM: outset 1pt;
+	FONT-FAMILY: Verdana, Arial;
+	HEIGHT: 15pt;
+	BACKGROUND-COLOR: #BDBDBD;
+	TEXT-ALIGN: center
+}
+
+/*
+	Needs comment
+*/
+.menuText
+{
+	FONT-SIZE: 8pt;
+	CURSOR: default;
+	COLOR: black;
+	FONT-FAMILY: Verdana;
+	BACKGROUND-COLOR: #FCFCF9;
+	
+}
+.menuTextMouseOver
+{
+	FONT-SIZE: 8pt;
+	CURSOR: default;
+	COLOR: black;
+	FONT-FAMILY: Verdana;
+	BACKGROUND-COLOR: #C1D2EE;
+	BORDER: 1px solid #316AC5;
+	
+}
+
+/*
+	Needs comment
+*/
+.recordTitle
+{
+	FONT-SIZE: 10pt;
+	COLOR: black;
+	FONT-FAMILY: Verdana;
+	text-indent: 25px;
+	letter-spacing: 2px;
+}
+
+.inputBox
+{
+	BACKGROUND-COLOR: #ffffff;
+	FONT-SIZE: 8pt;
+	FONT-FAMILY: Verdana, Arial;
+	COLOR: black;
+	width: 175px;
+	BORDER: 1px solid black;
+}
+
+.percentBox
+{
+	BACKGROUND-COLOR: #ffffff;
+	FONT-SIZE: 8pt;
+	FONT-FAMILY: Verdana, Arial;
+	COLOR: black;
+	BORDER: 1px solid black;
+}
+
+.inputBoxSet
+{
+	BACKGROUND-COLOR: #ffffff;
+	FONT-SIZE: 8pt;
+	FONT-FAMILY: Verdana, Arial;
+	COLOR: black;
+	width: 175px;
+	HEIGHT: 18px;
+	BORDER-BOTTOM: 1px solid black;
+	BORDER-TOP: 1px solid black;
+	BORDER-LEFT: 1px solid black;
+	BORDER-RIGHT: 1px solid black;
+}
+	
+.inputBoxSetButton
+{
+	BACKGROUND-COLOR: #ECE9D8;
+	FONT-SIZE: 8pt;
+	FONT-FAMILY: Verdana, Arial;
+	COLOR: black;
+	WIDTH: 20px;
+	HEIGHT: 18px;
+	CURSOR: hand;
+	BORDER-LEFT: 1px solid #4B4A4A;
+}
+
+body 
+{
+  font-family: Verdana, Geneva, Arial; 
+  font-size: 11px;
+  border:none; 
+  color: white;
+  margin:0;
+
+
+  /* always hide the scrollbar */
+  overflow: hidden;
+}
+
+/* index is the actionpad in the Huvudlistan. */
+body.index
+{ 
+	background-color: rgb(255,255,255); 
+}
+
+span
+{
+	font-family: Verdana, Geneva, Arial; 
+	color: rgb(119,120,123);
+	font-size: 9px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+
+a
+{
+	color: rgb(119,120,123);
+	font-size: 11px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a:visited
+{
+	color: rgb(119,120,123);
+}
+
+a:hover
+{
+	color: rgb(88,89,91);
+	text-decoration: underline;
+}
+
+a:active
+{
+	color: rgb(88,89,91);
+	text-decoration: underline;
+}
+
+img
+{ 
+	border: 0px;
+}
+
+img.background
+{ 
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: -1;
+}
+
+img.bottom
+{ 
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	z-index: -1;
+}
+
+
+img.topleft
+{ 
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: -1;
+}
+
+img.bottomleft
+{ 
+	position: absolute;
+	left: 0px;
+	bottom: -10px;
+	z-index: -1;
+}
+
+img.icon
+{ 
+	margin-top: 8px;
+	margin-left: 8px;
+}
+
+div.actionpad
+{
+	width: 200px;
+	padding: 10 px;
+}
+
+div.actionpadtop
+{
+	width: 100px;
+	padding: 10 px;
+}
+
+div.menu ul
+{ 
+	margin: 0px;
+}
+
+div.menu li
+{ 
+	list-style-type: none;
+	list-style-image: none;
+	padding: 0px;
+	margin: 3px;  
+}
+
+h1 
+{
+	color: rgb(88,89,91);
+	font-size: 14px;
+	font-weight: bold;
+	margin-bottom: 6px;
+	border-bottom: 1px solid rgb(88,89,91);
+}
+
+div.text p.ingress
+{ 
+	font-size: 13px;
+	font-weight: bold;
+}
+

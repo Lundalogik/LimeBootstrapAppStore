@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<resourcebundle>
+
+<locales default="sv">
+	<locale id="sv">Svenska</locale>
+	<locale id="en-us">U.S. English</locale>
+	<locale id="fi">Finska</locale>
+</locales>
+
+
+<application id="mergedoubles">
+<section id="mergedoubles">
+<resource id="windowTitle">
+<string locale="sv">Sammanslagning dubbletter</string>
+<string locale="en-us">Merging of Doublets</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="page">
+<resource id="loadPageText">
+<string locale="sv">Laddar sida...</string>
+<string locale="en-us">Loading page...</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="keep">
+<string locale="sv">BEHÅLL</string>
+<string locale="en-us">KEEP</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="doublet">
+<string locale="sv">DUBBLETT</string>
+<string locale="en-us">DOUBLET</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="optKeep">
+<string locale="sv">Behåll denna</string>
+<string locale="en-us">Keep this</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="optNotDoublet">
+<string locale="sv">Ej dubblett</string>
+<string locale="en-us">Not a doublet</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="identical">
+<string locale="sv">Det finns inga olikheter mellan dessa poster.</string>
+<string locale="en-us">These records a identical.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noDescription">
+<string locale="sv">Ingen beskrivning...</string>
+<string locale="en-us">No description...</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noPercent">
+<string locale="sv">* Ingen procent...</string>
+<string locale="en-us">* No value...</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noColor">
+<string locale="sv">* Ingen färg...</string>
+<string locale="en-us">* No value...</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="tooManyRecords">
+<string locale="sv">* Mer än %1 poster *</string>
+<string locale="en-us">* More than %1 records *</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="optConcat">
+<string locale="sv">Slå samma informationen</string>
+<string locale="en-us">Concaternate information</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="optOverwrite">
+<string locale="sv">Skriv över</string>
+<string locale="en-us">Overwrite</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="optCancel">
+<string locale="sv">Avbryt</string>
+<string locale="en-us">Cancel</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="buttons">
+<resource id="next">
+<string locale="sv">Nästa</string>
+<string locale="en-us">Next</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="finish">
+<string locale="sv">Slutför</string>
+<string locale="en-us">Finish</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="moveWhereEmpty">
+<string locale="sv">Fyll i tomma i Behåll</string>
+<string locale="en-us">Fill empty in Keep</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="moveWhereEmptyTitle">
+<string locale="sv">Flyttar alla värden från 'Dubblett' till 'Behåll' där 'Dubblett' är ifyllt men 'Behåll' är tomt. Värden som är ifyllda i ett mängdfält i 'Dubblett' flyttas också.</string>
+<string locale="en-us">Moves all values from 'Doublet' to 'Keep' where 'Double' has a value and 'Keep' hasn't. Values for set fields will also be moved.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="moveAllRelations">
+<string locale="sv">Flytta alla relationer</string>
+<string locale="en-us">Move all relations</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="moveAllRelationsTitle">
+<string locale="sv">Flyttar alla relationer från 'Dubblett' till 'Behåll'.</string>
+<string locale="en-us">Moves all relations from 'Doublet' to 'Keep'.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="cancel">
+<string locale="sv">Avbryt</string>
+<string locale="en-us">Cancel</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="help">
+<string locale="sv">Hjälp</string>
+<string locale="en-us">Help</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="alert">
+<resource id="noExplorer">
+<string locale="sv">Du måste markera minst två poster i en lista.</string>
+<string locale="en-us">You must select at least to items in a list.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="disabled">
+<string locale="sv">Sammanslagning av denna typ av post har inte aktiverats.</string>
+<string locale="en-us">Merging for this type of items has not been activated.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="tooFewSelected">
+<string locale="sv">Du måste markera minst två poster i en lista.</string>
+<string locale="en-us">You must select at least to items in a list.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noMerge">
+<string locale="sv">Det gjordes ingen sammanslagning av posterna.</string>
+<string locale="en-us">No records were merged.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="invalidSelection">
+<string locale="sv">Det är inte tillåtet att både fylla i 'Ingen dubblett' och 'Behåll denna' för samma post.</string>
+<string locale="en-us">You cannot check both 'Not a doublet' and 'Keep this' for the same record.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="mergeComplete">
+<string locale="sv">Sammanslagningen av de %1 posterna är klar.</string>
+<string locale="en-us">Completed merge of %1 records.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noValue">
+<string locale="sv">Du försöker flytta ett tomt värde vilket inte är tillåtet.</string>
+<string locale="en-us">You're trying to move an empy value and that's not permitted.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noCheckedOption">
+<string locale="sv">Inga alternativ är förbockade och då kan du inte flytta informationen.</string>
+<string locale="en-us">You're trying to move an empy value and that's not permitted.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noRelations">
+<string locale="sv">Det finns inga relationer och då kan du inte flytta informationen.</string>
+<string locale="en-us">You're trying to move an empy value and that's not permitted.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noPercent">
+<string locale="sv">Det finns ingen procentsats och då kan du inte flytta informationen.</string>
+<string locale="en-us">You're trying to move an empy value and that's not permitted.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="noColor">
+<string locale="sv">Det finns ingen färg och då kan du inte flytta informationen.</string>
+<string locale="en-us"></string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="movedAllFields">
+<string locale="sv">Alla fält (utom multirelationsfält) som var ifyllda i 'Dubblett' men tomma i 'Behåll' har nu fyllts med data från 'Dubblett'.</string>
+<string locale="en-us">All empty fields (except multirelations field) in 'Keep' has been filled with values from 'Doublet' where a value existed.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="movedAllRelations">
+<string locale="sv">Alla relationer har flyttats från 'Dubblett' till 'Behåll'.</string>
+<string locale="en-us">All relations have been moved from 'Doublet' to 'Keep'.</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="virtualTable">
+<string locale="sv">Det går inte att slå samman poster i en virtuell flik.</string>
+<string locale="en-us">You cannot merge records in a virtual tab.</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="confirm">
+<resource id="noChanges">
+<string locale="sv">Du har inte gjort någonting med posterna. Vill du ändå sammanfoga dem?</string>
+<string locale="en-us">You have made no changes to any of the records. Continue with merge anyway?</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+<section id="tooltip">
+<resource id="option">
+<string locale="sv">Alternativfält - Skriver över</string>
+<string locale="en-us">Option field - Overwrites</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="relationfield">
+<string locale="sv">Relationsfält - Skriver över</string>
+<string locale="en-us">Relation field - Overwrites</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="color">
+<string locale="sv">Färgfält - Skriver över</string>
+<string locale="en-us">Color field - Overwrites</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="grade">
+<string locale="sv">Betygs/heltalsfält - Skriver över</string>
+<string locale="en-us">Grade/Integer field - Overwrites</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="set">
+<string locale="sv">Mängdfält - Flyttar alla som inte finns i Master</string>
+<string locale="en-us">Set field - Moves not already existing options to Master</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="relations">
+<string locale="sv">Relationer - Flyttar alla som inte finns i Master</string>
+<string locale="en-us">Relations - Moves not already existing items to Master</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="numeric">
+<string locale="sv">Heltals/decimalfält - Skriver över</string>
+<string locale="en-us">Numeric field - Overwrites</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="percent">
+<string locale="sv">Procentfält - Skriver över</string>
+<string locale="en-us">Percent field - Overwrites</string>
+<string locale="fi"></string>
+</resource>
+
+<resource id="date">
+<string locale="sv">Datumfält - skriver över</string>
+<string locale="en-us">Date field - Overwrites</string>
+<string locale="fi"></string>
+</resource>
+
+</section>
+
+</application>
+
+<application id="Sheet2">
+</application>
+
+<application id="Sheet3">
+</application>
+
+</resourcebundle>
+

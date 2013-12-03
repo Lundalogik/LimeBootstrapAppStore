@@ -1,0 +1,687 @@
+body {
+	font-family: Verdana;	/* Font to use */
+	background-color:#DEDEDE;
+	margin-left: 2px;
+	margin-top: 7px;
+	font-size: 10px;
+}
+
+.box
+{
+	background: #DEDEDE;
+	width: 620px;
+	height: 830px; /*830*/
+	border-top: solid 1px white;
+	position: absolute;
+	top: 57px; /*30px*/
+	left: 220px;
+	overflow:auto;
+}
+
+
+.normaltext
+{
+	font-family: Verdana;
+	font-size: 10px;
+	color: #000000;
+}
+
+
+.header
+{
+	font-size: 16px;
+	font-weight: bolder;
+	margin-bottom: 5px;
+}
+
+#DaD_dragDropContainer{	/* Main container for this script */
+	/*width:790px;
+	height:720px;
+	border:1px solid #317082;*/
+	background-color:#DEDEDE;
+	-moz-user-select:none;
+}
+
+#DaD_dragDropContainer ul{	/* General rules for all <ul> */
+	margin-top:0px;
+	margin-left:0px;
+	margin-bottom:0px;
+	padding:2px;
+}
+
+#DaD_dragDropContainer ul li,#dragContent li{	/* Movable items, i.e. <LI> */
+	list-style-type:none;
+	height:20px;
+	background-color:#EEE;
+	border:1px solid #000;
+	padding:2px 2px 2px 22px;
+	margin-bottom:2px;
+	cursor:pointer;
+	font-size:9px;
+	width: 150px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+
+.checkbox
+{
+	width:12px;
+	height:12px;
+	margin-right: 5px;
+}
+
+.textInput
+{
+	border: solid 1px black;
+	font-family: Verdana;
+	font-size: 10px;
+	width: 150px;
+}
+
+.optionLink
+{
+	text-decoration: underline;
+	cursor: hand;
+}
+
+
+/*Map Alternatives window*/
+.selectbox
+{
+	font-family: Verdana;
+	right: 10px;
+	font-size: 10px;
+	margin-bottom: 5px;
+}
+
+.alternatives
+{
+	width: 258px;
+	height: 16px;
+	margin-bottom: 5px;
+	font-family: Verdana;
+	font-size: 11px;
+	padding-left: 2px;
+}
+
+
+.ascHeader{
+	BACKGROUND: #DEDEDE url(../images/collapse.jpg) no-repeat left; 
+}
+
+.descHeader{
+	BACKGROUND: #DEDEDE url(../images/expand.jpg) no-repeat left;
+}
+
+.alternativename
+{
+	width: 150px;
+	overflow: hidden;
+}
+
+.underlined
+{
+	text-decoration: underline;
+	padding-left: 12px;
+}
+
+TH
+{
+	text-align:left;
+}
+
+.sort
+{
+    BEHAVIOR: url(css/sort.htc);
+}
+
+
+.columnHeader
+{
+	font-size: 11px;
+	font-weight: bold;
+	height: 16px;
+	margin-top: 5px;
+}
+
+
+.firstColumn
+{
+	width: 250px;
+}
+
+.dark
+{
+	background-color: #EEEEEE;
+}
+
+.light
+{
+	background-color: #FFFFFF;
+}
+
+.star
+{
+	font-weight: bolder;
+	color: #FF0000;
+}
+
+.line
+{
+	border-bottom: solid 1px #FFFFFF;
+	margin-bottom: 15px;
+	margin-top: 5px;
+}
+
+.buttons
+{
+	position:relative;
+	left: 134px;
+	margin-bottom: 5px;
+}
+
+.buttonsRight
+{
+	float:right;
+	margin-right: 57px;
+	margin-top: 15px;
+}
+
+#main
+{
+	height: 261px;
+	overflow: auto;
+}
+
+#maincoworker
+{
+	height: 400px;
+	overflow: auto;
+}
+
+.hits{
+	font-family: Verdana;
+	font-size: 10px;
+	color:#CF2D2D ;
+	font-weight:bold;
+}
+
+.usebutton
+{
+	width:70px;
+	font-family: Verdana;
+	font-size: 10px;
+	vertical-align: top;
+	margin-left: 5px;
+	height: 18px;
+	BORDER-RIGHT: outset 1pt;
+    BORDER-TOP: outset 1pt;
+    BORDER-LEFT: outset 1pt;
+    CURSOR: hand;
+    COLOR: white;
+    BORDER-BOTTOM: outset 1pt;
+    BACKGROUND-COLOR: gray;
+    TEXT-ALIGN: center;
+}
+
+/* LEFT COLUMN CSS */
+
+div#dragAndDropFields
+{
+	position: absolute;
+	top: 57px; /*30px*/
+	left: 5px;
+	width: 100%;
+	border-top: solid 1px #FFFFFF;
+}
+
+
+div#listOfItems, div#listOfCharacters, div#listOfSettings{	/* Left column "Fields in file"*/	
+	padding-left:10px;
+	padding-right:10px;
+	margin-top: 20px;
+	/* CSS HACK */
+	width: 220px;	/* IE 5.x */
+	width/* */:/**/200px;	/* Other browsers */
+	width: /**/200px;
+}
+
+#listOfItems ul{	/* Left(Sources) column <ul> */
+	overflow: auto;
+}
+
+#listOfCharacters ul{	/* Left(Sources) column <ul> */
+	height: 120px;
+	overflow: auto;
+}
+
+#listOfSettings ul{	
+	height: 105px;
+	overflow: hidden;
+	
+}
+
+div#listOfItems div, div#listOfCharacters div, div#listOfSettings div{
+	border:1px solid #999;		
+	background: #ffffff;
+}
+
+div#listOfSettings div li
+{
+	margin-bottom: 8px;
+	margin-left: 2px;
+}
+
+div#listOfSettings div li span{
+	width: 100px;
+	vertical-align:top;
+}
+
+
+
+
+div#listOfItems div ul, div#listOfCharacters div ul, div#listOfSettings div ul{	/* Left column <ul> */
+	margin-left:2px;	/* Space at the left of list - the arrow will be positioned there */
+}
+
+
+#listOfItems div p, #listOfCharacters div p, #listOfSettings div p{	/* Heading above left column */
+	margin: 0px;
+	padding:4px;
+	background: #EEEEEE;
+	font-size: 10px;
+	font-weight:bold;
+	color:#000000;	
+	margin-bottom:5px;
+	border-bottom: solid 1px #999999;
+}
+
+
+/* END LEFT COLUMN CSS */
+
+#DaD_dragDropContainer .mouseover{	/* Mouse over effect DIV box in right column */
+	background-color:#E2EBED;
+	border:1px solid #317082;
+	
+}
+
+/* Start main container CSS */
+
+div#mainContainer{	/* Right column DIV */
+	width:590px;
+	float:left;	
+	margin-top: 15px;
+}
+
+#mainContainer div#company, #mainContainer div#person, #mainContainer div#project
+{
+	font-family: verdana;
+	font-size: 15px;
+	text-indent: 3px;
+	font-weight: bolder;
+	padding: 10px 10px 10px 10px;
+	float: left;
+}
+
+#mainContainer  div{	/* Parent <div> of small boxes */
+	float:left;
+	margin-right:5px;
+	margin-bottom:5px;
+	margin-top:5px;
+	border:1px solid #999;
+	background: #FFFFFF;
+}
+
+#mainContainer  div.separator
+{
+	float:left;
+	width: 562px;
+	border-bottom :2px solid #999;
+	border-top :0px;
+	border-left :0px;
+	border-right :0px;
+	font-weight: bold;
+	padding-left: 15px;
+	cursor: hand;
+	overflow: hidden;
+	margin-top: 15px;
+}
+
+#mainContainer  div.collapse{
+	BACKGROUND: #DEDEDE url(../images/collapse.jpg) no-repeat left;
+}
+
+#mainContainer  div.expand{
+	BACKGROUND: #DEDEDE url(../images/expand.jpg) no-repeat left;
+}
+
+.datetime
+{
+	background: url(../images/date.jpg) no-repeat bottom right;
+}
+
+.datetime_red
+{
+	background: url(../images/date_red.jpg) no-repeat bottom right;
+}
+
+.link
+{
+	background: url(../images/link.jpg) no-repeat bottom right;
+}
+
+.link_red
+{
+	background: url(../images/link_red.jpg) no-repeat bottom right;
+}
+
+.linkcoworker
+{
+	background: url(../images/linkcoworker.jpg) no-repeat bottom right;
+}
+
+.linkcoworker_red
+{
+	background: url(../images/linkcoworker_red.jpg) no-repeat bottom right;
+}
+
+
+.numeral
+{
+	background: url(../images/numeral.jpg) no-repeat bottom right;
+}
+
+.numeral_red
+{
+	background: url(../images/numeral_red.jpg) no-repeat bottom right;
+}
+
+.option
+{
+	background: url(../images/alternative.jpg) no-repeat bottom right;
+}
+
+.option_red
+{
+	background: url(../images/alternative_red.jpg) no-repeat bottom right;
+}
+
+.set
+{
+	background: url(../images/dataset.jpg) no-repeat bottom right;
+}
+
+.set_red
+{
+	background: url(../images/dataset_red.jpg) no-repeat bottom right;
+}
+
+.text
+{
+	background: url(../images/text.jpg) no-repeat bottom right;
+}
+
+.text_red
+{
+	background: url(../images/text_red.jpg) no-repeat bottom right;
+}
+
+.yesno
+{
+	background: url(../images/yesno.jpg) no-repeat bottom right;
+}
+
+.yesno_red
+{
+	background: url(../images/yesno_red.jpg) no-repeat bottom right;
+}
+
+#mainContainer  div ul{
+	margin-left:10px;
+}
+
+#mainContainer  div p{	/* Rubriker för Limefält*/
+	margin: 0px;
+	padding:4px;
+	background: #EEEEEE;
+	font-size: 10px;
+	font-weight:bold;
+	color:#000000;	
+	margin-bottom:5px;
+	border-bottom: solid 1px #999999;
+}
+
+#mainContainer ul{	/*Boxar dit man drar objekten*/
+	width:172px;
+	height:70px;	
+	border:0px;	
+	margin-bottom:0px;
+	overflow:auto;
+	
+}
+
+#dragContent{	/* Drag container */
+	position:absolute;
+	width:132px;
+	height:20px;
+	display:none;
+	margin:0px;
+	padding:0px;
+	z-index:2000;
+}
+
+#dragDropIndicator{	/* DIV for the small arrow */
+	position:absolute;
+	width:7px;
+	height:10px;
+	display:none;
+	z-index:1000;
+	margin:0px;
+	padding:0px;
+}
+
+.tab{
+	BACKGROUND-COLOR: #efefef;
+	FONT-SIZE: 8pt;
+	FONT-FAMILY: Verdana, Arial;
+	COLOR: black;
+	CURSOR: hand;
+	BORDER-RIGHT: 2px outset;
+    BORDER-TOP: 1px solid white;
+    BORDER-LEFT: 1pt solid white;
+    float: left;
+    width: 100px;
+    padding-top: 5px;
+    padding:5px 5px 5px 5px;
+    white-space: nowrap; 
+}
+
+.buttonbar
+{
+	float: right;	
+	height:20px;
+	margin-right: 9px;
+	width: 100%;
+}
+
+#companybox, #personbox, #projectbox
+{
+	background: #DEDEDE;
+	width: 620px;
+	height: 830px;
+	border-top: solid 1px white;
+	position: absolute;
+	top: 30px;
+	left: 220px;
+	overflow:auto;
+}
+
+#personbox, #project
+{
+	display:block;
+}
+
+.company
+{
+	BACKGROUND: #DEDEDE url(../images/company.jpg) no-repeat left;
+}
+
+.coworker
+{
+	BACKGROUND: #DEDEDE url(../images/coworker.jpg) no-repeat left;
+}
+
+
+.person
+{
+	BACKGROUND: #F2F2F2 url(../images/person.jpg) no-repeat left;
+}
+
+.report
+{
+	BACKGROUND: #F2F2F2 url(../images/credit_report.jpg) no-repeat left;
+}
+
+.tabcharacter
+{
+	BACKGROUND: #F2F2F2 url(../images/tab.jpg) no-repeat left;
+}
+
+.entercharacter
+{
+	BACKGROUND: #F2F2F2 url(../images/enter.jpg) no-repeat left;
+}
+
+.spacecharacter
+{
+	BACKGROUND: #F2F2F2 url(../images/space.jpg) no-repeat left;
+}
+
+.saveStar
+{
+	width: 8px;
+	height: 8px;
+	margin-left: 2px;
+	background-repeat: no-repeat;
+}
+
+.freeinput
+{
+	width: 120px;
+	height: 14px;
+	font-family: Verdana, Arial;
+	font-size: 10px;
+	background-color: #ffffff;
+	border: 1px solid #4D4D4D;
+}
+
+.freetext
+{
+	BACKGROUND: #F2F2F2 url(../images/freetext.jpg) no-repeat left;
+}
+
+/*LOG-STYLES*/
+
+BODY#importlog
+{
+	margin: 20px;
+	font-family: Verdana;	/* Font to use */
+	background-color:#DEDEDE;
+	font-size: 10px;
+}
+
+BODY#importlog TH{	/* Rubriker för Limefält*/
+	margin: 0px;
+	padding:4px;
+	background: #DEDEDE;
+	font-size: 10px;
+	font-weight:bold;
+	color:#000000;	
+	margin-bottom:5px;
+	border-bottom: solid 1px #999999;
+	text-align:left;
+}
+
+BODY#importlog .tablelines
+{
+	font-family: verdana;
+	font-size: 10px;
+	padding:4px;
+	vertical-align: top;
+
+}
+
+BODY#importlog TABLE
+{
+	margin-bottom: 20px;	
+	border: 1px solid #999999;
+}
+
+BODY#importlog .field1, BODY#importlog .field3
+{
+	width: 150px;
+}
+
+BODY#importlog .field4, BODY#importlog .field5
+{
+	width: 312px;
+}
+
+BODY#importlog .field2
+{
+	width: 100px;
+}
+
+BODY#importlog .smallheader
+{
+	font-size: 12px;
+	font-weight: bolder;
+	margin-bottom: 10px;
+	letter-spacing: 3px;
+}
+
+BODY#importlog .right
+{
+	position:absolute;
+	right: 20px;
+	top:15px;
+}
+
+BODY#importlog .saveButtonPosition
+{
+	position:absolute;
+	right: 100px;
+	top:15px;
+}
+
+BODY#importlog A
+{
+	color: #CF2D2D;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+BODY#importlog A:visited
+{
+	color: #CF2D2D;
+}
+
+BODY#importlog A:hover
+{
+	color: #000000;
+	cursor: hand;
+}
+
+BODY#importlog .notimported
+{
+	font-weight: bold;
+	color: #3363A5;
+}
+
+BODY#importlog .header
+{
+	font-size: 16px;
+	font-weight: bolder;
+	margin-bottom: 5px;
+}

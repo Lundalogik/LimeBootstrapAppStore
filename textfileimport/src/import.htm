@@ -1,0 +1,2300 @@
+<html>
+    <head>
+        <style type="text/css" title="currentStyle" media="screen">@import "css/styles.css";</style>
+        <script language="vbscript" src="textfileimport.vbs"></script>
+        <script language="javascript" src="scripts/general.js"></script>
+        <script language="javascript" src="../../../system/js/appInvoker/Resources.js"></script>
+        <script language="javascript" src="../../../system/js/appInvoker/Lime.js"></script>
+        <script language="javascript" src="../../../system/js/appInvoker/LDE.js"></script>
+        <script language="javascript" src="../../../system/js/appInvoker/ErrorInfo.js"></script>
+        <title>#Importera till Lime</title>
+    </head>
+    <body onload="onPageInitialize()" onunload="onPageTerminate()">
+        <div class="buttonbar">
+            <div style="float:right; margin-right: 5px;">
+            
+				<button resid="buttons.saveOverview" id="btnSaveOverview" class="usebutton" onclick="OnSaveOverview()">#Dokumentera</button>
+                <button resid="buttons.saveConfig" id="btnsaveconfig" class="usebutton" onclick="OnSaveConfiguration()">#Spara</button>
+                <button resid="buttons.loadConfig" id="btnloadconfig" class="usebutton" onclick="OnLoadConfiguration()">#Ladda</button>
+                <button resid="buttons.cancel" id="btncancel" class="usebutton" onclick="OnCancel()">#Avbryt</button>
+                <button resid="buttons.preview" id="btnpreivew" class="usebutton" onclick="onPreview()" style="display:none;">#Förhandsgranska</button>
+                <button resid="buttons.import" id="btnimport" class="usebutton" onclick="OnImport()">#Importera</button>
+            </div>
+        </div>
+        <div id="DaD_dragDropContainer">
+            <div id="tabcontainer"></div>
+            <div id="dragAndDropFields">
+                <div id="listOfItems">
+                    <div>
+                        <p resid="page.importFields">Fält från importfilen</p>
+                        <ul id="allItems">
+                            
+                        </ul>
+                    </div>
+                </div>
+                <div id="listOfCharacters">
+                    <div>
+                        <p resid="characters.caption">Specialtecken</p>
+                        <ul id="allCharacters">
+                            <li resid="importfield.coworker" id="sysfieldcoworker" class="coworker" name="coworkerlink">Medarbetare</li>
+                            <li resid="characters.space" name="character" class="spacecharacter" charValue="32">Mellanslag</li>
+                            <li resid="characters.enter" name="character" class="entercharacter" charValue="13">Radbrytning</li>
+                            <li resid="characters.tab" name="character" class="tabcharacter" charValue="9">Tab</li>
+                            <li name="freevalue" class="freetext"><input id='inputfreevalue' class="freeinput" tabindex="0"/></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="boxcontainer">
+            </div>
+        </div>
+        <ul id="dragContent">
+        </ul>
+        <div id="dragDropIndicator">
+            
+        </div>
+    </body>
+<script language="javascript">
+
+// This is used as a paramteter to alternativeBox.htm
+var m_pXmlArgument = null;
+
+// key format: [parentfield].[class].[field]
+var m_arrFieldOptions = null;
+
+// format: selected2¤id1¤name1¤selected2¤id2¤name¤...
+var m_coworkersData = null;
+
+// name of coworker labled table
+var m_coworkerClass = '';
+
+// id of active tab
+var m_activeTab = '';
+
+// fileformat of importfile
+var m_strFileFormat = '';
+
+var m_blnChangedAltenatives = false;
+
+// show separators or not
+var m_strSeparator = '';
+
+function changeTab(tabIndex) {
+    var tabContainer = null;
+    var boxContainer = null;
+    var index = 0;
+   
+    try {
+        tabContainer = document.getElementById('tabcontainer');
+        boxContainer = document.getElementById('boxcontainer');
+        
+        for (index = 0; index < tabContainer.children.length; index++) {
+            if (tabIndex != index)
+                tabContainer.children[index].style.backgroundColor = '#F2F2F2';
+            else
+                tabContainer.children[index].style.backgroundColor = '#DEDEDE';
+        }
+        
+        for (index = 0; index < boxContainer.children.length; index++) {
+            if (tabIndex == index) {
+                boxContainer.children[index].style.display = 'block';
+                DaD_InitDragDropScript(boxContainer.children[index]);
+                m_activeTab = boxContainer.children[index].id;
+            }
+            else
+                boxContainer.children[index].style.display = 'none';
+        }
+	}
+	catch (error) {
+	    ErrorInfo.showError(error, "changeTab");
+	}
+}
+
+function createAlternativsKey(boxObj) {
+    var limeClass = boxObj.attributes('limeClass').nodeValue;
+	var limeField = boxObj.attributes('limeField').nodeValue;
+	var parentField = boxObj.attributes('limeParentField').nodeValue;
+	
+	return parentField + '.' + limeClass + '.' + limeField;
+}
+
+// create one box for each field
+function DHtml_CreateBox(containerObj, xmlTab, classObj) {
+    var divObj = null;
+    var pObj = null;
+    var spanObj = null;
+    var spanImgObj = null;
+    var inputObj = null;
+    var ulObj = null;
+    var fieldObj = null;
+	var index = 0;
+	var spanText = '';
+	var separatorObj = null;
+	var separatorid = '';
+   
+	try {
+	    for (index = 0; index < xmlTab.childNodes.length; index++) {
+	        if (!classObj.Fields.Exists(xmlTab.childNodes[index].getAttribute('name')))
+	            continue;
+	            
+	        fieldObj = classObj.Fields.Item(xmlTab.childNodes[index].getAttribute('name'));
+
+			// Key field checkbox
+			inputObj = document.createElement('input');
+			inputObj.type = 'checkbox';
+			inputObj.title = Resources.getText("page.useAsKey");
+			inputObj.className = 'checkbox';
+			inputObj.onclick = function() {resetTabColors()};
+            
+			
+			switch (fieldObj.Type)
+			{
+			case lkFieldTypeLink:
+			case lkFieldTypeOption:
+			case lkFieldTypeSet:
+			case lkFieldTypeYesNo:
+				inputObj.disabled = true;
+				break;
+			}
+			    
+			divObj = document.createElement('div');
+			divObj.limeClass = classObj.Name;
+			divObj.limeField = fieldObj.Name;
+			divObj.limeParentField = xmlTab.getAttribute('field');
+			divObj.limeType = fieldObj.Type
+            divObj.limeLength = fieldObj.Length
+            divObj.limeRequired = fieldObj.Required == true ? 1 : 0;
+            
+			pObj =  document.createElement('p');
+			pObj.appendChild(inputObj);
+
+            spanText = fieldObj.LocalName.length > 0 ? fieldObj.LocalName : '[' + fieldObj.Name + ']';
+            
+
+			spanObj = document.createElement('span');
+			if (spanText.length > 19) 
+				spanObj.innerHTML = spanText.substring(0,19) + '...';
+			else
+				spanObj.innerHTML = spanText;
+				
+			spanObj.innerHTML += fieldObj.Required ? '*' : '';
+			
+			pObj.appendChild(spanObj);
+			
+			ulObj = document.createElement('ul');
+
+            switch (fieldObj.Type) 
+            {
+		    case lkFieldTypeLink:
+		    case lkFieldTypeOption:
+            case lkFieldTypeSet:
+            case lkFieldTypeYesNo:
+				spanImgObj = document.createElement('span');
+				spanImgObj.className = 'saveStar';
+				spanImgObj.title = spanText;
+				pObj.appendChild(spanImgObj);
+				
+				break;
+			default:
+				break;
+			}			
+			
+			DHtml_SetTitleAndBackgroundImages(fieldObj, spanObj, ulObj, spanText)
+			
+			divObj.appendChild(pObj);
+			divObj.appendChild(ulObj);
+			
+			if(xmlTab.childNodes[index].getAttribute('separator') != undefined && m_strSeparator){
+				separatorid = xmlTab.getAttribute('name') + '-' + index;
+				separatorObj = document.createElement('div');
+				//MLY 2007-05-22 - deleted double separator-class
+				//separatorObj.className = 'separator separator collapse';
+				separatorObj.className = 'separator collapse';
+				separatorObj.innerHTML = xmlTab.childNodes[index].getAttribute('separator');
+				separatorObj.id = 'group-' + separatorid;
+				separatorObj.onclick = function() {expandCollapseSeparator(this)};
+				
+				containerObj.appendChild(separatorObj);
+			}
+			divObj.id = separatorid;
+			
+			containerObj.appendChild(divObj);
+
+			
+	    }
+    }
+    catch (error) {
+        ErrorInfo.throwAgain(error, "DHtml_CreateBox");
+    }
+}
+
+function expandCollapseSeparator(obj){
+	var id = obj.id.substring(6);
+	var strblockOrNone = '';
+	var objList = null;
+	
+	if (obj.className.indexOf('expand') > 0){
+		strblockOrNone= 'block';
+		obj.className = 'separator collapse'
+	}	
+	else{
+		strblockOrNone = 'none';
+		obj.className = 'separator expand'
+	}
+	
+	if (window.document.all(id).length == undefined)
+		window.document.all(id).style.display = strblockOrNone;
+	else{
+		objList = window.document.all(id);
+		
+		for (var i = 0; i < objList.length; i++){
+			objList[i].style.display = strblockOrNone;
+		}
+	}
+	//MLY 2007-04-26 - to load x and y values again
+	DaD_InitDragDropScript(window.document.all(m_activeTab));
+}
+
+function DHtml_CreateFileColumnBoxes(xmlDocument) {
+    var columnsNode = null;
+    var ul = null;
+
+    try {
+        columnsNode = xmlDocument.selectSingleNode('/settings/columns');
+        
+        if (columnsNode != null) {
+	        ul = window.document.all("allItems");
+	    
+	        for (var i = 0; i < columnsNode.attributes.length; i++){
+		        var li = document.createElement("li");
+		        li.innerHTML = columnsNode.attributes[i].nodeValue;
+		        li.title = columnsNode.attributes[i].nodeValue;
+		        ul.appendChild(li);
+	        }
+        }
+	}
+	catch (error) {
+	    showError(error);
+    }
+}
+
+function DHtml_CreateTabsAndBoxes(xml) {
+    var applicationObj = null;
+    var limeClassObj = null;
+    var tabListContainerObj = null;
+    var boxListContainerObj = null;
+    var boxContainerObj = null;
+    var boxObj = null;
+    var boxHeader = null;
+    var tabObj = null;
+    var xmlTabs = null;
+    var xmlTab = null;
+    var ddBoxObj = null;
+    var limeClass = '';
+    var limeField = '';
+    var linkedField = '';
+    var tabId = '';
+    var boxId = '';
+    var disableRecursion = "";
+    
+    try {
+        DHtml_CreateFileColumnBoxes(xml);
+        
+        applicationObj = getApplication();
+        tabListContainerObj = document.getElementById('tabcontainer');
+        boxListContainerObj = document.getElementById('boxcontainer');
+        xmlTabs = xml.selectNodes('/settings/tabs/tab');
+
+        // Make sure the node is empty        
+        while (boxListContainerObj.children.length > 0)
+            boxListContainerObj.removeChild(boxListContainerObj.children[0]);
+
+        disableRecursion = Resources.getIniString("Application", "disablerecursion", "0");
+        
+        for (var n = 0; n < xmlTabs.length; n++) {
+            xmlTab = xmlTabs[n];
+            
+            // Check if recursion is allowed
+            if (n > 0 && disableRecursion == "1") {
+                if (xmlTab.getAttribute("class") == xmlTabs[0].getAttribute("class"))
+                    continue;
+            }
+            
+            // Check if this class is disabled
+            if (Resources.getIniString("Explorers", xmlTab.getAttribute("class"), "1") == "0")
+                continue;
+            
+            limeClass = xmlTab.getAttribute('class');
+            limeField = xmlTab.getAttribute('field');
+            linkedField = xmlTab.getAttribute('linkedfield');
+            tabId = 'tab-' + limeClass + (limeField.length > 0 ? '.' + limeField : '');
+            boxId = 'box-' + limeClass + (limeField.length > 0 ? '.' + limeField : '');
+           
+            
+            // Create tab
+            tabObj = document.createElement('div');
+            tabObj.className = 'tab';
+            
+            tabObj.onclick = function() {onChangeTab(this)};
+            var strTabName = xmlTab.getAttribute('name');
+            tabObj.title = strTabName;
+            if (strTabName.length > 14) 
+				strTabName = strTabName.substring(0,14) + '...';
+			tabObj.innerHTML = strTabName;
+            tabObj.style.backgroundColor = n == 0 ? '#DEDEDE' : '#F2F2F2';
+            tabObj.id = tabId;
+            
+            // Create box
+            limeClassObj = applicationObj.Database.Classes.Item(limeClass);
+            
+            boxContainerObj = document.createElement('div');
+	        boxContainerObj.id = 'mainContainer';
+	        DHtml_CreateBox(boxContainerObj, xmlTab, limeClassObj);
+	        
+            boxObj = document.createElement('div');
+            boxObj.containerName = xmlTab.attributes.getNamedItem('name').nodeValue.toString();
+            boxObj.limeClass = limeClass;
+            boxObj.limeField = limeField;
+            boxObj.linkedField = linkedField;
+            boxObj.className = 'box';
+            boxObj.style.height = screen.availHeight - 211 + 'px';
+            boxObj.id = boxId;
+            if (m_strSeparator == true)
+				boxObj.separatoradded = xmlTab.getAttribute('separatoradded');
+			else
+				boxObj.separatoradded = false;
+            boxObj.style.display = n == 0 ? 'block' : 'none';
+            if (n == 0)
+				m_activeTab = boxId;
+	        boxObj.appendChild(boxContainerObj);
+	        
+	        if (n == 0)
+	            ddBoxObj = boxObj;
+            
+            tabListContainerObj.appendChild(tabObj);
+            boxListContainerObj.appendChild(boxObj);
+        }
+        
+        DaD_InitDragDropScript(ddBoxObj);
+        
+        return true;
+    }
+    catch (error) {
+        ErrorInfo.showError(error, "DHtml_CreateTabsAndBoxes");
+    }
+    
+    return false;
+}
+
+function DHtml_SetTitleAndBackgroundImages(fieldObj, spanObj, ulObj, spanText) {
+    try {
+        switch (fieldObj.DataType)
+	    {
+	    case lkDataTypeBoolean:
+	        spanObj.title = spanText + ' ' + Resources.getText("tooltip.yesno");
+		    ulObj.className = 'yesno';
+	        break;
+	    case lkDataTypeCurrency:
+	        spanObj.title = spanText + ' ' + Resources.getText("tooltip.currency");
+		    ulObj.className = 'numeral';
+	        break;
+	    case lkDataTypeDateTime:
+	        switch (fieldObj.Type)
+	        {
+	        case lkFieldTypeTime:
+	            spanObj.title = spanText + ' ' + Resources.getText("tooltip.time");
+		        ulObj.className = "datetime";
+		        break;
+	        default:
+	            spanObj.title = spanText + ' ' + Resources.getText("tooltip.date");
+		        ulObj.className = "datetime";
+		        break;
+		    }
+		    break;
+	    case lkDataTypeDouble:
+	        switch (fieldObj.Type)
+	        {
+	        case lkFieldTypeCurrency:
+	            spanObj.title = spanText + ' ' + Resources.getText("tooltip.currency");
+		        ulObj.className = 'numeral';
+	            break;
+	        default:
+	            spanObj.title = spanText + ' ' + Resources.getText("tooltip.decimal");
+		        ulObj.className = 'numeral';
+	            break;
+	        }
+	        break;	            
+	    case lkDataTypeLong:
+	        switch (fieldObj.Type)
+	        {
+	        case lkFieldTypeGrade:
+		        spanObj.title = spanText + ' ' + Resources.getText("tooltip.grade");
+		        ulObj.className = "numeral";
+	            break;
+	        case lkFieldTypeLink:
+		        spanObj.title = spanText + ' ' + Resources.getText("tooltip.relation");
+		        if (fieldObj.LinkedField.Class.Label == lkClassLabelCoWorker)
+		            ulObj.className = 'linkcoworker';
+		        else
+		            ulObj.className = 'link';
+		        break;
+		    case lkFieldTypeOption:
+		        spanObj.title = spanText + ' ' + Resources.getText("tooltip.option");
+		        ulObj.className = 'option';
+		        break;
+	        case lkFieldTypeYesNo:
+	            spanObj.title = spanText + ' ' + Resources.getText("tooltip.yesno");
+		        ulObj.className = 'yesno';
+	            break;
+	        default:
+	            spanObj.title = spanText + ' ' + Resources.getText("tooltip.integer");
+		        ulObj.className = 'numeral';
+		        break;
+	        }
+	        break;
+	    case lkDataTypeText:   
+	        switch (fieldObj.Type)
+	        {
+	        case lkFieldTypeSet:
+	            spanObj.title = spanText + ' ' + Resources.getText("tooltip.set");
+		        ulObj.className = 'set';
+		        break;
+		    default:
+		        spanObj.title = spanText + ' ' + Resources.getText("tooltip.length", fieldObj.length.toString());
+		        ulObj.className = 'text';
+		        break;
+		    }
+		    break;
+	    }
+    }
+    catch (error) {
+        ErrorInfo.throwAgain(error, "DHtml_SetTitleAndBackgroundImages");
+    }
+}
+
+function getAlternativesXml(boxObj, load) {
+    var xmlImportObj = null;
+    var key = '';
+    var limeClass = '';
+    var limeField = '';
+    var fileColumn = '';
+    var xmlData = '';
+    
+    key = createAlternativsKey(boxObj);
+    
+    if (m_arrFieldOptions == null)
+        m_arrFieldOptions = new Array();
+        
+	if (m_arrFieldOptions[key] == null) {
+	    if (load == 1) {
+	        limeClass = boxObj.attributes('limeClass').nodeValue;
+	        limeField = boxObj.attributes('limeField').nodeValue;
+	        fileColumn = boxObj.getElementsByTagName('li')[0].innerHTML;
+			
+	        xmlImportObj = TextFileImport_GetXmlImportInstance(getApplication());
+	        xmlData = xmlImportObj.GetFieldAlternatives(limeClass, limeField, fileColumn, m_strFileFormat );
+
+	        xmlImportObj = null;
+	    }
+	}
+	else {
+	    xmlData = m_arrFieldOptions[key];			
+	}
+	
+	return xmlData;
+}
+
+
+function getApplication(){
+	return window.dialogArguments.external;
+}
+
+function GetVBAInstance(){
+    return TextFileImport_GetXmlImportInstance(getApplication());
+}
+
+
+function getConcatenatedSql(liListObj) {
+    var sqlText = '';
+    var buffer = '';
+    
+    try {	    
+	    for (var i = 0; i < liListObj.length; i++){
+		    if(liListObj[i].name == "character")
+		        buffer = 'chr(' + liListObj[i].attributes('charValue').nodeValue + ')'
+		    else if (liListObj[i].name == 'freevalue')
+				buffer = "'" + liListObj[i].firstChild.value + "'";
+		    else {
+			    //buffer = '[' + liListObj[i].innerHTML + ']';
+		    
+				buffer = "IIF(ISNULL([%1]),'',[%2])";
+				buffer = buffer.replace('%1', liListObj[i].innerHTML);
+				buffer = buffer.replace('%2', liListObj[i].innerHTML);
+		    }
+		    
+		    sqlText += (sqlText.length > 0 ? ' + ' : '') + buffer;
+	    }
+	}
+	catch (error) {
+	    ErrorInfo.throwAgain (error, "getConcatenatedSql");
+	}
+	
+	return sqlText;
+}
+
+
+function getCoworkerAlternatives(optionsNode, boxObj, divId) {
+    var altXmlDocument = null;
+    var fileOptionList = null;
+    var defaultOptionNode = null;
+    var optionNode = null;
+    var altXml = '';
+    var defaultOption = '';
+    var n1 = 0;
+
+    altXml = getAlternativesXml(boxObj, 0);
+    
+    if (altXml.length > 0) {
+        altXmlDocument = createXmlDocument(altXml);
+        
+        fileOptionList = altXmlDocument.selectNodes("options/limeoptions/limeoption[@selected='1']");
+        
+        for (n1 = 0; n1 < fileOptionList.length; n1++) {
+            if (fileOptionList[n1].attributes.getNamedItem('value').nodeValue.toString().length > 0) {
+                optionNode = optionsNode.ownerDocument.createElement('option');
+				optionNode.setAttribute('lime', fileOptionList[n1].attributes.getNamedItem('value').nodeValue);
+				optionNode.setAttribute('file', '');
+    			optionsNode.appendChild(optionNode);
+	        }				    
+	    }
+	    
+	    /*defaultOptionNode = altXmlDocument.selectSingleNode('/options/defaultoption');
+	    
+	    if (defaultOptionNode != null)
+	        defaultOption = defaultOptionNode.attributes.getNamedItem('value').nodeValue;*/
+    }
+    //return defaultOption;    
+}
+
+function getCoworkerSelectedCount(strReturnXML) {
+    var selectedCoworkers = createXmlDocument(strReturnXML);
+	return selectedCoworkers.selectNodes("options/limeoptions/limeoption[@selected='1']").length;
+}
+
+function SetDocumentHeights(){
+    var windowHeight = screen.availHeight;
+    windowHeight = windowHeight - 440;
+    if (windowHeight > 0 ){
+        window.document.all("listOfItems").getElementsByTagName("ul")[0].style.height = windowHeight + 'px';
+    }
+}
+
+function getMappedAlternatives(optionsNode, boxObj, divId) {
+    var altXmlDocument = null;
+    var fileOptionList = null;
+    var defaultOptionNode = null;
+    var optionNode = null;
+    var altXml = '';
+    var defaultOption = '';
+    var n1 = 0;
+
+    altXml = getAlternativesXml(boxObj, 0);
+    
+    if (altXml.length > 0) {
+        altXmlDocument = createXmlDocument(altXml);
+        
+        fileOptionList = altXmlDocument.selectNodes('/options/fileoptions/fileoption');
+        
+        for (n1 = 0; n1 < fileOptionList.length; n1++) {
+            if (fileOptionList[n1].attributes.getNamedItem('limevalue').nodeValue.toString().length > 0) {
+                optionNode = optionsNode.ownerDocument.createElement('option');
+				optionNode.setAttribute('lime', fileOptionList[n1].attributes.getNamedItem('limevalue').nodeValue);
+				optionNode.setAttribute('file', fileOptionList[n1].attributes.getNamedItem('text').nodeValue);
+    			optionsNode.appendChild(optionNode);
+	        }				    
+	    }
+	    
+	    defaultOptionNode = altXmlDocument.selectSingleNode('/options/defaultoption');
+	    
+	    if (defaultOptionNode != null)
+	        defaultOption = defaultOptionNode.attributes.getNamedItem('value').nodeValue;
+    }
+    
+    return defaultOption;    
+}
+
+function getMappedValues(xmlObj) {
+    var boxContainersObj = null;
+    var boxObj = null;
+    var ulListObj = null;
+    var liListObj = null;
+    var tableNode = null;
+    var columnNode = null;
+    var boxLimeClass = '';
+    var boxLimeField = '';
+    var boxLimeParentField = '';
+    var optionsKey = '';
+    var sqlAlias = '';
+    var sqlText = '';
+    var freeValue = '';
+    var defaultValue = '';
+    var n1 = 0;
+    var n2 = 0;
+    var cIndex = 0;
+
+    try {
+        boxContainersObj = document.getElementById('boxcontainer');
+
+        for (n1 = 0; n1 < boxContainersObj.children.length; n1++) {
+            tableNode = xmlObj.createElement('table');
+            tableNode.setAttribute('class', boxContainersObj.children[n1].attributes('limeClass').nodeValue);
+            tableNode.setAttribute('field', boxContainersObj.children[n1].attributes('limeField').nodeValue);
+            tableNode.setAttribute('linked', boxContainersObj.children[n1].attributes('linkedField').nodeValue);
+        
+            ulListObj = boxContainersObj.children[n1].getElementsByTagName('ul');
+            
+            for (n2 = 0; n2 < ulListObj.length; n2++) {
+                boxObj = ulListObj[n2].parentElement;
+                liListObj = ulListObj[n2].getElementsByTagName('li');
+                
+                boxLimeClass = boxObj.attributes('limeClass').nodeValue;
+                boxLimeField = boxObj.attributes('limeField').nodeValue;
+                boxLimeParentField = boxObj.attributes('limeParentField').nodeValue;
+       
+                if (liListObj.length > 0) {
+                    sqlAlias = 'c' + cIndex++;
+                    defaultValue = '';
+
+                    switch (boxObj.attributes('limeType').nodeValue) 
+                    {
+                    case lkFieldTypeOption:
+                    case lkFieldTypeSet:
+                    case lkFieldTypeYesNo:
+                        var optionsNode = xmlObj.createElement('options');
+                        optionsNode.setAttribute('columnalias', sqlAlias);
+                        optionsNode.setAttribute('randomize', '0');
+                        xmlObj.selectSingleNode('import').appendChild(optionsNode);
+                        
+                        defaultValue = getMappedAlternatives(optionsNode, boxObj, liListObj[0].innerHTML);
+                        
+                        sqlText = '[' + liListObj[0].innerHTML + ']'
+                        
+                        break;
+                        
+                    case lkFieldTypeLink:
+                        if (liListObj[0].name == 'coworkerlink') {
+                            var optionsNode = xmlObj.createElement('options');
+                            optionsNode.setAttribute('columnalias', sqlAlias);
+                            optionsNode.setAttribute('randomize', '1');
+                            xmlObj.selectSingleNode('import').appendChild(optionsNode);
+                            
+                            getCoworkerAlternatives(optionsNode, boxObj, liListObj[0].innerHTML);
+                            
+                            sqlText = "''";
+                        }
+                        else{
+                            
+                            var optionsNode = xmlObj.createElement('options');
+                            optionsNode.setAttribute('columnalias', sqlAlias);
+                            optionsNode.setAttribute('randomize', '0');
+                            xmlObj.selectSingleNode('import').appendChild(optionsNode);
+                            
+                            getMappedAlternatives(optionsNode, boxObj, liListObj[0].innerHTML)
+                            
+                            sqlText = '[' + liListObj[0].innerHTML + ']'
+                        }
+                        
+                        break;
+                        
+                    default:
+						//MLY 2007-04-27
+						/*if (liListObj[0].name == 'freevalue'){
+							if (liListObj.length == 1)
+								sqlText = "'" + liListObj[0].firstChild.value + "'";
+							//freeValue = liListObj[0].firstChild.value;
+						}
+						else {*/
+							if (liListObj.length == 1)
+								if (liListObj[0].name == 'freevalue')
+									sqlText = "'" + liListObj[0].firstChild.value + "'";
+								else
+									sqlText = '[' + liListObj[0].innerHTML + ']'
+							else
+							    sqlText = getConcatenatedSql(liListObj);
+							break;
+						//}
+                    }
+                 
+                    columnNode = xmlObj.createElement('column');
+                    columnNode.setAttribute('lime', boxLimeField);
+                    columnNode.setAttribute('alias', sqlAlias);
+                    if (sqlText.length > 0)
+						columnNode.setAttribute('sql', sqlText);
+					else
+						columnNode.setAttribute('freevalue', freeValue);
+                    columnNode.setAttribute('type', boxObj.attributes('limeType').nodeValue);
+                    columnNode.setAttribute('length', boxObj.attributes('limeLength').nodeValue);
+                    columnNode.setAttribute('required', boxObj.attributes('limeRequired').nodeValue);
+                    columnNode.setAttribute('key', boxObj.getElementsByTagName('input')[0].checked == true ? '1' : '0');
+                    columnNode.setAttribute('default', defaultValue);
+                    tableNode.appendChild(columnNode);
+                }
+            } 
+            
+            if (tableNode.selectNodes('column').length > 0)
+                xmlObj.selectSingleNode('import').appendChild(tableNode);
+        }
+            
+        return 1;
+    
+	}
+	catch (error) {
+	    ErrorInfo.throwAgain(error, "getMappedValues");
+    }
+    
+    return 0;
+}
+
+function loadConfiguration(xmlObj) {
+    var boxContainerListObj = null;
+    var boxContainerObj = null;
+    var ulListObj = null;
+    var boxObj = null;
+    var xmlContainerObj = null;
+    var xmlBoxObj = null;
+    var spanObj = null;
+    var checkBoxObj = null;
+    var limeClass = '';
+    var limeField = '';
+    var xPath = '';
+    var optionsKey = '';
+    var optionsData = '';
+    var checkedOptionData = '';
+    var strColumnName = '';
+    var blnAlternativesChanges = 'false';
+    var boxChildrenList = null;
+    
+    //try {
+        // list all file fields to validate against
+	    boxContainerListObj = document.getElementById('boxcontainer');
+	    
+	    for (n1 = 0; n1 < boxContainerListObj.children.length; n1++) {
+	        boxContainerObj = boxContainerListObj.children[n1];
+	        limeClass = boxContainerObj.attributes('limeClass').nodeValue;
+	        limeField = boxContainerObj.attributes('limeField').nodeValue;
+	        linkedField = boxContainerObj.attributes('linkedField').nodeValue;
+	        
+	        xPath = "/config/container[@class='%1' and @field='%2']";
+	        xPath = xPath.replace('%1', limeClass);
+	        xPath = xPath.replace('%2', limeField);
+	        
+	        xmlContainerObj = xmlObj.selectSingleNode(xPath);
+	        
+	        if (xmlContainerObj != null) {
+	            ulListObj = boxContainerObj.getElementsByTagName('ul');
+	            
+	            for (n2 = 0; n2 < ulListObj.length; n2++) {
+	                xPath = "box[@field='" + ulListObj[n2].parentElement.attributes('limeField').nodeValue + "']";
+	                xmlBoxObj = xmlContainerObj.selectSingleNode(xPath);
+	                
+	                if (xmlBoxObj == null)
+	                    continue;
+	                 
+	                ulListObj[n2].innerHTML = xmlBoxObj.attributes.getNamedItem('innerHTML').nodeValue;
+	                boxObj = ulListObj[n2].parentElement;
+	                spanObj = boxObj.getElementsByTagName('span')[0];
+	                
+	                switch (boxObj.attributes('limeType').nodeValue)
+	                {
+	                case lkFieldTypeLink:
+	                case lkFieldTypeOption:
+	                case lkFieldTypeSet:
+	                case lkFieldTypeYesNo:
+	                    optionsKey = xmlBoxObj.attributes.getNamedItem('mapKey').nodeValue;
+	                    optionsData = xmlBoxObj.attributes.getNamedItem('mapData').nodeValue;
+	                    
+	                    //if (boxObj.attributes('limeType').nodeValue == lkFieldTypeLink) {
+	                    if (ulListObj[n2].firstChild.name == 'coworkerlink'){
+	                        if (optionsData.toString().length > 0) {
+	                            spanObj .className = 'optionLink';
+	                            spanObj .onclick = function() {onOpenCoworkerBox(this)};
+	                            
+	                            if (m_arrFieldOptions == null)
+	                                m_arrFieldOptions = new Array();
+	                            
+	                            m_arrFieldOptions[optionsKey] = optionsData;
+	                            //m_coworkersData = optionsData;
+	                            setSelectionMapStar(spanObj , 1);
+	                        }   
+	                    }
+	                    else {
+	                        if (optionsKey.toString().length > 0 && optionsData.toString().length > 0) {
+	                            spanObj .className = 'optionLink';
+	                            spanObj .onclick = function() {onOpenAlternativeBox(this)};
+	                            
+	                            if (m_arrFieldOptions == null)
+	                                m_arrFieldOptions = new Array();
+	                            
+	                            strColumnName = ulListObj[n2].firstChild.getAttribute('title')
+	                            limeField = xmlBoxObj.attributes.getNamedItem('field').nodeValue
+	                            optionsData = CheckAlternatives(optionsData, limeClass, limeField, strColumnName);
+	                            if (m_blnChangedAltenatives  == true){
+									//optionsData = checkedOptionData;	
+									setSelectionMapStar(spanObj , 2);
+									ulListObj[n2].parentElement.setAttribute('mapWarning', '1');
+								}
+								else{
+									setSelectionMapStar(spanObj , 1);
+								}
+								
+								m_arrFieldOptions[optionsKey] = optionsData;
+    	                    }
+	                    }
+	                    
+	                    break;
+	                default:
+	                    if (ulListObj[n2].getElementsByTagName('li').length > 1) {
+	                        spanObj.className = 'optionLink';
+	                        spanObj.onclick = function() {openConcatenateBox(this.parentNode.parentNode)};
+	                    }
+	                    
+	                    break;
+	                }
+	                
+	                if (xmlBoxObj.attributes.getNamedItem('key').nodeValue == '1') {
+	                    checkBoxObj = boxObj.getElementsByTagName('input')[0];
+                
+                        if (checkBoxObj.disabled == false)
+                            checkBoxObj.checked = true;
+	                }
+	            }
+	        }
+	    }
+	    
+	    // initialize drag and drop again for the the active tab
+	    for (n1 = 0; n1 < boxContainerListObj.children.length; n1++) {
+	        if (boxContainerListObj.children[n1].style.display == 'block')
+	            DaD_InitDragDropScript(boxContainerListObj.children[n1]);
+	    }
+	/*}
+	catch (error) {
+	    ErrorInfo.showError(error, "loadConfiguration");
+    }*/
+}
+
+function resetTabColors(){
+    tabContainer = document.getElementById(m_activeTab.replace('box', 'tab'));
+    tabContainer.style.backgroundColor = '#DEDEDE';
+}  
+
+function onChangeTab(tab){
+    var tabContainer = null;
+    var index = 0;
+    
+    try {
+        tabContainer = document.getElementById('tabcontainer');
+        
+        for (index = 0; index < tabContainer.children.length; index++) {
+            if (tab == tabContainer.children[index])
+                break;
+        }
+        
+        changeTab(index);
+        
+	}
+	catch (error) {
+	    ErrorInfo.showError(error, "onChangeTab");
+	}
+}
+
+function onPreview(){
+	alert("Ej implementerad...");
+}
+
+function openAlternativeWindow(alternativesData, boxObj) {
+    var returnValue = null;
+    var key = '';
+    
+    ResetClassColor(boxObj.getElementsByTagName('ul')[0])
+    
+    m_pXmlArgument = createXmlDocument(alternativesData);
+    
+    try {
+	    returnValue = window.showModalDialog("alternativeBox.htm", self, "dialogHeight:400px; dialogWidth: 450px; edge:sunken; help:no;resizeable:no;scroll:no;status:no;");
+	
+	    if (returnValue != undefined) {
+	        key = createAlternativsKey(boxObj);
+		    m_arrFieldOptions[key] = returnValue;
+		
+	        setSelectionMapStar(boxObj.getElementsByTagName('span')[0], 1);
+	        if (boxObj.mapWarning == '1')
+				boxObj.mapWarning = '0';
+	        //boxObj.setAttribute('mapWarning', '0');
+		}
+	}
+	catch (error) {
+	    ErrorInfo.showError(error, "openAlternativeWindow");
+	}
+}
+
+function openConcatenateBox(obj){
+    var liListObj = null;
+	var promptText = '';
+
+	try {
+	    liListObj = obj.getElementsByTagName('li');
+	    
+	    for (var i = 0; i < liListObj.length; i++) {
+		    if(liListObj[i].name == 'character') {
+			    switch (liListObj[i].className){
+				case 'spacecharacter': 
+				    promptText += " "; 
+				    break;
+				case 'tabcharacter': 
+				    promptText += "\t"; 
+				    break;
+				case 'entercharacter':
+				    promptText += "\n"; 
+				    break;
+                }
+		    }
+		    else if (liListObj[i].name == 'freevalue') 
+			    promptText += "'" + liListObj[i].firstChild.value + "'";
+		    else
+			    promptText += "[" + liListObj[i].innerHTML + "]";
+	    }
+    	
+	    alert(promptText);
+    }
+    catch (error) {
+        ErrorInfo.showError(error, "openConcaternateBox");
+    }
+}
+
+function removeAlternativesAt(boxObj) {
+    var limeClass = '';
+	var limeField = '';
+	var limeParentField = '';
+	var key = '';
+
+
+    if (m_arrFieldOptions != null) {
+        key = createAlternativsKey(boxObj);
+	    
+	    if (m_arrFieldOptions[key] != null)
+	        m_arrFieldOptions[key] = null;
+	}
+	
+	
+	var spanObj = boxObj.getElementsByTagName('span')[0];
+	spanObj.className = '';
+    spanObj.onclick = '';
+}
+
+function saveConfiguration(xmlObj) {
+    var boxContainerListObj = null;
+    var boxContainerObj = null;
+    var ulListObj = null;
+    var liListObj = null;
+    var boxObj = null;
+    var xmlContainerObj = null;
+    var xmlBoxObj = null;
+    var checkBoxObj = null;
+    var xmlFileFieldsObj = '';
+    
+    try {
+        //if (validateForm()) {
+            
+            tabContainerListObj = document.getElementById('tabcontainer');
+	        boxContainerListObj = document.getElementById('boxcontainer');
+
+            for (n1 = 0; n1 < boxContainerListObj.children.length; n1++) {
+                boxContainerObj = boxContainerListObj.children[n1];
+                ulListObj = boxContainerObj.getElementsByTagName('ul');
+                
+                containerName = boxContainerObj.attributes('containerName').nodeValue;
+                
+                if (ulListObj.length == 0)
+                    continue;
+                
+                xmlContainerObj = xmlObj.createElement('container');
+                xmlContainerObj.setAttribute('class', boxContainerObj.attributes('limeClass').nodeValue);
+                xmlContainerObj.setAttribute('field', boxContainerObj.attributes('limeField').nodeValue);
+                xmlContainerObj.setAttribute('linked', boxContainerObj.attributes('linkedField').nodeValue);
+                    
+                // Option and set fields must be mapped
+                for (n2 = 0; n2 < ulListObj.length; n2++) {
+                    if (ulListObj[n2].getElementsByTagName('li').length == 0)
+                        continue;
+                    
+                    boxObj = ulListObj[n2].parentElement;
+                    
+                    xmlBoxObj = xmlObj.createElement('box');
+                    xmlBoxObj.setAttribute('field', boxObj.attributes('limeField').nodeValue);
+                    xmlBoxObj.setAttribute('innerHTML', ulListObj[n2].innerHTML);
+                    xmlBoxObj.setAttribute('key', '');
+                    
+                    checkBoxObj = boxObj.getElementsByTagName('input')[0];
+                
+                    if (checkBoxObj.disabled == false)
+                        xmlBoxObj.setAttribute('key', (checkBoxObj.checked == true ? '1' : '0'));
+                    
+                    switch (boxObj.attributes('limeType').nodeValue)
+                    {
+                    case lkFieldTypeOption:
+                    case lkFieldTypeSet:
+                    case lkFieldTypeLink:
+                    case lkFieldTypeYesNo:
+                        xmlBoxObj.setAttribute('mapKey', createAlternativsKey(boxObj));
+                        var mappedXMLData = createXmlDocument(getAlternativesXml(boxObj, 0));
+                        var intOfHits = mappedXMLData.selectNodes("//fileoption[@hits!='']").length;
+                        
+						for (n3 = 0; n3 < intOfHits; n3++){
+							var selectedNode = mappedXMLData.selectNodes("//fileoption[@hits!='']").item(0);
+							selectedNode.removeAttribute('hits');
+						}
+						
+                        xmlBoxObj.setAttribute('mapData', mappedXMLData.selectSingleNode("options").xml);
+                        break;
+                    /*case lkFieldTypeLink:
+                        //MLY 2007-05-21
+                        xmlBoxObj.setAttribute('mapKey', createAlternativsKey(boxObj));
+                        var mappedXMLData = createXmlDocument(getAlternativesXml(boxObj, 0));
+                        xmlBoxObj.setAttribute('mapData', mappedXMLData.selectSingleNode("options").xml);
+                        //xmlBoxObj.setAttribute('mapData', m_coworkersData);
+                        break;*/
+                    default:
+                        xmlBoxObj.setAttribute('mapKey', '');
+                        xmlBoxObj.setAttribute('mapData', '');
+                        break;
+                    }
+                    
+                    xmlContainerObj.appendChild(xmlBoxObj);
+                    
+                    liListObj = ulListObj[n2].getElementsByTagName('li');
+                    for (n3 = 0; n3 < liListObj.length; n3++ ){
+						var strFileFieldName =  liListObj[n3].title
+						if (liListObj[n3].title != '' ){
+							xmlFileFieldsObj = xmlObj.createElement('filefield');
+							xmlFileFieldsObj.setAttribute('name', strFileFieldName);
+							xmlBoxObj.appendChild(xmlFileFieldsObj);
+						}
+					}
+                }
+                
+                xmlObj.selectSingleNode('/config').appendChild(xmlContainerObj);
+            }
+            
+            return 1;
+        //}
+    }
+    catch (error) {
+        ErrorInfo.showError(error, "saveConfiguration");
+    }
+    
+    return 0;
+}
+
+
+
+function saveOverview(xmlObj) {
+    var boxContainerListObj = null;
+    var boxContainerObj = null;
+    var ulListObj = null;
+    var liListObj = null;
+    var boxObj = null;
+    var xmlContainerObj = null;
+    var xmlBoxObj = null;
+    var checkBoxObj = null;
+    var xmlFileFieldsObj = '';
+    var fieldMapped = false;
+    
+    try {
+        if (validateForm('overview')){
+            tabContainerListObj = document.getElementById('tabcontainer');
+	        boxContainerListObj = document.getElementById('boxcontainer');
+
+            for (n1 = 0; n1 < boxContainerListObj.children.length; n1++) {
+				fieldMapped = false;
+                boxContainerObj = boxContainerListObj.children[n1];
+                ulListObj = boxContainerObj.getElementsByTagName('ul');
+                
+                containerName = boxContainerObj.attributes('containerName').nodeValue;
+                
+                if (ulListObj.length == 0)
+                    continue;
+                
+                
+                xmlContainerObj = xmlObj.createElement('container');
+                xmlContainerObj.setAttribute('class', boxContainerObj.attributes('limeClass').nodeValue);
+                xmlContainerObj.setAttribute('field', boxContainerObj.attributes('limeField').nodeValue);
+                xmlContainerObj.setAttribute('linked', boxContainerObj.attributes('linkedField').nodeValue);
+                    
+                // Option and set fields must be mapped
+                for (n2 = 0; n2 < ulListObj.length; n2++) {
+					
+                    if (ulListObj[n2].getElementsByTagName('li').length == 0)
+                        continue;
+                    
+                    liListObj = ulListObj[n2].getElementsByTagName('li');
+                    boxObj = ulListObj[n2].parentElement;
+                    
+                    xmlBoxObj = xmlObj.createElement('box');
+                    xmlBoxObj.setAttribute('field', boxObj.getElementsByTagName('span')[0].innerHTML);
+                    
+                    xmlBoxObj.setAttribute('key', '');
+                    checkBoxObj = boxObj.getElementsByTagName('input')[0];
+                
+                    if (checkBoxObj.disabled == false)
+                        xmlBoxObj.setAttribute('key', (checkBoxObj.checked == true ? '1' : '0'));
+                    
+                    
+                    
+                    liListObj = ulListObj[n2].getElementsByTagName('li');
+                    for (n3 = 0; n3 < liListObj.length; n3++ ){
+						fieldMapped = true;
+						var strFileFieldName =  liListObj[n3].title
+						if (liListObj[n3].title != '' ){
+							xmlFileFieldsObj = xmlObj.createElement('filefield');
+							xmlFileFieldsObj.setAttribute('name', strFileFieldName);
+							xmlBoxObj.appendChild(xmlFileFieldsObj);
+						}
+						else{
+							if (liListObj[n3].name=='freevalue'){
+								var strFileFieldName = Resources.getText("overviewMapping.fixedValue", "'" + liListObj[n3].getElementsByTagName('input')[0].value + "'");
+							}
+							else{
+								if (liListObj[n3].name=='character'){
+									var strFileFieldName = '[' + liListObj[n3].innerHTML + ']';
+								}
+								else{
+									var strFileFieldName =  liListObj[n3].innerHTML;							
+								}
+							}
+							xmlFileFieldsObj = xmlObj.createElement('filefield');
+							xmlFileFieldsObj.setAttribute('name', strFileFieldName);
+							xmlBoxObj.appendChild(xmlFileFieldsObj);
+						}
+					
+						switch (boxObj.attributes('limeType').nodeValue){
+							case lkFieldTypeOption:
+							case lkFieldTypeSet:
+							case lkFieldTypeLink:
+							case lkFieldTypeYesNo:
+								xmlBoxObj.setAttribute('mapKey', createAlternativsKey(boxObj));
+								
+								var mappedXMLData = createXmlDocument(getAlternativesXml(boxObj, 0));
+								var intOfHits = mappedXMLData.selectNodes("//fileoption[@hits!='']").length;
+		                        
+								for (n3 = 0; n3 < intOfHits; n3++){
+									var selectedNode = mappedXMLData.selectNodes("//fileoption[@hits!='']").item(0);
+									selectedNode.removeAttribute('hits');
+								}
+								
+								if (mappedXMLData.selectNodes("options/fileoptions/fileoption").length > 0){
+									xmlFileFieldsObj.appendChild(mappedXMLData.selectSingleNode("options/fileoptions"))
+								}
+								else{
+									var pCoworkerList = mappedXMLData.selectNodes("options/limeoptions/limeoption[@selected='1']")
+									if (pCoworkerList.length > 0){
+										var pCoworkerNode = xmlObj.createElement('limeoptions');
+										for (var j=0; j < pCoworkerList.length; j++){									
+											pCoworkerNode.appendChild(pCoworkerList[j])
+										}
+										xmlFileFieldsObj.appendChild(pCoworkerNode);
+									}
+								}
+								break;
+						}
+                    }
+					
+                    //if (xmlBoxObj.selectNodes('box').length > 0){
+						xmlContainerObj.appendChild(xmlBoxObj);
+					//}
+                
+					xmlObj.selectSingleNode('/config').appendChild(xmlContainerObj);
+                }
+            }
+            
+            return 1;
+           }
+    }
+    catch (error) {
+        ErrorInfo.showError(error, "saveOverview");
+    }
+    
+    return 0;
+}
+
+
+//Returns name of coworker-labeled table
+function getCoworkerClass(){
+	for (var i = 1; i <= getApplication().Classes.Count; i++){
+		if (getApplication().Classes.Item(i).Label == lkClassLabelCoWorker) {
+			return getApplication().Classes.Item(i).Name;
+		}
+	}
+	return '';
+}
+
+function openCoworkerWindow(alternativesData, boxObj) {
+    var returnValue = null;
+    var key = '';
+    
+    m_pXmlArgument = createXmlDocument(alternativesData);
+    
+    try {
+	    returnValue = window.showModalDialog("coworkerBox.htm", self, "dialogHeight:400px; dialogWidth: 450px; edge:sunken; help:no;resizeable:no;scroll:no;status:no;");
+	
+	    if (returnValue != undefined) {
+	        key = createAlternativsKey(boxObj);
+		    m_arrFieldOptions[key] = returnValue;
+		
+	        if (getCoworkerSelectedCount(returnValue) > 0)
+			    setSelectionMapStar(boxObj.getElementsByTagName('span')[0], 1);
+		    else
+			    setSelectionMapStar(boxObj.getElementsByTagName('span')[0], 0);
+	        if (boxObj.mapWarning == '1')
+				boxObj.mapWarning = '0';
+				
+		}
+	}
+	catch (error) {
+	    ErrorInfo.showError(error, "openCoworkerWindow");
+	}
+}
+
+function onOpenCoworkerBox(spanObj){
+    
+    var boxObj = spanObj.parentElement.parentElement
+	var sAlternativesXml = getCoworkerXml(boxObj, 1)
+	ResetClassColor(boxObj.getElementsByTagName('ul')[0])
+	if (sAlternativesXml.length > 0){
+		openCoworkerWindow(sAlternativesXml, boxObj);
+	}
+}
+
+function getCoworkerXml (boxObj, blnLoad) {
+	var filterObj = null;
+	var viewObj = null;
+	var recordsObj = null;
+	var coworkersData = '';
+	var key = '';
+	var xmlImportObj = null;
+	var xmlData = '';
+
+	key = createAlternativsKey(boxObj);
+		
+	if (m_arrFieldOptions == null)
+        m_arrFieldOptions = new Array();
+    
+    if (m_arrFieldOptions[key] == null){
+        if (blnLoad == 1) {
+            xmlImportObj = TextFileImport_GetXmlImportInstance(getApplication());
+	        m_arrFieldOptions[key] = xmlImportObj.GetCoworkers(m_coworkerClass);
+	        xmlData = m_arrFieldOptions[key];
+       
+        /*if (m_coworkersData == null){
+	        xmlImportObj = TextFileImport_GetXmlImportInstance(getApplication());
+	        m_coworkersData = xmlImportObj.GetCoworkers(m_coworkerClass);
+	    }
+            
+	    if (m_arrFieldOptions[key] == null) {
+    		
+		        m_arrFieldOptions[key] = m_coworkersData;*/
+	    }
+	}
+	else{
+	    xmlData = m_arrFieldOptions[key];
+	}
+	
+	return xmlData;
+
+	/*var returnValue = window.showModalDialog("coworkerBox.htm", self, "dialogHeight:400px; dialogWidth: 450px; edge:sunken; help:no;resizeable:no;scroll:no;status:no;");
+
+	if (returnValue != undefined){
+		m_arrFieldOptions[key] = returnValue;
+		
+		if (getCoworkerSelectedCount() > 0)
+			setSelectionMapStar(obj, 1);
+		else
+			setSelectionMapStar(obj, 0);
+	}*/
+}
+
+function setSelectionMapStar(obj, status){
+	var temp = obj.parentElement.getElementsByTagName('span');
+	
+	if (temp[1] != undefined){
+	    if (status == 1) {
+	        temp[1].style.backgroundImage = 'url(images/star.gif)';
+	        temp[1].className = 'saveStar';	
+	    }
+	    else if (status == 2) {
+		    temp[1].style.backgroundImage = 'url(images/exclamation.jpg)';
+		    temp[1].title = Resources.getText("tooltip.checkMapping");
+		    temp[1].className = 'saveStar';	
+	    }
+	    else {
+	        temp[1].style.backgroundImage = '';
+	        temp[1].className = '';
+	    }
+    }
+}
+
+function validateForm(strFunctionCalling){
+    var tabContainerListObj = null;
+    var boxContainerListObj = null;
+    var boxContainerObj = null;
+    var ulListObj = null;
+    var checkBoxObj = null;
+    var containerName = '';
+    var keyCount = 0;
+    var n1 = 0;
+    var n2 = 0;
+    var allowNoKey = false;
+    var intMapWarnings = 0;
+    var allowMapWarnings = false;
+    var intMandatoryEmpty = 0;
+    var allowMandatoryEmpty = '';
+    var returnvalue = '1';
+    var nbrOfErrors = 0;
+    var noKeysInTabs = '';
+    var firstTabWithNoKeyFields = -1;
+    var strErrorMessage = '';
+    var mappingCount = 0;
+    var allowImport = false;
+
+    try {
+	    tabContainerListObj = document.getElementById('tabcontainer');
+	    boxContainerListObj = document.getElementById('boxcontainer');
+
+        for (n1 = 0; n1 < boxContainerListObj.children.length; n1++) {
+            boxContainerObj = boxContainerListObj.children[n1];
+            containerName = boxContainerObj.attributes('containerName').nodeValue;
+            
+            if (boxContainerObj.getElementsByTagName('li').length == 0) {
+                if (n1 == 0) {
+                    alert (Resources.getText("alert.noFieldSelection", containerName));
+                    changeTab(n1);
+                    return 0;
+                }
+                else
+                    continue;
+            }
+
+            ulListObj = boxContainerObj.getElementsByTagName('ul');
+            
+            
+            // Option and set fields must be mapped
+            for (n2 = 0; n2 < ulListObj.length; n2++) {
+                switch (ulListObj[n2].parentElement.attributes('limeType').nodeValue)
+                {
+                case lkFieldTypeOption:
+                case lkFieldTypeSet:
+                case lkFieldTypeYesNo:
+                    if (ulListObj[n2].getElementsByTagName('li').length > 0) {
+                        if (getAlternativesXml(ulListObj[n2].parentElement, 0).toString().length == 0) {
+                            ulListObj[n2].className = ulListObj[n2].className.replace('_red', '') + '_red';
+                            ulListObj[n2].title = Resources.getText("alert.mappingRequired");
+                            returnvalue = 0;
+                            mappingCount ++;
+                        }
+                    }
+                    break;
+                
+                
+                case lkFieldTypeLink:
+                    if (ulListObj[n2].getElementsByTagName('li').length > 0) {
+                        var xmlData = getCoworkerXml(ulListObj[n2].parentElement, 0);
+                        if (xmlData.toString().length == 0) {
+                            ulListObj[n2].className = ulListObj[n2].className.replace('_red', '') + '_red';
+                            ulListObj[n2].title = Resources.getText("alert.mappingRequired");
+                            returnvalue = 0;
+                            mappingCount ++;
+                        }     
+                        
+                        if (ulListObj[n2].firstChild.name == 'coworkerlink'){
+                            var pCoworkerRandomized = createXmlDocument(xmlData);
+                            if (pCoworkerRandomized.selectNodes("/options/limeoptions/limeoption[@selected='1']").length == 0){
+                                ulListObj[n2].className = ulListObj[n2].className.replace('_red', '') + '_red';
+                                ulListObj[n2].title = Resources.getText("alert.coworkerRequired");
+                                returnvalue = 0;
+                                mappingCount ++;
+                            }
+                        }
+                    }
+                    break;
+                } 
+            }
+            
+            // Mandatory fields must be included
+			intMandatoryEmpty = 0;
+            for (n2 = 0; n2 < ulListObj.length; n2++) {
+                if (ulListObj[n2].parentElement.attributes('limeRequired').nodeValue == 1) {
+                    if (ulListObj[n2].getElementsByTagName('li').length == 0) {
+						intMandatoryEmpty ++;
+						ulListObj[n2].className = ulListObj[n2].className.replace('_red', '') + '_red';
+						ulListObj[n2].title = Resources.getText("alert.mandatoryField");
+						returnvalue = 0;
+						nbrOfErrors ++;
+                    }
+                }   
+            }
+            
+             // Mapwarnings
+            intMapWarnings = 0;
+			for (n2 = 0; n2 < ulListObj.length; n2++) {
+                if (ulListObj[n2].parentElement.getAttribute('mapWarning') == 1) {
+                    intMapWarnings++;
+                    ulListObj[n2].className = ulListObj[n2].className.replace('_red', '') + '_red';
+					ulListObj[n2].title = Resources.getText("alert.mapWarning");
+					returnvalue = 0;
+                }   
+            }  
+            
+            // Warn if not key is selected
+            keyCount = 0;
+            for (n2 = 0; n2 < ulListObj.length; n2++) {
+                if (ulListObj[n2].getElementsByTagName('li').length > 0) {
+                    checkBoxObj = ulListObj[n2].parentElement.getElementsByTagName('input')[0];
+                    if (checkBoxObj.disabled == false) {
+                        if (checkBoxObj.checked == true){
+                            keyCount++;   
+                        }
+                    }
+                }
+            }
+            
+            if (keyCount == 0){
+               if (firstTabWithNoKeyFields < 0){
+                    firstTabWithNoKeyFields = n1;
+                    changeTab(n1);
+                    tabContainerListObj.children[n1].style.backgroundColor = '#A96B6B'
+                }
+                else{
+                    tabContainerListObj.children[n1].style.backgroundColor = '#D4A3A3'
+                }
+                if (noKeysInTabs.length > 0)
+                    noKeysInTabs = noKeysInTabs + ' ,';
+                noKeysInTabs = noKeysInTabs + containerName;
+                
+                returnvalue = 0;
+            }
+ 
+        }
+       
+        if (returnvalue == 0){
+            
+            if (intMapWarnings > 0) {
+			    strErrorMessage = strErrorMessage + Resources.getText("confirm.mappingWarnings");
+            }
+            
+            if (firstTabWithNoKeyFields > -1) {
+                if (strErrorMessage.length > 0) 
+                    strErrorMessage = strErrorMessage + '\n\n';
+                   
+                strErrorMessage = strErrorMessage + Resources.getText("confirm.noKeyFields", noKeysInTabs);
+            }
+            
+            if (intMandatoryEmpty > 0) {
+            
+                if (strErrorMessage.length > 0) 
+                    strErrorMessage = strErrorMessage + '\n\n';
+                   
+                strErrorMessage = strErrorMessage + Resources.getText("confirm.requiredFieldsNotMapped");
+            }
+            
+            if (strErrorMessage.length == 0 && nbrOfErrors > 0){
+                strErrorMessage = Resources.getText("alert.mappingErrors") + '\n\n';
+            }
+        
+            strErrorMessage = strErrorMessage + '\n\n';
+        
+            if (mappingCount == 0){
+                allowImport = confirm(strErrorMessage + Resources.getText("confirm.question") + ' ' + Resources.getText("confirm." + strFunctionCalling));
+                if (allowImport == true) 
+                    returnvalue = 1;
+            }
+            else{
+                strErrorMessage = Resources.getText("alert.mapMissing") + '\n\n' + strErrorMessage;
+                alert(strErrorMessage);
+            }
+           
+        }
+    }
+    catch (error) {
+        ErrorInfo.showError(error, "validateForm");
+        returnvalue = 0;
+    }
+    
+    return returnvalue;
+}
+
+function ResetClassColor(pObj){
+    if (pObj != null){
+        if (pObj.className != undefined){
+            pObj.className = pObj.className.replace('_red', '');
+	        pObj.title = '';
+	    }
+	}
+}
+
+    //*DRAG AND DROP*//
+	/* VARIABLES YOU COULD MODIFY */
+    var m_arrow_offsetX = -5;	                // Offset X - position of small arrow
+	var m_arrow_offsetY = 0;	                // Offset Y - position of small arrow
+
+	var m_arrow_offsetX_firefox = -6;	        // Firefox - offset X small arrow
+	var m_arrow_offsetY_firefox = -13;          // Firefox - offset Y small arrow
+
+	var m_verticalSpaceBetweenListItems = 1;	// Pixels space between one <li> and next
+											    // Same value or higher as margin bottom in CSS for #DaD_dragDropContainer ul li,#dragContent li
+											
+	
+	/* END VARIABLES YOU COULD MODIFY */
+    var m_dragDropTopContainer = false;
+	var m_dragTimer = -1;
+	var m_dragContentObj = false;
+	var m_contentToBeDragged = false;	        // Reference to dragged <li>
+	var m_contentToBeDragged_src = false;	    // Reference to parent of <li> before drag started
+	var m_contentToBeDragged_next = false; 	    // Reference to next sibling of <li> to be dragged
+	var m_destinationObj = false;	            // Reference to <UL> or <LI> where element is dropped.
+	var m_dragDropIndicator = false;	        // Reference to small arrow indicating where items will be dropped
+	var m_ulPositionArray = new Array();
+	var m_mouseoverObj = false;	                // Reference to highlighted DIV
+
+	var m_MSIE = navigator.userAgent.indexOf('MSIE')>=0?true:false;
+	var m_navigatorVersion = navigator.appVersion.replace(/.*?MSIE (\d\.\d).*/g,'$1')/1;
+
+    
+
+	function DaD_CancelEvent() {
+		return false;
+	}
+	
+	//'MLY - 2007-05-02
+	function deleteAlternativesAndResetStar(){
+	    //m_destinationObj.className = m_destinationObj.className.replace('_red', '');
+	    //m_destinationObj.title = '';
+	    ResetClassColor(m_destinationObj);
+		if (m_contentToBeDragged_src != m_destinationObj) {
+			if (m_contentToBeDragged_src.parentElement.limeType == lkFieldTypeOption || m_contentToBeDragged_src.parentElement.limeType == lkFieldTypeSet || m_contentToBeDragged_src.parentElement.limeType == lkFieldTypeLink || m_contentToBeDragged_src.parentElement.limeType == lkFieldTypeYesNo) {
+				var temp = m_contentToBeDragged_src.parentElement;
+				temp = temp.getElementsByTagName('SPAN');
+				temp[1].style.backgroundImage = 'url(about:blank)';
+
+				temp = m_contentToBeDragged_src.parentElement;
+				removeAlternativesAt(temp);
+				
+				if (temp.mapWarning != undefined) 
+				    temp.mapWarning = '0'
+			}
+		}
+	 }
+	
+	/* End dragging
+	Put <LI> into a destination or back to where it came from.
+	*/
+	function DaD_DragDropEnd(e) {
+	    var tempObj = null;
+	    var spanObj = null;
+	    var callArgument = null;
+	    var callSelectCoworker = false;
+	    var callOpenAlternatives = false;
+	    var limeType = -1;
+
+		//Stops creating listitem doubles if user just click on <LI>
+		if (m_destinationObj.id == undefined)
+			return;
+
+	    //try {
+		    if (m_dragTimer == -1)
+		        return;
+    		    
+		    if (m_dragTimer < 10) {
+			    m_dragTimer = -1;
+			    return;
+		    }
+    		
+		    m_dragTimer = -1;
+    		
+		    if (document.all)
+		        e = event;
+    		deleteAlternativesAndResetStar();
+    		//m_destinationObj.className = m_destinationObj.className.replace('_red', '');
+		    if (m_destinationObj) {
+		        if (DaD_IsImportTarget(m_destinationObj) == true) {
+		             
+		            if (m_destinationObj.tagName.toLowerCase() == 'ul')
+		                tempObj = m_destinationObj;
+		            else
+		                tempObj = m_destinationObj.parentElement;
+		            
+		            tempObj.appendChild(m_contentToBeDragged);
+		            limeType = tempObj.parentElement.attributes('limeType').nodeValue;
+            		
+            		switch (limeType)
+            		{
+            		case lkFieldTypeLink:
+			            if (m_contentToBeDragged.name == 'coworkerlink') {
+					        spanObj = tempObj.parentElement.getElementsByTagName('span')[0];
+					        spanObj.className = 'optionLink';
+					        spanObj.onclick = function() {onOpenCoworkerBox(this)};
+            			
+					        //if (m_coworkersData == null) {
+					            callSelectCoworker = true;
+					            callArgument = spanObj;
+					        //}
+					    }
+					    /* MLY 2007-05-18*/
+					    else{
+							spanObj = tempObj.parentElement.getElementsByTagName('span')[0];
+							spanObj.className = 'optionLink';
+							spanObj.onclick = function() {onOpenAlternativeBox(this)};
+	        			    
+							callOpenAlternatives = true;
+							callArgument = spanObj;
+					    }
+					    /* /MLY 2007-05-18*/
+					    break;
+					    
+			        case lkFieldTypeOption:
+			        case lkFieldTypeSet:
+			        case lkFieldTypeYesNo:
+			            spanObj = tempObj.parentElement.getElementsByTagName('span')[0];
+			            spanObj.className = 'optionLink';
+			            spanObj.onclick = function() {onOpenAlternativeBox(this)};
+        			    
+			            callOpenAlternatives = true;
+			            callArgument = spanObj;
+			            
+			            break;
+			          
+			        default:
+			            if (tempObj.getElementsByTagName('li').length == 2) {
+				            spanObj = tempObj.parentElement.getElementsByTagName('span')[0];
+				            spanObj.className = 'optionLink';
+				            spanObj.onclick = function() {openConcatenateBox(this.parentNode.parentNode)};
+				        }
+				        
+				        break;
+			        }
+			    }
+			    else {
+			        if (DaD_IsImportTarget(m_contentToBeDragged_src) == true) {
+			            tempObj = m_contentToBeDragged_src.parentElement;
+			            switch (tempObj.attributes('limeType').nodeValue)
+					    {
+					    case lkFieldTypeLink:
+					        //if (m_contentToBeDragged.name == 'coworkerlink')
+					            spanObj = tempObj.getElementsByTagName('span')[0];
+					            removeAlternativesAt(spanObj.parentElement.parentElement);
+					        break;
+					       
+					    case lkFieldTypeOption:
+					    case lkFieldTypeSet:
+					    case lkFieldTypeYesNo:
+					        spanObj = tempObj.getElementsByTagName('span')[0];
+					        removeAlternativesAt(spanObj.parentElement.parentElement);
+					        
+					        break;
+					      
+					    default:
+					        if (tempObj.getElementsByTagName('li').length < 2)
+					            spanObj = tempObj.getElementsByTagName('span')[0];
+					        
+					        break;
+					    }
+					    
+					    
+			        }
+			        if (spanObj != null) {
+				        /* MLY 2007-05-23
+				        spanObj.className = '';
+				        spanObj.onclick = '';*/
+				        setSelectionMapStar(spanObj, 0);
+					}
+			        m_contentToBeDragged.removeNode(true);
+			    }
+
+				 if( m_contentToBeDragged.name == 'freevalue'){
+					m_contentToBeDragged.firstChild.focus();
+					m_contentToBeDragged.firstChild.select();
+				}
+
+			    m_mouseoverObj.className = '';
+			    m_destinationObj = false;
+			    m_dragDropIndicator.style.display = 'none';
+			    m_contentToBeDragged = false;
+
+			    if (callArgument != null) {
+			        if (callSelectCoworker)
+			            onOpenCoworkerBox(callArgument);
+			        else if (callOpenAlternatives)
+			            onOpenAlternativeBox(callArgument);
+			    }
+            
+			    return;
+		    }
+
+		    if (m_contentToBeDragged_next) {
+			    if(m_contentToBeDragged_src.id != 'allItems' && m_contentToBeDragged_src.id != 'allCharacters')
+				    m_contentToBeDragged_src.insertBefore(m_contentToBeDragged, m_contentToBeDragged_next);
+			    e
+			        m_contentToBeDragged.removeNode(true);
+		    }
+		    else {
+			    m_contentToBeDragged_src.appendChild(m_contentToBeDragged);
+		    }
+
+		    m_contentToBeDragged = false;
+		    m_dragDropIndicator.style.display = 'none';
+		    m_mouseoverObj = false;
+	    //}
+        //catch (error) {
+        //    showError(error);
+        //}
+	}
+
+	function DaD_FillArray(array, arrayIndex, itemIndex, listItems) {
+		var notDisplayed = 0;
+		var listID = listItems[itemIndex].parentElement.id;
+		
+		array[arrayIndex] = new Array();
+		
+		if(listID != ""){
+			if(window.document.all(listID).length > 0 ){
+				if (window.document.all(listID)[0].style.display == 'none'){
+					notDisplayed = -200;
+				}
+			}
+			else{
+				if (window.document.all(listID).style.display == 'none'){
+					notDisplayed = -200;
+				}
+			}
+		}
+		
+		if (notDisplayed < 0){
+			array[arrayIndex]['left'] = notDisplayed;
+			array[arrayIndex]['top'] = notDisplayed;
+			array[arrayIndex]['width'] = notDisplayed;
+			array[arrayIndex]['height'] = notDisplayed;
+		}
+		else{
+			array[arrayIndex]['left'] = DaD_GetLeftPos(listItems[itemIndex]);
+			array[arrayIndex]['top'] = DaD_GetTopPos(listItems[itemIndex]);
+			array[arrayIndex]['width'] = listItems[itemIndex].offsetWidth;
+			array[arrayIndex]['height'] = listItems[itemIndex].clientHeight;
+		}
+		array[arrayIndex]['obj'] = listItems[itemIndex];
+	}
+	
+	function DaD_GetLeftPos(inputObj) {
+	    var returnValue = inputObj.offsetLeft;
+	  
+	    while ((inputObj = inputObj.offsetParent) != null) {
+	  	    if (inputObj.tagName != 'HTML')
+	  	        returnValue += inputObj.offsetLeft;
+	    }
+	  
+	    return returnValue;
+	}
+	
+	function DaD_GetTopPos(inputObj) {
+	    var returnValue = inputObj.offsetTop;
+	  
+	    while ((inputObj = inputObj.offsetParent) != null) {
+	  	    if (inputObj.tagName != 'HTML')
+	  	        returnValue += inputObj.offsetTop;
+	    }
+
+	    return returnValue;
+	}
+	
+	// Mouse button is pressed down on a LI
+	function DaD_InitDrag(e) {
+		if (document.all)
+		    e = event;
+		    
+		//MLY - 2007-04-26 --> för att förhindra att man kan plocka upp flera objekt samtidigt
+		if (m_contentToBeDragged == false){
+			var st = Math.max(document.body.scrollTop, window.document.all(m_activeTab).scrollTop);
+			var sl = Math.max(document.body.scrollLeft, window.document.all(m_activeTab).scrollLeft);
+
+			m_dragTimer = 0;
+			m_dragContentObj.style.left = e.clientX + 'px';
+			m_dragContentObj.style.top = e.clientY + 'px';
+		
+			if (this.parentNode.id == 'allItems' || this.parentNode.id == 'allCharacters') {
+				if (m_dragContentObj.innerHTML.length == 0){
+					var element = this.cloneNode(true);	
+
+					element.onmousedown = DaD_InitDrag;
+					element.onselectstart = DaD_CancelEvent;
+				
+					if (m_MSIE && m_navigatorVersion / 1 < 6)
+						element.style.cursor='hand';
+				}
+			}
+			else{
+				var element = this;
+				
+				if(this.parentElement.getElementsByTagName('li').length == 2){
+				    spanObj = this.parentElement.parentElement.getElementsByTagName('span')[0];
+				    spanObj.className = '';
+				    spanObj.onclick = '';
+				}
+            }
+             
+            
+             
+
+			m_contentToBeDragged = element;
+			m_contentToBeDragged_src = this.parentNode;
+			
+			//MLY - changed 2007-05-02. 
+			//if (m_contentToBeDragged_src.name == lkFieldTypeOption || m_contentToBeDragged_src.name == lkFieldTypeSet) {
+			/*if (m_contentToBeDragged_src.parentElement.limeType == lkFieldTypeOption || m_contentToBeDragged_src.parentElement.limeType == lkFieldTypeSet) {
+				var temp = m_contentToBeDragged_src.parentElement;
+				temp = temp.getElementsByTagName('SPAN');
+				temp[1].style.backgroundImage = 'url(about:blank)';
+
+				temp = m_contentToBeDragged_src.parentElement;
+				//temp = temp.getElementsByTagName('SPAN');
+				
+				removeAlternativesAt(temp);
+			}*/
+			
+			m_contentToBeDragged_next = false;
+			
+			if (this.nextSibling) {
+				m_contentToBeDragged_next = this.nextSibling;
+				
+				if (!this.tagName && m_contentToBeDragged_next.nextSibling)
+					m_contentToBeDragged_next = m_contentToBeDragged_next.nextSibling;
+			}
+			
+			DaD_TimerDrag();
+			m_ended = false;
+			
+			return false;
+		}
+	}
+
+    function DaD_InitDragDropScript(boxContainer) {
+	    var listItems = null;
+	    var dragAndDropFields = null;
+	    var index = 0;
+	    var count = 0;
+	    var itemHeight = false;
+	   
+	    try {
+		    m_dragContentObj = document.getElementById('dragContent');
+		    m_dragDropIndicator = document.getElementById('dragDropIndicator');
+		    m_dragDropTopContainer = document.getElementById('DaD_dragDropContainer');
+		    document.documentElement.onselectstart = DaD_CancelEvent;
+    		
+    		// Get array containing all list items <LI>
+		    listItems = m_dragDropTopContainer.getElementsByTagName('LI');	
+    		
+		    for (index = 0; index < listItems.length; index++) {
+			    listItems[index].onmousedown = DaD_InitDrag;
+			    listItems[index].onselectstart = DaD_CancelEvent;
+    			
+			    if (!itemHeight)
+			        itemHeight = listItems[index].offsetHeight;
+    			    
+			    if (m_MSIE && m_navigatorVersion / 1 < 6)
+				    listItems[index].style.cursor = 'hand';
+		    }
+		    
+		    document.documentElement.onmousemove = DaD_MoveDragContent;	// Mouse move event - moving draggable div
+		    document.documentElement.onmouseup = DaD_DragDropEnd;	// Mouse move event - moving draggable div
+		    
+		    m_ulPositionArray = new Array();
+		
+		    dragAndDropFields = document.getElementById('dragAndDropFields');
+		    listItems = dragAndDropFields.getElementsByTagName('UL');
+		    
+		    for (index = 0; index < listItems.length; index++, count++) {
+		        DaD_FillArray(m_ulPositionArray, count, index, listItems);
+		    }
+		    
+		    listItems = boxContainer.getElementsByTagName('UL');
+		    
+		    for (index = 0; index < listItems.length; index++, count++) {
+		        DaD_FillArray(m_ulPositionArray, count, index, listItems);
+		    }
+	    }
+	    catch (error) {
+	        ErrorInfo.throwAgain(error, "DaD_InitDragDropScript");
+	    }
+	}
+	
+	// Find out if obj represents an import source
+	function DaD_IsImportSource(obj) {
+	    if (obj.tagName.toLowerCase() == 'ul') {
+	        if (obj.id == 'allItems' || obj.id == 'allCharacters')
+	            return true;
+	    }
+	    else if (obj.parentElement.tagName.toLowerCase() == 'li') {
+	        if (obj.parentElement.id == 'allItems' || obj.parentElement.id == 'allCharacters')
+	            return true;
+	    }
+	    
+	    return false;
+	}
+	
+	// Find out if obj represents an import target
+	function DaD_IsImportTarget(obj) {
+		blnSeparator = window.document.all(m_activeTab).separatoradded;
+	
+	    
+	
+	    if (obj.tagName.toLowerCase() == 'ul') {
+			if (obj.parentElement.parentElement.id == 'mainContainer')
+				return true;
+	    }
+	    else if (obj.parentElement.tagName.toLowerCase() == 'ul') {
+			if (obj.parentElement.parentElement.parentElement.id == 'mainContainer')
+			    if (obj.parentElement.getElementsByTagName('LI').length > 2)
+				    return true;
+	    }
+	    
+	    return false;
+	}
+	
+	function DaD_MoveDragContent(e)	{
+		if (m_dragTimer < 10) {
+			if (m_contentToBeDragged) {
+			    if (m_contentToBeDragged_next)
+					m_contentToBeDragged_src.insertBefore(m_contentToBeDragged, m_contentToBeDragged_next);
+				else
+					m_contentToBeDragged_src.appendChild(m_contentToBeDragged);
+			}
+			
+			return;
+		}
+		
+		if (document.all)
+		    e = event;
+		  
+		var st = Math.max(document.body.scrollTop, window.document.all(m_activeTab).scrollTop);
+		var sl = Math.max(document.body.scrollLeft, window.document.all(m_activeTab).scrollLeft);
+
+		var x = e.clientX + sl;
+		var y = e.clientY + st;
+
+		m_dragContentObj.style.left = e.clientX  + 'px';
+		m_dragContentObj.style.top = e.clientY + 'px';
+
+		if (m_mouseoverObj)
+		    m_mouseoverObj.className = '';
+		    
+		m_destinationObj = false;
+		m_dragDropIndicator.style.display = 'none';
+		
+		var width = m_dragContentObj.offsetWidth;
+		var height = m_dragContentObj.offsetHeight;
+		var blnFreevalueUsed = false;
+
+		var tmpOffsetX = m_arrow_offsetX;
+		var tmpOffsetY = m_arrow_offsetY;
+		
+		if (!document.all) {
+			tmpOffsetX = m_arrow_offsetX_firefox;
+			tmpOffsetY = m_arrow_offsetY_firefox;
+		}
+
+
+        for (var no = 0; no < m_ulPositionArray.length; no++) {
+			var ulObj = m_ulPositionArray[no]['obj'];			
+			 
+			var ul_leftPos = m_ulPositionArray[no]['left'];
+			var ul_topPos = m_ulPositionArray[no]['top'];
+			var ul_height = m_ulPositionArray[no]['height'];
+			var ul_width = m_ulPositionArray[no]['width'];
+
+			if ((x + width) > ul_leftPos && x < (ul_leftPos + ul_width) && (y + height)> ul_topPos && y < (ul_topPos + ul_height)) {
+				var noExisting = ulObj.getElementsByTagName('LI').length;
+				
+				if (noExisting > 0 && ulObj.getElementsByTagName('LI')[0].name == 'freevalue')
+					blnFreevalueUsed = true;
+				
+				if (ulObj.id == 'allItems' || ulObj.id == 'allCharacters'){
+					noExisting = 0;
+					var maxLength = 1;
+				}
+				else{
+				    var limeType = ulObj.parentElement.attributes('limeType').nodeValue;
+				
+					if (limeType == lkFieldTypeOption || limeType == lkFieldTypeSet || limeType == lkFieldTypeLink || limeType == lkFieldTypeYesNo){
+						/*MLY 2007-05-18*/
+						/*if (m_contentToBeDragged.name != 'companylink' && m_contentToBeDragged.name != 'coworkerlink' && limeType == lkFieldTypeLink)
+							var maxLength = 0;*/
+						/*else if (limeType !=  lkFieldTypeLink && m_contentToBeDragged.name == 'companylink')
+							var maxLength = 0;*/
+						/*else*/ 
+					
+					    /*if (limeType != lkFieldTypeLink  && m_contentToBeDragged.name == 'coworkerlink')
+							var maxLength = 0;
+						else*/ 
+						
+						if(ulObj.className != 'linkcoworker' && m_contentToBeDragged.name == 'coworkerlink') 
+						    var maxLength = 0;
+						else if (m_contentToBeDragged.name == 'character' || m_contentToBeDragged.name == 'freevalue')
+						    var maxLength = 0;
+						else
+							var maxLength = 1;
+					}
+					else
+						//if (m_contentToBeDragged.name == 'companylink' || m_contentToBeDragged.name == 'coworkerlink')
+						if (m_contentToBeDragged.name == 'coworkerlink')
+							var maxLength = 0;
+						/*MLY 2007-04-27*/
+						/*else if (m_contentToBeDragged.name == 'freevalue')
+							var maxLength = 1;
+						else if (blnFreevalueUsed) 
+							var maxLength = 0;*/
+						else
+							var maxLength = 100;
+				}
+
+				if (noExisting < maxLength) {
+					m_dragDropIndicator.style.left = ul_leftPos + tmpOffsetX + 'px';
+					
+					var subLi = m_ulPositionArray[no]['obj'].getElementsByTagName('LI');
+					
+					for (var liIndex = 0; liIndex < subLi.length; liIndex++) {
+						var tmpTop = DaD_GetTopPos(subLi[liIndex]);
+						
+						if (y < tmpTop) {
+							m_destinationObj = subLi[liIndex];
+							m_dragDropIndicator.style.top = tmpTop + tmpOffsetY - Math.round(m_dragDropIndicator.clientHeight/2) + 'px';
+							m_dragDropIndicator.style.display = 'block';
+							break;
+						}
+					}
+					
+					if (subLi.length > 0 && m_dragDropIndicator.style.display == 'none'){
+						m_dragDropIndicator.style.top = DaD_GetTopPos(subLi[subLi.length-1]) + subLi[subLi.length-1].offsetHeight + tmpOffsetY + 'px';
+						m_dragDropIndicator.style.display = 'block';
+					}
+					if (subLi.length == 0) {
+						m_dragDropIndicator.style.top = ul_topPos + m_arrow_offsetY + 'px'
+						m_dragDropIndicator.style.display = 'block';
+					}
+
+					if (!m_destinationObj)
+					    m_destinationObj = m_ulPositionArray[no]['obj'];
+
+					m_mouseoverObj = m_ulPositionArray[no]['obj'].parentNode;
+					m_mouseoverObj.className = 'mouseover';
+					
+					return;
+				}
+			}
+		}
+	}
+
+	/*
+	Preparing data to be saved
+	*/
+	function DaD_SaveDragDropNodes() {
+		var saveString = '';
+		var uls = m_dragDropTopContainer.getElementsByTagName('UL');
+		
+		// Looping through all <ul>
+		for (var no = 0; no < uls.length; no++) {
+			var lis = uls[no].getElementsByTagName('LI');
+			
+			for(var no2 = 0; no2 < lis.length; no2++) {
+				if (saveString.length > 0)
+				    saveString = saveString + ';';
+				    
+				saveString = saveString + uls[no].id + '|' + lis[no2].id;
+			}
+		}
+
+		document.getElementById('saveContent').innerHTML = '<h1>Ready to save these nodes:</h1> ' + saveString.replace(/;/g,';<br>') + '<p>Format: ID of ul |(pipe) ID of li;(semicolon)</p><p>You can put these values into a hidden form fields, post it to the server and explode the submitted value there</p>';
+	}
+	
+	function DaD_TimerDrag() {
+		if (m_dragTimer >= 0 && m_dragTimer < 10) {
+			m_dragTimer++;
+			setTimeout('DaD_TimerDrag()', 10);
+			
+			return;
+		}
+		if (m_dragTimer == 10) {
+			m_dragContentObj.style.display = 'block';
+			m_dragContentObj.appendChild(m_contentToBeDragged);
+		}
+	}
+
+// ----------------------------------------------------------------------------
+//  Functions to implement support for xml based import. Will also add support
+//  to exchange information between the web page and the vba module via xml.
+// ----------------------------------------------------------------------------
+
+</script>
+<script language="vbscript">
+
+    Sub OnCancel()
+	    Call window.close()
+    End Sub
+    
+    Sub OnImport()
+        Dim pXmlImport
+        Dim pXmlDocument
+        Dim sXmlData
+	    
+	    dim strMessagesArray
+	    dim strMessage
+	    dim strStart
+
+        If validateForm("import") = 0 Then
+            Exit Sub
+        End If
+
+		Set pXmlDocument = createXmlDocument("<?xml version=""1.0"" encoding=""UTF-16"" ?><import fileformat=""" & m_strFileFormat & """/>")
+		
+		If getMappedValues(pXmlDocument) Then
+			Set pXmlImport = TextFileImport_GetXmlImportInstance(getApplication())
+    		
+			If pXmlImport.RunImport(pXmlDocument) Then
+				alert (Resources.getText("alert.importDone"))
+				'alert("Importen har genomförts. Se information i den aktiva tilläggsfliken.")
+				window.close()
+			End if
+        End If
+        
+    End Sub
+
+    Function OnLoadConfiguration()
+        Dim pXmlImport
+        Dim pXmlDocument
+        Dim sXmlData
+        
+        Set pXmlImport = TextFileImport_GetXmlImportInstance(getApplication())
+        sXmlData = pXmlImport.LoadConfiguration()
+        
+        If Len(sXmlData) > 0 Then
+            Set pXmlDocument = createXmlDocument(sXmlData)
+            Call loadConfiguration(pXmlDocument)
+        End If
+    End Function
+    
+    Function CheckAlternatives(strXML, strTableName, strFieldName, strColumnName)
+		Dim blnChangedAltenatives
+		Set pXmlImport = TextFileImport_GetXmlImportInstance(getApplication())
+        CheckAlternatives = pXmlImport.CheckAlternatives(CStr(strXML), CStr(strTableName), CStr(strFieldName), CStr(strColumnName), CStr(m_strFileFormat),  blnChangedAltenatives)
+        
+		m_blnChangedAltenatives = blnChangedAltenatives
+    End Function
+    
+    Function onOpenAlternativeBox(spanObj)
+        Dim pBox
+	    Dim sAlternativesXml
+    	
+	    Set pBox = spanObj.parentElement.parentElement
+	    
+		sAlternativesXml = getAlternativesXml(pBox, 1)
+    	
+    	If Len(sAlternativesXml) > 0 Then
+			Call openAlternativeWindow(sAlternativesXml, pBox)
+'			Call spanObj.setAttribute("mapped", "true")
+    	End If
+    End Function
+
+    Sub onPageInitialize()
+        Dim pXmlImport
+        Dim pXmlDocument
+        Dim bSucceeded
+    	
+    	SetDocumentHeights()
+    	
+    	Resources.initializeResources "textfileimport", "window.dialogArguments.external;"
+    	ErrorInfo.init "window.dialogArguments.external;"
+
+    	m_strFileFormat = window.dialogArguments.TextFileImport.getFileDelimiter()
+		m_strSeparator = window.dialogArguments.TextFileImport.getSeparator()
+	    bSucceeded = True
+    	
+    	m_coworkerClass = getCoworkerClass()
+    	If Len(m_coworkerClass) = 0 Then
+    		window.document.all("sysfieldcoworker").style.display = "none"
+    	End if
+    	
+	    Set pXmlImport = TextFileImport_GetXmlImportInstance(getApplication())
+        
+        If pXmlImport Is Nothing Then
+            MsgBox "Improve this message caused by the fact that we have no import instance..."
+            bSucceeded = False
+        End If
+        
+        If bSucceeded = True Then
+            Set pXmlDocument = pXmlImport.GetSettings()
+            
+            If pXmlDocument Is Nothing Then
+                MsgBox "Improve this message caused by the fact that we failed to get the settings..."
+                bSucceeded = False
+            End IF
+        End If
+        
+        If bSucceeded = True Then
+            bSucceeded = DHtml_CreateTabsAndboxes(pXmlDocument)
+        End IF
+              
+        If bSucceeded = False Then
+		    Call window.close()
+	    End If
+    End Sub
+
+    Sub onPageTerminate()        
+        Dim pTabContainerList
+        Dim pTab
+    
+        Set pTabContainerList = document.getElementById("tabcontainer")
+        
+        For Each pTab In pTabContainerList.children
+            pTab.onclick = Null
+        Next  
+    End Sub
+
+    Function OnSaveConfiguration()
+        Dim pXmlImport
+        Dim pXmlDocument
+        
+        Set pXmlDocument = createXmlDocument("<?xml version=""1.0"" ?><config/>")
+        
+        If saveConfiguration(pXmlDocument) Then
+            Set pXmlImport = TextFileImport_GetXmlImportInstance(getApplication())
+            Call pXmlImport.SaveConfiguration(pXmlDocument)
+        End If
+    End Function
+    
+    Function OnSaveOverview()
+        Dim pXmlImport
+        Dim pXmlDocument
+        Dim strFilePath 
+        
+        Set pXmlDocument = createXmlDocument("<?xml version=""1.0"" ?><config/>")
+        
+        Set pXmlImport = TextFileImport_GetXmlImportInstance(getApplication())
+        pXmlImport.SetMousePointer(11)
+        If saveOverview(pXmlDocument) Then
+            strFilePath = pXmlImport.SaveOverview(pXmlDocument)
+            if Len(strFilePath) > 0 Then
+				window.open(strFilePath)
+            End If
+		Else
+			alert(Resources.getText("alert.overviewNotSaved"))
+        End If
+        
+        pXmlImport.SetMousePointer(0)
+    End Function
+    </script>
+</html>

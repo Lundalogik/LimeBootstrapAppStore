@@ -1,0 +1,12 @@
+ <div class="creditinfo" data-bind="css: ratingColor()">
+	  	<!-- ko if: ratingValue() && ratingText()-->
+	    <span class="rating-value" data-bind="text: ratingValue()"></span>
+	    <div class="rating-text" data-bind="text: ratingText()"></div>
+		<!-- /ko -->
+		<!-- ko if: !ratingValue()-->
+			
+			<span class="rating-value" data-bind="icon: 'fa-download'"> </span>
+			
+		    <div class="rating-text" data-bind="click:getRating">Hämta kreditinfo</div>
+		<!-- /ko -->
+</div>

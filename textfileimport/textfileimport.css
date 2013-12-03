@@ -1,0 +1,87 @@
+
+
+div#TextFileImport{	/* Left column "Fields in file"*/	
+	padding-left:10px;
+	padding-right:10px;
+	margin-top: 20px;
+	/* CSS HACK */
+	width: 220px;	/* IE 5.x */
+	width/* */:/**/200px;	/* Other browsers */
+	width: /**/200px;
+}
+
+div#TextFileImport div ul{	/* Left column <ul> */
+	margin-left:2px;	/* Space at the left of list - the arrow will be positioned there */
+}
+
+
+#TextFileImport div p{	/* Heading above left column */
+	margin: 0px;
+	padding:4px;
+	background: #EEEEEE;
+	font-size: 10px;
+	font-weight:bold;
+	color:#000000;	
+	margin-bottom:5px;
+	border-bottom: solid 1px #999999;
+}
+
+#TextFileImport ul{	
+	height: 105px;
+	overflow: hidden;
+	
+}
+
+div#TextFileImport div{
+	border:1px solid #999;		
+	background: #ffffff;
+}
+
+div#TextFileImport div li
+{
+	margin-bottom: 8px;
+	margin-left: 2px;
+}
+
+div#TextFileImport div li span{
+	width: 100px;
+	vertical-align:top;
+}
+
+
+.normaltext
+{
+	font-family: Verdana;
+	font-size: 10px;
+	color: #000000;
+}
+
+.checkbox
+{
+	width:12px;
+	height:12px;
+	margin-right: 5px;
+}
+
+.usebutton
+{
+	width:70px;
+	font-family: Verdana;
+	font-size: 10px;
+	vertical-align: top;
+	margin-left: 5px;
+	height: 18px;
+	BORDER-RIGHT: outset 1pt;
+    BORDER-TOP: outset 1pt;
+    BORDER-LEFT: outset 1pt;
+    CURSOR: hand;
+    COLOR: white;
+    BORDER-BOTTOM: outset 1pt;
+    BACKGROUND-COLOR: gray;
+    TEXT-ALIGN: center;
+}
+
+
+
+
+

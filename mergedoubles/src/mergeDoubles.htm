@@ -1,0 +1,1927 @@
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+		<title>Sammanslagning dubbletter</title>
+		<link href="styles.css" rel="stylesheet" type="text/css" />
+		<script language="javascript" src="../../../system/js/appInvoker/resources.js"></script>
+		<script language="javascript" src="../../../system/js/appInvoker/Lime.js"></script>
+		<script language="javascript" src="../../../system/js/appInvoker/lde.js"></script>
+		<script language="javascript" src="../mergedoublescustomizer.js"></script>
+		<script language="javascript" src="mergerecords.js"></script>
+	</head>
+	
+	<body onload="initPage();"  onunload="closePage()" style="background-repeat:no-repeat;" scroll="no" bgcolor="#ECE9D8" onclick="hideMenu()">
+		<div class="IEMenu" id="menuDiv" style="width: 180px; height: 19; z-index:999; display:none">
+			<table width="180px" cellpadding="1" cellspacing="0" border="0" ID="divTable">
+				<tr><td height="2px" colspan="3"/></tr>
+				<tr>
+					<td width="2px" height="18px"/>
+					<td resid="page.optConcat" onclick="consolidate()" class="menuText" onmouseover="switchClass(this)" onmouseout="switchClass(this)" width="176px">Slå samman informationen</td>
+					<td width="2px"/>
+				</tr>
+				<tr>
+					<td width="2px" height="18px"/>
+					<td resid="page.optOverwrite" onclick="overwrite()" class="menuText" onmouseover="switchClass(this)" onmouseout="switchClass(this)" width="176px">Skriv över</td>
+					<td width="2px"/>
+				</tr>
+				<tr><td height="1px" colspan="3"><HR/></TD></tr>
+				<tr>
+					<td width="2px" height="18px"/>
+					<td resid="page.optCancel" onclick="cancel()" class="menuText" onmouseover="switchClass(this)" onmouseout="switchClass(this)" width="176px">Avbryt</td>
+					<td width="2px"/>
+				</tr>
+				<tr><td height="2px" colspan="3"/></tr>
+			</table>
+		</div>
+		
+		<div class="SetMenu" id="menuSetDiv" style="width: 150px; height: 19; z-index:999; display:none">
+			<table width="100%" cellpadding="1" cellspacing="0" border="0" ID="menuSetTable">
+				<tr><td class="menuText"></td></tr>
+			</table>
+		</div>
+	
+		<div style="width: 100%; z-index:999; height: 114px" id='headerDiv'>
+			<table cellspacing="0" cellpadding="0" border="0" width="100%" style="border-bottom: 1px dotted #FCFCF9">
+				<tr>
+				    <td width="100%" height="14px"/ colspan="4"></tr>
+				<tr>
+					<td width="90px" align="center">
+						<button id="btn_saveOrLoad" class="btn" style="width:80px" onclick="saveOrLoad()" onmouseout="this.className='btn'" onmouseover="this.className='btnActive'"></button>
+					</td>
+					<td width="190px" align="right">
+					    <button resid="buttons.moveWhereEmpty" id="btn_moveWhereEmpty" class="btn" onclick="moveWhereEmpty()" title="buttons.moveWhereEmptyTitle" onmouseout="this.className='btn'" onmouseover="this.className='btnActive'">Fyll tomma i Behåll</button>
+					    
+			        </td>
+					<td width="190px" align="left">
+						&nbsp;
+						<button resid="buttons.moveAllRelations" id="btn_moveAllRelations" class="btn" onclick="moveAllRelations()" title="buttons.moveAllRelationsTitle" onmouseout="this.className='btn'" onmouseover="this.className='btnActive'">Flytta alla relationer</button>
+				    </td>
+				    <td width="200px" align="right">
+						<button resid="buttons.cancel" id="btn_cancel" class="btn" style="width:80px" onclick="window.close();" onmouseout="this.className='btn'" onmouseover="this.className='btnActive'">Avbryt</button>
+						&nbsp;&nbsp;
+						<button resid="buttons.help" id="btn_help" class="btn" style="width:80px" onclick="help();" onmouseout="this.className='btn'" onmouseover="this.className='btnActive'">Hjälp</button>
+					</td>
+				</tr>
+				<tr><td height="10px"/></tr>
+			</table>
+			<div id="spandescription" style="z-index:999; border-bottom: 1px solid #FCFCF9"></div>
+		</div>
+	
+		<div id="pageDiv" style="width: 100%; height: 553px; overflow:auto; z-index:999;" class="bread">&nbsp;&nbsp;&nbsp;&nbsp;<span resid="page.loadPageText" class="bread">Laddar sida</span></div>
+	</body>
+	
+<script language="jscript">
+
+ /*
+    Member variables
+ */
+    var m_pClass = null;
+    var m_strFields = "";
+
+    // A MergeRecords object holding all MergeRecord objects involved in the merge
+    var m_pMergeRecords = null;
+    
+    // An array holding the two MergeRecord object currently edited
+    var m_pCurrentRecords = null;
+    
+    /*
+        Den variablen håller det id som returneras av MergeDoublesCustomizer.getTargetRecordId och
+        representerar den post som sammanslagningen ska ske till.
+     */
+    var m_nIdTargetRecord = 0;
+    
+    
+    var m_nMainSide = 0;
+    var m_nSubSide = 1;
+    
+    var m_strFieldToConsolidate = "";
+    var intLoadedObjects = 2;
+    var intMaxRecord = 5;
+    var gDeleteSlavesPool = getApplication().CreateObject("LDE.Pool"); 
+    var gIntNumberOfSelectedRecords = "";
+    var gfinallyRecordID = "";
+    var intCounter = 2;
+    var intChanges = 0;
+    var strSeparatorNames = "";
+
+function closePage() {
+	gDeleteSlavesPool = null;
+	m_nIdTargetRecord = 0;	
+}
+
+/*Hämtar Lime applikation från parentsida*/
+function getApplication() {
+    return window.dialogArguments.Invoker.Application();
+}
+
+function help() {
+	window.showModalDialog ("help.htm", self, "dialogHeight:500px; dialogWidth: 500px; edge:sunken; help:no;resizeable:no;scroll:auto;status:no;")
+}
+
+/*Slår samman ett textvärde med ett annat*/
+function consolidate() {
+	m_pCurrentRecords[m_nMainSide].Record.Value(m_strFieldToConsolidate) = m_pCurrentRecords[m_nSubSide].Record.Value(m_strFieldToConsolidate);
+	
+	window.document.all("menuDiv").releaseCapture();
+	window.document.all("menuDiv").style.display="none";
+	
+	if (window.document.all("txt" + m_nMainSide + "_" + m_strFieldToConsolidate).tagName.toLowerCase() == "div") {
+		window.document.all("txt" + m_nMainSide + "_" + m_strFieldToConsolidate).innerHTML = window.document.all("txt" + m_nMainSide + "_" + m_strFieldToConsolidate).innerHTML + " " + window.document.all("txt" + m_nSubSide + "_" + m_strFieldToConsolidate).innerHTML;
+		window.document.all("txt" + m_nSubSide + "_" + m_strFieldToConsolidate).innerHTML = "";
+	}
+	else {
+		window.document.all("txt" + m_nMainSide + "_" + m_strFieldToConsolidate).value = window.document.all("txt" + m_nMainSide + "_" + m_strFieldToConsolidate).value + " " + window.document.all("txt" + m_nSubSide + "_" + m_strFieldToConsolidate).value;
+		window.document.all("txt" + m_nSubSide + "_" + m_strFieldToConsolidate).value = "";
+	}
+	
+	intChanges ++;
+}
+
+/*Skriver över ett textvärde med ett annat*/
+function overwrite() {
+	m_pCurrentRecords[m_nMainSide].Record.Value(m_strFieldToConsolidate) = m_pCurrentRecords[m_nSubSide].Record.Value(m_strFieldToConsolidate);
+	
+	window.document.all("menuDiv").releaseCapture();
+	window.document.all("menuDiv").style.display="none";
+	
+	if (window.document.all("txt" + m_nMainSide + "_" + m_strFieldToConsolidate).tagName.toLowerCase() == "div") {
+		window.document.all("txt" + m_nMainSide + "_" + m_strFieldToConsolidate).innerHTML = window.document.all("txt" + m_nSubSide + "_" + m_strFieldToConsolidate).innerHTML;
+		window.document.all("txt" + m_nSubSide + "_" + m_strFieldToConsolidate).innerHTML = "";
+	}
+	else {
+		window.document.all("txt" + m_nMainSide + "_" + m_strFieldToConsolidate).value = window.document.all("txt" + m_nSubSide + "_" + m_strFieldToConsolidate).value;
+		window.document.all("txt" + m_nSubSide + "_" + m_strFieldToConsolidate).value = "";
+	}
+	
+	intChanges ++;
+}
+
+function cancel() {
+	window.document.all("menuDiv").releaseCapture();
+	window.document.all("menuDiv").style.display="none";
+}
+
+/*Gömmer dropdown menyer*/
+function hideMenu() {
+	if (window.document.all("menuDiv").style.display != "none") {
+		window.document.all("menuDiv").releaseCapture();
+		window.document.all("menuDiv").style.display="none";
+	}
+	
+	var obj = window.document.getElementsByTagName("div");
+	
+	for (var i = 0; i < obj.length; i++) {
+		if (obj(i).name == "menu") {
+			if (obj(i).style.display != "none") {
+				obj(i).releaseCapture();
+				obj(i).style.display="none";
+			}
+		}
+	}
+}
+
+/*Initierar sidan*/
+function initPage() {
+	var pApplication = getApplication();
+	var nSelCount = 0;
+
+	pApplication.MousePointer = 11;
+	
+	Resources.initializeResources("mergedoubles", "window.dialogArguments.Invoker.Application();");
+	
+	if (Resources.getIniString("application", "hidemoverelations", "0") == "1")
+	    document.getElementById("btn_moveAllRelations").style.display = "none";
+	    
+	if (Resources.getIniString("application", "hidefillempty", "0") == "1")
+	    document.getElementById("btn_moveWhereEmpty").style.display = "none";
+	
+	// Set return value to null
+	window.returnValue = null;
+	
+	strSeparatorNames = "¤";
+
+	if (pApplication.ActiveExplorer.Selection.Count > 1){
+        getSelectedRecords();	
+       
+        m_pCurrentRecords = new Array(2);
+        m_pCurrentRecords[0] = m_pMergeRecords.Item(0);
+        m_pCurrentRecords[1] = m_pMergeRecords.Item(1);
+		
+		gIntNumberOfSelectedRecords = m_pMergeRecords.Count;
+		
+		createPage(m_pMergeRecords.Item(0));
+		
+		fillValues("firstFill");
+	}
+	
+	if (m_pMergeRecords.Count > 2)
+		window.document.all("span_notDouble1").style.display = "block";
+		
+	pApplication.MousePointer = 0
+}
+
+/*Skapar ett huvud på sidan*/
+function createHeader() {
+	var strHeaderTable = "<TABLE width='100%' cellspacing='1px' cellpadding='0' border='0' class='bread'>";
+	strHeaderTable += "<tr>";
+	strHeaderTable += "<td width='273px'/>";
+	strHeaderTable += "<td width='89px'/>"
+	strHeaderTable += "<td width='87px'/>"
+	strHeaderTable += "<td width='20px'/>";
+	strHeaderTable += "<td width='89px'/>"
+	strHeaderTable += "<td width='*'/>";
+	strHeaderTable += "</tr>";
+	
+	strHeaderTable += "<tr>";
+	strHeaderTable += "<td></td>";
+	strHeaderTable += "<td colspan='2'><span class='title' id='lbl0_description'>1 - Description</span></td>"
+	strHeaderTable += "<td></td>";
+	strHeaderTable += "<td colspan='2'><span class='title' id='lbl1_description'>2 - Description</span></td>";
+	strHeaderTable += "</tr>";
+	
+	strHeaderTable += "<tr>";
+	strHeaderTable += "<td></td>";
+	strHeaderTable += "<td>"
+	
+	// Add radio button to set left side as target but disable if target id is not 0
+	if (m_nIdTargetRecord > 0)
+	    strHeaderTable += "<input onclick='changeArrow()' type='radio' id='pickMe1' name='pickMe' checked='true' disabled/>" + Resources.getText("page.optKeep") + "</td>";
+    else
+	    strHeaderTable += "<input onclick='changeArrow()' type='radio' id='pickMe1' name='pickMe' checked='true'/>" + Resources.getText("page.optKeep") + "</td>";
+	    
+	strHeaderTable += "<td>"
+	strHeaderTable += "<span style='display:none' id='span_notDouble0'><input onclick='notDouble(this, 0)' type='checkbox' id='notDouble0'/>" + Resources.getText("page.optNotDoublet") + "</td></span>";
+	strHeaderTable += "<td></td>";
+	strHeaderTable += "<td>";
+	
+	// Add radio button to set right side as target but disable if target id is not 0
+	if (m_nIdTargetRecord > 0)
+	    strHeaderTable += "<input onclick='changeArrow()' type='radio' id='pickMe2' name='pickMe' disabled/>" + Resources.getText("page.optKeep");
+	else
+	    strHeaderTable += "<input onclick='changeArrow()' type='radio' id='pickMe2' name='pickMe'/>" + Resources.getText("page.optKeep");
+	
+	strHeaderTable += "</td><td>";
+	strHeaderTable += "<span style='display:none' id='span_notDouble1'><input onclick='notDouble(this, 1)' type='checkbox' id='notDouble1'/>" + Resources.getText("page.optNotDoublet") + "</td></span>";
+	strHeaderTable += "</tr>";
+	
+	strHeaderTable += "<td height='30px'/>";
+	strHeaderTable += "<td colspan='2' id='txt_title0' class='recordTitle' vAlign='bottom'>" + Resources.getText("page.keep") + "</td>";
+	strHeaderTable += "<td/>";
+	strHeaderTable += "<td colspan='2' id='txt_title1' class='recordTitle' vAlign='bottom'>" + Resources.getText("page.doublet") + "</td>"
+	strHeaderTable += "</tr>";
+	strHeaderTable += "</table>";
+
+	window.document.all("spandescription").innerHTML = strHeaderTable;
+}
+
+/*Sätter rätt namn på knappen*/
+function setButtonName() {
+	if (intLoadedObjects == gIntNumberOfSelectedRecords)
+		window.document.all("btn_saveOrLoad").innerHTML = Resources.getText("buttons.finish");
+	else
+		window.document.all("btn_saveOrLoad").innerHTML = Resources.getText("buttons.next");
+}
+
+function notDouble(obj, intNumber) {
+	if (window.document.all("pickMe" + intNumber).checked == true){
+		alert(Resources.getText("alert.invalidSelection"));
+		obj.checked = false;
+	}
+}
+
+function saveMultiLink(fieldName) {
+	getApplication().MousePointer = 13
+	m_pCurrentRecords[m_nMainSide].Link(fieldName, m_pCurrentRecords[m_nSubSide]);
+	getApplication().MousePointer = 0
+}
+
+/*Tar bort de poster som är dubbletter. */
+function deleteSlaveRecords() {
+    var Application = getApplication();
+    var pField = null;
+    var pRecords = null; //Application.CreateObject("LDE.Records");
+    var nIndex = 0;
+	var bDelete = true;
+
+	// Kolla om inactivate är satt och att det finns ett
+	// fält med etiketten Inaktiv
+	if (Resources.getIniString("application", "inactivate", "0") == "1") {
+	    pField = getClass().Fields.Lookup(lkFieldLabelInactive, lkLookupFieldByLabel);
+	    
+	    if (pField != null && pField.Type == lkFieldTypeYesNo && (pField.Access & lkAccessWrite) != 0) {
+	        bDelete = false;
+	    
+	        pRecords = Application.CreateObject("LDE.Records");
+	        pRecords.Open(getClass(), gDeleteSlavesPool, pField.Name);
+	     
+	        for (nIndex = 1; nIndex <= pRecords.Count; nIndex++) {
+	            pRecords.Item(nIndex).Value(pField.Name) = 1;
+	        } 
+	        
+	        pRecords.Update();
+        }
+	}
+	
+	if (bDelete) {
+	    pRecords = Application.CreateObject("LDE.Records");
+	    pRecords.Open(getClass(), gDeleteSlavesPool);
+	    pRecords.Delete(gDeleteSlavesPool);
+	    pRecords.Update();
+    }
+}
+
+/*Kontrollerar om en ny post ska laddas in eller som sammanslagningen ska slutföras. */
+function saveOrLoad() {
+    var pApplication = getApplication();
+	var saveChanges = true;
+
+	if (window.document.all("btn_saveOrLoad").innerHTML == Resources.getText("buttons.finish")) {
+		if (intChanges == 0)
+			saveChanges = (confirm(Resources.getText("confirm.noChanges")));
+	
+		if (saveChanges) {
+			pApplication.MousePointer = 13
+			m_pCurrentRecords[m_nMainSide].Update();
+			
+			if (m_pMergeRecords.Count > 2) {
+				if (!window.document.all("notDouble" + m_nSubSide).checked)
+					gDeleteSlavesPool.Add(m_pCurrentRecords[m_nSubSide].Record.ID);
+			}
+			else
+				gDeleteSlavesPool.Add(m_pCurrentRecords[m_nSubSide].Record.ID);
+
+			deleteSlaveRecords();
+			pApplication.MousePointer = 0
+			
+			if (gDeleteSlavesPool.Count == 0) {
+				alert(Resources.getText("alert.noMerge"));
+				gfinallyRecordID = "";
+			}
+			else {
+				var numberOfDeleted = gDeleteSlavesPool.Count;
+				numberOfDeleted = parseInt(numberOfDeleted.toString()) + 1;
+				alert(Resources.getText("alert.mergeComplete", numberOfDeleted));
+				gfinallyRecordID = m_pCurrentRecords[m_nMainSide].Record.ID;
+			}
+			
+			var pRecord = pApplication.CreateObject("LDE.Record"); 
+			pRecord.Open(getClass(), gfinallyRecordID);
+
+			window.returnValue = pRecord;
+			window.close();
+		}
+	}
+	else {
+		pApplication.MousePointer = 11
+		
+		if (m_pMergeRecords.Count > 2) {
+			if (!window.document.all("notDouble" + m_nSubSide).checked)
+				gDeleteSlavesPool.Add(m_pCurrentRecords[m_nSubSide].Record.ID);
+		}
+       
+		m_pCurrentRecords[m_nSubSide] = m_pMergeRecords.Item(intLoadedObjects++);
+		
+		fillValues("nextFill");
+		
+		if (m_pMergeRecords.Count > 2)
+			window.document.all("notDouble" + m_nSubSide).checked = false;
+
+		pApplication.MousePointer = 0
+	}
+}
+
+/*skapar upp formuläret dynamiskt*/
+function createPage(mergeRecord){
+    var pField = null;
+    var strTable = "";
+	var i = 0;
+	
+	createHeader();
+	strTable = "<TABLE width='100%' cellspacing='1px' cellpadding='0' border='0' class='bread' id='mainTable'>";
+	strTable += setTableCellWidth();
+	
+	for (var i = 1; i <= mergeRecord.Fields.Count; i++){
+	    pField = mergeRecord.Fields.Item(i);
+
+	    // Do not add read-only fields
+	    if ((pField.Access & lkAccessWrite) == 0)
+	        continue;
+	
+		strTable += createseparator(pField);	//Skriver ut eventuell separator
+		
+		strTable += "<tr id='tr_" + pField.Name + "'>";
+		strTable += "<td vAlign='top'>" + pField.LocalName + "</td>";
+		
+		switch (pField.Type) {
+		    // Alternativlista
+		    case lkFieldTypeOption:
+			    strTable += createAlternativeListsInput(pField);
+			    break;
+		
+		    // "Enkel" relation
+		    case lkFieldTypeLink:
+			    strTable += createSingleRelationInput(pField);
+			    break;
+			    
+		    // Färgfält
+		    case lkFieldTypeColor:
+			    strTable += createColorInput(pField);
+			    break;
+			    
+		    // Betygsfält
+		    case lkFieldTypeGrade:
+			    strTable += createGradeInput(pField);
+			    break;
+
+		    // Mängdfält
+		    case lkFieldTypeSet:
+			    strTable += createDatasetInput(pField);
+			    break;
+
+		    // Multirelationer
+		    case lkFieldTypeMultiLink:
+			    strTable += createMultiRelationInput(mergeRecord.Record.Class, pField);
+			    break;
+			    
+		    // Numeriskt fält
+		    case lkFieldTypeInteger:
+		    case lkFieldTypeDecimal:
+		    case lkFieldTypeCurrency:
+			    strTable += createNumeralInput(pField);
+			    break;
+
+		    // Procent fält
+		    case lkFieldTypePercent:
+			    strTable += createPercentInput(pField);
+			    break;	    
+
+		    // Datumfält
+		    case lkFieldTypeTime:
+		    case lkFieldTypeDate:
+		    case lkFieldTypeDateTime:
+		    case lkFieldTypeDateQuarter:
+		    case lkFieldTypeDateYear:
+		    case lkFieldTypeDateWeek:
+		    case lkFieldTypeDateMonth:
+		    case lkFieldTypeDateFourMonths:
+		    case lkFieldTypeDateSixMonths:
+			    strTable += createDateInput(pField);
+			    break;
+
+		    // Ja och nej fält
+		    case lkFieldTypeYesNo:
+			    strTable += createYesNoInput(pField);
+			    break;
+		    // Text
+		    default:
+		        if (pField.DataType == lkDataTypeText) {
+			        if (pField.Attribute("height") == undefined || pField.Attribute("height") == "1")
+				        strTable += createSingleTextInput(pField);
+			        else
+				        strTable += createMultiLineTextInput(pField);
+                }
+                
+                break;
+		}
+		
+		strTable += "</tr>";	
+	}
+	
+	strTable += "</TABLE>";
+	window.document.all("pageDiv").innerHTML = strTable;
+}
+
+/*Skapar en rad i tabellen med bredden på cellerna*/
+function setTableCellWidth(){
+	var strTable = "<tr>";
+	strTable += "<td width='275px'/>";
+	strTable += "<td width='177px'/>"
+	strTable += "<td width='20px'/>";
+	strTable += "<td width='180px'/>";
+	strTable += "<td width='*'/>";
+	strTable += "</tr>";
+	strTable += "<tr><td/><td colspan='4' id='informationTD'/></tr>";
+	
+	return strTable;
+}
+
+/*Skriver ut eventuell separator*/
+function createseparator(field) {
+	var strTable = "";
+	
+	if (field.Attribute("separatorlocalname") != undefined){
+		strSeparator = field.Attribute("separatorlocalname");
+		if (strSeparatorNames.indexOf("¤" + strSeparator + "¤") == -1 ){
+			strTable += "<tr id='tr_limit" + strSeparator + "'>";
+			strTable += "<td height='20px' class='separatorTitle'>" + strSeparator + "</td></tr>";
+			strSeparatorNames = strSeparatorNames + strSeparator + "¤";
+		}
+		
+	}
+	
+	return strTable;
+}
+
+/*Skriver ut Alternativlistor*/
+function createAlternativeListsInput(field) {
+	var strTable = "<td><input class='inputBox' type='text' id='txt0_" + field.Name + "' disabled='true' recordType='alternative'/></td>";
+	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
+	strTable += "<td><input class='inputBox' type='text' id='txt1_" + field.Name + "' disabled='true' recordType='alternative'/>";
+	strTable += "<td vAlign='top'><img title='" + Resources.getText("tooltip.option") + "' src='images/alternative.gif'>" + "</td>";
+	
+	return strTable;
+}
+
+/*Skriver ut textvärde där boxen är en enhet hög*/
+function createSingleTextInput(field) {
+	var strTable = "<td><input class='inputBox' type='text' id='txt0_" + field.Name + "' disabled='true' recordType='text'/></td>";
+	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
+	strTable += "<td><input class='inputBox' type='text' id='txt1_" + field.Name + "' disabled='true' recordType='text'/>";
+	strTable += "</td>";
+	
+	return strTable;
+}
+
+/*Skriver ut textvärde där boxen är mer än en enhet hög*/
+function createMultiLineTextInput(field) {
+	var strTable = "<td><div noWrap='true' class='inputBox' id='txt0_" + field.Name + "' recordType='text' style='width: 175px; z-index:999;overflow:auto; height:";
+	strTable += field.Attribute("height") * 23;
+	strTable += "px'></div></td>"
+	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
+	strTable += "<td><div noWrap='true' class='inputBox' id='txt1_" + field.Name + "' recordType='text' style='width: 175px; z-index:999;overflow:auto; height:";
+	strTable += field.Attribute("height") * 23;
+	strTable += "px'>" + "</div></td>";
+	strTable += "</td>";
+	
+	return strTable;
+}
+
+/*Skriver ut relationsfält*/
+function createSingleRelationInput(field) {
+	var strTable = "<td><input class='inputBox' type='text' id='txt0_" + field.Name + "' recordID='' disabled='true' recordType='link'>" + "</td>"
+	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
+	strTable += "<td><input class='inputBox' type='text' id='txt1_" + field.Name + "' recordID='' disabled='true' recordType='link'></td>";
+	strTable += "<td vAlign='top'><img title='" + Resources.getText("tooltip.relationfield") + "' src='images/links.gif'>" + "</td>";
+	
+	return strTable;
+}
+
+/*Skriver ut färgfält*/
+function createColorInput(field) {
+	var strTable = "<td><input class='inputBox' type='text' id='txt0_" + field.Name + "' colorRGB='' disabled='true' recordType='color'>" + "</td>"
+	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
+	strTable += "<td><input class='inputBox' type='text' id='txt1_" + field.Name + "' colorRGB='' disabled='true' recordType='color'></td>";
+	strTable += "<td vAlign='top'><img title='" + Resources.getText("tooltip.color") + "' src='images/color.gif'></td>";
+	
+	return strTable;
+}
+
+/*Skriver ut betygsfält*/
+function createGradeInput(field) {
+	var strTable = "<td><img src='images/empty_star.gif' class='inputBox' heigth='18px' id='txt0_" + field.Name + "' recordType='grade' grade=''/></td>"
+	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
+	strTable += "<td><img src='images/empty_star.gif' class='inputBox' heigth='18px' id='txt1_" + field.Name + "' recordType='grade' grade=''/></td>"
+	strTable += "<td valign='top'><img title='" + Resources.getText("tooltip.grade") + "' src='images/grade.gif'></td>";
+	
+	return strTable;
+}
+
+/*Skriver ut mängdfält*/
+function createDatasetInput(field) {
+	var strTable = "<td>"; 
+	strTable += "<table cellspacing='0' cellpadding='0' border='0' class='inputBoxSet'><tr>";
+	strTable += "<td idValue='' textValue='' type='text' id='txt0_" + field.Name + "' disabled='true' recordType='typeset'/>";
+	strTable += "<td class='inputBoxSetButton' id='btn0_" + field.Name + "' onclick='showTypeSet(this)'>";
+	strTable += "<img src='images/arrow_down.gif'/></td>";
+	strTable += "<div shown='false' class='SetMenu' name='menu' id='menu0_" + field.Name + "' style='width: 175px; height: 19; z-index:999; display:none;'></div>"
+	strTable += "</tr></table>"
+	strTable += "</td>";
+	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
+	strTable += "<td>";
+	strTable += "<table cellspacing='0' cellpadding='0' border='0' class='inputBoxSet'><tr>";
+	strTable += "<td idValue='' textValue='' type='text' id='txt1_" + field.Name + "' disabled='true' recordType='typeset'/>";
+	strTable += "<td class='inputBoxSetButton' id='btn1_" + field.Name + "' onclick='showTypeSet(this)'>";
+	strTable += "<img src='images/arrow_down.gif'/></td>";
+	strTable += "<div shown='false' class='SetMenu' name='menu' id='menu1_" + field.Name + "' style='width: 175px; height: 19; z-index:999; display:none;'></div>"
+	strTable += "</tr></table>"
+	strTable += "</td><td vAlign='top'><img title='" + Resources.getText("tooltip.set") + "' src='images/dataset.gif'>" + "</td>";
+	
+	return strTable;
+}
+
+/*Skriver ut multirelationsfält*/
+function createMultiRelationInput(fieldClass, field) {
+	var strTable = "<td><div noWrap='true' class='inputBox' id='txt0_" + field.Name + "' limeClass='" + fieldClass.Name + "' recordType='multilink' maxRecordReached='false' numberOf='0' recordID='' idvalues='' style='width: 175px; height: 95px; z-index:999;overflow:auto'></div></td>"
+	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
+	strTable += "<td><div class='inputBox' id='txt1_" + field.Name + "' limeClass='" + fieldClass.Name + "' recordType='multilink' maxRecordReached='false' numberOf='0' recordID='' idvalues='' style='width: 175px; height: 95px; z-index:999;overflow:auto'></div></td>"
+	strTable += "</td><td vAlign='top'><img title='" + Resources.getText("tooltip.relations") + "' src='images/multilink.gif'></td>";
+	
+	return strTable;
+}
+
+/*Skriver ut numeriska fält*/
+function createNumeralInput(field) {
+	var strTable = "<td><input class='inputBox' type='text' id='txt0_" + field.Name + "' disabled='true' recordType='numeral'/></td>";
+	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
+	strTable += "<td><input class='inputBox' type='text' id='txt1_" + field.Name + "' disabled='true' recordType='numeral'/>";
+	strTable += "<td vAlign='top'><img title='" + Resources.getText("tooltip.numeric") + "' src='images/numeral.gif'></td>";
+	
+	return strTable;
+}
+
+/*Skriver ut procent fält*/
+function createPercentInput(field) {
+	var strTable = "<td><table class='percentBox' cellspacing='0' cellpadding='0' border='0' width='175px'><tr><td align='center' id='txt0_" + field.Name + "' recordType='percent'/>&nbsp;</td><td width='*'>&nbsp;</td></tr></table></td>";
+	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
+	strTable += "<td><table class='percentBox' cellspacing='0' cellpadding='0' border='0' width='175px'><tr><td align='center' id='txt1_" + field.Name + "' recordType='percent'/>&nbsp;</td><td width='*'>&nbsp;</td></tr></table></td>";
+	strTable += "<td vAlign='top'><img title='" + Resources.getText("tooltip.percent") + "' src='images/numeral.gif'></td>";
+	
+	return strTable;
+}
+
+/*Skriver ut datum fält*/
+function createDateInput(field) {
+	var strTable = "<td><input class='inputBox' type='text' id='txt0_" + field.Name + "' disabled='true' recordType='date'/></td>";
+	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
+	strTable += "<td><input class='inputBox' type='text' id='txt1_" + field.Name + "' disabled='true' recordType='date'/>";
+	strTable += "<td vAlign='top'><img title='" + Resources.getText("tooltip.date") + "' src='images/date.gif'></td>";
+	
+	return strTable;
+}
+
+/*Skriver ut Ja/Nej fält*/
+function createYesNoInput(field) {
+	var strTable = "<td><input type='checkbox' id='txt0_" + field.Name + "' disabled='true' recordType='yesno'><span id='span0_" + field.Name + "'/>" + "</td>"
+	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
+	strTable += "<td><input type='checkbox' id='txt1_" + field.Name + "' disabled='true' recordType='yesno'><span id='span1_" + field.Name + "'/></td>";
+
+	return strTable;
+}
+
+/*Beräknar var ett objekt är positionerat på skärmen*/
+function absPos(obj){ 
+    var y = 0; 
+    var x = 0; 
+	
+    while(obj) { 
+		x += obj.offsetLeft; 
+		y += obj.offsetTop; 
+        obj = obj.offsetParent; 
+    } 
+    
+    return {X: x, Y: y - 114}; 
+ } 
+
+/*Ritar upp ett mängdfält i en drop-down meny*/
+function showTypeSet(obj){
+	var strTxtObjName = obj.id.replace('btn', '');
+	obj = window.document.all("txt" + strTxtObjName);
+	var pos = absPos(obj);
+	var menuObj = window.document.all("menu" + strTxtObjName);
+	
+	if (obj.textValue != "") {
+		if (menuObj.shown == "false"){
+			var strMenu = "";
+			
+			menuObj.shown = "true";
+			strMenu = "";
+			var strSelectedValues = obj.textValue.split(";");
+			for (var i = 0; i < strSelectedValues.length; i ++){
+					strMenu += strSelectedValues[i] + "</br>";
+			}
+			menuObj.innerHTML = strMenu;
+		}
+		
+		menuObj.style.display = "block";
+		window.event.cancelBubble = true;
+		menuObj.style.position = "absolute";
+		menuObj.style.left = pos.X - 1;
+		menuObj.style.top = pos.Y  + 18;
+		menuObj.style.display = "";
+		menuObj.setCapture(false);	
+	}
+}
+
+/*Byter ut ett tecken mot ett annat*/
+function replaceChars(entry, out, add) {
+	temp = "" + entry; // temporary holder
+
+	while (temp.indexOf(out)>-1) {
+		pos= temp.indexOf(out);
+		temp = "" + (temp.substring(0, pos) + add + 
+		temp.substring((pos + out.length), temp.length));
+	}
+	
+	return temp;
+}
+
+/*Fyller formulärets boxar med rätt värden*/
+function fillValues(strTypeOfFill) {
+    var pMainRecord = null;
+    var pSubRecord = null;
+    var pField = null;
+	var strFieldName = "";
+	var strShowField = "none";
+	var strSeparator = "";
+	var strLastSeparator = "";
+	var intSeparator = 0;
+	var blnSeparator = false; 
+	var strMasterPrefix = "txt" + m_nMainSide +  "_";
+	var strSlavePrefix = "txt" + m_nSubSide + "_";
+	var intMasterIndex = m_nMainSide;
+	var intSlaveIndex = m_nSubSide;
+	var shownFields = 0;
+	
+	pMainRecord = m_pCurrentRecords[m_nMainSide];
+	pSubRecord = m_pCurrentRecords[m_nSubSide];
+	
+	window.document.all("informationTD").innerHTML = ""
+	
+	setButtonName();
+	
+	// Setup the left value column
+	if (pMainRecord.Description.length > 20)
+		window.document.all("lbl" + m_nMainSide + "_description").innerHTML = pMainRecord.Index + " - " + pMainRecord.Description.substring(0,19) + "...";
+	else
+		window.document.all("lbl" + m_nMainSide + "_description").innerHTML = pMainRecord.Index + " - " + pMainRecord.Description;
+		
+	window.document.all("lbl" + m_nMainSide + "_description").title = pMainRecord.Description;
+
+    // Setup the right value column	
+	if (pSubRecord.Description.length > 20)
+		window.document.all("lbl" + m_nSubSide + "_description").innerHTML = pSubRecord.Index + " - " + pSubRecord.Description.substring(0,19) + "...";
+	else
+		window.document.all("lbl" + m_nSubSide + "_description").innerHTML = pSubRecord.Index + " - " + pSubRecord.Description;
+		
+	window.document.all("lbl" + m_nSubSide + "_description").title = pSubRecord.Description;
+
+	for (var i = 1; i <= pMainRecord.Fields.Count; i++) {
+	    pField = pMainRecord.Fields.Item(i);
+
+	    // Skip read-only fields
+	    if (window.document.all(strMasterPrefix + pField.Name) == null)
+	        continue;
+	    
+		if (strSeparator == ""){
+			if (pField.Attribute("separatorlocalname") != undefined){
+				blnSeparator = true;
+				strSeparator = pField.Attribute("separatorlocalname");
+			}
+		}
+		
+		if (pField.Attribute("separatorlocalname") != undefined){
+			strLastSeparator = strSeparator;
+			strSeparator = pField.Attribute("separatorlocalname");
+		}
+		
+		if (blnSeparator && strSeparator != strLastSeparator){
+			if (intSeparator == 0)
+				window.document.all("tr_limit" + strLastSeparator).style.display = "none";
+				
+			strLastSeparator = strSeparator;
+			intSeparator = 0;
+		}
+		
+		switch (pField.Type) {
+		    /*Text och numeriska fält*/
+		    case lkFieldTypePercent:
+			    var masterValue = fillPercentValues(pMainRecord, pField.Name, strMasterPrefix);
+			    var slaveValue = fillPercentValues(pSubRecord, pField.Name, strSlavePrefix);
+			
+			    if (masterValue != slaveValue)
+				    strShowField = "block";	
+
+			    break;
+        
+		    /*Datumfält*/
+		    case lkFieldTypeTime:
+		    case lkFieldTypeDate:
+		    case lkFieldTypeDateTime:
+		    case lkFieldTypeDateQuarter:
+		    case lkFieldTypeDateYear:
+		    case lkFieldTypeDateWeek:
+		    case lkFieldTypeDateMonth:
+		    case lkFieldTypeDateFourMonths:
+		    case lkFieldTypeDateSixMonths:
+			    strShowField = fillDateValues(pMainRecord, pField.Name, strMasterPrefix, strShowField);
+			    strShowField = fillDateValues(pSubRecord, pField.Name, strSlavePrefix, strShowField);
+			    break;
+			    
+		    /*Enkelrelationer*/
+		    case lkFieldTypeLink:
+			    strShowField = fillSingleRelationValues(pMainRecord, pField.Name, strMasterPrefix, strShowField);
+			    strShowField = fillSingleRelationValues(pSubRecord, pField.Name, strSlavePrefix, strShowField);
+			    break;
+
+		    /*Betygsfält*/
+		    case lkFieldTypeGrade:
+			    strShowField = fillGradeValues(pMainRecord, pField.Name, strMasterPrefix, strShowField);
+			    strShowField = fillGradeValues(pSubRecord, pField.Name, strSlavePrefix, strShowField);
+			    break;
+
+		    /*Mängdfält*/
+		    case lkFieldTypeSet:
+			    strShowField = fillDatasetValues(pMainRecord, pField.Name, strMasterPrefix, strShowField);
+			    strShowField = fillDatasetValues(pSubRecord, pField.Name, strSlavePrefix, strShowField);
+			    break;
+			    
+		    /*Multirelationer*/
+		    case lkFieldTypeMultiLink:
+			    if (strTypeOfFill != "nextFill") {
+				    strShowField = fillMultiRelationValues(pMainRecord, pField.Name, strMasterPrefix, strShowField);
+				    strShowField = fillMultiRelationValues(pSubRecord, pField.Name, strSlavePrefix, strShowField);
+			    }
+			    else {
+				    strShowField = fillMultiRelationValuesNext("txt" + m_nMainSide + "_" + pField.Name, strShowField);
+				    strShowField = fillMultiRelationValues(pSubRecord, pField.Name, strSlavePrefix, strShowField);
+			    }
+			    
+			    break;
+
+		    /*Färgfält*/
+	        case lkFieldTypeColor:
+			    var masterColor = fillColorValues(pMainRecord, pField.Name, strMasterPrefix);
+			    var slaveColor = fillColorValues(pSubRecord, pField.Name, strSlavePrefix);
+
+			    if (masterColor != slaveColor)
+				    strShowField = "block";
+				   
+		        break;
+
+		    /*Ja/Nej fält*/
+		    case lkFieldTypeYesNo:
+			    var masterValue = fillYesNoValues(pMainRecord, pField.Name, m_nMainSide + "_");
+			    var slaveValue = fillYesNoValues(pSubRecord, pField.Name, m_nSubSide + "_");
+
+			    if (masterValue != slaveValue)
+				    strShowField = "block";
+				    
+			    break;
+
+		    /*Alternativfält*/
+		    case lkFieldTypeOption:
+			    strShowField = fillAlternativeValues(pMainRecord, pField.Name, strMasterPrefix, strShowField);
+			    strShowField = fillAlternativeValues(pSubRecord, pField.Name, strSlavePrefix, strShowField);
+			    break;
+
+		    default:
+		        if (pField.DataType == 8 || (pField.Type >= 5 && pField.Type <= 8)) {
+			        strShowField = fillTextValues(pMainRecord, pField.Name, strMasterPrefix, strShowField);
+			        strShowField = fillTextValues(pSubRecord, pField.Name, strSlavePrefix, strShowField);
+			    }
+			    
+			    break;
+		}
+		
+		if(strShowField == "block") 
+			strShowField = checkIfEqualContent(pMainRecord, pSubRecord, pField);
+		
+		window.document.all("tr_" + pField.Name).style.display = strShowField;
+
+		if (strShowField == "block"){
+			//Kontroll om något fält visas
+			shownFields ++;
+			if (blnSeparator){
+				//Kontroll om något fält inom separatorn visas
+				intSeparator ++;
+			}
+		}
+			
+		strShowField = "none";
+		showRow = true;
+	}
+	
+	if (intSeparator == 0 && blnSeparator)
+		window.document.all("tr_limit" + strLastSeparator).style.display = "none";
+		
+	if (shownFields == 0)
+		window.document.all("informationTD").innerHTML = "<br/><br/>" + Resources.getText("page.identical");
+}
+
+/* Fyller textfält och nummerfält med värden*/
+function fillTextValues(mergeRecord, fieldName, prefix, showField) {
+	if (mergeRecord.Record.Text(fieldName) != "") {
+		if (window.document.all(prefix + fieldName).tagName.toLowerCase() == "div")
+			window.document.all(prefix + fieldName).innerHTML = replaceChars(mergeRecord.Record.Text(fieldName), "\n", "<br/>");
+		else
+			window.document.all(prefix + fieldName).value = mergeRecord.Record.Text(fieldName);
+		
+		showField = "block";
+	}
+	else {
+		if (window.document.all(prefix + fieldName).tagName.toLowerCase() == "div")
+			window.document.all(prefix + fieldName).innerHTML = ""
+		else
+			window.document.all(prefix + fieldName).value = "";
+	}
+		
+	return showField;
+}
+
+/* Fyller alternativfältmed värden*/
+function fillAlternativeValues(mergeRecord, fieldName, prefix, showField) {
+	if (mergeRecord.Record.Text(fieldName) != "") {
+		window.document.all(prefix + fieldName).value = mergeRecord.Record.Text(fieldName);
+		showField = "block";
+	}
+	else
+		window.document.all(prefix + fieldName).value = "";
+		
+	return showField;
+}
+
+/* Fyller procentfält med värden*/
+function fillPercentValues(mergeRecord, fieldName, prefix, showField) {
+	var strPercent = mergeRecord.Record.Text(fieldName).replace(",00", "");
+	
+	strPercent = strPercent.replace(".00", "");
+			
+	if (strPercent != "0%"){
+		window.document.all(prefix + fieldName).width = strPercent;
+		window.document.all(prefix + fieldName).style.backgroundColor = "#00FF00";
+	}
+	else
+		window.document.all(prefix + fieldName).innerHTML = "0%";
+	
+	if (mergeRecord.Record.Value(fieldName) >= 0.25)
+		window.document.all(prefix + fieldName).innerHTML = strPercent;
+	
+	window.document.all(prefix + fieldName).title = strPercent;
+	
+	return strPercent;
+}
+
+/* Fyller datumfält med värden*/
+function fillDateValues(mergeRecord, fieldName, prefix, showField) {
+	if (mergeRecord.Record.Text(fieldName) != "") {
+		window.document.all(prefix + fieldName).value = mergeRecord.Record.Text(fieldName);
+		showField = "block";
+	}
+	else
+		window.document.all(prefix + fieldName).value = "";
+		
+	return showField;
+}
+
+/* Fyller enkelrelationer med värden*/
+function fillSingleRelationValues(mergeRecord, fieldName, prefix, showField) {
+	if (mergeRecord.Record.Value(fieldName) != null) {
+		window.document.all(prefix + fieldName).value = mergeRecord.Record.Text(fieldName);
+		window.document.all(prefix + fieldName).recordID = mergeRecord.Record.Value(fieldName);
+		showField = "block";
+	}
+	else {
+		window.document.all(prefix + fieldName).value = "";
+		window.document.all(prefix + fieldName).recordID = "";
+	}
+	
+	return showField;
+}
+
+/* Fyller betygsfält med värden*/
+function fillGradeValues(mergeRecord, fieldName, prefix, showField) {
+    var value = mergeRecord.Record.Value(fieldName);
+    
+	if (value != null && value > 0) {
+		window.document.all(prefix + fieldName).src = "images/" +  value + "_star.gif";
+		window.document.all(prefix + fieldName).grade = value;
+		showField = "block";
+	}
+	else
+		window.document.all(prefix + fieldName).src = "images/empty_star.gif";
+		
+	return showField;
+}
+
+/* Fyller mängdfält med värden*/
+function fillDatasetValues(mergeRecord, fieldName, prefix, showField) {
+	if (mergeRecord.Record.Text(fieldName) != "") {
+		var strSetValues = mergeRecord.Record.Text(fieldName);
+		window.document.all(prefix + fieldName).textValue = strSetValues;
+		
+		if (strSetValues.length > 15)
+			window.document.all(prefix + fieldName).innerHTML = strSetValues.substring(0,15) + "...";
+		else
+			window.document.all(prefix + fieldName).innerHTML = strSetValues;
+			
+		showField = "block";
+	}
+	else
+		window.document.all(prefix + fieldName).innerHTML = "&nbsp;";
+	
+	return showField;
+}
+
+/* Fyller multirelationer med värden*/
+function fillMultiRelationValues(mergeRecord, fieldName, prefix, showField){
+	if (fillMultiLink(mergeRecord, fieldName, prefix)) {
+		window.document.all(prefix + fieldName).recordID = mergeRecord.Record.ID + ";";
+		showField = "block";	
+	}
+	else
+		window.document.all(prefix + fieldName).recordID = ";";
+
+	return showField;
+}
+
+/* Kontrollerar om multifältet i master ska visas*/
+function fillMultiRelationValuesNext(htmlFieldID, showField){
+	if (window.document.all(htmlFieldID) != null) {
+	    if (window.document.all(htmlFieldID).idvalues != "")
+            showField = "block";	
+    }
+	else
+		window.document.all(htmlFieldID).idvalues = "";
+
+	return showField;
+}
+
+/* Fyller färgfält med färg*/
+function fillColorValues(mergeRecord, fieldName, prefix){
+	var nRGBin = mergeRecord.Record.Value(fieldName);
+	var nR=nRGBin & 0xFF;
+	var nG=(nRGBin >>8) & 0xFF;
+	var nB=(nRGBin >>16) & 0xFF; 
+	window.document.all(prefix + fieldName).style.backgroundColor = "rgb(" + nR + "," + nG + "," + nB + ")"; 
+	window.document.all(prefix + fieldName).colorRGB = "rgb(" + nR + "," + nG + "," + nB + ")"; 
+	
+	return nRGBin;
+}
+
+/* Fyller Ja/Nej fält med värde*/
+function fillYesNoValues(mergeRecord, fieldName, prefix){
+	if (mergeRecord.Record.Value(fieldName) == 0)
+		var blnChecked = false;
+	else
+		var blnChecked = true;
+		
+	window.document.all("txt" + prefix + fieldName).checked = blnChecked;
+	window.document.all("span" + prefix + fieldName).innerHTML = mergeRecord.Record.Text(fieldName);
+	
+	return blnChecked;
+}
+
+/*Kontrollerar om de två fälten innehåller samma värden*/
+function checkIfEqualContent(mainRecord, subRecord, field){
+	var strShowField = "block";
+	
+	if (field.Type != lkFieldTypeMultiLink) {
+		if (field.Type == lkFieldTypeLink) {
+			if (mainRecord.Record.Value(field.Name) != null && subRecord.Record.Value(field.Name) != null) {
+				if (mainRecord.Record.Value(field.Name) == subRecord.Record.Value(field.Name)) 
+					strShowField = "none";
+			}
+		}
+		else {
+			if (mainRecord.Record.Text(field.Name) == subRecord.Record.Text(field.Name))
+				strShowField = "none";	
+		}
+	}
+	
+	return strShowField;
+}
+
+/*Fyller ett multilänk fält med data*/
+function fillMultiLink(mergeRecord, fieldName, prefix){
+	var Application = getApplication();
+	var pRecords = null;
+	var strID = "";
+	var blnRelations = false;
+	var strClass = ""
+	var strLimeClass = "";
+	var strDescription = "";
+	var objDiv = window.document.all(prefix + fieldName);
+
+	pRecords = mergeRecord.Records(fieldName);
+	
+	var strHtml = "<table id='table_" + prefix + fieldName + "' class='bread' cellspacing='0' cellpadding='0' border='0' width='100%'><tbody>"
+	
+	if(pRecords != null){
+		strLimeClass = pRecords.Class.Name
+		objDiv.limeClass = strLimeClass;
+		
+		var i = 0;
+		if (pRecords.Count > intMaxRecord)	{
+			strHtml += "<tr>"
+			strHtml += "<td id='' noWrap='true' " + strClass + "><i>* Mer än " + intMaxRecord + " poster *&nbsp;</i></td>";
+			strHtml += "</tr>"				
+			objDiv.maxRecordReached = true;
+			objDiv.numberOf = -1;
+		}
+		else
+			objDiv.numberOf = pRecords.Count;
+			
+		if (pRecords.Count > 0){
+			/*if (gStrMultiLinkFields.indexOf(";" + strFieldName + ";") < 0){
+				gStrMultiLinkFields += strFieldName + ";";
+			}*/
+			for(i = 1; i <= pRecords.Count && i <= intMaxRecord; i++){
+				var strClass = getRowColor(i);
+
+				strDescription = pRecords.Item(i).Description;
+				
+				if (strDescription.length == 0)
+					strDescription = Resources.getText("page.noDescription");
+					
+				strHtml += "<tr>"
+				strHtml += "<td id='" + prefix + strLimeClass + "_" + pRecords.Item(i).ID + "' noWrap='true' " + strClass + ">* " + strDescription + "</td>";
+				strID += pRecords.Item(i).ID + ";";
+				blnRelations = true;
+				strHtml += "</tr>"
+			}
+		}
+	}
+	
+	strHtml = strHtml + "</tbody></table>"
+	objDiv.innerHTML = strHtml;
+	objDiv.idvalues = strID;
+	
+	return blnRelations;
+}
+
+/*Returnerar rätt className*/
+function getRowColor(i){
+	var strClass = "";
+	if (i % 2 == 1)
+		strClass = "class='dark'";
+		
+	return strClass;
+}
+
+/*Ändrar vilket håll pilarna pekar på*/
+function changePicture(obj, typeOfPictureChange){
+	if (pickMe[0].checked == true)
+		if (typeOfPictureChange == 1) 
+			obj.src = "images/active_from2to1.ico";
+		else
+			obj.src = "images/inactive_from2to1.ico";
+	else
+		if (typeOfPictureChange == 1) 
+			obj.src = "images/active_from1to2.ico";
+		else
+			obj.src = "images/inactive_from1to2.ico";
+}
+
+/*Flyttar värden mellan posterna*/
+function functionMoveValue(obj) {
+    var strFieldName = obj.parentElement.name;
+    m_strFieldToConsolidate = strFieldName;
+    
+	var objMaster = window.document.all("txt" + m_nMainSide + "_" + strFieldName);
+	var objSlave = window.document.all("txt" + m_nSubSide + "_" + strFieldName);
+	var strNewMenuSet;
+	var strArrayValues;
+	
+	if (objSlave.recordType == "grade")						/*Betygsfält*/
+		moveGradeValue(strFieldName, objMaster, objSlave);
+	else if (objSlave.recordType == "typeset")				/*Mängdfält*/
+		moveTypesetValue(strFieldName, objMaster, objSlave);
+	else if (objSlave.recordType == "multilink")			/*Multirelationsfält*/
+		moveMultilinkValue(strFieldName, objMaster, objSlave);
+	else if (objSlave.recordType == "percent")				/*Procent*/
+			movePercentValue(strFieldName, objMaster, objSlave);
+	else if (objSlave.recordType == "yesno")				/*Ja/Nej fält*/
+		moveYesNoValue(strFieldName, objMaster, objSlave);
+	else if (objSlave.recordType == "color")				/*Färgfält*/
+			moveColorValue(strFieldName, objMaster, objSlave);
+	else if (objSlave.tagName.toLowerCase() == "div" && objMaster.recordType == "text")		/*Textvärde med mer än en rad*/
+		moveMultiLineText(strFieldName, objMaster, objSlave, obj);
+	else{
+		if (objSlave.value == "") {
+			alert(Resources.getText("alert.noValue"));
+		}
+		else{
+			if (objMaster.recordType == "text")					/*text presenterat på en rad*/
+				moveSingleLineText(strFieldName, objMaster, objSlave, obj);
+			
+			else if (objMaster.recordType == "link")			/*Enkelt relationsfält*/
+				moveLinkValue(strFieldName, objMaster, objSlave);
+			else if (objMaster.recordType == "numeral" || objMaster.recordType == "date")	/*Numeriskt eller datumfält*/
+				moveNumeralOrDateValue(strFieldName, objMaster, objSlave);
+			else if (objMaster.recordType == "alternative" )	/*Alternativfält*/
+				moveAlternativeValue(strFieldName, objMaster, objSlave);
+		}
+	}
+}
+
+/*Flyttar betygsvärde från slave till master*/
+function moveGradeValue(fieldName, mainBox, subBox) {
+	if (subBox.grade == "" || subBox.grade == "0") {
+		alert(Resources.getText("alert.noValue"));
+	}
+	else {
+		m_pCurrentRecords[m_nMainSide].Record.Value(fieldName) = m_pCurrentRecords[m_nSubSide].Record.Value(fieldName);
+		mainBox.src = subBox.src;
+		subBox.src = "images/empty_star.gif";
+		mainBox.grade = subBox.grade;
+		subBox.grade = "";
+		intChanges ++;
+	}
+}
+
+/*Flyttar mängdfältsvärde från slave till master*/
+function moveTypesetValue(fieldName, mainBox, subBox){
+	if (subBox.textValue == "") {
+	    alert(Resources.getText("alert.noCheckedOption"));	
+	}
+	else {
+		var objMenuMaster = window.document.all("menu" + m_nMainSide + "_" + fieldName);
+		var objMenuSlave = window.document.all("menu" + m_nSubSide + "_" + fieldName);
+
+		strNewMenuSet = moveDatasetData(mainBox, subBox);
+		
+		objMenuMaster.shown = "false";
+		objMenuSlave.shown = "false";
+		subBox.textValue = "";
+		subBox.innerHTML = "&nbsp;";
+		mainBox.textValue = mainBox.textValue + strNewMenuSet;
+		
+		if (mainBox.textValue.substring(0,1) == ";")
+			mainBox.textValue = mainBox.textValue.substring(1);
+			
+		saveDataSet(fieldName);
+		
+		if (mainBox.textValue.substring(0,1) == ";")
+			mainBox.textValue = mainBox.textValue.substring(1);
+			
+		if (mainBox.textValue.length > 15)
+			mainBox.innerHTML = mainBox.textValue.substring(0,15) + "...";
+		else
+			mainBox.innerHTML = mainBox.textValue;
+			
+		intChanges ++;
+	}
+}
+
+/*Flyttar multilänkfält från slave till master*/
+function moveMultilinkValue(fieldName, mainBox, subBox){
+	if (subBox.idvalues == "") {
+		alert(Resources.getText("alert.noRelations"));
+	}
+	else{
+		mainBox.idvalues = moveValuesMultiLinkData(mainBox, subBox);
+		moveHTMLMultiLinkData(mainBox, subBox);
+		saveMultiLink(fieldName);
+		subBox.idvalues = "";
+	}
+}
+
+/*Flyttar procentsvärde från slave till master*/
+function movePercentValue(fieldName, mainBox, subBox){
+	if (subBox.title == "") {
+		alert(Resources.getText("alert.noPercent"));
+    }
+	else {
+		m_pCurrentRecords[m_nMainSide].Record.Value(fieldName) = m_pCurrentRecords[m_nSubSide].Record.Value(fieldName);
+		mainBox.width = subBox.width;
+		mainBox.innerHTML = subBox.innerHTML;
+		mainBox.style.backgroundColor = subBox.style.backgroundColor;
+		mainBox.title = subBox.title;
+		subBox.innerHTML = Resources.getText("page.noPercent");
+		subBox.align = "left";
+		subBox.style.backgroundColor = "white";
+		subBox.width = "100%";
+		subBox.title = "";
+		intChanges ++;
+	}
+}
+
+/*Flyttar Ja/Nej-värde från slave till master*/
+function moveYesNoValue(fieldName, mainBox, subBox){
+	m_pCurrentRecords[m_nMainSide].Record.Value(fieldName) = m_pCurrentRecords[m_nSubSide].Record.Value(fieldName);
+	
+	var objMasterText = window.document.all("span" + m_nMainSide + "_" + fieldName);
+	var objSlaveText = window.document.all("span" + m_nSubSide + "_" + fieldName);
+	
+	mainBox.checked = subBox.checked;
+	objMasterText.innerHTML = objSlaveText.innerHTML;
+	subBox.checked = false;
+	objSlaveText.innerHTML = "Nej";
+	intChanges ++;
+}
+
+/*Flyttar färgvärde från slave till master*/
+function moveColorValue(fieldName, mainBox, subBox){
+	if (subBox.colorRGB == "") {
+		alert(Resources.getText("noColor"));
+    }	
+	else {
+		m_pCurrentRecords[m_nMainSide].Record.Value(fieldName) = m_pCurrentRecords[m_nSubSide].Record.Value(fieldName);
+		mainBox.style.backgroundColor = subBox.style.backgroundColor;
+		mainBox.colorRGB = subBox.colorRGB;
+		mainBox.value = ""
+		subBox.style.backgroundColor = "white";
+		subBox.colorRGB = "";
+		subBox.value = Resources.getText("page.noColor");
+		intChanges ++;
+	}
+}
+
+/*Flyttar textvärde presenterat på flera rader från slave till master*/
+function moveMultiLineText(fieldName, mainBox, subBox, object){
+	if (subBox.innerHTML == "") {
+		alert(Resources.getText("tooltip.noValue"));
+	}
+	else {
+		if (mainBox.innerHTML == ""){
+			m_pCurrentRecords[m_nMainSide].Record.Value(fieldName) = m_pCurrentRecords[m_nSubSide].Record.Value(fieldName);
+			mainBox.innerHTML = subBox.innerHTML;
+			subBox.innerHTML = "";
+		}
+		else
+			functionMoveOrConsolidateValue();
+	}
+}
+
+/*Flyttar textvärde presenterat på en rad från slave till master*/
+function moveSingleLineText(fieldName, mainBox, subBox, object){
+	if (mainBox.value == "") {
+		m_pCurrentRecords[m_nMainSide].Record.Value(fieldName) = m_pCurrentRecords[m_nSubSide].Record.Value(fieldName);
+		mainBox.value = subBox.value;
+		subBox.value = "";
+		intChanges ++;
+	}
+	else
+		functionMoveOrConsolidateValue();
+		
+}
+
+/*Flyttar värde i enkel länk från slave till master*/
+function moveLinkValue(fieldName, mainBox, subBox) {
+	m_pCurrentRecords[m_nMainSide].Record.Value(fieldName) = m_pCurrentRecords[m_nSubSide].Record.Value(fieldName);
+	mainBox.value = subBox.value;
+	mainBox.recordID = subBox.recordID;
+	subBox.value = "";
+	intChanges ++;
+}
+
+/*Flyttar värde i numeriskt eller datum fält från slave till master*/
+function moveNumeralOrDateValue(fieldName, mainBox, subBox) {
+	m_pCurrentRecords[m_nMainSide].Record.Value(fieldName) = m_pCurrentRecords[m_nSubSide].Record.Value(fieldName);
+	mainBox.value = subBox.value;
+	subBox.value = "";
+	intChanges ++;
+}
+
+/*Flyttar värde i Alternativfält från slave till master*/
+function moveAlternativeValue(fieldName, mainBox, subBox) {
+	m_pCurrentRecords[m_nMainSide].Record.Value(fieldName) = m_pCurrentRecords[m_nSubSide].Record.Value(fieldName);
+	mainBox.value = subBox.value;
+	subBox.value = "";
+	intChanges ++;
+}
+
+/*Flyttar id från ett mutlirelationsfält till ett annat. Kontrollerar att de inte finns dubbelt. */
+function moveValuesMultiLinkData(mainBox, subBox) {
+	var j = 0;
+	var blnFound = false;
+	var strNewValues = "";
+	var strSlaveValue = "";
+	var intNumberOfRecords = mainBox.numberOf;
+	
+	if (subBox.idvalues != "") {
+		if (mainBox.maxRecordReached == "false") {
+			var strSlaveValues = subBox.idvalues.split(";");
+			var strMasterValues = mainBox.idvalues.split(";");
+			
+			for (var i = 0 ; i < strSlaveValues.length; i++) {
+				while (j < strMasterValues.length && ! blnFound && intNumberOfRecords < intMaxRecord) {
+					strMasterValue = strMasterValues[j].split(" ");    
+					strMasterValue = strMasterValue.join(""); 
+					
+					strSlaveValue = strSlaveValues[i].split(" ");    
+					strSlaveValue = strSlaveValue.join(""); 
+					
+					if (AreStringsEqual(strSlaveValue, strMasterValue)) {
+						blnFound = true;
+						intNumberOfRecords++;
+					}
+					
+					j ++;
+				}
+				
+				if (!blnFound)
+					strNewValues = strNewValues +  ";" + strSlaveValue
+					
+				j = 0;
+				blnFound = false;
+			}
+		}
+		else
+			strNewValues = mainBox.idValues;
+	}
+	return strNewValues;
+}
+
+/*Flyttar multilänksrader från slave till master. */
+function moveHTMLMultiLinkData(mainBox, subBox){
+	var j = 0;
+	var blnFound = false;
+	var slaveRowID = "";
+	var masterRowID = "";
+	var strClassName = "";
+	var intNumberOfRecords;
+	
+	var objSlaveTable = window.document.all("table_" + subBox.id);
+	var objMasterTable = window.document.all("table_" + mainBox.id);
+	
+	if (subBox.idvalues != "") {
+		intChanges ++;
+		
+		if (mainBox.maxRecordReached == "false" || mainBox.maxRecordReached == false){
+			intNumberOfRecords = mainBox.numberOf;
+			
+			var TableBody = objMasterTable.firstChild;
+			
+			for (var i = 0; i < objSlaveTable.rows.length && intNumberOfRecords < intMaxRecord + 1; i++) {
+				slaveRowID = objSlaveTable.rows(i).cells(0).id;
+				
+				if (slaveRowID != ""){
+					if (m_nMainSide == 0)
+						masterRowID = objSlaveTable.rows(i).cells(0).id.replace("txt1_", "txt0_");
+					else
+						masterRowID = objSlaveTable.rows(i).cells(0).id.replace("txt0_", "txt1_");
+						
+					if (window.document.all(masterRowID) == null) {
+						if (intNumberOfRecords < intMaxRecord) {
+							//Add row. 
+							var NewRow = TableBody.insertRow(objMasterTable.rows.length); 
+							//Add cell
+							var ActionsCell = NewRow.insertCell(0); 
+							ActionsCell.noWrap = true;
+							ActionsCell.id = masterRowID;
+							ActionsCell.innerHTML = window.document.all(slaveRowID).innerHTML;
+							
+							if (TableBody.lastChild.rowIndex % 2 == 0)
+								strClassName = "dark";
+							else
+								strClassName = "";
+
+							if (strClassName != "")
+								ActionsCell.className = strClassName;
+						}
+						
+						intNumberOfRecords ++;
+					}
+				}
+			}
+			
+			if (intNumberOfRecords > intMaxRecord || subBox.maxRecordReached==true || subBox.maxRecordReached=="true") {
+				strClassName = objMasterTable.lastChild.firstChild.firstChild.className;
+				
+				if (strClassName == "dark")
+					strClassName = "";
+				else
+					strClassName = "dark";
+				
+				TableBody = objMasterTable.firstChild;
+				var NewRow = TableBody.insertRow(0); 
+				var ActionsCell = NewRow.insertCell(0);
+				ActionsCell.innerHTML = "<i>" + Resources.getText("page.tooManyRecords") + "&nbsp;</i></td>";
+				ActionsCell.id = "";
+				
+				if (strClassName != "")
+					ActionsCell.className = strClassName;
+					
+				mainBox.numberOf = "-1";
+				mainBox.maxRecordReached="true";
+				subBox.numberOf = "0";
+				subBox.maxRecordReached="false";
+			}
+			else {
+				mainBox.numberOf = intNumberOfRecords;
+				subBox.numberOf = "0";
+			}
+			
+			mainBox.recordID = mainBox.recordID + subBox.recordID;
+			subBox.recordID = "";
+		}
+		else {
+			mainBox.recordID = mainBox.recordID  + subBox.recordID;
+			subBox.recordID = "";
+		}
+				
+		//Delete rows in mastertable
+		if (objSlaveTable.rows != null) {
+			for (var i = objSlaveTable.rows.length - 1; i >= 0 ; i--) {	
+				objSlaveTable.deleteRow(i);
+			}	
+		}
+	}
+}
+
+/*Flyttar data från mängdfält i slave till master*/
+function moveDatasetData(mainBox, subBox) {
+	var j = 0;
+	var blnFound = false;
+	var strMasterValue = "";
+	var strSlaveValue = "";
+	var strMasterTempValue = "";
+	var strSlaveTempValue = "";
+	var strNewValues = "";
+	
+	if (subBox.textValue != "") {
+		var strSlaveValues = subBox.textValue.split(";");
+		var strMasterValues = mainBox.textValue.split(";");
+		
+		for (var i = 0 ; i < strSlaveValues.length; i++) {
+			while (j < strMasterValues.length && ! blnFound) {
+				strMasterTempValue = strMasterValues[j].split(" ");    
+				strMasterTempValue = strMasterTempValue.join(""); 
+				
+				strSlaveTempValue = strSlaveValues[i].split(" ");    
+				strSlaveTempValue = strSlaveTempValue.join(""); 
+				
+				if (AreStringsEqual(strSlaveTempValue, strMasterTempValue))
+					blnFound = true;
+
+				j ++;
+			}
+			
+			if (!blnFound)
+				strNewValues = strNewValues +  ";" + strSlaveValues[i];
+				
+			j = 0;
+			blnFound = false;
+		}
+		
+	}
+	
+	return strNewValues;
+}
+
+/*Visar meny me möjlighet att välja om man vill lägga samman värde eller skriva över.*/
+function functionMoveOrConsolidateValue() {
+	window.event.cancelBubble = true;
+	
+	window.document.all("menuDiv").style.position = "absolute";
+	window.document.all("menuDiv").style.left = event.clientX;
+	window.document.all("menuDiv").style.top = event.clientY;
+	window.document.all("menuDiv").style.display = "";
+	window.document.all("menuDiv").setCapture(false);	
+}
+
+
+/*Ändrar className i dropdown meny*/
+function switchClass() {
+	el=event.srcElement;
+	
+	if (el.className=="menuTextMouseOver")
+		el.className="menuText";
+	else if (el.className=="menuText")
+		el.className="menuTextMouseOver";
+}
+
+/**
+ * Return the class of active explorer
+ */
+function getClass() {
+    if (null == m_pClass)
+        m_pClass = getApplication().ActiveExplorer.Class;
+        
+    return m_pClass;
+}
+
+/**
+ *
+ */
+function getFieldInfo(view, fields) {
+    var pClass = null;
+    var pField = null;
+    var nIndex = 0;
+
+    pClass = getClass();
+
+    for (nIndex = 1; nIndex <= pClass.Fields.Count; nIndex++) {
+        pField = pClass.Fields.Item(nIndex);
+    
+        if (!pField.BuiltIn && Resources.getIniString("Explorer." + pClass.Name, pField.Name, "1") == "1") {
+            switch (pField.Type)
+            {
+            case lkFieldTypeAutomatic:
+            case lkFieldTypeDocument:
+            case lkFieldTypeSQL:
+                break;
+            case lkFieldTypeMultiLink:
+                /*Tillåt inte kopiering av virtuella flikar*/
+                if (pField.LinkedField.Class.Attribute("sql").length == 0)
+                    fields.Add(pField);
+                        
+                break;    
+            default:
+                view.Add(pField.Name);
+                fields.Add(pField);
+                
+                break;
+            }
+        }
+    }
+    
+    // Include descriptive in the view but not in the
+    // field collection
+    if (!view.Exists("descriptive"))
+	    view.Add("descriptive");
+}
+
+function getFields() {
+    var pClass = null;
+    var pField = null;
+    var nIndex = 0;
+
+    if (m_strFields.length == 0) {
+        pClass = getClass();
+        
+        for (nIndex = 1; nIndex <= pClass.Fields.Count; nIndex++) {
+            pField = pClass.Fields.Item(nIndex);
+        
+            if (!pField.BuiltIn && Resources.getIniString("Explorer." + pClass.Name, pField.Name, "1") == "1") {
+                switch (pField.Type)
+                {
+                case lkFieldTypeAutomatic:
+                case lkFieldTypeDocument:
+                case lkFieldTypeSQL:
+                    break;
+                case lkFieldTypeMultiLink:
+                    /*Tillåt inte kopiering av virtuella flikar*/
+                    if (pField.LinkedField.Class.Attribute("sql").length == 0)
+                        m_strFields += m_strFields.length > 0 ? ";" + pField.Name : pField.Name;
+                            
+                    break;    
+                default:
+                    m_strFields += m_strFields.length > 0 ? ";" + pField.Name : pField.Name;
+                    
+                    break;
+                }
+            }
+        }
+    }
+
+	return m_strFields;
+}
+
+/*Hämtar valda poster från Lime och kollar om det finns någon post som all sammanslagning måste ske till*/
+function getSelectedRecords(){
+    var pApplication = getApplication();
+    var pExplorer = null;
+	var pRecords = null;
+	var pView = null;
+	var pFields = null;
+	var nArrayIndex = 0;
+	
+	pView = pApplication.CreateObject("LDE.View");
+	pFields = pApplication.CreateObject("LDE.Fields");
+	
+	getFieldInfo(pView, pFields);
+	
+	pExplorer = pApplication.ActiveExplorer;
+	pRecords = pApplication.CreateObject("LDE.Records");
+	pRecords.Open(pExplorer.Class, pExplorer.Selection.Pool, pView);
+	
+	try {
+	    m_nIdTargetRecord = MergeDoublesCustomizer.getTargetRecordId(pApplication);
+    }
+    catch (pError) {
+        var sMessage = pError.message
+    }
+    
+    // This should be removed from here
+    // Copy the records to an array
+//    m_pSelectionRecords = new Array();
+//    
+//    // If we have a target record put it first
+//    if (m_nIdTargetRecord > 0) {
+//        for (var n = 1; n <= pRecords.Count; n++) {
+//            if (pRecords.Item(n).ID == m_nIdTargetRecord) {
+//                m_pSelectionRecords[nArrayIndex++] = pRecords.Item(n);
+//                break;
+//            }
+//        }
+//    }
+//    
+//    // Add the rest
+//    for (var n = 1; n <= pRecords.Count; n++) {
+//        if (0 == m_nIdTargetRecord || pRecords.Item(n).ID != m_nIdTargetRecord) {
+//            m_pSelectionRecords[nArrayIndex++] = pRecords.Item(n);
+//        }
+//    }
+    // to here
+    
+    m_pMergeRecords = new MergeRecords(pFields);
+    nArrayIndex = 0;
+    
+    if (m_nIdTargetRecord > 0) {
+        for (var n = 1; n <= pRecords.Count; n++) {
+            if (pRecords.Item(n).ID == m_nIdTargetRecord) {
+                m_pMergeRecords.Add(nArrayIndex++, pRecords.Item(n));
+                break;
+            }
+        }
+    }
+    
+    // Add the rest
+    for (var n = 1; n <= pRecords.Count; n++)
+        if (0 == m_nIdTargetRecord || pRecords.Item(n).ID != m_nIdTargetRecord) {
+            m_pMergeRecords.Add(nArrayIndex++, pRecords.Item(n));
+    }
+}
+
+/*Flyttar information från Slave till Master om fältet är fyllt i Slave men inte i master*/
+function moveWhereEmpty(){
+	for(var i = 0; i < window.document.all("arrow").length; i ++){	
+		var objArrow = window.document.all.arrow[i];
+		var objMaster = window.document.all("txt" + m_nMainSide + "_" + objArrow.parentElement.name);
+		var objSlave = window.document.all("txt" + m_nSubSide + "_" + objArrow.parentElement.name);
+		if (objMaster.parentElement.parentElement.style.display != "none"){
+			if (objMaster.recordType == "typeset"){
+				if (objMaster.parentElement.parentElement.parentElement.parentElement.parentElement.style.display != "none")
+					if (objMaster.recordType == "typeset" && objSlave.textValue != "")
+						functionMoveValue(objArrow);
+			}
+			else if (objMaster.recordType != "multilink"){
+				if (objMaster.recordType == "grade" && objMaster.grade == "" || objMaster.grade == "0")
+					functionMoveValue(objArrow);	
+				else if (objMaster.recordType == "percent" && objMaster.title == "" || objMaster.title == "0%")
+					functionMoveValue(objArrow);
+				else if (objMaster.recordType == "color" && objMaster.colorRGB == "")
+					functionMoveValue(objArrow);
+				else if (objMaster.recordType == "text" && objMaster.tagName.toLowerCase() == "div" && objMaster.innerHTML == "")
+					functionMoveValue(objArrow);
+				else if (objMaster.recordType == "text" && objMaster.tagName.toLowerCase() == "input" && objMaster.value == "")
+					functionMoveValue(objArrow);
+				else if (objMaster.recordType == "numeral" && objMaster.value == "")
+					functionMoveValue(objArrow);
+				else if (objMaster.recordType == "date" && objMaster.value == "")
+					functionMoveValue(objArrow);
+				else if (objMaster.recordType == "link" && objMaster.value == "")
+					functionMoveValue(objArrow);
+				else if (objMaster.recordType == "alternative" && objMaster.value == ""){
+					functionMoveValue(objArrow);
+				}
+			}
+		}
+	}
+	alert(Resources.getText("alert.movedAllFields"));
+}
+
+/*Flyttar alla relationer från slave till master*/
+function moveAllRelations(){
+	for(var i = 0; i < window.document.all("arrow").length; i ++){	
+		var objArrow = window.document.all.arrow[i];
+		var objSlave = window.document.all("txt" + m_nSubSide + "_" + objArrow.parentElement.name);
+		if (objSlave.recordType == "multilink"){
+			if (objSlave.idvalues != "" && objSlave.idvalues != undefined){
+				functionMoveValue(objArrow);	
+			}
+		}
+	}
+	alert(Resources.getText("alert.movedAllRelations"));
+}
+
+/*Byter riktning på pilarna*/
+function changeArrow(){
+	if (pickMe[0].checked == true){
+		if (m_pMergeRecords.Count > 2) {
+			window.document.all("notDouble0").checked = false;
+			window.document.all("span_notDouble0").style.display = "none";
+			window.document.all("span_notDouble1").style.display = "block";
+		}
+		m_nMainSide = 0;
+		m_nSubSide = 1;
+		for(var i = 0; i < window.document.all("arrow").length; i ++){
+			window.document.all.arrow[i].src = "images/inactive_from2to1.ico";
+		}
+	}
+	else{
+		if (m_pMergeRecords.Count > 2) {
+			window.document.all("notDouble1").checked = false;
+			window.document.all("span_notDouble1").style.display = "none";
+			window.document.all("span_notDouble0").style.display = "block";
+		}
+		m_nMainSide = 1;
+		m_nSubSide = 0;
+		for(var i = 0; i < window.document.all("arrow").length; i ++){
+			window.document.all.arrow[i].src = "images/inactive_from1to2.ico";
+		}
+	}
+	window.document.all("txt_title" + m_nMainSide).innerHTML = Resources.getText("page.keep");
+	window.document.all("txt_title" + m_nSubSide).innerHTML = Resources.getText("page.doublet");
+}
+
+/* Kontrollerar om ett värde är detsamma som ett annat */
+function AreStringsEqual(string1, string2) { 
+    var len = string1.length; 
+
+    if (len != string2.length) return false; 
+
+    for (var k=0; k<len; k++) 
+        if (string1.charAt(k) != string2.charAt(k)) return false; 
+    return true; 
+}
+
+function saveDataSet(strFieldName){
+	var strValue = m_pCurrentRecords[m_nSubSide].Record.Value(strFieldName);
+	var len = strValue.length - 1; 
+	strValue = strValue.substring(1, len);
+	
+	var strArray = strValue.split(";");
+	
+	for (var i = 0; i < strArray.length; i++) {
+		if (m_pCurrentRecords[m_nMainSide].Record.Option(strFieldName, strArray[i]) == false)
+			m_pCurrentRecords[m_nMainSide].Record.Option(strFieldName, strArray[i]) = true;
+	}
+}
+
+function MyDictionary() { 
+    this.obj = new Object(); 
+    this.Count = 0; 
+
+
+    function MyDictionary_Add(key, value) { 
+        if (this.obj[key] != null) return null; 
+        this.obj[key] = value; 
+        this.Count++; 
+        return value; 
+    } 
+
+
+    function MyDictionary_Exists(key) { 
+        return (this.obj[key] != null); 
+    } 
+
+
+    function MyDictionary_Remove(key) { 
+        if (this.obj[key] == null) return null; 
+        this.obj[key] = null; 
+        this.Count--; 
+        return key; 
+    } 
+
+
+    function MyDictionary_Items() { 
+        var returnArray = new Array(); 
+        for (var i in this.obj) { 
+            if (this.obj[i] != null) { 
+                returnArray.push(this.obj[i]); 
+            } 
+        } 
+        return returnArray; 
+    } 
+
+
+    function MyDictionary_Keys() { 
+        var returnArray = new Array(); 
+        for (var i in this.obj) { 
+            if (this.obj[i] != null) { 
+                returnArray.push(i); 
+            } 
+        } 
+        return returnArray; 
+    } 
+
+
+    function MyDictionary_RemoveAll() { 
+        this.obj = new Object(); 
+        this.Count = 0; 
+    } 
+
+
+    function MyDictionary_Item(key, value) { 
+        if (value != null) { 
+            if (this.obj[key] != null) { 
+                this.obj[key] = value; 
+                return value; 
+            } else { 
+                return null; 
+            } 
+        } else { 
+            return this.obj[key]; 
+        } 
+    } 
+
+
+    function MyDictionary_Key(key, newKey) { 
+        if (this.obj[key] != null) { 
+            this.obj[newKey] = this.obj[key]; 
+            this.obj[key] = null; 
+            return newKey; 
+        } else { 
+            return key; 
+        } 
+    } 
+
+
+    this.Add = MyDictionary_Add; 
+    this.Exists = MyDictionary_Exists; 
+    this.Remove = MyDictionary_Remove; 
+    this.Items = MyDictionary_Items; 
+    this.Keys = MyDictionary_Keys; 
+    this.RemoveAll = MyDictionary_RemoveAll; 
+    this.Item = MyDictionary_Item; 
+    this.Key = MyDictionary_Key; 
+
+
+
+} 
+</script>
+</html>
