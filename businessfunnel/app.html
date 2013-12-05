@@ -1,0 +1,28 @@
+<ul class="menu expandable businessfunnel" >
+	<li class="menu-header" >
+			<span data-bind="text:name"></span>	
+
+	</li>
+	<li class="divider" ></li>
+
+	<!-- ko foreach: values-->
+	<li>
+	<div class="statusheader" data-bind="text:businessstatus,  click:$parent.statusClicked"></div>    	
+    
+   <div class="progress ">
+    	
+    	<div class="progress-bar" data-bind="text:money,  click:$parent.statusClicked, style:{width:percentText, 'background-color':color}, css:{overflow:percent<10}"></div>
+    
+    </div>
+
+    </li>
+	<!-- /ko -->
+	<li>
+		<div class="btn-group btn-group-xs">
+			<button  data-bind="text:localize.businessfunnel.all, click:refreshData, icon:'fa-group'"  type="button" class="btn btn-default"></button>
+			<button  data-bind="text:localize.businessfunnel.mine, click:mineData, icon:'fa-user'"  type="button" class="btn btn-default"></button>
+		</div>
+	</li>
+ </ul> 
+
+

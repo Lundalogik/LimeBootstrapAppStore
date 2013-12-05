@@ -1,0 +1,53 @@
+
+.statusheader{
+	margin: 0px 0px 0px 0px;	
+	cursor: pointer;
+}
+
+.progress {
+	margin: 0px 10px 5px 0px; 
+	cursor: pointer;
+}
+	
+.progress .bar {
+  font-weight: bold;
+
+}
+
+.progress .overflow{
+	color: black;
+	text-indent: 20px;
+
+}
+
+#mine-link {
+padding-left: 11px;
+}
+
+#mine-link span {
+padding-left: 2px;
+}
+
+.businessfunnel .btn-group{	
+	 width: 100% ;
+/*  margin-left: auto ;
+  margin-right: auto ;
+background-color: inherit;
+color: inherit;*/
+text-align: center;
+	
+}
+
+.businessfunnel .btn-group button{
+border-color: inherit;
+color: inherit;
+}
+
+.businessfunnel .btn-group>.btn {
+	float: none;
+}
+
+.btn-group>.btn:first-child {
+	margin-right: -4px;
+	
+}
