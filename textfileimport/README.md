@@ -11,7 +11,7 @@ As always, copy the the app folder to "apps"
 
 - GetRandomNumber should be copied into the module "Globals"
 
-```vba
+`
 Public Function GetRandomNumber(ByVal Min As Integer, ByVal Max As Integer) As Integer
     On Error GoTo ErrorHandler
         Call Randomize
@@ -20,11 +20,11 @@ Public Function GetRandomNumber(ByVal Min As Integer, ByVal Max As Integer) As I
     ErrorHandler:
     Call UI.ShowError("Globals.GetRandomNumber")
 End Function
-```
+`
 
 - GetXmlImportInstance should be copied into the module "Globals":
 
-```vba
+`
 Public Function GetXmlImportInstance() As Object
     On Error Resume Next 'da shit!
 
@@ -48,12 +48,12 @@ Public Function GetXmlImportInstance() As Object
     
     Set GetXmlImportInstance = pObject
 End Function
-```
+`
 
 ###HTML
 To launch the textfile import you use the "appInvoke" binding:
 
-```
+```html
 <li data-bind="appInvoke: 'textfileimport', text: 'Importera textfil', icon:'fa-file'"></li>   
 ```
 
