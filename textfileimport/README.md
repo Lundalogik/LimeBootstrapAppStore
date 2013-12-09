@@ -14,13 +14,11 @@ As always, copy the the app folder to "apps"
 ```vb
 Public Function GetRandomNumber(ByVal Min As Integer, ByVal Max As Integer) As Integer
 On Error GoTo ErrorHandler
-    
-    Call Randomize
-    GetRandomNumber = Int((Max * Rnd) + Min)
-
-    Exit Function
+    Call Randomize
+    GetRandomNumber = Int((Max * Rnd) + Min)
+    Exit Function
 ErrorHandler:
-    Call UI.ShowError("Globals.GetRandomNumber")
+    Call UI.ShowError("Globals.GetRandomNumber")
 End Function
 ```
 
