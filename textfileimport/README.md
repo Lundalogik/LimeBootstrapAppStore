@@ -11,22 +11,22 @@ As always, copy the the app folder to "apps"
 
 - GetRandomNumber should be copied into the module "Globals"
 
-```vb
-    Public Function GetRandomNumber(ByVal Min As Integer, ByVal Max As Integer) As Integer
+```vba
+Public Function GetRandomNumber(ByVal Min As Integer, ByVal Max As Integer) As Integer
     On Error GoTo ErrorHandler
         Call Randomize
         GetRandomNumber = Int((Max * Rnd) + Min)
         Exit Function
     ErrorHandler:
     Call UI.ShowError("Globals.GetRandomNumber")
-    End Function
+End Function
 ```
 
 - GetXmlImportInstance should be copied into the module "Globals":
 
-```vb
+```vba
 Public Function GetXmlImportInstance() As Object
-    On Error Resume Next
+    On Error Resume Next 'da shit!
 
     Dim pObject As Object
     
