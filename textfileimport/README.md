@@ -2,7 +2,11 @@
 
 The textfile import is a tool for importing... ehh... textfiles. It works (well, kind of) with any type of tab-seperated .txt-files. 
 
-###Installation
+##Installation
+
+As always, copy the the app folder to "apps"
+
+###VBA
 - XmlImport is a classmodule that should be imported, found in the folder "install"
 
 - GetRandomNumber should be copied into the module "Globals"
@@ -47,3 +51,14 @@ Public Function GetXmlImportInstance() As Object
     Set GetXmlImportInstance = pObject
 End Function
 ```
+
+###HTML
+To launch the textfile import you use the "appInvoke" binding:
+
+```
+<li data-bind="appInvoke: 'textfileimport', text: 'Importera textfil', icon:'fa-file'"></li>   
+```
+
+##Settings
+The texfile import has a lot of setting. You can play with them in the ```textfileimport.ini``` file.
+Good luck and happy importing!
