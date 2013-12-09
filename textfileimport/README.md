@@ -24,7 +24,7 @@ As always, copy the the app folder to "apps"
 
 - GetXmlImportInstance should be copied into the module "Globals":
 
-
+```vb
 Public Function GetXmlImportInstance() As Object
     On Error Resume Next
 
