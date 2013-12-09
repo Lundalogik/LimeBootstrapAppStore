@@ -24,7 +24,7 @@ End Function
 
 - GetXmlImportInstance should be copied into the module "Globals":
 
-```vb
+
 Public Function GetXmlImportInstance() As Object
     On Error Resume Next
 
