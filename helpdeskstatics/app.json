@@ -1,7 +1,7 @@
 {
 	"name": "Helpdesk statistics",
 	"author":"SSM",
-	"status":"Beta",
+	"status":"Release",
 	"versions":[
 		{
 			"version":"0.9",
