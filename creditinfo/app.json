@@ -1,0 +1,15 @@
+{
+	"name": "Creditinfo",
+	"author":"FPE",
+	"status":"Development",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2013-11-18",
+			"comments":""
+		}
+	],
+	"install":{
+		
+	}
+}
