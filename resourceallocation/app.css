@@ -19,3 +19,7 @@ div#rac_datagrid tr td span,div#rac_datagrid tr td input{
     white-space:pre;
     max-width:none;
 }
+
+.dropdown-menu{
+	width: auto;
+}
