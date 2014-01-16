@@ -50,7 +50,7 @@ lbs.apploader.register('creditinfo', function () {
            if (viewModel.ratingValue()){
                 if (viewModel.ratingValue() >= 8 )  { 
 
-                    return "good animated hinge  "
+                    return "good animated fadeIn"
                 } 
                 else if (viewModel.ratingValue() <= 7 &&  viewModel.ratingValue() >= 4){
                     return "medium annimation" 
