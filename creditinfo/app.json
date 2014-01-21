@@ -1,12 +1,17 @@
 {
 	"name": "Creditinfo",
 	"author":"FPE",
-	"status":"Development",
+	"status":"Release",
 	"versions":[
 		{
 			"version":"0.1",
 			"date":"2013-11-18",
 			"comments":""
+		},
+		{
+			"version":"0.9",
+			"date":"2014-01-21",
+			"comments":"Now working!"
 		}
 	],
 	"install":{
