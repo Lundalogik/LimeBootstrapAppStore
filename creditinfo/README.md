@@ -11,7 +11,7 @@ Copy “creditinfo” folder to the “apps” folder. The inspector where the a
  
 Add the following HTML to the ActionPad (BusinessCheck-example):
 
-´´´html
+```html
 <div data-app="{app:'creditinfo', config:{
 	businessCheck:{
 customerLoginName : 'string',
@@ -21,7 +21,7 @@ customerLoginName : 'string',
 	}
 }}">
 </div>
-´´´ 
+```
 
 ##Setup
 The app takes a config with the following parameters
@@ -29,7 +29,7 @@ The app takes a config with the following parameters
 *	maxAge - Optional, Integer specifying the maximum age of the rating in days. Default: 365
 *	onlyAllowPublicCompanies - Optional, If false you can perform creditchecks on all companies or persons. However they will receive a letter and there will be an additional cost. Default: False
 
-The app should be place just below the ActionPad ´class=”header-container”´ <div>
+The app should be place just below the ActionPad `class=”header-container”` <div>
 
 ##Vendors
 The app is built to work with any vendor that has a webservice to perform the check.
@@ -42,7 +42,7 @@ BusinessCheck requires you to create a package for the customer and allow webser
 
 Many customers have unique users and passwords for every LIME-user. In that case you’ll need to implement a function which fetches this information from the users coworker card. An example:
 
-´´´html
+```html
 <div data-app="{app:'creditinfo', config:{
 	businessCheck:{
 customerLoginName : 'CustomerX',
@@ -52,4 +52,4 @@ customerLoginName : 'CustomerX',
 	}
 }}">
 </div>
-´´´ 
+```
