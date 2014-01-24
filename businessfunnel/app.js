@@ -35,7 +35,7 @@ lbs.apploader.register('businessfunnel', function () {
         if (!self.config.name){
             self.config.name="Pipeline"
         }
-
+        $(".refreshData").addClass("active");
 
         var salesfunnel = {};
 
@@ -60,13 +60,13 @@ lbs.apploader.register('businessfunnel', function () {
             }
             else {
                 // does not exist
-                 colors=['#2693FF','#D39D09','#E56C19','#83BA1F','#BF3B26','#464646']
-                //#2693FF -blue
-                //#464646  -darkgrey
-                //#BF3B26 -red
-                //#D39D09 -yellow
-                //#E56C19 - orange
-                //#83BA1F- green    
+                 colors=['rgb(70, 116, 238)','rgb(244, 187, 36)','rgb(153, 216, 122)','rgb(243, 150, 206)','rgb(232, 89, 89)','rgb(176, 176, 176)']
+                //rgb(70, 116, 238) -blue
+                //rgb(176, 176, 176)  -darkgrey
+                //rgb(232, 89, 89) -red
+                //rgb(243, 150, 206); -pink
+                //rgb(244, 187, 36) - orange
+                //rgb(153, 216, 122)- green    
                           
             }
         
@@ -108,6 +108,8 @@ lbs.apploader.register('businessfunnel', function () {
         
         //USED TO SET ALL DATA
         salesfunnel.refreshData = function(){
+            $(".mineData").removeClass("active");
+            $(".refreshData").addClass("active");
             salesfunnel.type = 0
             salesfunnel.values.removeAll();
            
@@ -123,6 +125,8 @@ lbs.apploader.register('businessfunnel', function () {
 
         //USED TO SET MINE DATA
         salesfunnel.mineData = function(){
+            $(".mineData").addClass("active");
+            $(".refreshData").removeClass("active");
             salesfunnel.type = 1
             salesfunnel.values.removeAll();
             

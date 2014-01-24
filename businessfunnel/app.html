@@ -9,9 +9,11 @@
 	<li>
 	<div class="statusheader" data-bind="text:businessstatus,  click:$parent.statusClicked"></div>    	
     
-   <div class="progress ">
-    	
-    	<div class="progress-bar" data-bind="text:money,  click:$parent.statusClicked, style:{width:percentText, 'background-color':color}, css:{overflow:percent<10}"></div>
+   <div class="progress">
+    	    		
+    	<div class="progress-bar" data-bind=" click:$parent.statusClicked, style:{width:percentText, 'background-color':color}, css:{overflow:percent<10}">
+<span class="badge" data-bind="text:money"><span>
+    	</div>
     
     </div>
 
@@ -19,8 +21,8 @@
 	<!-- /ko -->
 	<li>
 		<div class="btn-group btn-group-xs">
-			<button  data-bind="text:localize.businessfunnel.all, click:refreshData, icon:'fa-group'"  type="button" class="btn btn-default"></button>
-			<button  data-bind="text:localize.businessfunnel.mine, click:mineData, icon:'fa-user'"  type="button" class="btn btn-default"></button>
+			<button  data-bind="text:localize.businessfunnel.all, click:refreshData, icon:'fa-group'"  type="button" class="btn btn-default refreshData"></button>
+			<button  data-bind="text:localize.businessfunnel.mine, click:mineData, icon:'fa-user'"  type="button" class="btn btn-default mineData"></button>
 		</div>
 	</li>
  </ul> 
