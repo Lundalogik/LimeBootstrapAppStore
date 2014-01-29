@@ -89,8 +89,6 @@ lbs.apploader.register('creditinfo', function () {
                         viewModel.ratingValue("!")
                     }
                     viewModel.ratingText(ratingData[1].Value)
-                    viewModel.ratingDate(moment().format("YYYY-MM-DD HH:mm:ss"));
-                    save();
                 }
             }
 
@@ -99,22 +97,56 @@ lbs.apploader.register('creditinfo', function () {
 
             }
 
-            //Impement your own favorite credit solution here. Remember to add it to the config aswell: 
+            /* Implement your own favorite credit solution here. Remember to add it to the config aswell: 
+                          
+            else if (self.config.[Your service here].customerLoginName !== ""){
+               GET DATA -> ratingData = lbs.loader.loadDataSources({}, [{type: 'HTTPGetXml', source: url, alias:'creditdata'}], true);
+
+               SET DATA ->
+                viewModel.ratingValue() - The value seen to the left. Can be a number (1-10) or maybe letters (AAA) or maybe a icon (<i class='fa fa-cog'></i>)
+            }   viewModel.ratingtext() - The text seen to the right
+            */
+
+            viewModel.ratingDate(moment().format("YYYY-MM-DD HH:mm:ss"));
+            save();
 
         }
 
-        viewModel.setColor = ko.computed( function(){
+        //Set the colors based on your rating value
+        viewModel.setColor = ko.computed( function(){ 
            if (viewModel.ratingValue() && !viewModel.loading()){
-                if (viewModel.ratingValue() >= 8 )  { 
-                    viewModel.ratingColor("good");
-                } 
-                else if (viewModel.ratingValue() <= 7 &&  viewModel.ratingValue() >= 4){
-                    viewModel.ratingColor("medium"); 
+                if(self.config.businessCheck.customerLoginName !== ""){
+                    if (viewModel.ratingValue() >= 8 )  { 
+                        viewModel.ratingColor("good");
+                    } 
+                    else if (viewModel.ratingValue() <= 7 &&  viewModel.ratingValue() >= 4){
+                        viewModel.ratingColor("medium"); 
+                    }
+                    else if ((viewModel.ratingValue() <= 3 &&  viewModel.ratingValue() >= 0) || viewModel.ratingValue() === "!"){
+                        viewModel.ratingColor("bad");
+                    }
                 }
-                else if ((viewModel.ratingValue() <= 3 &&  viewModel.ratingValue() >= 0) || viewModel.ratingValue() === "!"){
-                    viewModel.ratingColor("bad");
-                }
+            }//ToDo: Soliditet rating
+            else if (self.config.soliditet.customerLoginName !== ""){
+
             }
+            /* Implement your own favorite credit solution here. Remember to add it to the config aswell: 
+            
+            Set the colors based on your rating value or rating text. 
+            RATING COLORS ->
+                "Good" - Green
+                "medium" - Yellow
+                "bad" - red
+            example:
+            else if (self.config.[Your service here].customerLoginName !== ""){
+               if (viewModel.ratingText() === 'Godkänd' )  { 
+                        viewModel.ratingColor("good");
+                    } 
+                    else if (viewModel.ratingText() ==='Sådär' ){
+                        viewModel.ratingColor("medium"); 
+                    }
+            */
+
         });
 
         viewModel.showRating = ko.computed(function(){
