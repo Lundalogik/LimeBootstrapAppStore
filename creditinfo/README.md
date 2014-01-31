@@ -53,3 +53,18 @@ customerLoginName : 'CustomerX',
 }}">
 </div>
 ```
+###Creditsafe-setup
+Creditsafe requires you to create a package for the customer and allow webservice access. The package should be a credit template for company. Call creditsafe and they will help you. 
+LANGUAGE CODE for sweden SWE
+
+```html
+<div data-app="{app:'creditinfo', config:{
+	creditsafe:{
+		    customerLoginName : 'LOGINNAME',
+            password : 'PASSWORD',
+            packageName : 'NAME OF CREDIT TEMPLATE',
+            language  :  'LANGUAGE CODE' 
+	}
+}}">
+</div>
+```
