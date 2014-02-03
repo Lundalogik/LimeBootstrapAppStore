@@ -1,4 +1,4 @@
-#Textfile import
+#Duplicate merger
 
 Kill duplicates like Rambo on crack!
 
