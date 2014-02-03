@@ -33,8 +33,9 @@ The app should be place just below the ActionPad `class=”header-container”` 
 
 ##Vendors
 The app is built to work with any vendor that has a webservice to perform the check.
-*	BusinessCheck - Implemented
-*	Soliditet -	Waiting for implementation
+*	__BusinessCheck__ - Implemented
+*	__Creditsafe__ - Implemented
+*	__Soliditet__ -	Waiting for implementation
 *	[Add your favourite here…]
 
 ###BusinessCheck-setup

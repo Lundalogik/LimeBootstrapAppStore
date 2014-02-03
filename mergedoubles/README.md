@@ -11,7 +11,7 @@ As always, copy the the app folder "mergedoubles" to the "apps" folder in your w
 To launch the you use the "appInvoke" binding:
 
 ```html
-<li data-bind="appInvoke: 'mergedoubles', text: 'Slå ihop dubletter', icon:'fa-file'"></li>   
+<li data-bind="appInvoke: 'mergedoubles', text: 'Slå ihop dubbletter', icon:'fa-file'"></li>   
 ```
 
 
