@@ -17,6 +17,11 @@
 			"version":"1.0",
 			"date":"2014-01-30",
 			"comments":"Bug fixes and new design"
+		},
+		{
+			"version":"1.1",
+			"date":"2014-02-04",
+			"comments":"Can now be expanded from start"
 		}
 	],
 	"install":{

@@ -6,7 +6,7 @@ This app takes performs a credit check on the supplied organisation. Credit rati
 ##Install
 
 Copy “creditinfo” folder to the “apps” folder. The inspector where the app is supplied must have the following fields:
-*	registrationno - text field - Contains the registration number
+*	registrationno - text field - Contains the registration number, exisits as default in LIME Basics
 * 	creditinfo - XML field - Stores the data
  
 Add the following HTML to the ActionPad (BusinessCheck-example):
@@ -23,10 +23,13 @@ customerLoginName : 'string',
 </div>
 ```
 
+If using in actionpad, place it just undern the header for best design.
+
 ##Setup
 The app takes a config with the following parameters
 *	[vendor-config] - object with vendor properties such as user, password
 *	maxAge - Optional, Integer specifying the maximum age of the rating in days. Default: 365
+*	showFromStart - Optional, Boolean specifing if the should be expanded from start. Set to true if you're using the app in a field an not in the actionpad
 *	onlyAllowPublicCompanies - Optional, If false you can perform creditchecks on all companies or persons. However they will receive a letter and there will be an additional cost. Default: False
 
 The app should be place just below the ActionPad `class=”header-container”` <div>

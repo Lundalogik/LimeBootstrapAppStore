@@ -6,6 +6,7 @@ lbs.apploader.register('creditinfo', function() {
         orgnbr: "",
         onlyAllowPublicCompanies: true,
         maxAge: 365,
+        showFromStart: false,
         dataSources: [
             { type: 'activeInspector', alias: 'activeInspector' }
         ],
@@ -104,6 +105,7 @@ lbs.apploader.register('creditinfo', function() {
             else if (self.config.soliditet.customerLoginName !== "") {
 
             }
+            //Creditsafe
             else if (self.config.creditsafe.customerLoginName !== "") {
 
                 // build SOAP request
@@ -166,10 +168,9 @@ lbs.apploader.register('creditinfo', function() {
 
 
                     viewModel.ratingText(ratingData.Status_Text)
-                    viewModel.ratingDate(moment().format("YYYY-MM-DD HH:mm:ss"));
-                    save();
                 }
-            }
+            }                   
+            // /Creditsafe
 
             /* Implement your own favorite credit solution here. Remember to add it to the config aswell: 
                           
@@ -189,6 +190,7 @@ lbs.apploader.register('creditinfo', function() {
         //Set the colors based on your rating value
         viewModel.setColor = ko.computed(function() {
             if (viewModel.ratingValue() && !viewModel.loading()) {
+                //BusinessCheck
                 if (self.config.businessCheck.customerLoginName !== "") {
                     viewModel.ratingIcon(viewModel.ratingValue());
                     if (viewModel.ratingValue() >= 8) {
@@ -205,6 +207,7 @@ lbs.apploader.register('creditinfo', function() {
                 else if (self.config.soliditet.customerLoginName !== "") {
 
                 }
+                //Creditsafe
                 else if (self.config.creditsafe.customerLoginName !== "") {
 
                     switch (viewModel.ratingValue()) {
@@ -333,14 +336,14 @@ lbs.apploader.register('creditinfo', function() {
             existingData = lbs.limeDataConnection.ActiveInspector.Controls.GetValue('creditinfo')
             if (existingData) {
                 existingData = lbs.loader.xmlToJSON(existingData, 'creditdata');
-            }
-            if (existingData) {
                 if (moment().diff(existingData.creditdata.ratingData.ratingDate, 'days') < self.config.maxAge) {
                     viewModel.ratingValue(existingData.creditdata.ratingData.ratingValue);
                     viewModel.ratingText(existingData.creditdata.ratingData.ratingText);
                     viewModel.ratingDate(existingData.creditdata.ratingData.ratingDate);
-
                 }
+            }else if(self.config.showFromStart){
+                    viewModel.ratingValue('?');
+                    viewModel.ratingText('Ingen kreditrating tagen');
             }
         }
 
