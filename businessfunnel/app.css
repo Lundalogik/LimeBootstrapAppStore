@@ -21,6 +21,10 @@
   border-bottom-right-radius: 2px;
 }
 
+.progress-bar{
+	background-image: none;
+}
+
 .businessfunnel .progress  .badge {
 	margin-top: 6px;
   background-color: rgba(40,40,40,0.3);

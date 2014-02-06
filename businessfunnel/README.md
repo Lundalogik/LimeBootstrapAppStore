@@ -17,7 +17,7 @@ Copy the business funnel app folder to the apps folder under the actionpad folde
 
 Insert the following html tag in the actionpad where you want it to be shown, most likeley the index actionpad.
 
-	<div data-app="{app:'businessfunnel'}"></div>
+	`<div data-app="{app:'businessfunnel'}"></div>`
 
 ##Configurating the business funnel
 Following field need to be implemented in the database:
@@ -37,14 +37,14 @@ Following field need to be implemented in the database:
 
 This means that if you dont configure the business funnel it will show you a bar chartwhith the name **Pipeline** where all values are divided with **1000** and the currency will be **tkr** (thousands of swedish crowns). **Zero decimals** will be added and **all statuses** in the option list businessstatus will be added. The default colors are used:
 
-#### Default colors: ####
+#### Default colors:
 
-* #2693FF -blue
-* #464646  -darkgrey
-* #BF3B26 -red
-* #D39D09 -yellow
-* #E56C19 orange
-* #83BA1Fgreen   
+* C&#35;2693FF - blue
+* C&#35;464646 - darkgrey
+* C&#35;BF3B26 - red
+* C&#35;D39D09 - yellow
+* C&#35;E56C19 - orange
+* C&#35;83BA1F - green   
 
 To set your own configuration you use the parameters when initializing the app.
 
@@ -65,7 +65,9 @@ The customer want the currency in NOK and thet always use million NOK as value
 *	divider = 1 000 000 
 *	remove statuses 'onhold' and 'rejection' (key on the optionfield)
 
-	`<div data-app="{app:'businessfunnel', config:{ name:'Salgpipe', currency:'NOK', divider:1000000, removeStatus:['onhold','rejection']}}"></div>`
+```html
+<div data-app="{app:'businessfunnel', config:{ name:'Salgpipe', currency:'NOK', divider:1000000, removeStatus:['onhold','rejection']}}"></div>`
+```
 
 ####Example 3
 The customer want the currency in EURO and no devider, status onhold and rejection should not be shown and the colors to be used is picked by the customer.
@@ -75,4 +77,6 @@ The customer want the currency in EURO and no devider, status onhold and rejecti
 *	remove statuses 'onhold' and 'rejection' (key on the optionfield)
 *	colors:['#FFFFFF', '#GGGGGG']
 
-	`<div data-app="{app:'businessfunnel', config:{ currency:'€', divider:1, removeStatus:['onhold','rejection'], colors:['#FFFFFF', '#GGGGGG']}}"></div>`
+```html
+<div data-app="{app:'businessfunnel', config:{ currency:'€', divider:1, removeStatus:['onhold','rejection'], colors:['#FFFFFF', '#GGGGGG']}}"></div>
+```
