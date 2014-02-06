@@ -21,6 +21,8 @@ Add the following HTML to the ActionPad (Todo example):
 </div>
 ```
 
+Create a VBA module called "InfoTile" and add the VBA from the folder "install/InfoTile"
+
 ##Setup
 The app takes a config with the following parameters
 *	className - name of the class where your favourite filter lives, example "todo" or "company"
