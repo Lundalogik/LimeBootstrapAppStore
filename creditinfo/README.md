@@ -1,7 +1,7 @@
 #Creditinfo
 
 ##Info
-This app takes performs a credit check on the supplied organisation. Credit rating is shown in the actionpad as a colorful badge. A bad rating is displayed as red, a medium rating as yellow and a good rating as green. The rating fades with time and disappears after a certain age (default 365 days)
+This app takes performs a credit check on the supplied organisation. Credit rating is shown in the actionpad as a colorful badge. A bad rating is displayed as red, a medium rating as yellow and a good rating as green. The rating fades with time and disappears after a certain age (default 365 days). You can use the app either in the actionpad or in a HTML-field. If you use it in a field, set the config-parameter inline=true
 
 ##Install
 
@@ -29,7 +29,7 @@ If using in actionpad, place it just undern the header for best design.
 The app takes a config with the following parameters
 *	[vendor-config] - object with vendor properties such as user, password
 *	maxAge - Optional, Integer specifying the maximum age of the rating in days. Default: 365
-*	showFromStart - Optional, Boolean specifing if the should be expanded from start. Set to true if you're using the app in a field an not in the actionpad
+*	inline - Optional, Boolean specifing if the should be expanded from start. Set to true if you're using the app in a field an not in the actionpad
 *	onlyAllowPublicCompanies - Optional, If false you can perform creditchecks on all companies or persons. However they will receive a letter and there will be an additional cost. Default: False
 
 The app should be place just below the ActionPad `class=”header-container”` <div>

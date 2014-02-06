@@ -6,7 +6,7 @@ lbs.apploader.register('creditinfo', function() {
         orgnbr: "",
         onlyAllowPublicCompanies: true,
         maxAge: 365,
-        showFromStart: false,
+        inline: false,
         dataSources: [
             { type: 'activeInspector', alias: 'activeInspector' }
         ],
@@ -38,6 +38,7 @@ lbs.apploader.register('creditinfo', function() {
     //initialize
     this.initialize = function(node, viewModel) {
         var me = this;
+         viewModel.loading = ko.observable(false); //Active while loading
 
         //Rating data
         viewModel.ratingValue = ko.observable("");
@@ -49,7 +50,7 @@ lbs.apploader.register('creditinfo', function() {
         viewModel.icon = ko.observable("fa fa-angle-double-down"); //Icon in the handle
         viewModel.loadText = ko.observable("Hämta rating"); // Text in the handle
         viewModel.ratingColor = ko.observable(""); //Color of the rating-app, dependent on the rating (Red, Yellow or Green)
-        viewModel.loading = ko.observable(false); //Active while loading
+        viewModel.inline = self.config.inline;
 
         //Is there exisisting data?
         var existingData;
@@ -61,7 +62,9 @@ lbs.apploader.register('creditinfo', function() {
         //Get the rating from webservice
         viewModel.getRating = function() {
             //Refresh the data from the inspector to check if a unsaved registration number exists.
-            loadingTimer();
+            if(!viewModel.inline){
+                loadingTimer();
+            }
 
             viewModel.activeInspector = lbs.loader.loadDataSources({}, [{ type: 'activeInspector', alias: 'activeInspector'}]).activeInspector;
             self.config.orgnbr = viewModel.activeInspector.registrationno.text
@@ -315,17 +318,29 @@ lbs.apploader.register('creditinfo', function() {
 
         //Knockout hover is a bit quirky, so using jQuery here
         $(".creditinfo").hover(function() {
-            if (viewModel.ratingValue()) {
-                $(".rating-date").fadeIn();
-                $(".handle").stop().animate({ 'margin-top': '-0px' }, "slow");
-            }
-        }, function() {
-            if (viewModel.ratingValue() !== "") {
-                $(".rating-date").stop().fadeOut();
-                $(".handle").stop().animate({ 'margin-top': '-30px' }, "slow");
+            if(viewModel.inline){ //Inline mode
+                viewModel.ratingIcon('<i class="fa fa-refresh fa-spin" ></i>');
+            }else{
+                $(".handle").stop().animate({ 'margin-top': '-0px' }, "slow");    
             }
 
+            if (viewModel.ratingDate()) {
+                $(".rating-date").fadeIn();
+            }
+
+        }, function() {
+            if(viewModel.inline){
+                 viewModel.ratingIcon(viewModel.ratingValue());
+            }else{ 
+                if(viewModel.ratingValue()){ // Only slide up if we have a rating
+                    $(".handle").stop().animate({ 'margin-top': '-30px' }, "slow");
+                }
+            }
+            if (viewModel.ratingDate() !== "") {
+                    $(".rating-date").stop().fadeOut();
+            }
         });
+
 
         /*
         ---------------Helper functions---------------
@@ -341,9 +356,11 @@ lbs.apploader.register('creditinfo', function() {
                     viewModel.ratingText(existingData.creditdata.ratingData.ratingText);
                     viewModel.ratingDate(existingData.creditdata.ratingData.ratingDate);
                 }
-            }else if(self.config.showFromStart){
+            }else if(viewModel.inline){
+                    existingData = viewModel.inline;
                     viewModel.ratingValue('?');
                     viewModel.ratingText('Ingen kreditrating tagen');
+                    viewModel.loadText('Ta kreditkontroll');
             }
         }
 
