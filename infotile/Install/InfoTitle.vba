@@ -15,6 +15,8 @@ Public Sub ShowFilter(ByVal className As String, ByVal filterName As String)
     Set Application.Explorers.ActiveExplorer = Application.Explorers(className)
     Set Application.ActiveExplorer.ActiveFilter = Application.Explorers(className).Filters(filterName)
     
+    Application.ActiveExplorer.Requery
+    
     Exit Sub
 ErrorHandler:
     Call UI.ShowError("InfoTitle.SetFilter")
