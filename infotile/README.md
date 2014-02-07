@@ -16,7 +16,7 @@ Add the following HTML to the ActionPad (Todo example):
 					filterName:'Mina försenade uppgifter',
 					tileColor:'blue', 
 					icon:'fa-user', 
-					displayText:'Ditt favorit urval'
+					displayText:'Ditt favoriturval'
 			}}">
 </div>
 ```
