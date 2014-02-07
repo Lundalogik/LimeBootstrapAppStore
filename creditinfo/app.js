@@ -8,7 +8,7 @@ lbs.apploader.register('creditinfo', function() {
         maxAge: 365,
         inline: false,
         dataSources: [
-            { type: 'activeInspector', alias: 'activeInspector' }
+
         ],
         resources: {
             scripts: [],
