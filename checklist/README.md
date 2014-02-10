@@ -6,7 +6,7 @@ You can eaither generate a checklist based on a template or let the user add the
 ##Install
 *	Add the "checklist" folder to the apps folder
 *	Create a VBA module called "Checklist" and add the code from checklist
-*	Create an XML field called "checklist" on the inspectors you whant to have a checklist on
+*	Create an XML field called "checklist" on the inspectors you want to have a checklist on
 *	Optional: If you want the ability to have pre-maid checklist, automagically loaded:
 	*	Add tabel "Checklist" with fields...
 		*	name
