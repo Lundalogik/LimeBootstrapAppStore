@@ -7,12 +7,17 @@ lbs.apploader.register('resourceallocation', function () {
 
         ],
         resources: {
-            scripts: [],
-            styles: ['app.css'],
+            scripts: [
+                
+                ],
+            styles: [
+                'app.css'
+                ],
             libs: [
                 "graphael/raphael-min.js",
                 "graphael/g.raphael-min.js",
                 "graphael/g.line-min.js",
+                "moment.min.js"
                 ]
         }, 
 
@@ -25,7 +30,7 @@ lbs.apploader.register('resourceallocation', function () {
         var m = new rac_vm();
 
         m.initialize();
-        console.log(m)
+        //console.log(m)
         return m;
     }
 
@@ -36,9 +41,9 @@ lbs.apploader.register('resourceallocation', function () {
 var rac_vm = function(){
     var self = this;
 
-    self.nbrOfMonths = ko.observable(6);
-    self.startyear = ko.observable(2013);
-    self.startMonth = ko.observable(2);
+    self.nbrOfMonths = ko.observable(12);
+    self.startYear = ko.observable(2013);
+    self.startMonth = ko.observable(10);
     self.data = ko.observableArray([]);
 
     self.nbrOfWeeks = ko.computed(function(){
@@ -46,12 +51,25 @@ var rac_vm = function(){
     })
 
     self.graph = null;
+
+    self.createDefaultMomentTime = function(){
+        var date = moment(new Date())
+        date.isoWeekday(1)
+        date.year(self.startYear())
+        date.month(self.startMonth())
+        date.startOf('month')
+        return date;
+    }
     
     self.months = ko.computed(function() {
-    
+
         var d = ko.observableArray([])
-        for (var i=0;i<self.nbrOfWeeks();i=i+4){ 
-            a = new rac_month('Jan',1,2013)
+        var date;
+
+        for (var i=0;i<self.nbrOfMonths();i++){ 
+            date = self.createDefaultMomentTime()
+            date.add('M', i);
+            a = new rac_monthEntry(date,0)
             d.push(a)
         }
 
@@ -59,11 +77,15 @@ var rac_vm = function(){
     });
 
     self.weeks = ko.computed(function() {
-      
         var d = ko.observableArray([])
+        var date;
+        for (var i=0;i<self.nbrOfWeeks();i++){ 
 
-        for (var i=0;i<self.nbrOfWeeks();i=i+1){ 
-            a = new rac_week(1,2013)
+            date = self.createDefaultMomentTime()
+            date.add('w', i);
+            date.startOf('week')
+            a = new rac_weekEntry(date,38)
+
             d.push(a)
         }
 
@@ -75,15 +97,19 @@ var rac_vm = function(){
         var entry
         var month
         var d = ko.observableArray([])
-        for (var p=0;p<3;p++){ 
-            item = new rac_item("Item"+p)
-            for (var i=0;i<self.nbrOfWeeks();i++){ 
-                entry = new rac_entry(1,2013)
-                item.entries.push(entry)
+		
+		//for each item in data
+        for (var datanode in self.data()){ 
+            item = new rac_item("Item")
+            for (var sumMonthEntry in self.weeks){ 
+                month = new rac_monthEntry(null,0)
+                item.monthsEntries.push(month)
             }
-            for (var i=0;i<self.nbrOfWeeks();i=i+4){ 
-                month = new rac_month('Jan',1,2013)
-                item.months.push(month)
+			for (var sumWeekEntry in self.weeks){ 
+				var amount = 0
+				//todo check if node exists in data and set amount
+                entry = new rac_weekEntry(sumWeekEntry.week,sumWeekEntry.year,amount)
+                item.weekEntries.push(entry)
             }
             d.push(item)
         }
@@ -93,14 +119,16 @@ var rac_vm = function(){
 
     self.initialize = function(){
         
+		
         self.redraw_graph();
-
         $("#rac_datagrid tr td span").tooltip()
     }
 
     self.getMockData = function(){
         
     }
+	
+	
 
     self.redraw_graph = function(){
         var r = Raphael("simpleExample");
@@ -123,38 +151,55 @@ var rac_vm = function(){
     }
 }
 
-
-var rac_entry = function(week,year){
+var rac_item = function(text){
     var self = this
 
-    self.startdate = ''
-    self.enddate = ''
-    self.value = 0
-    self.week = week
-    self.year = year
+    self.text = ko.observable(text)
+    self.weekEntries = ko.observableArray([])
+    self.monthsEntries = ko.observableArray([])
 }
 
-var rac_item = function(comment){
+var rac_monthEntry = function(date,amount){
     var self = this
 
-    self.comment = comment
-    self.entries = ko.observableArray([])
-    self.months = ko.observableArray([])
+    self.date = ko.observable(date)
+
+    self.amount = ko.observable(amount)
+    
+    self.year = ko.computed(function(){
+        return self.date().year()
+    })
+
+    self.month = ko.computed(function(){
+        return self.date().month()
+    })
+	
+    self.startDate = ko.observable()
+	
+    self.endDate = ko.observable()
+	
+	self.name = ko.computed(function(){
+        return self.date().format("MMMM")
+	})
 }
 
-var rac_month = function(name,number,year){
+var rac_weekEntry = function(date,amount){
     var self = this
 
-    self.amount = 0
-    self.name = name
-    self.year = year
-    self.nbr = 1
-}
+    self.startDate = ko.observable(date)
+    self.endDate = ko.observable()
+    self.startDateLime = ko.observable()
+    self.endDateLime = ko.observable()
+    self.amount = ko.observable(amount)
+    
+    self.year = ko.computed(function(){
+        return self.startDate().year()
+    })
 
-var rac_week = function(number,year){
-    var self = this
+    self.week = ko.computed(function(){
+        return self.startDate().week()
+    })
 
-    self.amount = 0
-    self.year = year
-    self.nbr = 1
+	
+
 }

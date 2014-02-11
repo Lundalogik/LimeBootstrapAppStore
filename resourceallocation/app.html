@@ -3,7 +3,7 @@
 
 <div class="container">
 
-	<h3>Resource allocation</h3>
+	<h3>Resource Allocation</h3>
 
 	<div id="rac_controls">
 	
@@ -19,10 +19,20 @@
 			    <i class="fa fa-table"></i><span class="caret"></span>
 			  </button>
 			  <ul class="dropdown-menu" role="menu">
-			    <li><a href="#"><i class="fa fa-align-left"></i> 3 Månader</a></li>
-			    <li><a href="#"><i class="fa fa-align-left"></i> 6 Månader</a></li>
-			    <li><a href="#"><i class="fa fa-align-left"></i> 12 Månader</a></li>
-			    <li><a href="#"><i class="fa fa-align-left"></i> 18 Månader</a></li>
+			    <li><a href="#"><i class="fa fa-align-left"></i> 3 Months</a></li>
+			    <li><a href="#"><i class="fa fa-align-left"></i> 6 Months</a></li>
+			    <li><a href="#"><i class="fa fa-align-left"></i> 12 Months</a></li>
+			    <li><a href="#"><i class="fa fa-align-left"></i> 18 Months</a></li>
+			  </ul>
+		 </div>
+		 <div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			    <i class="fa fa-calendar"></i><span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" role="menu">
+			    <li><a href="#"><i class="fa fa-align-left"></i> Months</a></li>
+			    <li><a href="#"><i class="fa fa-align-left"></i> Weeks</a></li>
+			    <li><a href="#"><i class="fa fa-align-left"></i> Both</a></li>
 			  </ul>
 		 </div>
 		<button class="btn btn-default" data-toggle="modal" data-target="#myModal"><i class="fa fa-signal"></i></button>
@@ -35,27 +45,27 @@
 		<thead>
 			<tr>
 				<td rowspan="4"></td>
-				<td>Månad</td>
+				<td>Month</td>
 				<!-- ko foreach: months() -->
-					<td colspan="4">Jan</td>
+					<td colspan="4" data-bind="text: name()"></td>
 				<!-- /ko -->
 			</tr>
 			<tr>
-				<td>Summa</td>
+				<td>Sum</td>
 				<!-- ko foreach: months() -->
-					<td colspan="4">80</td>
+					<td colspan="4" data-bind="text: amount"></td>
 				<!-- /ko -->
 			</tr>
 			<tr>
-				<td>Vecka</td>
+				<td>Week</td>
 				<!-- ko foreach: weeks() -->
-					<td colspan="1">1</td>
+					<td colspan="1" data-bind="text: week"></td>
 				<!-- /ko -->
 			</tr>
 			<tr>
-				<td>Summa</td>
+				<td>Sum</td>
 				<!-- ko foreach: weeks() -->
-					<td colspan="1">10</td>
+					<td colspan="1" data-bind="text: amount"></td>
 				<!-- /ko -->
 			</tr>
 		</thead>
@@ -63,15 +73,15 @@
 			<tr>
 				<td></td>
 				<td>Månad</td>
-				<!-- ko foreach: months -->
-					<td colspan="4">80</td>
+				<!-- ko foreach: monthsEntries -->
+					<td colspan="4" data-bind="text: amount"></td>
 				<!-- /ko -->
 			</tr>
 			<tr>
-				<td data-bind="text: comment"></td>
+				<td data-bind="text: name"></td>
 				<td>Vecka</td>
-				<!-- ko foreach: entries -->
-					<td><span id="test1" data-placement="top" data-title="test&#010;&#010;test2" data-content="text">8</span></td>
+				<!-- ko foreach: weekEntries -->
+					<td><span id="" data-placement="top" data-title="test&#010;&#010;test2" data-content="text" data-bind="text: amount"></span></td>
 				<!-- /ko -->
 			</tr>
 			
