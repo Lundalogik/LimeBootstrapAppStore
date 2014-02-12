@@ -1,17 +1,37 @@
+.businessfunnel{
+}
 
 .statusheader{
-	margin: 0px 0px 0px 0px;	
+	margin: 4px 0px 2px 0px;	
 	cursor: pointer;
 }
 
 .progress {
 	margin: 0px 10px 5px 0px; 
 	cursor: pointer;
+	height:30px;
+	vertical-align: middle;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
 }
 	
 .progress .bar {
   font-weight: bold;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
 
+.progress-bar{
+	background-image: none;
+}
+
+.businessfunnel .progress  .badge {
+	margin-top: 6px;
+  background-color: rgba(40,40,40,0.3);
+  position: absolute;
+  display: inline-block;
+  left: 15px;
+  color:#FFF;
 }
 
 .progress .overflow{
@@ -34,6 +54,7 @@ padding-left: 2px;
   margin-right: auto ;
 background-color: inherit;
 color: inherit;*/
+margin-top: 5px;
 text-align: center;
 	
 }

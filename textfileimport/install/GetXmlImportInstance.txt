@@ -1,0 +1,24 @@
+'USED IN IMPORT-FILE SCRIPT
+Public Function GetXmlImportInstance() As Object
+    On Error Resume Next
+
+    Dim pObject As Object
+    
+    If IsObject(Application.Tag("XmlImportInstance")) Then
+        Set pObject = Application.Tag("XmlImportInstance")
+    End If
+        
+    If Not pObject Is Nothing Then
+        If Not TypeOf pObject Is XmlImport Then
+            Set pObject = Nothing
+        End If
+    End If
+    
+    If pObject Is Nothing Then
+        Set pObject = New XmlImport
+        
+        Application.Tag("XmlImportInstance") = pObject
+    End If
+    
+    Set GetXmlImportInstance = pObject
+End Function

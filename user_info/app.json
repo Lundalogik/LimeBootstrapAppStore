@@ -1,0 +1,15 @@
+{
+	"name": "user_info",
+	"author":"FPE",
+	"status":"Development",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2014-01-23",
+			"comments":""
+		}
+	],
+	"install":{
+		
+	}
+}

@@ -4,14 +4,14 @@ The textfile import is a tool for importing... ehh... textfiles. It works (well,
 
 ##Installation
 
-As always, copy the the app folder to "apps"
+As always, copy the the app folder "checklist" to the "apps" folder in your webfolder
 
 ###VBA
-- XmlImport is a classmodule that should be imported, found in the folder "install"
+- Create a classmodule 'XmlImport' and copy the code from 'install/XmlImport.txt'
 
-- GetRandomNumber should be copied into the module "Globals"
+- GetRandomNumber and GetXmlImportInstanc should be copied into the module "Globals"
 
-`
+```VBA
 Public Function GetRandomNumber(ByVal Min As Integer, ByVal Max As Integer) As Integer
     On Error GoTo ErrorHandler
         Call Randomize
@@ -20,11 +20,7 @@ Public Function GetRandomNumber(ByVal Min As Integer, ByVal Max As Integer) As I
     ErrorHandler:
     Call UI.ShowError("Globals.GetRandomNumber")
 End Function
-`
 
-- GetXmlImportInstance should be copied into the module "Globals":
-
-`
 Public Function GetXmlImportInstance() As Object
     On Error Resume Next 'da shit!
 
@@ -48,7 +44,7 @@ Public Function GetXmlImportInstance() As Object
     
     Set GetXmlImportInstance = pObject
 End Function
-`
+```
 
 ###HTML
 To launch the textfile import you use the "appInvoke" binding:
@@ -56,6 +52,9 @@ To launch the textfile import you use the "appInvoke" binding:
 ```html
 <li data-bind="appInvoke: 'textfileimport', text: 'Importera textfil', icon:'fa-file'"></li>   
 ```
+
+###Problems?
+Try restaring LIME!
 
 ##Settings
 The texfile import has a lot of setting. You can play with them in the ```textfileimport.ini``` file.

@@ -1,0 +1,41 @@
+.user-info{
+width: 100%;
+  margin-top: -20px;
+  margin-bottom: 10px;
+}
+
+.user-info h1{
+  white-space: pre-wrap;
+  font-size: 18px;
+  margin: 0;
+  margin-left:10px;
+  margin-bottom: 5px;
+}
+
+.user-info .user-avatar{
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 5px;
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;  
+  background: #FFF url('img/fpe.jpg') no-repeat bottom left;
+}
+
+
+.user-info  > .info-links > li{
+  font-size: 14px;
+  margin-bottom: 1px;
+  margin-top: 1px;
+  border-radius: 10px;
+  padding: 0px 10px 0px 5px;
+
+}
+
+.user-info .badge{
+  min-width: 25px;
+  font-size: 14px;
+  background-color: rgba(240,240,240,0.3);
+  padding:2px 5px 2px 5px;
+  margin-right: 10px;
+}
