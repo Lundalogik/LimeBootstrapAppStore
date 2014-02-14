@@ -18,9 +18,8 @@ var editor = (function() {
 		$li.append($btn);
 	}
 
-	function addButtons(e, $li) {
-		var $e = $(e);
-		if(e.nodeName === "UL") {
+	function addButtons($e, $li) {
+		if($e.attr("tag") === "UL") {
 			addButton($li, "Add Li", function() { $e.append($("<li></li>")); });
 		}
 
@@ -41,8 +40,9 @@ var editor = (function() {
 				}
 
 				var $li = $("<li><span>" +e.nodeName+"</span></li>");
+				var $e = $(e);
 
-				addButtons(e, $li);
+				addButtons($e, $li);
 
 				$("span", $li).on("click", function(){
 					createEditorsForElement(e);
@@ -50,7 +50,7 @@ var editor = (function() {
 				});
 				
 				$ul.append($li);
-				itr($ul, $(e).contents())
+				itr($ul, $e.contents())
 			});
 
 			$ctx.append($ul);
