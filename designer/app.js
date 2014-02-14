@@ -13,10 +13,8 @@ lbs.apploader.register('designer', function () {
     };
     //initialize
     self.initialize = function (node,viewModel) {
-        //alert(lbs.limeDataConnection.ActiveInspector.Class.Name);
-        //alert(JSON.stringify(viewModel.inspector));
-        //alert(lbs.loader.loadLocalFileToString(lbs.limeDataConnection.ActiveInspector.Class.Name+".html"));
         editor.setup();
+        
         $("#template").text(lbs.loader.loadLocalFileToString(lbs.limeDataConnection.ActiveInspector.Class.Name+".html"));
         editor.load();
 
