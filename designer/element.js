@@ -4,13 +4,15 @@ var editor = editor || {};
  * Used to edit element attribute values
  */
 
-
 editor.element = (function() {
+
+	var saveChangesCb;
 
 	function updateField($field, values) {
 		var str = editor.parser.valuesToString(values);
 		$field.val(str);
 		renderValueEditor($field, values);
+		saveChangesCb();
 	}
 
 	function renderArrayEditor($field, values) {
@@ -135,17 +137,8 @@ editor.element = (function() {
 		});
 	}
 
-	function addSaveChangesButton(element, $container, syncChangesCb) {
-		var $btn = $("<button>Save changes</button>");
-		$btn.on("click", function(){
-			updateAttributeChanges(element, $container);
-
-			syncChangesCb();
-		});
-		$container.append($btn);
-	}
-
 	function createEditControlForElement(element, $container, syncChangesCb) {
+		//TODO: avoid this?!
 		if(!element.hasAttribute("class")) {
 			element.setAttribute("class", "");
 		}
@@ -160,7 +153,10 @@ editor.element = (function() {
 			createEditorForAttribute(attr,$container);
 		}
 
-		addSaveChangesButton(element, $container, syncChangesCb);
+		saveChangesCb = function() {
+			updateAttributeChanges(element, $container);
+			syncChangesCb();
+		};
 	}
 
 	return {
