@@ -21,7 +21,7 @@ editor.element = (function() {
 		values.forEach(function (e,i) {
 			var $elm = $("<span>" + e + "</span> <span class=\"remove"+i+"\">remove</span><br />");
 			$parent.append($elm);
-			$(".remove"+i, $parent).on("click", function() {
+			$(".remove"+i, $parent).one("click", function() {
 				values.splice(i,1);
 				updateField($field, values);
 			});
@@ -36,12 +36,12 @@ editor.element = (function() {
 		values.forEach(function (e,i){
 			var $elm = $("<span>" + e["key"] + "</span> <span class=\"edit" +i+"\">edit</span> <span class=\"remove"+i+"\">remove</span><br />");
 			$parent.append($elm);
-			$(".remove"+i, $parent).on("click", function() {
+			$(".remove"+i, $parent).one("click", function() {
 				values.splice(i,1);
 				updateField($field, values);
 			});
-			$(".edit"+i, $parent).on("click", function() {
-				var $fragment = $("<span>key: " +  e["key"]+ "</span> <input type='text' name='value' placeholder='Value' /> <button class=\"editbtn\">Update</button>");
+			$(".edit"+i, $parent).one("click", function() {
+				var $fragment = $("<div><span>key: " +  e["key"]+ "</span> <input type='text' name='value' placeholder='Value' /> <button class=\"editbtn\">Update</button></div>");
 				$parent.append($fragment);
 				$("input[name='value']", $parent).val(e["value"]);
 
@@ -68,7 +68,7 @@ editor.element = (function() {
 		var $container = $field.parent();
 		var nodename = $field.data("nodename");
 		if(nodename === "class") {
-			$("span.add",$container.parent()).on("click", function() {
+			$("span.add",$container.parent()).one("click", function() {
 				var $fragment = $("<input type='text' name='add' /> <button class=\"addbtn\">Add</button>")
 				$container.append($fragment);
 
@@ -81,7 +81,7 @@ editor.element = (function() {
 			});
 
 		} else if(nodename === "data-bind") {
-			$("span.add",$container.parent()).on("click", function() {
+			$("span.add",$container.parent()).one("click", function() {
 				var $fragment = $("<input type='text' name='key' placeholder='Key' /> <input type='text' name='value' placeholder='Value' /> <button class=\"addbtn\">Add</button>");
 				$container.append($fragment);
 
