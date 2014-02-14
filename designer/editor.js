@@ -79,7 +79,7 @@ var editor = (function() {
 		refresh();
 	}
 
-	function setup() {
+	function setup(model) {
 		document.getElementById('preview').contentWindow.document.write("<html><body id='body'></body></html>");
 
 		var $widgetList = $("#widgets");
