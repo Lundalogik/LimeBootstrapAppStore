@@ -46,7 +46,6 @@ var editor = (function() {
 
 				$("span", $li).on("click", function(){
 					createEditorsForElement(e);
-					refresh();
 				});
 				
 				$ul.append($li);
