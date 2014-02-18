@@ -21,7 +21,7 @@ editor.element = (function() {
 		$(":not(input.field)", $parent).remove();
 
 		values.forEach(function (e,i) {
-			var $elm = $("<span>" + e + "</span> <span class=\"remove"+i+"\">remove</span><br />");
+			var $elm = $("<span>" + e + "</span> <i class=\"fa fa-times remove"+i+"\" /><br />");
 			$parent.append($elm);
 			$(".remove"+i, $parent).one("click", function() {
 				values.splice(i,1);
@@ -36,7 +36,7 @@ editor.element = (function() {
 		$(":not(input.field)", $parent).remove();
 
 		values.forEach(function (e,i){
-			var $elm = $("<span>" + e["key"] + "</span> <span class=\"edit" +i+"\">edit</span> <span class=\"remove"+i+"\">remove</span><br />");
+			var $elm = $("<span>" + e["key"] + "</span> <i class=\"fa fa-edit edit" +i+"\" /> <i class=\"fa fa-times remove"+i+"\" /><br />");
 			$parent.append($elm);
 			$(".remove"+i, $parent).one("click", function() {
 				values.splice(i,1);
@@ -70,7 +70,7 @@ editor.element = (function() {
 		var $container = $field.parent();
 		var nodename = $field.data("nodename");
 		if(nodename === "class") {
-			$("span.add",$container.parent()).one("click", function() {
+			$("i.fa-plus",$container.parent()).one("click", function() {
 				var $fragment = $("<input type='text' name='add' /> <button class=\"addbtn\">Add</button>")
 				$container.append($fragment);
 
@@ -83,7 +83,7 @@ editor.element = (function() {
 			});
 
 		} else if(nodename === "data-bind") {
-			$("span.add",$container.parent()).one("click", function() {
+			$("i.fa-plus",$container.parent()).one("click", function() {
 				var $fragment = $("<input type='text' name='key' placeholder='Key' /> <input type='text' name='value' placeholder='Value' /> <button class=\"addbtn\">Add</button>");
 				$container.append($fragment);
 
@@ -115,7 +115,7 @@ editor.element = (function() {
 	}
 
 	function createEditorForAttribute(attr,$container) {
-		var $fragment = $("<div><strong>" + attr.nodeName + "</strong> <span class=\"add\">+</span><div><input class=\"field\" type='text' data-nodename=\""+ attr.nodeName +"\" value=\"" + attr.nodeValue + "\" /></div></div>");
+		var $fragment = $("<div><strong>" + attr.nodeName + "</strong> <i class=\"fa fa-plus\" /><div><input class=\"field\" type='text' data-nodename=\""+ attr.nodeName +"\" value=\"" + attr.nodeValue + "\" /></div></div>");
 
 		$container.append($fragment);
 

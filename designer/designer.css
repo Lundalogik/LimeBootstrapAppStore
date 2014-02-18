@@ -4,3 +4,7 @@ ul {
 	padding-left: 10px;
 	padding-right: 0px;
 }
+
+div.spacing {
+	margin-top:15px;
+}

@@ -9,25 +9,25 @@ var editor = (function() {
 		editor.element.createEditControlForElement(e, $editor, refresh);
 	}
 
-	function addButton($li, text, fn) {
-		var $btn = $("<button>" + text +"</button>");
-		$btn.on("click", function() {
+	function addIcon($li, icon, fn) {
+		var $i = $("<i class='fa " + icon +"' />"); // + text +"</button>");
+		$i.on("click", function() {
 			fn();
 			refresh();
 		});
-		$li.append($btn);
+		$li.append($i);
 	}
 
-	function addButtons($e, $li) {
+	function addIcons($e, $li) {
 		if($e.prop("tagName") === "UL") {
-			addButton($li, "Add Li", function() { $e.append($("<li></li>")); });
+			addIcon($li, "fa-plus", function() { $e.append($("<li></li>")); });
 		}
 
-		addButton($li, "Remove", function() { $e.remove(); });
+		addIcon($li, "fa-sort-up", function() { $e.insertBefore($e.prev());})
 
-		addButton($li, "up", function() { $e.insertBefore($e.prev());})
+		addIcon($li, "fa-sort-down", function() { $e.insertAfter($e.next());})
 
-		addButton($li, "down", function() { $e.insertAfter($e.next());})
+		addIcon($li, "fa-times", function() { $e.remove(); });
 	}
 
 	function itr($ctx, $nodes) {
@@ -42,7 +42,7 @@ var editor = (function() {
 				var $li = $("<li><span>" +e.nodeName+"</span></li>");
 				var $e = $(e);
 
-				addButtons($e, $li);
+				addIcons($e, $li);
 
 				$("span", $li).on("click", function(){
 					createEditorsForElement(e);
