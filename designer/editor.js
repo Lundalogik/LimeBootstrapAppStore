@@ -19,7 +19,7 @@ var editor = (function() {
 	}
 
 	function addButtons($e, $li) {
-		if($e.attr("tag") === "UL") {
+		if($e.prop("tagName") === "UL") {
 			addButton($li, "Add Li", function() { $e.append($("<li></li>")); });
 		}
 
