@@ -30,6 +30,23 @@ var editor = (function() {
 		addIcon($li, "fa-times", function() { $e.remove(); });
 	}
 
+	function createLi(e, $e) {
+		var $li = $("<li><span>" +e.nodeName + "</span></li>");
+		
+		var c = $e.firstClass();
+		var t = $e.textBinding();
+		if(c && t) {
+			$("span", $li).append(" (" + c + " / " + t + ") ");
+		} else if(c) {
+			$("span", $li).append(" (" + c + ") ");
+		} else if(t){
+			$("span", $li).append(" (" + t + ") ");
+		}
+		addIcons($e, $li);
+
+		return $li;
+	}
+
 	function itr($ctx, $nodes) {
 		if($nodes.length > 0 ) {
 			var $ul = $("<ul></ul>");
@@ -39,10 +56,8 @@ var editor = (function() {
 					return;
 				}
 
-				var $li = $("<li><span>" +e.nodeName+"</span></li>");
 				var $e = $(e);
-
-				addIcons($e, $li);
+				var $li = createLi(e, $e);
 
 				$("span", $li).on("click", function(){
 					createEditorsForElement(e);

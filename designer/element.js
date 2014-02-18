@@ -50,7 +50,6 @@ editor.element = (function() {
 				$("button.editbtn", $parent).on("click", function() {
 					var value = $("input[name='value']", $parent).val();
 					var obj = {"key": e["key"], "value": value};
-					console.log(obj);
 					values[i] = obj;
 					updateField($field, values);
 				});

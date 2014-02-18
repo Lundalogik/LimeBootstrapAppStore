@@ -6,7 +6,7 @@ lbs.apploader.register('designer', function () {
             {type:'activeInspector', alias: "inspector"}
         ],
         resources: {
-            scripts: ["editor.js", "parser.js", "appstore.js", "widget.js", "element.js"],
+            scripts: ["extensions.js", "editor.js", "parser.js", "appstore.js", "widget.js", "element.js"],
             styles: ["designer.css"],
             libs: ["underscore-min.js"]
         }
