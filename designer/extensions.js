@@ -9,7 +9,6 @@ jQuery.fn.extend({
 	},
 	textBinding: function() {
 		var bind = this.attr('data-bind');
-		//lbs.log.info(bind);
 		if(bind) {
 			var parser = editor.parser.getParserForAttribute("data-bind");
 			var parsed = parser(bind);

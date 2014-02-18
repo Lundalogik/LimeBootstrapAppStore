@@ -36,12 +36,13 @@ var editor = (function() {
 		var c = $e.firstClass();
 		var t = $e.textBinding();
 		if(c && t) {
-			$("span", $li).append(" (" + c + " / " + t + ") ");
+			$("span", $li).append(" (c:" + c + " / t:" + t + ") ");
 		} else if(c) {
-			$("span", $li).append(" (" + c + ") ");
+			$("span", $li).append(" (c:" + c + ") ");
 		} else if(t){
-			$("span", $li).append(" (" + t + ") ");
+			$("span", $li).append(" (t:" + t + ") ");
 		}
+		
 		addIcons($e, $li);
 
 		return $li;
