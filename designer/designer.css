@@ -8,3 +8,11 @@ ul {
 div.spacing {
 	margin-top:15px;
 }
+
+.col-md-4 {
+	margin-top: 20px;
+}
+
+#preview {
+	width: 250px;
+}

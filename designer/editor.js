@@ -10,7 +10,7 @@ var editor = (function() {
 	}
 
 	function addIcon($li, icon, fn) {
-		var $i = $("<i class='fa " + icon +"' />"); // + text +"</button>");
+		var $i = $("<i class='fa " + icon +"' />");
 		$i.on("click", function() {
 			fn();
 			refresh();
@@ -84,7 +84,13 @@ var editor = (function() {
 	}
 
 	function applyTemplate() {
-		document.getElementById('preview').contentWindow.document.getElementById('body').innerHTML = $template.clone().html();
+		ko.cleanNode($("#preview").get(0));
+		$("#preview").html($template.clone().html());
+		try {
+			ko.applyBindings(lbs.vm, $("#preview").get(0));
+	 	}catch (e) {
+			lbs.log.warn("Binding of data ActionPad failed! \n Displaying mapping attributes",e);
+		}
 	}
 
 	function load() {
@@ -95,8 +101,7 @@ var editor = (function() {
 	}
 
 	function setup(model) {
-		document.getElementById('preview').contentWindow.document.write("<html><body id='body'></body></html>");
-
+		ko.cleanNode($("#content").get(0));
 		var $widgetList = $("#widgets");
 		var widgets = editor.appstore.widgets();
 		widgets.forEach(function(w) {

@@ -18,7 +18,6 @@ lbs.apploader.register('designer', function () {
 
     //initialize
     self.initialize = function (node,viewModel) {
-
         editor.setup(viewModel.inspector);
         $("#template").text(lbs.loader.loadLocalFileToString(lbs.limeDataConnection.ActiveInspector.Class.Name+".html"));
         $("#SaveBtn").on("click", saveChanges);
