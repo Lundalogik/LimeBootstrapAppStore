@@ -6,8 +6,8 @@ lbs.apploader.register('designer', function () {
             {type:'activeInspector', alias: "inspector"}
         ],
         resources: {
-            scripts: ["extensions.js", "editor.js", "parser.js", "appstore.js", "widget.js", "element.js"],
-            styles: ["designer.css"],
+            scripts: ["js/bootstrap-iconpicker.js", "extensions.js", "editor.js", "parser.js", "appstore.js", "widget.js", "element.js"],
+            styles: ["css/bootstrap-iconpicker.min.css", "designer.css"],
             libs: ["underscore-min.js"]
         }
     };
@@ -18,7 +18,7 @@ lbs.apploader.register('designer', function () {
 
     //initialize
     self.initialize = function (node,viewModel) {
-        
+
         editor.setup(viewModel.inspector);
         $("#template").text(lbs.loader.loadLocalFileToString(lbs.limeDataConnection.ActiveInspector.Class.Name+".html"));
         $("#SaveBtn").on("click", saveChanges);

@@ -30,6 +30,23 @@ editor.element = (function() {
 		});
 	}
 
+	function addIconSelector($container, value, saveCallBack) {
+		var $fragment = $("<button class=\"btn btn-default iconpicker\" data-icon=\"fontawesome\" role=\"iconpicker\"></button>");
+		$container.append($fragment);
+		var v = value.substring(1, value.length-1);
+		var $btn = $(".btn.iconpicker", $container);
+		$btn.iconpicker({ 
+			iconset: 'fontawesome',
+			icon: v, 
+			rows: 4,
+			cols: 4,
+			placement: 'bottom',
+		});
+		$btn.on("change", function(e) {
+			saveCallBack("'" + e.icon + "'");
+		});
+	}
+
 	function renderObjectEditor($field, values) {
 		var $parent = $field.parent();
 
@@ -43,16 +60,24 @@ editor.element = (function() {
 				updateField($field, values);
 			});
 			$(".edit"+i, $parent).one("click", function() {
-				var $fragment = $("<div><span>key: " +  e["key"]+ "</span> <input type='text' name='value' placeholder='Value' /> <button class=\"editbtn\">Update</button></div>");
-				$parent.append($fragment);
-				$("input[name='value']", $parent).val(e["value"]);
+				if(e["key"] !== "icon") {
+					var $fragment = $("<div><span>key: " +  e["key"]+ "</span> <input type='text' name='value' placeholder='Value' /> <button class=\"editbtn\">Update</button></div>");
+					$parent.append($fragment);
+					$("input[name='value']", $parent).val(e["value"]);
 
-				$("button.editbtn", $parent).on("click", function() {
-					var value = $("input[name='value']", $parent).val();
-					var obj = {"key": e["key"], "value": value};
-					values[i] = obj;
-					updateField($field, values);
-				});
+					$("button.editbtn", $parent).on("click", function() {
+						var value = $("input[name='value']", $parent).val();
+						var obj = {"key": e["key"], "value": value};
+						values[i] = obj;
+						updateField($field, values);
+					});
+				} else {
+					addIconSelector($parent, e["value"], function(v) {
+						var obj = {"key": e["key"], "value": v};
+						values[i] = obj;
+						updateField($field, values);
+					});
+				}
 			});
 		});
 	}
