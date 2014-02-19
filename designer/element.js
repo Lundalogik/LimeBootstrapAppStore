@@ -93,7 +93,26 @@ editor.element = (function() {
 		}
 	}
 
-	function setupIconPickerForNewBinding($container) {
+	function createTranslationCallBack() {
+		lbs.log.info("hai");
+	}
+
+	function createTranslationButton($container) {
+		var $framgment = $("<button class=\"btn translation\">Add translation</button>")
+		$container.append($framgment);
+		var $btn = $(".btn.translation", $container);
+		$btn.hide();
+		$btn.insertBefore($btn.prev());
+		$btn.on("click", function() {
+			$("#addTranslationButton").off("click");
+			$("#addTranslationButton").on("click", createTranslationCallBack);
+
+			$("#addTranslationDialog").modal("show");
+		});
+		return $btn;
+	}
+
+	function setupWizardForNewBinding($container) {
 		addIconSelector($container, "", function(v) {
 			$("input[name='value']", $container).val(v);
 		});
@@ -101,14 +120,19 @@ editor.element = (function() {
 		$btn.hide();
 		$btn.insertBefore($btn.prev());
 
+		var $translationBtn = createTranslationButton($container);
+
 		$("input[name='key']", $container).on("keyup", function() {
 			var $that = $(this);
 			var val = $that.val();
 			if(val === "icon") {
 				$btn.show();
 				$("input[name='value']", $container).hide();
+			} else if(val === "text") {
+				$translationBtn.show();
 			} else {
 				$btn.hide();
+				$translationBtn.hide();
 				$("input[name='value']", $container).show();
 			}
 		});
@@ -135,7 +159,7 @@ editor.element = (function() {
 				var $fragment = $("<input type='text' name='key' placeholder='Key' /> <input type='text' name='value' placeholder='Value' /> <button class=\"addbtn\">Add</button>");
 				$container.append($fragment);
 
-				setupIconPickerForNewBinding($container);
+				setupWizardForNewBinding($container);
 
 				$("button.addbtn", $container).on("click", function() {
 					var key = $("input[name='key']", $container).val();
