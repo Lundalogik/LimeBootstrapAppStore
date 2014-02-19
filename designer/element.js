@@ -33,7 +33,10 @@ editor.element = (function() {
 	function addIconSelector($container, value, saveCallBack) {
 		var $fragment = $("<button class=\"btn btn-default iconpicker\" data-icon=\"fontawesome\" role=\"iconpicker\"></button>");
 		$container.append($fragment);
-		var v = value.substring(1, value.length-1);
+		var v = "";
+		if(value.length > 2) {
+			v = value.substring(1, value.length-1);
+		}
 		var $btn = $(".btn.iconpicker", $container);
 		$btn.iconpicker({ 
 			iconset: 'fontawesome',
@@ -90,6 +93,27 @@ editor.element = (function() {
 		}
 	}
 
+	function setupIconPickerForNewBinding($container) {
+		addIconSelector($container, "", function(v) {
+			$("input[name='value']", $container).val(v);
+		});
+		var $btn = $(".btn.iconpicker", $container);
+		$btn.hide();
+		$btn.insertBefore($btn.prev());
+
+		$("input[name='key']", $container).on("keyup", function() {
+			var $that = $(this);
+			var val = $that.val();
+			if(val === "icon") {
+				$btn.show();
+				$("input[name='value']", $container).hide();
+			} else {
+				$btn.hide();
+				$("input[name='value']", $container).show();
+			}
+		});
+	}
+
 	function setupAddButton($field) {
 		var $container = $field.parent();
 		var nodename = $field.data("nodename");
@@ -110,6 +134,8 @@ editor.element = (function() {
 			$("i.fa-plus",$container.parent()).one("click", function() {
 				var $fragment = $("<input type='text' name='key' placeholder='Key' /> <input type='text' name='value' placeholder='Value' /> <button class=\"addbtn\">Add</button>");
 				$container.append($fragment);
+
+				setupIconPickerForNewBinding($container);
 
 				$("button.addbtn", $container).on("click", function() {
 					var key = $("input[name='key']", $container).val();
