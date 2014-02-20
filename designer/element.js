@@ -93,11 +93,20 @@ editor.element = (function() {
 		}
 	}
 
-	function createTranslationCallBack() {
-		lbs.log.info("hai");
-	}
+	
+	function createTranslationButton($container, $valueField) {
+		function createTranslationCallBack() {
+			var key = $("#translationkey").val();
+			var val  = $("#translationvalue").val();
+			if(key && val) {
+				var owner = "ActionPad_" + lbs.limeDataConnection.ActiveInspector.Class.Name;
 
-	function createTranslationButton($container) {
+				lbs.loader.createUpdateTranslation(owner, key, val, "sv");
+				$valueField.val("localize." + owner + "." + key);
+			}
+			$("#addTranslationDialog").modal("hide");
+		}
+
 		var $framgment = $("<button class=\"btn translation\">Add translation</button>")
 		$container.append($framgment);
 		var $btn = $(".btn.translation", $container);
@@ -113,27 +122,28 @@ editor.element = (function() {
 	}
 
 	function setupWizardForNewBinding($container) {
+		var $valfield = $("input[name='value']", $container);
 		addIconSelector($container, "", function(v) {
-			$("input[name='value']", $container).val(v);
+			$valfield.val(v);
 		});
 		var $btn = $(".btn.iconpicker", $container);
 		$btn.hide();
 		$btn.insertBefore($btn.prev());
 
-		var $translationBtn = createTranslationButton($container);
+		var $translationBtn = createTranslationButton($container, $valfield);
 
 		$("input[name='key']", $container).on("keyup", function() {
 			var $that = $(this);
 			var val = $that.val();
 			if(val === "icon") {
 				$btn.show();
-				$("input[name='value']", $container).hide();
+				$valfield.hide();
 			} else if(val === "text") {
 				$translationBtn.show();
 			} else {
 				$btn.hide();
 				$translationBtn.hide();
-				$("input[name='value']", $container).show();
+				$valfield.show();
 			}
 		});
 	}
