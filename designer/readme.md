@@ -1,6 +1,14 @@
-### ActionPad Editor
+# ActionPad Editor
 
-launch from LBSHelper using this function
+## What?
+Used to edit actionpads, will load ActionPad view (.html) with the same name as ActiveInspector. Supports live editing (more or less) of view.
+
+## Todo
+Change ``js/appstore.js`` to load data from Appstore instead of using hardcoded values
+
+### Start
+
+Example launching from ``LBSHelper``
 
 ```
 Public Function DisplayEditor()
