@@ -35,8 +35,7 @@ editor.appstore = (function() {
 		}, {
 			"name": "Button",
 			"bindings": [
-				{ "binding": "text", "value": "'Ok!'"},
-				{ "binding": "click", "value": "alert('foo')"}
+				{ "binding": "text", "value": "'I´m a button'"},
 			],
 			"description": "A button",
 			"html":"<button data-widget='Button'></button>"
