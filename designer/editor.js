@@ -100,6 +100,12 @@ var editor = (function() {
 		refresh();
 	}
 
+	function flippPreviews (e) {
+		e.preventDefault();
+		$("#template").toggle();
+		$("#preview").toggle();
+	}
+
 	function setup(model) {
 		ko.cleanNode($("#content").get(0));
 		var $widgetList = $("#widgets");
@@ -118,6 +124,8 @@ var editor = (function() {
 			$template.append($widget);
 			refresh();
 		});
+		$("#template").hide();
+		$(".btn.flipp").on("click", flippPreviews);
 	}
 
 	return {

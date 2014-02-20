@@ -1,8 +1,9 @@
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-3">
 		<div id="preview"></div>
-		<br />
 		<textarea id="template" rows="30" cols="50"></textarea>
+		<br />
+		<a class="btn btn-default flipp" href="#"><i class="fa fa-reply"></i> Preview/HTML</a>
 	</div>
 	<div class="col-md-4">
 		<div class="outline">
@@ -12,12 +13,17 @@
 			<button id="addwidgetbtn">Add widget</button>
 		</div>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-5">
 		<div class="editor">
 		</div>
 	</div>
 </div>
-<button class="btn btn-primary" id="SaveBtn">Save Changes</button>
+<div class="row">
+	<div class="col-md-3">
+		<button class="btn btn-primary" id="SaveBtn">Save Changes</button>
+	</div>
+</div>
+
 
 <div class="modal" id="addTranslationDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -31,8 +37,8 @@
         Value <input type="text" id="translationvalue" /><br />
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="addTranslationButton">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="addTranslationButton">Add translation</button>
       </div>
     </div>
   </div>
