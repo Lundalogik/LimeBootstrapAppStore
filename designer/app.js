@@ -6,8 +6,8 @@ lbs.apploader.register('designer', function () {
             {type:'activeInspector', alias: "inspector"}
         ],
         resources: {
-            scripts: ["js/bootstrap-iconpicker.js", "extensions.js", "editor.js", "parser.js", "appstore.js", "widget.js", "element.js"],
-            styles: ["css/bootstrap-iconpicker.min.css", "designer.css"],
+            scripts: ["lib/bootstrap-iconpicker.js", "js/extensions.js", "js/editor.js", "js/parser.js", "js/appstore.js", "js/widget.js", "js/element.js"],
+            styles: ["css/bootstrap-iconpicker.min.css", "css/designer.css"],
             libs: ["underscore-min.js"]
         }
     };
