@@ -1,0 +1,18 @@
+ul {
+	margin-left: 5px;
+	margin-right: 0px;
+	padding-left: 10px;
+	padding-right: 0px;
+}
+
+div.spacing {
+	margin-top:15px;
+}
+
+.col-md-4, .col-md-3, .flipp {
+	margin-top: 20px;
+}
+
+#preview {
+	width: 250px;
+}

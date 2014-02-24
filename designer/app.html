@@ -1,0 +1,45 @@
+<div class="row">
+	<div class="col-md-3">
+		<div id="preview"></div>
+		<textarea id="template" rows="30" cols="50"></textarea>
+		<br />
+		<a class="btn btn-default flipp" href="#"><i class="fa fa-reply"></i> Preview/HTML</a>
+	</div>
+	<div class="col-md-4">
+		<div class="outline">
+		</div>
+		<div class="spacing">
+			<strong>Add an appstore widget</strong><br/>
+			<select id="widgets"></select>
+			<button class="btn btn-default" id="addwidgetbtn">Add</button>
+		</div>
+	</div>
+	<div class="col-md-5">
+		<div class="editor">
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-3">
+		<button class="btn btn-primary" id="SaveBtn">Save Changes</button>
+	</div>
+</div>
+
+<div class="modal" id="addTranslationDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Add translation</h4>
+      </div>
+      <div class="modal-body">
+        Key: <input type="text" id="translationkey" /><br />
+        Value <input type="text" id="translationvalue" /><br />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="addTranslationButton">Add translation</button>
+      </div>
+    </div>
+  </div>
+</div>
