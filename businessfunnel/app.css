@@ -1,12 +1,12 @@
 .businessfunnel{
 }
 
-.statusheader{
+.businessfunnel .statusheader{
 	margin: 4px 0px 2px 0px;	
 	cursor: pointer;
 }
 
-.progress {
+.businessfunnel .progress {
 	margin: 0px 10px 5px 0px; 
 	cursor: pointer;
 	height:30px;
@@ -15,13 +15,13 @@
 	border-bottom-left-radius: 0px;
 }
 	
-.progress .bar {
+.businessfunnel .progress .bar {
   font-weight: bold;
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
 }
 
-.progress-bar{
+.businessfunnel .progress-bar{
 	background-image: none;
 }
 
@@ -34,17 +34,17 @@
   color:#FFF;
 }
 
-.progress .overflow{
+.businessfunnel .progress .overflow{
 	color: black;
 	text-indent: 20px;
 
 }
 
-#mine-link {
+.businessfunnel #mine-link {
 padding-left: 11px;
 }
 
-#mine-link span {
+.businessfunnel #mine-link span {
 padding-left: 2px;
 }
 
@@ -68,7 +68,7 @@ color: inherit;
 	float: none;
 }
 
-.btn-group>.btn:first-child {
+.businessfunnel .btn-group>.btn:first-child {
 	margin-right: -4px;
 	
 }
