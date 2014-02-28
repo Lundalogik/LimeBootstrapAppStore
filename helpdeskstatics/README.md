@@ -48,7 +48,8 @@ Insert the following html tag in the actionpad where you want it to be shown, mo
 	<div data-app="{app:'helpdeskstatics'}"></div>
 
 
- Insert the following translation text to the translation table:
+***Localize texts***
+Copy the text from localize.zls to the localize tab in LIME Pro to get the correct translation texts for the app. 
 
 ####Only show when helpdesk tab is active
 Most common is to only shoq the helpdesk statistics when the helpdesk tab is active. In order to do this you need to add the VBA code saved in the app folder.
