@@ -18,7 +18,7 @@ You can eaither generate a checklist based on a template or let the user add the
 The checklist has the following properties:
 *	canBeUnchecked - True/False - If true the user can uncheck completed tasks
 *	allowRemove - True/False - If true tasks can be removed
-*	canAddTask - True/Faöse - The user can add tasks. If you don't have pre-maid list, this option should be True
+*	canAddTask - True/False - The user can add tasks. If you don't have pre-maid list, this option should be True
 
 Usage example:
 
