@@ -11,7 +11,7 @@ lbs.apploader.register('creditinfo', function() {
 
         ],
         resources: {
-            scripts: [],
+            scripts: ['js/businesscheck.js', 'js/creditsafe.js'],
             styles: ['app.css'],
             libs: ['json2xml.js']
         },
@@ -81,27 +81,12 @@ lbs.apploader.register('creditinfo', function() {
                     }
                 }
             }
-
             // => If we have made it this far we are good to go for performing the check
             var ratingData = {};
 
             //BusinessCheck Rating
             if (self.config.businessCheck.customerLoginName !== "") {
-                var url = "https://www.businesscheck.se/service/dataimport2.asmx/DataImport2Company?CustomerLoginName=" + self.config.businessCheck.customerLoginName + "&UserLoginName=" + self.config.businessCheck.userLoginName + "&Password=" + self.config.businessCheck.password + "&Language=sv&PackageName=" + self.config.businessCheck.packageName + "&OrganizationNumber=" + self.config.orgnbr
-                ratingData = lbs.loader.loadDataSources({}, [{ type: 'HTTPGetXml', source: url, alias: 'creditdata'}], true);
-                //Check if everything is ok
-                if (ratingData.creditdata.DataImport2Result.Error) {
-                    alert('Error from BusinessCheck:' + ratingData.creditdata.DataImport2Result.Error.ErrorMessage);
-                } else {
-                    ratingData = ratingData.creditdata.DataImport2Result.Blocks.Block.Fields.Field //Shitty XML makes Jack a dull boy!
-                    // Rating can be 0 to 10. If rating < 0 a "!" is shown
-                    if (ratingData[0].Value >= 0) {
-                        viewModel.ratingValue(ratingData[0].Value)
-                    } else {
-                        viewModel.ratingValue("!")
-                    }
-                    viewModel.ratingText(ratingData[1].Value)
-                }
+                businesscheck.getRating(viewModel, self.config);
             }
 
             //ToDo: Soliditet rating
@@ -110,80 +95,10 @@ lbs.apploader.register('creditinfo', function() {
             }
             //Creditsafe
             else if (self.config.creditsafe.customerLoginName !== "") {
-
-                // build SOAP request
-                var requestxml =
-					'<soap:Envelope ' +
-						'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
-						'xmlns:xsd="http://www.w3.org/2001/XMLSchema" ' +
-						'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> ' +
-						'<soap:Body> ' +
-							'<CasCompanyService xmlns="https://webservice.creditsafe.se/CAS/"> ' +
-								'<cas_company> ' +
-									'<account> ' +
-										'<UserName>' + self.config.creditsafe.customerLoginName + '</UserName> ' +
-										'<Password>' + self.config.creditsafe.password + '</Password> ' +
-										'<TransactionId></TransactionId> ' +
-										'<Language>' + self.config.creditsafe.language + '</Language> ' +
-									'</account> ' +
-									'<SearchNumber>' + self.config.orgnbr + '</SearchNumber> ' +
-									'<Templates>' + self.config.creditsafe.packageName + '</Templates> ' +
-								'</cas_company> ' +
-							'</CasCompanyService> ' +
-						'</soap:Body> ' +
-					'</soap:Envelope>';
-                var url = 'http://webservice.creditsafe.se/CAS/cas_service.asmx';
-                var action = 'https://webservice.creditsafe.se/CAS/CasCompanyService';
-                //alert(requestxml);
-                ratingData = lbs.loader.loadDataSources({}, [{ type: 'SOAPGetXml', source: { url: url, action: action, xml: requestxml }, alias: 'creditdata'}], true);
-
-                var errormessage = '';
-                //alert(JSON.stringify(ratingData));
-                if (JSON.stringify(ratingData.creditdata['soap:Envelope']['soap:Body'].CasCompanyServiceResponse.CasCompanyServiceResult.ErrorList) == 'null') {
-
-                    errormessage = '';
-                } else {
-                    var error = ratingData.creditdata['soap:Envelope']['soap:Body'].CasCompanyServiceResponse.CasCompanyServiceResult.ErrorList.ERROR;
-
-                    if (error.length > 0) {
-                        // array of error string
-                        for (var i = 0; i < error.length; i++) {
-                            if (isNaN(JSON.stringify(error[i].Cause_of_Reject)) == false) {
-                                errormessage = errormessage + '\n' + JSON.stringify(error[i].Reject_text);
-                            }
-                        }
-                    } else {
-                        // error string
-                        if (isNaN(JSON.stringify(error.Cause_of_Reject)) == false) {
-                            errormessage = JSON.stringify(error.Reject_text);
-                        }
-                    }
-                }
-
-                // check if error exists
-                if (errormessage != '') {
-                    alert(errormessage);
-                } else {
-                    // no errors update and save :-)
-                    ratingData = ratingData.creditdata['soap:Envelope']['soap:Body'].CasCompanyServiceResponse.CasCompanyServiceResult;
-
-                    viewModel.ratingValue(ratingData.Status);
-
-
-                    viewModel.ratingText(ratingData.Status_Text)
-                }
+                creditsafe.getRating(viewModel,self.config);
             }                   
-            // /Creditsafe
-
-            /* Implement your own favorite credit solution here. Remember to add it to the config aswell: 
-                          
-            else if (self.config.[Your service here].customerLoginName !== ""){
-            GET DATA -> ratingData = lbs.loader.loadDataSources({}, [{type: 'HTTPGetXml', source: url, alias:'creditdata'}], true);
-
-               SET DATA ->
-            viewModel.ratingValue() - The value seen to the left. Can be a number (1-10) or maybe letters (AAA) or maybe a icon (<i class='fa fa-cog'></i>)
-            }   viewModel.ratingtext() - The text seen to the right
-            */
+            
+            //Implement your own here
 
             viewModel.ratingDate(moment().format("YYYY-MM-DD HH:mm:ss"));
             save();
@@ -195,16 +110,7 @@ lbs.apploader.register('creditinfo', function() {
             if (viewModel.ratingValue() && !viewModel.loading()) {
                 //BusinessCheck
                 if (self.config.businessCheck.customerLoginName !== "") {
-                    viewModel.ratingIcon(viewModel.ratingValue());
-                    if (viewModel.ratingValue() >= 8) {
-                        viewModel.ratingColor("good");
-                    }
-                    else if (viewModel.ratingValue() <= 7 && viewModel.ratingValue() >= 4) {
-                        viewModel.ratingColor("medium");
-                    }
-                    else if ((viewModel.ratingValue() <= 3 && viewModel.ratingValue() >= 0) || viewModel.ratingValue() === "!") {
-                        viewModel.ratingColor("bad");
-                    }
+                    businesscheck.setColor(viewModel);   
                 }
                 //ToDo: Soliditet rating
                 else if (self.config.soliditet.customerLoginName !== "") {
@@ -212,43 +118,11 @@ lbs.apploader.register('creditinfo', function() {
                 }
                 //Creditsafe
                 else if (self.config.creditsafe.customerLoginName !== "") {
-
-                    switch (viewModel.ratingValue()) {
-                        case '1':
-                            viewModel.ratingIcon("<i class='fa fa-thumbs-o-up'></i>"); //(ratingData.Status)
-                            viewModel.ratingColor("good");
-                            break;
-                        case '2':
-                            viewModel.ratingIcon("<i class='fa fa-thumbs-o-down'></i>"); //(ratingData.Status)
-                            viewModel.ratingColor("bad");
-                            break;
-                        case '4':
-                            viewModel.ratingIcon("<i class='fa fa-search'></i>"); //(ratingData.Status)
-                            viewModel.ratingColor("medium");
-                            break;
-                        default:
-                            viewModel.ratingIcon("<i class='fa fa-question'></i>"); //(ratingData.Status)
-                            viewModel.ratingColor("bad");
-                            break;
-                    }
+                    creditsafe.setColor(viewModel);
                 }
+
+                //Implement your own here
             }
-            /* Implement your own favorite credit solution here. Remember to add it to the config aswell: 
-            
-            Set the colors based on your rating value or rating text. 
-            RATING COLORS ->
-            "Good" - Green
-            "medium" - Yellow
-            "bad" - red
-            example:
-            else if (self.config.[Your service here].customerLoginName !== ""){
-            if (viewModel.ratingText() === 'Godkänd' )  { 
-            viewModel.ratingColor("good");
-            } 
-            else if (viewModel.ratingText() ==='Sådär' ){
-            viewModel.ratingColor("medium"); 
-            }
-            */
 
         });
 
