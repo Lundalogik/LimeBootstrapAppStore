@@ -7,6 +7,7 @@ lbs.apploader.register('infotile', function () {
         displayText:"", //Optional
         className: "",
         icon:"",
+        iconPosition:"right",
         dataSources: [
            
         ],
@@ -26,7 +27,8 @@ lbs.apploader.register('infotile', function () {
                 viewmodel.displayText = self.config.filterName;    
             }
 
-            
+            viewmodel.iconPosition=self.config.iconPosition;
+
             viewmodel.icon = self.config.icon;
             viewmodel.tileColor = function(){
                 switch(self.config.tileColor){

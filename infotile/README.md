@@ -15,7 +15,8 @@ Add the following HTML to the ActionPad (Todo example):
 					className:'todo', 
 					filterName:'Mina försenade uppgifter',
 					tileColor:'blue', 
-					icon:'fa-user', 
+					icon:'fa-user',
+					iconPosition: 'right', 
 					displayText:'Ditt favoriturval'
 			}}">
 </div>
@@ -31,6 +32,7 @@ The app takes a config with the following parameters
 *	tileColor - Color of the tile. You can pick any color you like. Just supply a hex-color or a rgb/rgba-color
 *	icon - Supply a font awesome icon for even cooler experience
 *	displayText - Optional. The filterName will be the default text, but you can supply your own text here.
+*	iconPosition - Optional, is default set as right but can be placed left
 
 
 ###Colors
@@ -40,3 +42,4 @@ The app takes a config with the following parameters
 *	yellow
 *	orange
 *	green  
+
