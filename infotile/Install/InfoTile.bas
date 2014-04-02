@@ -1,3 +1,4 @@
+Attribute VB_Name = "infotile"
 Public Function GetInfo(ByVal className As String, ByVal filterName As String) As Integer
 On Error GoTo ErrorHandler
     Dim oFilter As New LDE.Filter
@@ -5,7 +6,7 @@ On Error GoTo ErrorHandler
     GetInfo = oFilter.HitCount(Database.Classes(className))
 Exit Function
 ErrorHandler:
-    MsgBox ("Infotile.GetInfo: Filter or Class not found!")
+    MsgBox ("InfoTile.GetInfo: Filter or Class not found!")
 End Function
 
 
@@ -19,5 +20,6 @@ Public Sub ShowFilter(ByVal className As String, ByVal filterName As String)
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("InfoTitle.SetFilter")
+    Call UI.ShowError("InfoTile.SetFilter")
 End Sub
+

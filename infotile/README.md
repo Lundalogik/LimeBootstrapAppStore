@@ -7,7 +7,7 @@ The Info Tile is a super simple app, inspired from the Win8 tiles. Supply your f
 
 Copy "infotile" folder to the “apps” folder. 
  
-Add the following HTML to the ActionPad (Todo example):
+Add the following HTML to the `index.html`, see setup below for configuration settings:
 
 ```html
 <div data-app="{app:'infotile', 
@@ -22,7 +22,7 @@ Add the following HTML to the ActionPad (Todo example):
 </div>
 ```
 
-Create a VBA module called "InfoTile" and add the VBA from the folder "install/InfoTile"
+Create a VBA module called "InfoTile" and add the VBA from the folder "install/InfoTile" (drag n drop of the .bas file works well)
 
 ##Setup
 The app takes a config with the following parameters
