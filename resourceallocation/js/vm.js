@@ -4,23 +4,34 @@ var rac = rac || {};
 rac.Vm = function(){
     var self = this;
 
-    self.nbrOfWeeks = ko.observable(52);
-    self.startYear = ko.observable(2013);
-    self.startWeek = ko.observable(50);
+    self.nbrOfWeeks = ko.observable(20);
     self.entries = ko.observableArray([]);
-    
-    self.startTimer = ko.computed(function(){
-        return new rac.Time(self.startYear,self.startWeek);
-    });
-
+    self.startTimer = ko.observable();
 
     self.graph = null;
+
+    self.setTimer = function(){
+        console.log(moment().week())
+        var t = new rac.Time(moment().year(),moment().week());
+        t.dec(4);
+        self.startTimer(t);
+    }
+
+    self.prevWeek = function(){
+        
+        self.startTimer().dec(1);
+        self.startTimer(self.startTimer());
+
+    }
+    self.nextWeek = function(){
+      
+        self.startTimer().inc(1);
+        self.startTimer(self.startTimer());
+    }
 
     self.load = function(){
         var dataEntry = null;
 
-        //TODO: get data;
-        //TODO: convert to internal object type
         self.entries.removeAll();
 
         var dummy = [
@@ -46,55 +57,16 @@ rac.Vm = function(){
         });
     };
 
-    // self.createDefaultMomentTime = function(){
-    //     var date = moment(new Date());
-    //     date.isoWeekday(1);
-    //     date.year(self.startYear());
-    //     date.month(self.startMonth());
-    //     date.startOf('month');
-    //     return date;
-    // }
-
-    // self.findByText = function(arr,text){
-    //     return $.grep(arr, function(e){ return e.text == text; });
-    // };
-
-    // **********************************
-    // ROWS
-    // **********************************
-    self.rows =  ko.computed(function() {
-        var d = ko.observableArray([]);
-        var search = null;
-        
-        ko.utils.arrayForEach(self.entries(), function(o){
-            
-            //check if already exists
-            search = ko.utils.arrayFirst(d(), function(item) {
-                return item.text == o.text;
-            });
-
-            //add
-            if(!search){
-                a = new rac.Row(o.text,self.startTimer,self.nbrOfWeeks);
-                d.push(a);
-            };
-
-        });
-
-        return d();
-    });
-
     self.initialize = function(){
-        self.load();
-		
-        console.log(self.entries());
-        console.log(self.rows()[0].weeks());
+       
+        self.setTimer();
+        //self.load();
 
         self.redraw_graph();
         $("#rac_datagrid tr td span").tooltip();
     };
 
-	
+    
     self.redraw_graph = function(){
         var r = Raphael("simpleExample");
         var chart = r.linechart(
@@ -114,4 +86,52 @@ rac.Vm = function(){
             }
         );
     }
+
+    // **********************************
+    // ROWS
+    // **********************************
+    self.startTimer.subscribe(function(newValue) {
+        console.log("Timer changed ");
+    });
+
+    self.headerRow =  ko.computed(function() {
+        if(self.startTimer())
+            return new rac.Row('headers',self.startTimer(),self.nbrOfWeeks());
+    });
+
+    self.sumRow =  ko.computed(function() {
+        //console.log("rows recalculated");
+        if(self.startTimer())
+            return new rac.Row('SUM',self.startTimer(),self.nbrOfWeeks());
+    });
+
+    self.rows =  ko.computed(function() {
+        
+        if(!self.startTimer()){
+            return null;
+        }
+
+        var d = ko.observableArray([]);
+        var search = null;
+        var a = null;
+        
+        ko.utils.arrayForEach(self.entries(), function(o){
+            
+            //check if already exists
+            search = ko.utils.arrayFirst(d(), function(item) {
+                return item.text == o.text;
+            });
+
+            //add
+            if(!search){
+                a = new rac.Row(o.text,self.startTimer(),self.nbrOfWeeks());
+                d.push(a);
+            };
+
+        });
+
+        return d();
+    }).extend({ notify: 'always' });
+
+    
 }

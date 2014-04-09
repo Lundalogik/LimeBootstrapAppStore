@@ -21,30 +21,55 @@ rac.Entry = function(text,amount,year,week,limeid){
 }
 
 
-rac.Row = function(text, time, nbrOfWeeks){
+rac.Row = function(text, startTime, nbrOfWeeks){
     var self = this;
+    var time = new rac.Time(startTime.year,startTime.week);
+    time.dec(1);
 
     self.text = ko.observable(text);
 
     self.weeks = ko.computed(function(){
-        var d = ko.observableArray([]);
+        var d = ko.observableArray();
         var w = null;
 
-        for (var i=0;i<nbrOfWeeks();i++){
+        for (var i=0;i<nbrOfWeeks;i++){
+
+            time = new rac.Time(time.year,time.week);
+            time.inc(1);
             w = new rac.Week(time);
-            time().inc(1);
+
             d.push(w);
         }
 
-        return d;
+        return d();
     });
     
     self.months = ko.computed(function(){
-        return "test";
+        var c = ko.observableArray();
+        var m = null;
+
+        ko.utils.arrayForEach(self.weeks(), function(w){
+
+            //check if already exists
+            m = ko.utils.arrayFirst(c(), function(item) {
+                
+                return item.time.month() == w.time.month();
+            });
+
+            //add month
+            if(!m){
+                m = new rac.Month(w.time);
+                c.push(m);
+            }
+
+            m.weeks().push(w);
+
+        });
+
+        return c();
     });
 
 }
-
 
 rac.Week = function(time){
     var self = this;
@@ -58,16 +83,22 @@ rac.Week = function(time){
     self.name = ko.computed(function(){
         return self.time.week;
     });
+
 }
 
-rac.Month = function(date,amount){
+rac.Month = function(time){
     var self = this;
 
-    self.amount = ko.observable(amount);
+    self.time = time;
+    self.weeks = ko.observableArray();
 
-    
+    self.amount = ko.computed(function(){
+        return 0;
+    });
+
     self.name = ko.computed(function(){
-        return self.date().format("MMMM");
+        
+        return self.time.date().format("MMMM");
     })
 
 }
@@ -80,14 +111,34 @@ rac.Time = function(year,week){
     self.week = week;
 
     self.inc = function(weeks){
-        self.week = self.week+weeks > 52 ? self.week % 52 : self.week+weeks;
-        self.year = self.week+weeks > 52 ? self.year + Math.floor(self.week / 52) : self.year;
+        var week = self.week;
+        var year = self.year;
+
+        var newWeek = week+weeks > 52 ? ((week+weeks) % 52) : week+weeks;
+        var newYear = week+weeks > 52 ? year + Math.abs(Math.floor(self.week / 52)+1) : year;
+        self.week = (newWeek);
+        self.year = (newYear);
+        
     };
 
-    self.dec = function(weeks){
-        self.week = self.week-weeks < 0 ? self.week % 52 : self.week+weeks;
-        self.year = self.week-weeks < 0 ? self.year + Math.floor(self.week / 52) : self.year;
+    self.dec = function(change){
+        var week = self.week;
+        var year = self.year;
+        var newWeek = week-change < 1 ? (52 - Math.abs((week-change) % 52)) : week-change;
+        var newYear = week-change < 1 ? year - (Math.floor(week-change / 52) +1) : year;
+        
+        self.week = (newWeek);
+        self.year = (newYear);
     };
+
+    self.date = ko.computed(function(){
+        var date = moment(new Date());
+        date.isoWeekday(1);
+        date.year(self.year);
+        date.week(self.week);
+        //date.startOf('week');
+        return date;
+    });
 
     self.startDate = ko.computed(function(){
         return 0;
@@ -97,4 +148,7 @@ rac.Time = function(year,week){
         return 0;
     });
 
+    self.month = ko.computed(function(){
+        return self.date().month();
+    });
 }

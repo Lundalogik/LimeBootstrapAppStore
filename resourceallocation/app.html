@@ -1,16 +1,16 @@
 
 
-
-<div class="container">
+<div class="">
 
 	<h3>Resource Allocation</h3>
 
 	<div id="rac_controls">
 	
+
 		<div class="btn-group">
-		  	<button class="btn btn-default"><i class="fa fa-chevron-left"></i></button>
-		  	<button type="button" class="btn btn-default disabled">Jan 2014 - Dec 2014</button>
-			<button class="btn btn-default"><i class="fa fa-chevron-right"></i></button>
+		  	<button data-bind="click: $root.prevWeek" class="btn btn-default"><i class="fa fa-chevron-left"></i></button>
+		  	<button data-bind="text: startTimer().date().week()" type="button" class="btn btn-default disabled"></button>
+			<button data-bind="click: $root.nextWeek" class="btn btn-default"><i class="fa fa-chevron-right"></i></button>
 		</div>
 		
 		
@@ -36,6 +36,9 @@
 			  </ul>
 		 </div>
 		<button class="btn btn-default" data-toggle="modal" data-target="#myModal"><i class="fa fa-signal"></i></button>
+		<button class="btn btn-default "><i class="fa fa-search"></i></button>
+		<button class="btn btn-default "><i class="fa fa-plus"></i></button>
+		<span data-bind="text: '&nbsp;&nbsp;&nbsp;'" />
 		<button class="btn btn-default "><i class="fa fa-refresh"></i></button>
 		<button class="btn btn-success "><i class="fa fa-save"></i></button>
 
@@ -46,42 +49,46 @@
 			<tr>
 				<td rowspan="4"></td>
 				<td>Month</td>
-				<!-- ko foreach: months() -->
-					<td colspan="4" data-bind="text: name()"></td>
+				<!-- ko foreach: headerRow().months() -->
+					<td data-bind="attr: {colspan: weeks().length}, text: name"></td>
 				<!-- /ko -->
 			</tr>
 			<tr>
 				<td>Sum</td>
-				<!-- ko foreach: months() -->
-					<td colspan="4" data-bind="text: amount"></td>
+				<!-- ko foreach: headerRow().months() -->
+					<td data-bind="attr: {colspan: weeks().length}, text: amount"></td>
 				<!-- /ko -->
 			</tr>
+			
 			<tr>
 				<td>Week</td>
-				<!-- ko foreach: weeks() -->
-					<td colspan="1" data-bind="text: week"></td>
+				<!-- ko foreach: headerRow().weeks() -->
+					<td colspan="1" data-bind="text: name"></td>
 				<!-- /ko -->
 			</tr>
 			<tr>
 				<td>Sum</td>
-				<!-- ko foreach: weeks() -->
+				<!-- ko foreach: headerRow().weeks() -->
 					<td colspan="1" data-bind="text: amount"></td>
 				<!-- /ko -->
 			</tr>
 		</thead>
-		<tbody data-bind="foreach: visibleData()">
+
+		<tbody data-bind="foreach: rows()">
+			
 			<tr>
-				<td></td>
+				<td rowspan="2" data-bind="text: text()"></td>
 				<td>Månad</td>
-				<!-- ko foreach: monthsEntries -->
-					<td colspan="4" data-bind="text: amount"></td>
+				<!-- ko foreach: months() -->
+					<td data-bind="attr: {colspan: weeks().length}, text: amount()"></td>
 				<!-- /ko -->
 			</tr>
 			<tr>
-				<td data-bind="text: name"></td>
 				<td>Vecka</td>
-				<!-- ko foreach: weekEntries -->
-					<td><span id="" data-placement="top" data-title="test&#010;&#010;test2" data-content="text" data-bind="text: amount"></span></td>
+				<!-- ko foreach: months() -->
+					<!-- ko foreach: weeks() -->
+						<td><span id="" data-placement="top" data-title="test&#010;&#010;test2" data-content="text" data-bind="text: amount"></span></td>
+					<!-- /ko -->
 				<!-- /ko -->
 			</tr>
 			
@@ -108,3 +115,7 @@
 
 	
 </div>
+
+<hr />
+<h2>Debug</h2>
+<pre data-bind="text: ko.toJSON($root, null, 2)"></pre>
