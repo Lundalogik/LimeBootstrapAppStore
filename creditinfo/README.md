@@ -61,7 +61,7 @@ customerLoginName : 'CustomerX',
 Creditsafe requires you to create a package for the customer and allow webservice access. The package should be a credit template for company. Call creditsafe and they will help you. 
 LANGUAGE CODE for sweden SWE
 
-##Requirements
+####Requirements
 In order to use creditinfo with CreditSafe, the client needs to subscribe to the CAS service which the app uses to get the information needed.
 
 ```html
