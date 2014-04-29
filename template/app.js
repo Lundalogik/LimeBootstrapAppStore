@@ -32,3 +32,4 @@ lbs.apploader.register('template', function () { // <= Insert name of app here
         viewModel.hello = "world"
         return viewModel;
     }
+});
