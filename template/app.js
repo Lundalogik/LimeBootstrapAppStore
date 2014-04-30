@@ -1,23 +1,20 @@
 lbs.apploader.register('template', function () { // <= Insert name of app here
     var self = this;
 
-    /*Config
+    /*Config (version 2.0)
         This is the setup of your app. Specify which data and resources that should loaded to set the enviroment of your app.
-        App specific setup for your app to the config section here, i.e config.yourpropertiy:'foo'
-        These properties are all public and can be set during app initalization. This makes a great way
-        for you to make your app very configurable.
+        App specific setup for your app to the config section here, i.e self.config.yourPropertiy:'foo'
+        The variabels specified in "config:{}", when you initalize your app are available in in the object "appConfig".
     */
-    self.config = {
-        dataSources: [ //Either provide your data source here, or let the user of your app supply it
-
-        ],
-        resources: { // <= Add any extra resources that should be loadad. The paths are realtive your app folder, exept libs which are loaded from system/js/
-            scripts: [], // <= External libs for your apps. Must be a file
-            styles: ['app.css'], // <= Load styling for the app.
-            libs: [] // <= Allready included libs, put not loaded per default. Example json2xml.js
-        }
-    },
-
+    self.config =  function(appConfig){
+            this.yourPropertyDefinedWhenTheAppIsUsed = appConfig.yourProperty;
+            this.dataSources = [];
+            this.resources = {
+                scripts: [], // <= External libs for your apps. Must be a file
+                styles: ['app.css'], // <= Load styling for the app.
+                libs: [] // <= Allready included libs, put not loaded per default. Example json2xml.js
+            }
+    };
     /*Initialize
         Initialize happens after the data and recources are loaded but before the view is rendered.
         Here it is your job to implement the logic of your app, by attaching data and functions to 'viewModel' and then returning it
