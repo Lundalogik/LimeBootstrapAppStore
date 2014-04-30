@@ -7,7 +7,7 @@ lbs.apploader.register('template', function () { // <= Insert name of app here
         These properties are all public and can be set during app initalization. This makes a great way
         for you to make your app very configurable.
     */
-    this.config = {
+    self.config = {
         dataSources: [ //Either provide your data source here, or let the user of your app supply it
 
         ],
@@ -28,7 +28,7 @@ lbs.apploader.register('template', function () { // <= Insert name of app here
         Node is a reference to the HTML-node where the app is being initalized form. Frankly we do not know when you'll ever need it,
         but, well, here you have it.
     */
-    this.initialize = function (node, viewModel) {
+    self.initialize = function (node, viewModel) {
         viewModel.hello = "world"
         return viewModel;
     }
