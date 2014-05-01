@@ -1,0 +1,51 @@
+
+.history-lesson .history{
+background-color: #FFF;
+margin-bottom: 10px;
+padding: 0 5px 5px 5px;
+white-space: normal;
+cursor: pointer;
+max-width: 600px;
+border-bottom-color: rgba(0, 0, 0, 0);
+border-bottom-left-radius: 1px;
+border-bottom-right-radius: 1px;
+border-bottom-style: solid;
+border-bottom-width: 1px;
+border-left-color: rgba(0, 0, 0, 0);
+border-left-style: solid;
+border-left-width: 1px;
+border-right-color: rgba(0, 0, 0, 0);
+border-right-style: solid;
+border-right-width: 1px;
+border-top-color: rgba(0, 0, 0, 0);
+border-top-left-radius: 1px;
+border-top-right-radius: 1px;
+border-top-style: solid;
+border-top-width: 1px;
+box-shadow: rgba(0, 0, 0, 0.0784314) 0px 2px 1px 0px;	
+}
+
+.history-lesson .text{
+	margin-bottom: 10px;
+}
+
+.history-lesson .type{
+	color:#B1A8A8;
+	margin-bottom: 5px;
+}
+
+.history-lesson .author{
+	color:#B1A8A8;
+	text-align: right;
+	font-size: 12px;
+}
+
+.history-lesson .date{
+	color:#B1A8A8;
+	text-align: right;
+	font-size: 12px;
+}
+
+p{
+	margin: 0;
+}
