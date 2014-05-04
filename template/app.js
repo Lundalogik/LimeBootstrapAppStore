@@ -13,7 +13,7 @@ lbs.apploader.register('template', function () { // <= Insert name of app here
                 scripts: [], // <= External libs for your apps. Must be a file
                 styles: ['app.css'], // <= Load styling for the app.
                 libs: [] // <= Allready included libs, put not loaded per default. Example json2xml.js
-            }
+            };
     };
     /*Initialize
         Initialize happens after the data and recources are loaded but before the view is rendered.
@@ -26,7 +26,7 @@ lbs.apploader.register('template', function () { // <= Insert name of app here
         but, well, here you have it.
     */
     self.initialize = function (node, viewModel) {
-        viewModel.hello = "world"
+        viewModel.hello = "world";
         return viewModel;
-    }
+    };
 });
