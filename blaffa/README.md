@@ -1,57 +1,52 @@
-#Template project
+Blaffa
+=========
 
-This is a template app project and a good start for creating your very own app.
+Blaffa turns data into prettiness.
 
-##Basic usage
 
-##App.js
-1. Create a config and specify a datasource
-2. Implement the function initialize()
+Info
+----
 
-```javascript
-lbs.apploader.register('template', function () { // <= Insert name of app here
-    var self = this;
+This app turns data from i super field into something that's easier and quicker to interpret; an icon, a helptext and a colour. The app could, for example, be used to
 
-    /*Config
-        This is the setup of your app. Specify which data and resources that should loaded to set the enviroment of your app.
-        App specific setup for your app to the config section here, i.e config.yourpropertiy:'foo'
-        These properties are all public and can be set during app initalization. This makes a great way
-        for you to make your app very configurable.
-    */
-    this.config = {
-        dataSources: [ //Either provide your data source here, or let the user of your app supply it
+* Indicate if this is a customer or a supplier.
+* Indicate that a requirement is not met (e.g. invoice not paid).
+* Indicate that the customer has been neglected.
 
-        ],
-        resources: { // <= Add any extra resources that should be loadad. The paths are realtive your app folder, exept libs which are loaded from system/js/
-            scripts: [], // <= External libs for your apps. Must be a file
-            styles: ['app.css'], // <= Load styling for the app.
-            libs: [] // <= Allready included libs, put not loaded per default. Example json2xml.js
-        }
-    },
+It makes the experience more visual and thereby faster and more intuitive.
 
-    /*Initialize
-        Initialize happens after the data and recources are loaded but before the view is rendered.
-        Here it is your job to implement the logic of your app, by attaching data and functions to 'viewModel' and then returning it
-        The data you requested along with localization are delivered in the variable viewModel.
-        You may make any modifications you please to it or replace is with a entirely new one before returning it.
-        The returned viewModel will be used to build your app.
-        
-        Node is a reference to the HTML-node where the app is being initalized form. Frankly we do not know when you'll ever need it,
-        but, well, here you have it.
-    */
-    this.initialize = function (node, viewModel) {
-        viewModel.hello = "world"
-        return viewModel;
-    }
-});
 
-```
+Install
+-----------
 
-##App.html
-Build your view
 
-##App.json
-Meta data for you app. Versioning and installation
 
-##app.css
-if you want custom styleing app it here and include it in the app.js
+1. Copy “blaffa” folder to the “apps” folder. 
+
+
+
+2. Create your integer, yes/no or option field if it doesn't already exists. E.g. if you want different icons for customers and suppliers, you probably already have an option field with these two options.
+
+
+3. Add the following HTML to the ActionPad:
+
+
+4. OPTIONAL! Write SQL-logic for your field. For inspiration, if you want different icons if someone has performed a customer visit the last six months, the following SQL returns 000000 if the customer has had a customer visit within the last 180 days, otherwise 111111:
+`(
+CASE 
+WHEN EXISTS
+(SELECT h.[idhistory]
+FROM history h
+WHERE h.[date] >= GETDATE()-180
+AND h.[type] = 168301
+AND h.[status] = 0
+AND h.[company] = [company].[idcompany])
+THEN 000000
+ELSE 111111
+END
+)`
+
+
+Setup
+---
+Open app.js and configure the app. Example:
