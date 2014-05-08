@@ -1,8 +1,24 @@
-#Template project
+#Lync Connector
 
-This is a template app project and a good start for creating your very own app.
+The Lync Connector allows you to directly show the picture and Lync status from your colleagues in any Actionpad in Lime PRO, as long as you have a coworker relation on the card where you want to show the information. This is ideal if you, for example, use Lime as a helpdesk-system and easily want to contact the responsible coworker for a specific ticket. If your colleague changes the status, the status will automagically update in Lime, you don't even have to reopen the card.
 
-##Basic usage
+The app includes a hover functionality which opens up the standard Lync controls, allowing you to easily send a message or call your colleague! WOHOO!
+
+##Install
+
+Copy “showlync” folder to the “apps” folder. The inspector where the app is supplied must either be of class "coworker" or have a relation to the coworker-table.
+ 
+Add the following HTML to the ActionPad (ShowLync-example):
+
+```html
+<div data-app="{app:'showlync', config:{
+                coworkerfield: 'string',
+    }
+}">
+</div>
+```
+
+If using in the coworker actionpad, place it in the header for best design.
 
 ##App.js
 1. Create a config and specify a datasource

@@ -1,0 +1,15 @@
+{
+	"name": "Resource Allocation",
+	"author":"MHE",
+	"status":"Beta",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2013-12-19",
+			"comments":"Start of development"
+		}
+	],
+	"install":{
+		
+	}
+}

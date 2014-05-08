@@ -1,0 +1,121 @@
+
+
+<div class="">
+
+	<h3>Resource Allocation</h3>
+
+	<div id="rac_controls">
+	
+
+		<div class="btn-group">
+		  	<button data-bind="click: $root.prevWeek" class="btn btn-default"><i class="fa fa-chevron-left"></i></button>
+		  	<button data-bind="text: startTimer().date().week()" type="button" class="btn btn-default disabled"></button>
+			<button data-bind="click: $root.nextWeek" class="btn btn-default"><i class="fa fa-chevron-right"></i></button>
+		</div>
+		
+		
+		<div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			    <i class="fa fa-table"></i><span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" role="menu">
+			    <li><a href="#"><i class="fa fa-align-left"></i> 3 Months</a></li>
+			    <li><a href="#"><i class="fa fa-align-left"></i> 6 Months</a></li>
+			    <li><a href="#"><i class="fa fa-align-left"></i> 12 Months</a></li>
+			    <li><a href="#"><i class="fa fa-align-left"></i> 18 Months</a></li>
+			  </ul>
+		 </div>
+		 <div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			    <i class="fa fa-calendar"></i><span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" role="menu">
+			    <li><a href="#"><i class="fa fa-align-left"></i> Months</a></li>
+			    <li><a href="#"><i class="fa fa-align-left"></i> Weeks</a></li>
+			    <li><a href="#"><i class="fa fa-align-left"></i> Both</a></li>
+			  </ul>
+		 </div>
+		<button class="btn btn-default" data-toggle="modal" data-target="#myModal"><i class="fa fa-signal"></i></button>
+		<button class="btn btn-default "><i class="fa fa-search"></i></button>
+		<button class="btn btn-default "><i class="fa fa-plus"></i></button>
+		<span data-bind="text: '&nbsp;&nbsp;&nbsp;'" />
+		<button class="btn btn-default "><i class="fa fa-refresh"></i></button>
+		<button class="btn btn-success "><i class="fa fa-save"></i></button>
+
+	</div>
+
+  	<table class="table table-striped table-condensed table-bordered">
+		<thead>
+			<tr>
+				<td rowspan="4"></td>
+				<td>Month</td>
+				<!-- ko foreach: headerRow().months() -->
+					<td data-bind="attr: {colspan: weeks().length}, text: name"></td>
+				<!-- /ko -->
+			</tr>
+			<tr>
+				<td>Sum</td>
+				<!-- ko foreach: headerRow().months() -->
+					<td data-bind="attr: {colspan: weeks().length}, text: amount"></td>
+				<!-- /ko -->
+			</tr>
+			
+			<tr>
+				<td>Week</td>
+				<!-- ko foreach: headerRow().weeks() -->
+					<td colspan="1" data-bind="text: name"></td>
+				<!-- /ko -->
+			</tr>
+			<tr>
+				<td>Sum</td>
+				<!-- ko foreach: headerRow().weeks() -->
+					<td colspan="1" data-bind="text: amount"></td>
+				<!-- /ko -->
+			</tr>
+		</thead>
+
+		<tbody data-bind="foreach: rows()">
+			
+			<tr>
+				<td rowspan="2" data-bind="text: text()"></td>
+				<td>Månad</td>
+				<!-- ko foreach: months() -->
+					<td data-bind="attr: {colspan: weeks().length}, text: amount()"></td>
+				<!-- /ko -->
+			</tr>
+			<tr>
+				<td>Vecka</td>
+				<!-- ko foreach: months() -->
+					<!-- ko foreach: weeks() -->
+						<td><span id="" data-placement="top" data-title="test&#010;&#010;test2" data-content="text" data-bind="text: amount"></span></td>
+					<!-- /ko -->
+				<!-- /ko -->
+			</tr>
+			
+		</tbody>
+	</table>
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        <h4 class="modal-title" id="myModalLabel">Graf</h4>
+	      </div>
+	      <div class="modal-body">
+			<div id="simpleExample" class="chartWrapper"></div>  
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	
+</div>
+
+<hr />
+<h2>Debug</h2>
+<pre data-bind="text: ko.toJSON($root, null, 2)"></pre>

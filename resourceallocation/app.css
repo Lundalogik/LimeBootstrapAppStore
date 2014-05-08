@@ -1,0 +1,25 @@
+
+div#rac_controls{
+	margin-bottom: 10px;
+}
+
+div#rac_datagrid{
+	background: #fff;
+}
+
+div#rac_graph{
+	background: #fff;
+}
+
+div#rac_datagrid tr td span,div#rac_datagrid tr td input{
+	display: block;
+}
+
+.tooltip-inner {
+    white-space:pre;
+    max-width:none;
+}
+
+.dropdown-menu{
+	width: auto;
+}
