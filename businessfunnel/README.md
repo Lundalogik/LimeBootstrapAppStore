@@ -11,7 +11,11 @@ It has two stages, All and Mine:
 It shows all strings in local language.
 
 ###To use:
-Insert the SQL proceduer named **getBusinessValue.sql** in the database where you want to use the business funnel. 
+Open SQL-management studio, find the database where you want to use the business funnel and choose "New Query". Insert the SQL proceduer named **getBusinessValue.sql** from the Install folder. In order for LIME to understand that the procedure exists in the database you need to execute a new query: 
+exec lsp_refreshldc
+exec lsp_refreshcaches
+
+Do not forget to insert the **businessfunnel.vba** from the Install folder to the VBA for your database.
 
 Copy the business funnel app folder to the apps folder under the actionpad folder.
 

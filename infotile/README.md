@@ -7,7 +7,7 @@ The Info Tile is a super simple app, inspired from the Win8 tiles. Supply your f
 
 Copy "infotile" folder to the “apps” folder. 
  
-Add the following HTML to the ActionPad (Todo example):
+Add the following HTML to the `index.html`, see setup below for configuration settings:
 
 ```html
 <div data-app="{app:'infotile', 
@@ -15,13 +15,14 @@ Add the following HTML to the ActionPad (Todo example):
 					className:'todo', 
 					filterName:'Mina försenade uppgifter',
 					tileColor:'blue', 
-					icon:'fa-user', 
+					icon:'fa-user',
+					iconPosition: 'right', 
 					displayText:'Ditt favoriturval'
 			}}">
 </div>
 ```
 
-Create a VBA module called "InfoTile" and add the VBA from the folder "install/InfoTile"
+Create a VBA module called "InfoTile" and add the VBA from the folder "install/InfoTile" (drag n drop of the .bas file works well)
 
 ##Setup
 The app takes a config with the following parameters
@@ -31,6 +32,7 @@ The app takes a config with the following parameters
 *	tileColor - Color of the tile. You can pick any color you like. Just supply a hex-color or a rgb/rgba-color
 *	icon - Supply a font awesome icon for even cooler experience
 *	displayText - Optional. The filterName will be the default text, but you can supply your own text here.
+*	iconPosition - Optional, is default set as right but can be placed left
 
 
 ###Colors
@@ -40,3 +42,4 @@ The app takes a config with the following parameters
 *	yellow
 *	orange
 *	green  
+

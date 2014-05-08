@@ -3,8 +3,13 @@
 	"author":"SSM",
 	"status":"Release",
 	"versions":[
+		{
+			"version":"1.1",
+			"date":"2014-02-27",
+			"comments":"Namespacing of CSS"
+		},
 			{
-			"version":"1",
+			"version":"1.0",
 			"date":"2014-02-06",
 			"comments":"Css improvements!"
 		},

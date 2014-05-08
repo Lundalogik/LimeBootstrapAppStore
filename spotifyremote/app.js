@@ -1,4 +1,4 @@
-lbs.apploader.register('template', function () { // <= Insert name of app here
+lbs.apploader.register('spotifyremote', function () {
     var self = this;
 
     /*Config (version 2.0)
@@ -7,14 +7,22 @@ lbs.apploader.register('template', function () { // <= Insert name of app here
         The variabels specified in "config:{}", when you initalize your app are available in in the object "appConfig".
     */
     self.config =  function(appConfig){
-            this.yourPropertyDefinedWhenTheAppIsUsed = appConfig.yourProperty;
+            self.uri = appConfig.url;
+            self.playername = appConfig.playername;
+            self.width = appConfig.width;
+            self.height = appConfig.height;
             this.dataSources = [];
             this.resources = {
                 scripts: [], // <= External libs for your apps. Must be a file
                 styles: ['app.css'], // <= Load styling for the app.
                 libs: [] // <= Allready included libs, put not loaded per default. Example json2xml.js
             };
+
     };
+
+
+
+    //initialize
     /*Initialize
         Initialize happens after the data and recources are loaded but before the view is rendered.
         Here it is your job to implement the logic of your app, by attaching data and functions to 'viewModel' and then returning it
@@ -26,7 +34,14 @@ lbs.apploader.register('template', function () { // <= Insert name of app here
         but, well, here you have it.
     */
     self.initialize = function (node, viewModel) {
-        viewModel.hello = "world";
+    
+        viewModel.url = 'https://embed.spotify.com/?uri={0}'.format(self.uri);
+        viewModel.playername = self.playername;
+        viewModel.width = self.width;
+        viewModel.height = self.height;
+
         return viewModel;
     };
 });
+
+

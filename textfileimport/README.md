@@ -4,7 +4,7 @@ The textfile import is a tool for importing... ehh... textfiles. It works (well,
 
 ##Installation
 
-As always, copy the the app folder "checklist" to the "apps" folder in your webfolder
+As always, copy the app folder "textfileimport" to the "apps" folder in your webfolder
 
 ###VBA
 - Create a classmodule 'XmlImport' and copy the code from 'install/XmlImport.txt'

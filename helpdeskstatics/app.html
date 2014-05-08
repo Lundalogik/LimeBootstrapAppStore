@@ -4,7 +4,7 @@
 	<div class="panel panel-default">	    
 	    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
 	      <h4 class="panel-title"> 
-	      	<span data-bind="text:localize.Actionpad_index.i_HelpdeskStatics_activeheader, icon:'fa-exclamation'"></span>
+	      	<span data-bind="text:localize.HelpdeskStatics.i_HelpdeskStatics_activeheader, icon:'fa-exclamation'"></span>
 	      	<span data-bind="text:coworker.open() + ' / '+ general.open()" class="badge pull-right"></span>
 	       </h4>      
 	    </div>
@@ -15,23 +15,23 @@
 		        <table class="table table-condensed">  
 				    <tr class="title">
 				      <th></th>				      
-				      <th data-bind="text:'Mine'"></th>
-				      <th data-bind="text:'All'"></th>
+				      <th data-bind="text:localize.HelpdeskStatics.i_HelpdeskStatics_mine"></th>
+				      <th data-bind="text:localize.HelpdeskStatics.i_HelpdeskStatics_all" ></th>
 				    </tr>
 				    <tr>
-				      <td data-bind="text:localize.Actionpad_index.i_HelpdeskStatics_open"></td>				      
+				      <td data-bind="text:localize.HelpdeskStatics.i_HelpdeskStatics_open"></td>				      
 				      <td data-bind="text:coworker.open()"></td>
 				      <td data-bind="text:general.open()" ></td>
 				    </tr>
 
 				    <tr>
-				      <td data-bind="text:localize.Actionpad_index.i_HelpdeskStatics_notinitiated"></td>				      
+				      <td data-bind="text:localize.HelpdeskStatics.i_HelpdeskStatics_notinitiated"></td>				      
 				      <td data-bind="text:coworker.delayed()"></td>
 				      <td data-bind="text:general.notInitiated()" ></td>
 				    </tr>
 
 				    <tr>
-				      <td data-bind="text:localize.Actionpad_index.i_HelpdeskStatics_delayed"></td>				      
+				      <td data-bind="text:localize.HelpdeskStatics.i_HelpdeskStatics_delayed"></td>				      
 				      <td data-bind="text:coworker.delayed()"></td>		
 				      <td data-bind="text:general.notInitiated()" ></td>
 
@@ -46,8 +46,8 @@
 	 <div class="panel panel-default" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
 	    <div class="panel-heading">
 	      <h4 class="panel-title">
-	      	<span data-bind="text:localize.Actionpad_index.i_HelpdeskStatics_incomeheader, icon:'fa-inbox'"></span>
-	      	<span data-bind="text:localize.Actionpad_index.i_HelpdeskStatics_today + ': ' + incomming.today()" class="badge pull-right"></span>
+	      	<span data-bind="text:localize.HelpdeskStatics.i_HelpdeskStatics_incomeheader, icon:'fa-inbox'"></span>
+	      	<span data-bind="text:localize.HelpdeskStatics.i_HelpdeskStatics_today + ': ' + incomming.today()" class="badge pull-right"></span>
 	      </h4>      
 	    </div>
 
@@ -56,17 +56,17 @@
 	   
  			<table class="table table-condensed">  
 			    <tr>
-			      <td data-bind="text: localize.Actionpad_index.i_HelpdeskStatics_today"></td>
+			      <td data-bind="text: localize.HelpdeskStatics.i_HelpdeskStatics_today"></td>
 			      <td data-bind="text:incomming.today()"></td>			      
 			    </tr>
 
 			    <tr>
-			      <td data-bind="text: localize.Actionpad_index.i_HelpdeskStatics_week"></td>
+			      <td data-bind="text: localize.HelpdeskStatics.i_HelpdeskStatics_week"></td>
 			      <td data-bind="text: incomming.week()" ></td>			     
 			    </tr>
 
 			    <tr>
-			      <td data-bind="text: localize.Actionpad_index.i_HelpdeskStatics_month"></td>
+			      <td data-bind="text: localize.HelpdeskStatics.i_HelpdeskStatics_month"></td>
 			      <td data-bind="text: incomming.month()" ></td>			      
 			    </tr>
 			</table>
@@ -82,8 +82,8 @@
 	  <div class="panel panel-default" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
 	    <div class="panel-heading">
 	      <h4 class="panel-title">
-	      	<span data-bind="text:localize.Actionpad_index.i_HelpdeskStatics_closedheader, icon:'fa-check-square-o'"></span>
-	      	<span data-bind="text:localize.Actionpad_index.i_HelpdeskStatics_today +': ' +closed.today()" class="badge pull-right"></span>   
+	      	<span data-bind="text:localize.HelpdeskStatics.i_HelpdeskStatics_closedheader, icon:'fa-check-square-o'"></span>
+	      	<span data-bind="text:localize.HelpdeskStatics.i_HelpdeskStatics_today +': ' +closed.today()" class="badge pull-right"></span>   
 	      </h4>      
 	    </div>
 
@@ -92,17 +92,17 @@
 	      	
 	        <table class="table table-condensed">  
 			    <tr>
-			      <td data-bind="text: localize.Actionpad_index.i_HelpdeskStatics_today"></td>
+			      <td data-bind="text: localize.HelpdeskStatics.i_HelpdeskStatics_today"></td>
 			      <td data-bind="text: closed.today()" ></td>			      
 			    </tr>
 
 			    <tr>
-			      <td data-bind="text: localize.Actionpad_index.i_HelpdeskStatics_week"></td>
+			      <td data-bind="text: localize.HelpdeskStatics.i_HelpdeskStatics_week"></td>
 			      <td data-bind="text: closed.week()" ></td>			     
 			    </tr>
 
 			    <tr>
-			      <td data-bind="text: localize.Actionpad_index.i_HelpdeskStatics_month"></td>
+			      <td data-bind="text: localize.HelpdeskStatics.i_HelpdeskStatics_month"></td>
 			      <td data-bind="text: closed.month()" ></td>			      
 			    </tr>
 			</table>  

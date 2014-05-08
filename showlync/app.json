@@ -1,0 +1,15 @@
+{
+	"name": "",
+	"author":"",
+	"status":"Development",
+	"versions":[
+		{
+			"version":"1.0",
+			"date":"2014-05-01",
+			"comments":" First version"
+		}
+	],
+	"install":{
+		
+	}
+}
