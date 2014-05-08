@@ -1,6 +1,6 @@
 ï»¿#Notify
 
-We know you have customers that are more important than others. With Notify nothing slips through your fingers. It gives you full control of the latest actions made on your most precious companies. 
+We know you have customers that are more important than others. With Notify nothing slips through your fingers. It gives you full control of the latest actions made on your most precious companies.
 You get total control and who wouldn't want that?
 
 This is what you get:
@@ -12,7 +12,7 @@ This is what you get:
 
 ##Basic usage
 
-Keep calm and let Notify notify
+Keep calm and let Notify notify.
 
 ##Installation
 
@@ -22,13 +22,11 @@ Requirements for Notify:
 	<li>Relations from subscription to company and to coworker</li>
 </ul>
 
-Then just download and add to your bootstrap-apps!
+Then follow these steps:
+<ul>
+	<li>Add the getsubscriptions.sql script to your database</li>
+	
+	
+</ul>
 
-##App.html
-Build your view
 
-##App.json
-Meta data for you app. Versioning and installation
-
-##app.css
-if you want custom styleing app it here and include it in the app.js
