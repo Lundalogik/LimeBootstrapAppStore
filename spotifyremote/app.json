@@ -1,0 +1,15 @@
+{
+	"name": "spotifyremote",
+	"author":"MHE",
+	"status":"Development",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2014-05-08",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}
