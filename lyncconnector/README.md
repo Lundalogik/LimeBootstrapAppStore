@@ -14,24 +14,15 @@ Copy “lyncconnector” folder to the “apps” folder. The inspector where th
  If you want to show the app on class "coworker" add the following HTML to the ActionPad inside the head (LyncConnector-example):
 
 ```html
-<head>
-<div data-app="{app:'LyncConnector', config:{
-                coworkerfield: 'string',
-    }
-}">
+<div class="header-container blue">
+    <div data-app="{ app: 'LyncConnector', config: { appType: 'head' } }"></div>
 </div>
-
-</head>
 ```
 
-If you want to show the app on other classes add the following HTML to the ActionPad inside the body (LyncConnector-example):
+If you want to show the app on other classes add the following HTML to the ActionPad inside the body (LyncConnector-example). The example below will be put in the Helpdesk-Actionpad. Change 'helpdesk' to 'business' if in Business-Actionpad and so on:
 ```html
-<head>
-<div data-app="{app:'LyncConnector', config:{
-                coworkerfield: 'string',
-    }
-}">
+<div class="header-container red">
 </div>
 
-</head>
+<div data-app="{ app: 'LyncConnector', config: { coworkerPropertyPath: 'helpdesk' } }"></div>
 ```

@@ -1,0 +1,41 @@
+<!-- ko if: appType === 'head' -->
+<div>
+	<!-- ko if: hasLyncConnection -->
+	<div class="lync-header-icon-container">
+		<div class="lync-header-icon-background" data-bind="
+			event: {
+				mouseover: showLyncPresencePopup,
+				mouseout: hideLyncPresencePopup
+			},
+			style: { backgroundColor: presenceColor }
+		">
+			<div class="header-icon"></div>
+		</div>
+	</div>
+	<!-- /ko -->
+	<!-- ko ifnot: hasLyncConnection -->
+	<div class="header-icon"></div>
+	<!-- /ko -->
+	<h2 data-bind="text: coworker.name.text"></h2>
+	<!-- ko if: hasLyncConnection -->
+	<p class="lync-presence" data-bind="event: {
+		mouseover: showLyncPresencePopup,
+		mouseout: hideLyncPresencePopup
+	}"><span data-bind="text: presenceText"></span> on Lync</p>
+	<!-- /ko -->
+</div>
+<!-- /ko -->
+<!-- ko ifnot: appType === 'head' -->
+<div data-bind="if: hasLyncConnection">
+	<div data-bind="event: {
+		mouseover: showLyncPresencePopup,
+		mouseout: hideLyncPresencePopup
+	}">
+		<button class="btn btn-lime btn-default">
+			<i class="fa fa-user lync-icon" data-bind="style: { color: presenceColor }"></i>
+			<span data-bind="text: coworkerObject().name.text"></span>
+			<span class="lync-status">(<span data-bind="text: presenceText"></span>)</span>
+		</button>
+	</div>
+</div>
+<!-- /ko -->

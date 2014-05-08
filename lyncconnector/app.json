@@ -1,15 +1,15 @@
 {
-	"name": "",
-	"author":"",
+	"name": "LyncConnector",
+	"author":"Adrian Schmidt",
 	"status":"Development",
 	"versions":[
 		{
-			"version":"1.0",
-			"date":"2014-05-01",
-			"comments":" First version"
+			"version":"0.1",
+			"date":"2014-05-08",
+			"comments":"Creation"
 		}
 	],
 	"install":{
-		
+
 	}
 }

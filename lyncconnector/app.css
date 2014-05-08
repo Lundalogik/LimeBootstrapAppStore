@@ -1,0 +1,31 @@
+.lync-header-icon-container {
+	text-align: center;
+}
+
+.lync-header-icon-background {
+	border-radius: 37px;
+	display: inline-block;
+	height: 74px;
+	padding: 5px;
+	margin-top: -5px;
+	width: 74px;
+}
+
+.lync-icon-background {
+	border-radius: 9px;
+	display: inline-block;
+	height: 18px;
+	padding: 1px;
+	margin-bottom: -1px;
+	margin-top: -1px;
+	width: 18px;
+	text-align: center;
+}
+
+.lync-status {
+	font-size: 0.7em;
+}
+
+.lync-presence {
+	margin: 0 0 5px 10px;
+}
