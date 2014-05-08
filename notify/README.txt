@@ -22,10 +22,20 @@ Requirements for Notify:
 	<li>Relations from subscription to company and to coworker</li>
 </ul>
 
-Then follow these steps:
-<ul>
-	<li>Add the getsubscriptions.sql script to your database</li>
-	
+##Configuration of notify
+Following need to be implemented in the database:
+•	New table subscription with relation to company and coworker and a y/n-field unsubscribe 
+•	Add code to Globals
+•	Add procedure [dbo].[csp_get_subscriptions] 
+The standard configuration for notify is:
+•	time= 7 days back. You can update this in csp_get_subscriptions. 
+
+Add the following code to company.html
+<ul class="menu expandable collapsed"><li class="menu-header", data-bind=" text:'Länkar'"></li>  	
+<button class="btn btn-default btn-lime"  data-bind="vba:'Globals.CreateSubscription', text:'Notify', icon:'fa-check'"></button>	</ul>
+
+Add the following code to index.html: 
+
 	
 </ul>
 
