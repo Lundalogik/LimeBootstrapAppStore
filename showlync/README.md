@@ -1,6 +1,8 @@
 #Lync Connector
 
-The Lync Connector allows you to directly show the picture and Lync status from your colleagues in any Actionpad in Lime PRO, as long as you have a coworker relation on the card where you want to show the information. This is ideal if you, for example, use Lime as a helpdesk-system and easily want to contact the responsible coworker for a specific ticket. If your colleague changes the status, the status will automagically update in Lime, you don't even have to reopen the card.
+Lime PRO - Connects people!
+
+The Lync Connector allows you to directly interact and show the Lync status from your colleagues in any Actionpad in Lime PRO, as long as you have a coworker relation on the card where you want to show the information. This is ideal if you, for example, use Lime as a helpdesk-system and easily want to contact the responsible coworker for a specific ticket. If your colleague changes the status, the status will automagically update in Lime, you don't even have to reopen the card.
 
 The app includes a hover functionality which opens up the standard Lync controls, allowing you to easily send a message or call your colleague! WOHOO!
 
