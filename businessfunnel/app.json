@@ -2,6 +2,7 @@
 	"name": "Business Funnel",
 	"author":"SSM",
 	"status":"Release",
+	"shortDesc":"Gives you a nice and smart overview of current business oppertinities",
 	"versions":[
 		{
 			"version":"1.1",
