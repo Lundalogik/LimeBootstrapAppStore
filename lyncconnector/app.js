@@ -42,17 +42,18 @@ lbs.apploader.register('LyncConnector', function() {
         vm.coworkerObject = ko.observable({});
         var pathArray;
         var tmpObj = vm;
+        var coworkerPropertyName = self.config.appConfig.coworkerPropertyName || 'coworker';
 
         if (self.config.appConfig.coworkerPropertyPath) {
-            pathArray = self.config.appConfig.coworkerPropertyPath.split('_');
+            pathArray = self.config.appConfig.coworkerPropertyPath.split('.');
             for (var i = 0, max = pathArray.length; i < max; i += 1) {
                 tmpObj = tmpObj[pathArray[i]];
             }
-            if (tmpObj.coworker) {
-                vm.coworkerObject(tmpObj.coworker);
+            if (tmpObj[coworkerPropertyName]) {
+                vm.coworkerObject(tmpObj[coworkerPropertyName]);
             }
         } else {
-            vm.coworkerObject(vm.coworker);
+            vm.coworkerObject(vm[coworkerPropertyName]);
         }
 
         function initLync() {
