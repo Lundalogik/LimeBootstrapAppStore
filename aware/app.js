@@ -1,4 +1,4 @@
-lbs.apploader.register('aware', function () {
+lbs.apploader.register('info', function () {
     var self = this;
 
     /*Config (version 2.0)
