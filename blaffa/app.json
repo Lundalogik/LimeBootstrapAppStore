@@ -1,10 +1,10 @@
 {
 	"name":"BLAFFA",
 	"author":"JOG, JSP, NOS, PEA, FSE",
-	"status":"Development",
+	"status":"Masterful",
 	"versions":[
 		{
-			"version":"0.9",
+			"version":"1.0",
 			"date":"2014-05-08",
 			"comments":"This is BLAFFA"
 		}
