@@ -17,3 +17,50 @@ Aware är utan tvekan en av de mest uppskattade företagsapparna på Securitas.
 ”Utan Aware skulle vi aldrig kunna visa så fina siffror i våra kundnöjdhetsmätningar. Innan vi införde Aware hände det då och då att kunder inte kontaktades som utlovat. Än värre bad vi inte om ursäkt eftersom vi inte uppmärksammandes på att vi glömt kunden. 
 Nu uppmärksammas vi omgående och kan enkelt be om ursäkt. Att be om ursäkt är utomordentligt uppskattat av våra kunder och som det gamla ordspråket säger, övning ger färdighet” säger Kristoffer Sakaria, CRM-ansvarig på Securitas.
 
+Användning:
+<div data-app="{app:'info',config:{
+	icon1: 'fa-frown-o',
+	icon2: 'fa-meh-o',
+	icon3: 'fa-smile-o',
+	text1: 'Gammal som gatan',
+	text2: 'Inte så gammal',
+	text3: '',
+	dataSource: {
+                    type:'xml',
+                    source:'checkHistory.call_checkHistory,7,14'
+                    , alias: 'aware'
+                }
+}}">
+</div>
+
+
+<div data-app="{app:'info',config:{
+	icon1: 'fa-frown-o',
+	icon2: 'fa-meh-o',
+	icon3: 'fa-smile-o',
+	text1: 'Flera obligatoriska fält ej ifyllda',
+	text2: 'Ett par obligatoriska fält ej ifyllda',
+	text3: 'Alla obligatoriska fält är ifyllda',
+	dataSource: {
+                    type:'xml',
+                    source:'checkHistory.checkFields, name;phone;www'
+                    , alias: 'aware'
+                }
+}}">
+</div>
+	
+
+<div data-app="{app:'info',config:{
+	icon1: 'fa-frown-o',
+	icon2: 'fa-meh-o',
+	icon3: 'fa-smile-o',
+	text1: 'SOS-ärende finns',
+	text2: '',
+	text3: '',
+	dataSource: {
+                    type:'xml',
+                    source:'checkHistory.call_checkHelpdesk'
+                    , alias: 'aware'
+                }
+}}">
+</div>

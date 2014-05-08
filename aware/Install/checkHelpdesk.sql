@@ -1,7 +1,7 @@
 USE [lbstest_aas]
 GO
 
-/****** Object:  StoredProcedure [dbo].[csp_checkHelpdesk]    Script Date: 2014-05-08 20:57:54 ******/
+/****** Object:  StoredProcedure [dbo].[csp_checkHelpdesk]    Script Date: 2014-05-08 22:15:39 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -25,9 +25,19 @@ BEGIN
 	from helpdesk 
 	where company = @idrecord 
 
-	select @xml =
-	(select @count as myvar 
-	for xml raw)
+
+	if @count > 0 
+	begin 
+		select @xml =
+		(select 1 as myvar 
+		for xml raw)
+	end 
+	else
+	begin
+		select @xml =
+		(select 3 as myvar 
+		for xml raw)
+	end 
 END
 
 GO

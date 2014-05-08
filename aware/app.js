@@ -1,4 +1,4 @@
-lbs.apploader.register('info', function () {
+lbs.apploader.register('aware', function () {
     var self = this;
 
     /*Config (version 2.0)
@@ -7,12 +7,6 @@ lbs.apploader.register('info', function () {
         The variabels specified in "config:{}", when you initalize your app are available in in the object "appConfig".
     */
     self.config =  function(appConfig){
-            alert(appConfig.icon);
-            this.interval1 = appConfig.interval1;
-            this.interval2 = appConfig.interval2;          
-            this.requiredFields = appConfig.requiredFields;
-            //lbs.log.debug(appConfig.interval1);
-
             this.icon1 = appConfig.icon1;          
             this.icon2 = appConfig.icon2;
             this.icon3 = appConfig.icon3;
@@ -22,21 +16,7 @@ lbs.apploader.register('info', function () {
             
 
             this.dataSources = [
-                {
-                    type:'xml',
-                    source:'checkHistory.call_checkHistory,{0},{1}'.format(                   
-                    this.interval1,
-                    this.interval2
-                    ) , alias: "history"
-                },
-                {
-                    type:'xml',
-                    source:'checkHistory.call_checkHelpdesk', alias: "helpdesk"
-                },
-                {
-                    type:'xml',
-                    source:'checkHistory.checkFields,{0}'.format(this.requiredFields), alias: "fields"
-                }
+                appConfig.dataSource
             ];
             this.resources = {
                 scripts: [], // <= External libs for your apps. Must be a file
@@ -57,68 +37,23 @@ lbs.apploader.register('info', function () {
         but, well, here you have it.
     */
     self.initialize = function (node, viewModel) {        
-        viewModel.issueHistory = '';
-        viewModel.issueHelpdesk = '';
-        viewModel.issueFields = '';
 
-        viewModel.issue = '';
-        viewModel.icon = '';
-        viewModel.backgroundcolorIcon = '';
-        viewModel.backgroundcolorText = '';
-        viewModel.color = '';
-
-        switch(viewModel.history.row.myvar){
+        switch(viewModel.aware.row.myvar){
             case '1':
-            alert(self.config.icon1);
                 viewModel.icon = self.config.icon1;
-                viewModel.backgroundcolorIcon = '#eed3d7';
-                viewModel.backgroundcolorText = '#fdf7f7';
-                viewModel.color = '#F5B4B4';                    
-                viewModel.issue = 'Gammal som gatan';
+                viewModel.issue = self.config.text1;
                 viewModel.tileColor = "rgb(232, 89, 89)";
             break;
             case '2':
-            alert(self.config.icon1);            
                 viewModel.icon = self.config.icon2;
-                viewModel.backgroundcolorIcon = '#faebcc';
-                viewModel.backgroundcolorText = '#faf8f0';
-                viewModel.color = '#c09853';
-                viewModel.issue = 'Ganska gammal';
+                viewModel.issue = self.config.text2;
                 viewModel.tileColor =  "rgb(244, 187, 36)";
             break;
             case '3':
-                viewModel.icon = self.config.icon1;
-                viewModel.backgroundcolorIcon = '#eed3d7';
-                viewModel.backgroundcolorText = '#fdf7f7';              
                 viewModel.icon = self.config.icon3;
-                viewModel.issue = 'Ny';
+                viewModel.issue = self.config.text3;
                 viewModel.tileColor =  "rgb(153, 216, 122)";
             break;
-        }
-
-
-        viewModel.tileColorHelpdesk = function(){
-            if (viewModel.helpdesk.row.myvar > 0) {
-                viewModel.issueHelpdesk = 'Det finns SOS-ärende';
-                return "rgb(232, 89, 89)";
-            }
-        }
-
-        viewModel.tileColorFields = function(){
-            switch(viewModel.fields.row.myvar){
-                case '1':
-                    viewModel.issueFields = 'Flera obligatoriska fält ej ifyllda';
-                    return "rgb(232, 89, 89)";
-                break;
-                case '2':
-                    viewModel.issueFields = 'Ett par obligatoriska fält ej ifyllda';
-                    return "rgb(244, 187, 36)";
-                break;
-                case '3':
-                    viewModel.issueFields = '';
-                    return "rgb(153, 216, 122)";
-                break;
-            }
         }
 
         return viewModel;
