@@ -1,6 +1,6 @@
 markdown
 
-#Course Queue
+#Test Course Queue
 
 The No.1 queue management tool for course / campaign handling!
 
