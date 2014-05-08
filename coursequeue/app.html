@@ -1,0 +1,15 @@
+ <div id="queuebox" class="infotile" data-bind="click:addToQueue, style:{'background-color': color()}">
+	  	
+
+	<h1 class="value"  >
+		<!--<span class="icon-left" data-bind="visible:icon !=='' && iconPosition==='left' ,icon: icon"> </span>-->
+		<span data-bind="text:queueLength + ' ' + displayText"></span>
+		<!--<span class="icon-right" data-bind="visible:icon !=='' && iconPosition==='right',icon: icon"> </span>-->
+	</h1>
+	<p class="name">
+		<span data-bind="text:'Add to queue'"></span>
+		<span class="icon-right" data-bind="visible:icon !=='' && iconPosition==='right',, icon:'fa-arrow-circle-o-right'"> </span>
+	
+	</p>
+</div>
+
