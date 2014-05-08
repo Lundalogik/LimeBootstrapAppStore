@@ -1,10 +1,10 @@
 {
 	"name": "spotifyremote",
 	"author":"MHE",
-	"status":"Development",
+	"status":"Release",
 	"versions":[
 		{
-			"version":"0.1",
+			"version":"1.0",
 			"date":"2014-05-08",
 			"comments":"Creation"
 		}
