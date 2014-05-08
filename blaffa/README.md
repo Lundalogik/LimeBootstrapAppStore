@@ -22,16 +22,9 @@ Install
 
 
 1. Copy “blaffa” folder to the “apps” folder. 
-
-
-
-2. Create your integer, yes/no or option field if it doesn't already exists. E.g. if you want different icons for customers and suppliers, you probably already have an option field with these two options.
-
-
-3. Add the following HTML to the ActionPad:
-
-
-4. OPTIONAL! Write SQL-logic for your field. For inspiration, if you want different icons if someone has performed a customer visit the last six months, the following SQL returns 000000 if the customer has had a customer visit within the last 180 days, otherwise 111111:
+1. Create your integer, yes/no or option field if it doesn't already exists. E.g. if you want different icons for customers and suppliers, you probably already have an option field with these two options.
+1. Add the following HTML to the ActionPad:
+1. OPTIONAL! Write SQL-logic for your field. For inspiration, if you want different icons if someone has performed a customer visit the last six months, the following SQL returns 000000 if the customer has had a customer visit within the last 180 days, otherwise 111111:
 `(
 CASE 
 WHEN EXISTS
