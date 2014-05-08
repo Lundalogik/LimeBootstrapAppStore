@@ -1,10 +1,18 @@
 #Notify
 
-This is for those who want to stay up to date with their customers!
+We know you have customers that are more important than others. With Notify nothing slips through your fingers. It gives you full control of the latest actions made on your most precious companies. 
+You get total control and who wouldn´t want that? 
+
+This is what you get: 
+<ul>
+	<li>Notifications  from chosen companies</li>
+	<li>Not missing out on important actions you are not involved in</li>
+	<li>Help with getting your priorities straight</li>
+</ul>
 
 ##Basic usage
 
-Notify let's you subscribe to companies to keep yourself in the loop. Once you've subscribed a flow of notifications appear in the index-actionpad. 
+Keep calm and let Notify notify
 
 ##Installation
 
