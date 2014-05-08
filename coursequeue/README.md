@@ -1,7 +1,6 @@
 markdown
 
-#Test Course Queue
-
+#Course Queue
 The No.1 queue management tool for course / campaign handling!
 
 Do you have a problem with setting up a queue for fully booked campaign or course? Dont you worry, Lundalogik has came up with a solution of queuing up the possible participants on sign up order!
@@ -16,13 +15,12 @@ All potential participants will be shown and queued up on the actionpad if there
 
 #Installation
 
-Download the installation file through the link. Run the activityweb.exe.
+Download the installation file through the link.
 
-Setting up the goals and activities you want to follow up on:
+Add the \install\Queue.bas into your VBA.
 
-Open the ***.** file to change the activities you want to follow find a following line:
+Open SQL-management studio, find the database where you want to use the business funnel and choose "New Query". Insert the SQL procedures csp_getQueueLength and csp_updateCampaignQueue from the Install folder for your database.
 
-Change the activity names into the ones you are using in LIME Pro. Salescall, meeting, etc...
-Do the same on the goal line.
-
-Save.
+Your Course participant card requires two fields:
+<li>queuetime</li
+<li>queuepos</li>
