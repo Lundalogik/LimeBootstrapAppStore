@@ -2,6 +2,7 @@
 	"name":"BLAFFA",
 	"author":"JOG, JSP, NOS, PEA, FSE",
 	"status":"Release",
+	"shortDesc": "The most dynamic and versataile app you'll ever learn to love.",
 	"versions":[
 		{
 			"version":"1.0",
