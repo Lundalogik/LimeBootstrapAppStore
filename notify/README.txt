@@ -36,7 +36,7 @@ Add the following code to company.html
 
 Add the following code to index.html: 
 
-	
-</ul>
+<div data-app="{app:'subscriptions',config:{}}"></div>
+
 
 

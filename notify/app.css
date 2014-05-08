@@ -1,0 +1,29 @@
+/*
+PUT SOME FANCY CSS STUFF HERE PLEASE!
+*/
+.notifierzzzzz{
+	text-align: left;
+	font-size: 7pt;
+	margin: 1px;
+	padding: 4px;
+
+}
+
+.menu{
+
+	margin: 0;
+}
+
+.notifierdiv{
+	height: 110px;
+	width: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	margin: 0;
+	padding: 0;
+}
+
+.menu-header{
+	padding: 0;
+	margin: 0;
+}
