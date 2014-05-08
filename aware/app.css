@@ -1,0 +1,32 @@
+.awaretile{
+  border-top: solid black 1px;
+  border-bottom: solid black 1px;  
+  margin-left: -10px;
+  margin-right:-10px;
+  margin-top: 5px;
+  line-height:32px;
+}
+
+.icon{
+
+    white-space:  normal;
+    overflow: hidden;
+
+    margin-left:-5px;
+    padding-left: 5px;
+    vertical-align: middle;
+    display: table-cell;
+     font-size: 30px;
+   color: white;
+
+}
+
+
+
+.text{
+
+    font-size: 13px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
