@@ -4,7 +4,7 @@ markdown
 
 The No.1 activity goal measurement tool!
 
-Do you have a problem with following your sales activity and goals? Don´t you worry, Lundalogik has came up with a solution of seeing your activity progress towards your goals at one glance. Activityweb app draws your activity goals and done activities into one simple spiderweb chart.
+Do you have a problem with following your sales activity and goals? Dont you worry, Lundalogik has came up with a solution of seeing your activity progress towards your goals at one glance. Activityweb app draws your activity goals and done activities into one simple spiderweb chart.
 
 Proevolutionize your sales!
 
@@ -18,7 +18,9 @@ Proevolutionize your sales!
 
 
 
-Installation
+
+
+#Installation
 
 Download the installation file through the link. Run the activityweb.exe.
 
