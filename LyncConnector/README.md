@@ -2,13 +2,13 @@
 
 LIME Pro - Connects people!
 
-The Lync Connector allows you to directly interact and show the Lync status from your colleagues in any Actionpad in LIME Pro, as long as you have a coworker relation on the card where you want to show the information. This is ideal if you, for example, use LIME as a helpdesk-system and easily want to contact the responsible coworker for a specific ticket. If your colleague changes his Lync-status, the Lync-status will automagically update in LIME, you don't even have to reopen the card.
+The Lync Connector allows you to directly interact and show the Lync status from your colleagues in any Actionpad in LIME Pro, so long as you have a coworker relation on the card where you want to show the information. This is ideal if you, for example, use LIME Pro as a helpdesk system and wish to contact the responsible coworker for a specific ticket. If your colleague changes his Lync-status, the Lync-status will immediately update right on the card.
 
 The app includes a hover functionality which opens up the standard Lync controls, allowing you to easily send a message or call your colleague! WOHOO!
 
 ##Install
 
-Copy “lyncconnector” folder to the “apps” folder. The inspector where the app is supplied must either be of class "coworker" or have a relation to a coworker. Please note that the email-address of the coworker must match the email-address used for the coworker's Lync-account. Otherwise, nothing will show up for that coworker.
+Copy the “LyncConnector” folder to the “apps” folder. The inspector where the app is supplied must either be of class "coworker" or have a relation to a coworker. Please note that the email-address of the coworker must match the email-address used for the coworker's Lync-account. Otherwise, nothing will show up for that coworker.
 
 
  If you want to show the app on class "coworker" add the following HTML to the ActionPad inside the head (LyncConnector-example):
