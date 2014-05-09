@@ -1,11 +1,11 @@
 {
 	"name": "Notification Service",
 	"author":"Gbg",
-	"status":"Development",
+	"status":"Beta",
 	"versions":[
 		{
 			"version":"1.0",
-			"date":"2014-05-01",
+			"date":"2014-05-08",
 			"comments":" First version"
 		}
 	],
