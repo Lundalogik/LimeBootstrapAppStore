@@ -2,6 +2,8 @@
 	"name": "Notify",
 	"author":"Gbg-Appathon Group",
 	"status":"Beta",
+	"shortDesc": "Keep calm and let Notify Notify",
+
 	"versions":[
 		{
 			"version":"1.0",
