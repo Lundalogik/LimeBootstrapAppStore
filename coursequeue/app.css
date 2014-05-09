@@ -16,6 +16,25 @@ border-bottom-width: 1px;
 box-shadow: rgba(0, 0, 0, 0.0784314) 0px 2px 1px 0px;
 }
 
+.remove{
+  margin: 0;
+  margin-left: -10px;
+  margin-right:-10px;
+  border-right-color: rgba(0, 0, 0, 0);
+  border-right-style: solid;
+  border-right-width: 1px;
+  position: relative;
+  height: 40px;
+  color: #FFF;
+  cursor: pointer;
+  background-color: #41c8d6;
+border-bottom-color: rgba(0, 0, 0, 0);
+border-radius: 1px;
+border-bottom-style: solid;
+border-bottom-width: 1px;
+box-shadow: rgba(0, 0, 0, 0.0784314) 0px 2px 1px 0px;
+}
+
 .infotile:hover{
 
 }
@@ -49,4 +68,34 @@ overflow: hidden
   vertical-align:middle;
   text-align: left;
   margin-bottom:10px;
+}
+
+.remove .name{
+padding-top: 10px;
+font-size: 14px;
+text-align: left;
+color: #FFF;
+margin-left: 10px;
+text-overflow: ellipsis;
+white-space: nowrap;
+overflow: hidden
+
+}
+.remove .value{
+  font-size: 14px;
+  text-align: left;
+  margin-left: 10px;
+  padding-top: 15px;
+  margin-bottom: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.remove .fa-fw {
+  width: inherit;
+  font-size: 14px;
+  vertical-align:middle;
+  text-align: left;
+  margin-bottom:0px;
 }
