@@ -1,7 +1,7 @@
-Blaffa
+Field Visualizer
 =========
 
-Blaffa turns data into prettiness.
+Field Visualizer turns data into prettiness.
 
 
 Info
@@ -18,8 +18,6 @@ It makes the experience more visual and thereby faster and more intuitive.
 
 Install
 -----------
-
-
 
 1. Copy “blaffa” folder to the “apps” folder. 
 1. Create your integer, yes/no or option field if it doesn't already exists. E.g. if you want different icons for customers and suppliers, you probably already have an option field with these two options.
@@ -66,6 +64,7 @@ Install
 ```
 
 1. OPTIONAL! Write SQL-logic for your field. For inspiration: if you want an icons showing if someone has performed a customer visit the last six months or not, the following SQL returns 000000 if the customer has had a customer visit within the last 180 days, otherwise 111111:
+
 ```sql(
 CASE 
 WHEN EXISTS

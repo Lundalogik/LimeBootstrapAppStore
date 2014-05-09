@@ -1,17 +1,17 @@
 {
-	"name": "Course queue",
-	"author":"HKI",
+	"name": "Course Queue",
+	"author":"FPE",
 	"status":"Release",
 	"versions":[
 		{
 			"version":"1.1",
-			"date":"2014-05-08",
-			"comments":"Nice"
+			"date":"2014-03-14",
+			"comments":"Fixed it so it now look more nice"
 		},
 
 		{
 			"version":"1.0",
-			"date":"2014-05-08",
+			"date":"2014-02-06",
 			"comments":"First commit"
 		}
 	],

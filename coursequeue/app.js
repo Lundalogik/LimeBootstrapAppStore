@@ -2,12 +2,12 @@ lbs.apploader.register('queue', function () {
     var self = this;
     //config
     self.config = {
-        color:"",
-		flashColor:"",
+        color:"blue",
+		flashColor:"red",
         displayText:"",
-		iconPosition:"",
-        icon:"",
-		blinktime:"",
+		iconPosition:"right",
+        icon:"fa-user",
+		blinktime:"700",
         dataSources: [
             {type: 'xml', source: 'Queue.GetQueueLength', alias:"queueLength"}
         ],
@@ -88,6 +88,15 @@ lbs.apploader.register('queue', function () {
                 lbs.common.executeVba("Queue.AddToQueue");
 				$("#queuebox").effect("highlight", {color: '#41d69a'}, 700);
 				//$("#queuebox" ).effect( "bounce", { times: 3 }, "slow" );
+				setTimeout(function () {
+					lbs.common.executeVba("Queue.closeInspector")
+				}, 750);
+            }
+			
+			viewmodel.removeFromQueue = function(){
+                lbs.common.executeVba("Queue.RemoveFromQueue");
+				//$("#queuebox").effect("highlight", {color: '#41d69a'}, 700);
+				//$("#remqueuebox" ).effect( "bounce", { times: 2 }, "slow" );
             }
             return  viewmodel;
 

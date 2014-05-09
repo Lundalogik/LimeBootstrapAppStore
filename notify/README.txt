@@ -23,6 +23,7 @@ Requirements for Notify:
 </ul>
 
 ##Configuration of notify
+
 Following need to be implemented in the database:
 •	New table subscription with relation to company and coworker and a y/n-field unsubscribe 
 •	Add code to Globals
