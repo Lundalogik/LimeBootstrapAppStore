@@ -33,9 +33,10 @@ On Error GoTo ErrorHandler
     
     oProcedure.log = True
     
-    'Run the procedure synchronously
+    'Run the procedure asynchronously
     
-    oProcedure.Execute False
+    oProcedure.Execute True
+
     
 Exit Sub
 ErrorHandler:
@@ -52,11 +53,39 @@ On Error GoTo ErrorHandler:
     Call oInspector.Controls.SetValue("queuetime", VBA.Now())
     
     Call UpdateQueue
-    
-    Call oInspector.Close(True)
+    Call oInspector.Controls.RefreshField("queuepos")
     
 Exit Sub
 ErrorHandler:
     UI.ShowError ("Queue.addToQueue")
 End Sub
 
+Public Sub closeInspector()
+On Error GoTo ErrorHandler
+    
+    Dim oInspector As Lime.Inspector
+    
+    Set oInspector = Application.ActiveInspector
+
+    Call oInspector.ParentExplorer.Requery
+    Call oInspector.Close
+Exit Sub
+ErrorHandler:
+    UI.ShowError ("Queue.updateInspector")
+End Sub
+
+Public Sub RemoveFromQueue()
+On Error GoTo ErrorHandler:
+
+    Dim oInspector As Lime.Inspector
+    
+    Set oInspector = Application.ActiveInspector
+    Call oInspector.Controls.SetValue("queuetime", Null)
+    Call oInspector.Controls.SetValue("queuepos", Null)
+    
+    Call UpdateQueue
+    
+Exit Sub
+ErrorHandler:
+    UI.ShowError ("ActionPad_Contract.RemoveFromQueue")
+End Sub

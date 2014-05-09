@@ -8,8 +8,15 @@
 	</h1>
 	<p class="name">
 		<span data-bind="text:'Add to queue'"></span>
-		<span class="icon-right" data-bind="visible:icon !=='' && iconPosition==='right',, icon:'fa-arrow-circle-o-right'"> </span>
+		<span class="icon-right" data-bind="icon:'fa-arrow-circle-o-right'"> </span>
 	
 	</p>
+</div>
+<div class="remove" data-bind="click:removeFromQueue">
+		<p class="name">
+		<span data-bind="icon:'fa-arrow-circle-o-left'"> </span>
+		<span data-bind="text:'Remove from queue'"></span>
+		
+		</p>
 </div>
 

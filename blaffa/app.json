@@ -1,10 +1,11 @@
 {
 	"name":"BLAFFA",
 	"author":"JOG, JSP, NOS, PEA, FSE",
-	"status":"Development",
+	"status":"Release",
+	"shortDesc": "The most dynamic and versataile app you'll ever learn to love.",
 	"versions":[
 		{
-			"version":"0.1",
+			"version":"1.0",
 			"date":"2014-05-08",
 			"comments":"This is BLAFFA"
 		}
