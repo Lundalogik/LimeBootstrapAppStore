@@ -1,0 +1,18 @@
+ <div class="awaretile" data-bind="style:{'background-color': tileColor}">
+		<span class="icon" data-bind="icon: icon"> </span> 
+		
+		<span class="text" data-bind=" text: issue"> </span>
+		
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+ <div class="infotile" data-bind="style:{'background-color': tileColorHelpdesk()}, visible:issueHelpdesk !==''">
+ 	<p data-bind="text:issueHelpdesk"> </p>
+</div>
+
+ <div class="infotile" data-bind="style:{'background-color': tileColorFields()}, visible:issueFields !==''">
+ 	<p data-bind="text:issueFields"> </p>
+</div>
