@@ -1,7 +1,7 @@
 {
 	"name": "LyncConnector",
 	"author":"Adrian Schmidt and crew!",
-	"status":"Released",
+	"status":"Release",
 	"shortDesc": "Lync Connector - Connects people!",
 	"versions":[
 		{
