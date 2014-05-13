@@ -23,6 +23,8 @@ Insert the following html tag in the actionpad where you want it to be shown, mo
 
 	`<div data-app="{app:'businessfunnel'}"></div>`
 
+Create two localize posts. Owner should be businessfunnel and code should be "all" and "mine". This is the labels for the filter of the business funnel. 	
+
 ##Configurating the business funnel
 Following field need to be implemented in the database:
 
