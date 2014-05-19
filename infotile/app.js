@@ -21,7 +21,7 @@ lbs.apploader.register('infotile', function () {
 
     //initialize
     self.initialize = function (node,viewmodel) {
-            var data = lbs.common.executeVba("InfoTitle.GetInfo," + self.config.className + "," + self.config.filterName);            
+            var data = lbs.common.executeVba("infotile.GetInfo," + self.config.className + "," + self.config.filterName);            
             viewmodel.filterValue =  ko.observable(data);            
             if(self.config.displayText){
                 viewmodel.displayText = self.config.displayText;
@@ -62,12 +62,12 @@ lbs.apploader.register('infotile', function () {
             setInterval(function()
             {                                     
                 // Får jag inte ut något värde try catch med felmeddelande i rutan. 
-                viewmodel.filterValue(lbs.common.executeVba("InfoTitle.GetInfo," + self.config.className + "," + self.config.filterName));                            
+                viewmodel.filterValue(lbs.common.executeVba("infotile.GetInfo," + self.config.className + "," + self.config.filterName));                            
             },self.config.updateTimer);
             }
 
             viewmodel.showFilter = function(){
-                lbs.common.executeVba("InfoTile.ShowFilter," + self.config.className + "," + self.config.filterName)
+                lbs.common.executeVba("infotile.ShowFilter," + self.config.className + "," + self.config.filterName)
             }
 
             return  viewmodel;
