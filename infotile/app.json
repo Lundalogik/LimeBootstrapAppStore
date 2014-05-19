@@ -4,6 +4,11 @@
 	"status":"Release",
 	"versions":[
 		{
+			"version":"1.2",
+			"date":"2014-05-19",
+			"comments":"Enable auto refresh"
+		},
+		{
 			"version":"1.1",
 			"date":"2014-03-14",
 			"comments":"Fixed it so it now look more nice"

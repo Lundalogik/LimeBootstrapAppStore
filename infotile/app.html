@@ -3,7 +3,7 @@
 
 	<h1 class="value"  >
 		<span class="icon-left" data-bind="visible:icon !=='' && iconPosition==='left' ,icon: icon"> </span>
-		<span data-bind="text:filterValue"></span>
+		<span data-bind="text:filterValue()"></span>
 		<span class="icon-right" data-bind="visible:icon !=='' && iconPosition==='right',icon: icon"> </span>
 	</h1>
 	<p class="name" data-bind="text:displayText"></p>
