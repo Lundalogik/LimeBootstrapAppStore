@@ -28,7 +28,7 @@ BEGIN
 		SET @lang = N'en_us'
 		
 	SELECT   
-		(Select s.stringorder as stringorder ,s.[key] as [key] , dbo.lfn_getstring2(b.businesstatus,@lang) as [businessstatus], CAST(sum(businessvalue) as bigint) as [businessvalue] 
+		(Select s.stringorder as stringorder ,s.[key] as [key] , dbo.lfn_getstring2(b.businesstatus,@lang) as [businesstatus], CAST(sum(businessvalue) as bigint) as [businessvalue] 
 		from [business] b 
 		inner join string s on s.idstring=b.businesstatus 
 		WHERE b.[status]=0
@@ -38,7 +38,7 @@ BEGIN
     ),
            
     (
-		Select  s.stringorder as [stringorder],s.[key] as [key], dbo.lfn_getstring2(b.businesstatus,@lang) as [businessstatus], CAST(sum(businessvalue) as bigint) as [businessvalue] 
+		Select  s.stringorder as [stringorder],s.[key] as [key], dbo.lfn_getstring2(b.businesstatus,@lang) as [businesstatus], CAST(sum(businessvalue) as bigint) as [businessvalue] 
 		from [business] b
 		inner join string s on s.idstring=b.businesstatus 
 		where b.coworker =@@idcoworker and b.[status]=0
