@@ -13,10 +13,11 @@ Add the following HTML to the `index.html`, see setup below for configuration se
 ##News in Info Tile app. 
 Enables you to add an automatic refresh to the application by adding a "updateTimer" to the config file.
 
-##Worth to think about is that too many auto refresh can make Lime slow. Recommended is 
+##Timer
+Worth to think about is that too many auto refresh can make Lime slow. Recommended is 
 to use this in a time interval of 20 minutes to 30 minutes. 
 
-##News in Installation
+##News in config file
 You can now add updateTimer to your config file. The update timer is set in miliseconds.
 
 
@@ -31,7 +32,6 @@ You can now add updateTimer to your config file. The update timer is set in mili
 					iconPosition: 'right', 
 					displayText:'test',
 					updateTimer: 20000
-
 			}}">
 </div>
 ```
