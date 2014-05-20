@@ -1,6 +1,6 @@
 #Aware
 ##About
-Aware allows you to get a visual overview on your customer. You can visualizing if a
+Aware allows you to get a visual overview on your company. You can visualizing if a
 company hasn't got a history note in a long time. If the company has an active
 SOS-errand and if some information are missing on a company field. 
 
