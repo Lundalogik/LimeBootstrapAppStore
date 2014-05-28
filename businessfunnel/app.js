@@ -127,6 +127,11 @@ lbs.apploader.register('businessfunnel', function () {
             newData = lbs.loader.loadDataSources(newData, self.config.dataSources, true);
             newData = newData.businessfunnel.data.businessfunnel.all                    
             
+            if (!Array.isArray(newData.value)) {
+                var arr = [newData.value];
+                newData.value = arr;
+            }
+        
             fixData(newData);
             
         }
@@ -141,6 +146,11 @@ lbs.apploader.register('businessfunnel', function () {
             var newData={};            
             newData = lbs.loader.loadDataSources(newData, self.config.dataSources, true);
             newData = newData.businessfunnel.data.businessfunnel.coworker
+            
+            if (!Array.isArray(newData.value)) {
+                var arr = [newData.value];
+                newData.value = arr;
+            }            
             
             fixData(newData);
             
