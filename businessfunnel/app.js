@@ -41,6 +41,10 @@ lbs.apploader.register('businessfunnel', function () {
 
         var data = viewModel.businessfunnel.data.businessfunnel.all; 
         
+        if (!Array.isArray(data.value)) {
+            var arr = [data.value];
+            data.value = arr;
+        }
         
         salesfunnel.name = self.config.name;  
         
