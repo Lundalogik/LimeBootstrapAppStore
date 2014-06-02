@@ -35,25 +35,38 @@ lbs.apploader.register('pie', function () {
         return viewModel;
     };
 
-    function go(valArray,colors) {    
+    function go(valArray,colors) {            
         var ctx = $("#myChart").get(0).getContext("2d");                   
         var data = "["
         for (var i = 0; i < valArray.length; i++) {                
-            if (valArray[i].indexOf("kr") >= 0) {                
-                var d = valArray[i].split(' ');                                                 
-                d = removeAllDots(d[0]);                
-                d = Math.round(d.replace(',','.'));                                
+            if (valArray[i].indexOf(",") >= 0) {                                
+                var d = valArray[i].split(' ');    
+                d = removeAllDots(d[0]);                                                
+                d = d.replace(/\s/g,'');                               
+                d = Math.round(d.replace(',','.'));                                            
                 data = data + "{\"value\" : "+ d +", \"color\" : \"" + colors[i] +"\"}"
                 data = data + ",";        
             }
             else
-            {                               
-            var x = valArray[i].replace(/\s/g, '');                        
-            data = data + "{\"value\" : "+ valArray[i].replace(/\s/g, '') +", \"color\" : \"" + colors[i] +"\"}"
-            data = data + ",";        
+            {          
+                var d = removeAllDots(valArray[i]);              
+                if (d.indexOf(',')> 0)
+                {
+                    d = Math.round(d.replace(',','.'));                        
+                }                 
+                if (d != 0)
+                {                   
+                    if (d.match(/\s/g, '')){                        
+                        d = d.replace(/\s/g, '');    
+                    }                                     
+                }
+                                    
+                data = data + "{\"value\" : "+ d +", \"color\" : \"" + colors[i] +"\"}"
+                //data = data + "{\"value\" : "+ valArray[i].replace(/\s/g, '') +", \"color\" : \"" + colors[i] +"\"}"
+                data = data + ",";        
             }
         }            
-        data = data.substring(0,data.length - 1) + "]";       
+        data = data.substring(0,data.length - 1) + "]";         
         data = JSON.parse(data);
        
         var options = self.config.options;        

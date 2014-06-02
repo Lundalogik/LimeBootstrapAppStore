@@ -18,7 +18,7 @@ By changing the "InnerCutout" percent you can make it look even more fantastic.
 					{field: 'value2', color: '#FFCC33'},					
 					{field: 'value3', color: '#3366FF'},					
 					{field: 'value6', color: '#009966'},
-					{field: 'value7', color: '#F7464A'}
+					{field: 'value8', color: '#F7464A'}
 				]
 			,options: {segmentStrokeWidth:2,percentageInnerCutout:80}
 	}
