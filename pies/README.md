@@ -9,9 +9,26 @@ you like.
 By changing the "InnerCutout" percent you can make it look even more fantastic.
 ###Installation
 
-To install the app you just need to add fields and options to your config file.
+```html
+ <div data-app="{app:'pie',
+	config:{
+			fields: 
+				[
+					{field: 'value1', color: '#660099'},
+					{field: 'value2', color: '#FFCC33'},					
+					{field: 'value3', color: '#3366FF'},					
+					{field: 'value6', color: '#009966'},
+					{field: 'value7', color: '#F7464A'}
+				]
+			,options: {segmentStrokeWidth:2,percentageInnerCutout:80}
+	}
+}">	
+</div>
+```
 
-###options
+To install the app you need to add which fields you are interested in and what options you like to use in your config file.
+
+###Options
 ```html
 Doughnut.defaults = {
 	//Boolean - Whether we should show a stroke on each segment
@@ -46,19 +63,3 @@ Doughnut.defaults = {
 } 
 ```
 
-```html
- <div data-app="{app:'pie',
-	config:{
-			fields: 
-				[
-					{field: 'value1', color: '#660099'},
-					{field: 'value2', color: '#FFCC33'},					
-					{field: 'value3', color: '#3366FF'},					
-					{field: 'value6', color: '#009966'},
-					{field: 'value7', color: '#F7464A'}
-				]
-			,options: {segmentStrokeWidth:2,percentageInnerCutout:80}
-	}
-}">	
-</div>
-```
