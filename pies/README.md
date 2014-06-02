@@ -1,7 +1,51 @@
 #Pies
 ##About
+This amazing application allows you to visualizing your data in many
+different shapes. 
 
+The app works with both decimal and integer fields and you can add as many 
+you like. 
+
+By changing the "InnerCutout" percent you can make it look even more fantastic.
 ###Installation
+
+To install the app you just need to add fields and options to your config file.
+
+###options
+```html
+Doughnut.defaults = {
+	//Boolean - Whether we should show a stroke on each segment
+	segmentShowStroke : true,
+	
+	//String - The colour of each segment stroke
+	segmentStrokeColor : "#fff",
+	
+	//Number - The width of each segment stroke
+	segmentStrokeWidth : 2,
+	
+	//The percentage of the chart that we cut out of the middle.
+	percentageInnerCutout : 50,
+	
+	//Boolean - Whether we should animate the chart	
+	animation : true,
+	
+	//Number - Amount of animation steps
+	animationSteps : 100,
+	
+	//String - Animation easing effect
+	animationEasing : "easeOutBounce",
+	
+	//Boolean - Whether we animate the rotation of the Doughnut
+	animateRotate : true,
+
+	//Boolean - Whether we animate scaling the Doughnut from the centre
+	animateScale : false,
+	
+	//Function - Will fire on animation completion.
+	onAnimationComplete : null
+} 
+```
+
 ```html
  <div data-app="{app:'pie',
 	config:{
