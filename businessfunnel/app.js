@@ -55,11 +55,13 @@ lbs.apploader.register('businessfunnel', function () {
         //FIND MAX TO BE USED AS 100% IN PROGRESS BAR
               
         getMaxAll = function(dataset){
-            var maxAll = 0;
+			var maxAll = 0;
 			for (var j = 0; j < dataset.value.length; j++) {
-				maxAll = maxAll + parseInt(dataset.value[j].businessvalue);
-				
-			}
+				if(!_.contains(self.config.removeStatus, dataset.value[j].key)){
+					maxAll = maxAll + parseInt(dataset.value[j].businessvalue);
+				}
+			};
+
             return maxAll;
         }
         //CHECK IF COLOR IS SPECIFIED BY USER, IF NOT USED STANDARD COLORS        
