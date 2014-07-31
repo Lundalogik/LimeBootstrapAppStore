@@ -2,7 +2,7 @@
 	"name": "Course Queue",
 	"author":"FPE",
 	"status":"Release",
-	"shortDesc":"The No.1 queue management tool for course / campaign handling!"
+	"shortDesc":"The No.1 queue management tool for course / campaign handling!",
 	"versions":[
 		{
 			"version":"1.1",
