@@ -2,6 +2,7 @@
 	"name": "Helpdesk statistics",
 	"author":"SSM",
 	"status":"Release",
+	"shortDesc":"The Helpdesk Statics app shows you statistics from the helpdesk tab in a view in the actionpad.",
 	"versions":[
 		{
 			"version":"1.1",
