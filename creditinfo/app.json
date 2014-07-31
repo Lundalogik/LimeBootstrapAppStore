@@ -2,6 +2,7 @@
 	"name": "Creditinfo",
 	"author":"FPE",
 	"status":"Release",
+	"shortDesc":"This app takes performs a credit check on the supplied organisation. Credit rating is shown in the actionpad as a colorful badge.",
 	"versions":[
 		{
 			"version":"0.1",
