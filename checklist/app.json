@@ -1,7 +1,8 @@
 {
-	"name": "checklist",
+	"name": "Checklist",
 	"author":"FPE",
-	"status":"Beta",
+	"status":"Release",
+	"shortDesc":"The checklist is a very simpel checklist. It can be used in any case you need someting to keep track of things that should be done.",
 	"versions":[
 		{
 			"version":"0.9",
