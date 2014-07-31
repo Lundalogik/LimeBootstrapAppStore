@@ -2,6 +2,7 @@
 	"name": "Merge doubles",
 	"author":"Tengil",
 	"status":"Release",
+	"shortDesc":"Magically merges two records in LIME Pro into one",
 	"versions":[
 
 	],
