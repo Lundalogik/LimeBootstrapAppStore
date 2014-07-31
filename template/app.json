@@ -1,7 +1,8 @@
 {
-	"name": "",
+	"name": "Template App",
 	"author":"",
 	"status":"Release",
+	"shortDesc":"A template to start building your own app",
 	"versions":[
 		{
 			"version":"1.0",
