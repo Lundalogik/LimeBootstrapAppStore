@@ -1,0 +1,16 @@
+{
+	"name": "Participant Donut Chart",
+	"author":"ILE",
+	"status":"Beta",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2014-08-06",
+			"comments":"First beta release"
+		}
+	],
+	"install":{
+		
+		
+	}
+}
