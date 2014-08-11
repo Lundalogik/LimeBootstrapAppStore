@@ -26,3 +26,5 @@ Morris.Donut({
 			colors: ['#FF0000','#F79646','#0F8B05','#0000FF']
         });
 ```
+
+Do we need text here to save us from bugs?
