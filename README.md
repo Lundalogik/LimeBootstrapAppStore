@@ -24,6 +24,7 @@ The `app.json` should be formated as:
 	"name": "[NAME OF APP]",
 	"author":"[AUTHORS NAME]",
 	"status":"[STATUS OF THE APP, CAN BE: 'release', 'beta' OR 'Development']",
+	"shortDesc":"[A short text to describe the app]",
 	"versions":[
 			{
 			"version":"1",
@@ -45,7 +46,9 @@ The `app.json` should be formated as:
 
 - Name: Name of the app. Call it something short but descriptive
 - Autor: Just to know who to blaim
-- Status: Shows a badge in the appstore displaying status. Development: not ready to be used, Beta: At your own risk, Release: Should work
+- Status: Shows a badge in the appstore displaying status. 
+	*Development*: not ready to be used, *Beta*: At your own risk, *Release*: Should work
+- Short Description: A short text to explain what the app is used for
 - Versions: an array contianing different versions
   - version: A unsigned double (positive decimal)
   - date: Date of the update
