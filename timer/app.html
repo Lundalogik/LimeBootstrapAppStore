@@ -1,0 +1,12 @@
+<div class="alert alert-info">
+    <div class="list-group">
+    <h4  class="list-group-item" data-bind="text: minutes() + ':' + seconds()">
+    </h4>
+	</div>
+
+    <button class="btn btn-lime btn-primary" data-bind="click: function() { start();}, text: startStopText()" ></button>
+    <button class="btn btn-lime btn-danger" data-bind="click: function() { clearTime();}" >Clear</button>
+    <button class="btn btn-lime btn-success" data-bind="click: function(){saveTime();}">Save time</button>
+
+    
+</div>
