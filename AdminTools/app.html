@@ -1,0 +1,210 @@
+<div class="content">
+	<div class="row header">
+	</div>
+	<div class="row">
+		<div class="col-md-2 leftdiv">
+
+			
+			<div id="leftmenubar" class="btn-group-vertical" id>
+				<div class="input-group" >
+					<span class="input-group-addon left" data-bind="click: subtractDay"><i class="fa fa-chevron-left"></i></span>
+					<input type="text" class="form-control" data-bind="value: selectedDate, valueUpdate:'afterkeydown'" ></input>
+					<span class="input-group-addon right" data-bind="click: addDay"><i class="fa fa-chevron-right"></i></span>
+					<button class="input-group-addon"data-bind="click: function(){loadChartData();}, tooltip: {placement: 'bottom', text: 'Reload data for selected date.'}"><span class="fa fa-search"></span></button>
+				</div>
+				<div  data-bind="slider: dateIndex, sliderOptions: {min: 0, max: 100, step: 1}"></div>
+				<button id="logins" data-bind="click: function() {toggleChart('logins');}, tooltip: {placement: 'right', text: 'See the number of logged in users at any given time.'}" class="btn btn-default selected">Show number of users</button>
+				<button id="ulog" data-bind="click: function() {toggleChart('ulog')}, tooltip: {placement: 'right', text: 'See the number of transactions in the database at any given time.'}" class="btn btn-default">Show number of transactions</button>
+				<button id="avgduration" data-bind="click: function() {toggleChart('avgduration')}, tooltip: {placement: 'right', text: 'See the average transaction times in ms at any given time.'}" class="btn btn-default">Show transaction durations</button>
+			</div>
+		</div>
+		<div class="col-md-5 middlediv">
+			<div class="row">
+
+				<div class="btn-group" id="btnchartgroup">
+					<button data-bind="click: function() {toggleTimeFrame('daily')}" class="btn btn-default btn-daily selected">Daily</button>
+					<button data-bind="click: function() {toggleTimeFrame('hourly')}" class="btn btn-default btn-hourly">Hourly</button>
+				</div>
+	
+			</div>
+			<div class="row">
+				<div data-bind="visible: selectedChart() == 'logins'">
+					<div class="chartcontainer" data-bind="visible: selectedTimeFrame() == 'daily'">
+						<h4>Number of unique users per day</h4>
+						<canvas id="dGraph" class="chart" width="90%" height="320"></canvas>
+					</div>
+					<div class="chartcontainer" data-bind="visible: selectedTimeFrame() == 'hourly'">
+						<h4>Number of unique users per hour</h4>
+						<canvas id="hGraph" class="chart" width="90%" height="320"></canvas>
+					</div>
+				</div>
+				<div data-bind="visible: selectedChart() == 'ulog'">
+					<div class="chartcontainer" data-bind="visible: selectedTimeFrame() == 'hourly'">
+						<h4>Number of transactions per hour</h4>
+						<canvas id="hLog" class="chart" width="90%" height="320"></canvas>
+					</div>
+					<div class="chartcontainer" data-bind="visible: selectedTimeFrame() == 'daily'">
+						<h4>Number of transactions per day</h4>
+						<canvas id="dLog" class="chart" width="90%" height="320"></canvas>
+					</div>
+
+				</div>
+				<div data-bind="visible: selectedChart() == 'avgduration'">
+					<div class="chartcontainer" data-bind="visible: selectedTimeFrame() == 'hourly'">
+						<h4>Average duration for transactions per hour</h4>
+						<canvas id="hDur" class="chart" width="90%" height="320"></canvas>
+					</div>
+					<div class="chartcontainer" data-bind="visible: selectedTimeFrame() == 'daily'">
+						<h4>Average duration for transactions per day</h4>
+						<canvas id="dDur" class="chart" width="90%" height="320"></canvas>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 rightdiv">
+			<div class="row">
+				<div class="btn-group">
+					<button id="sql" data-bind="click: function() {toggleInfo('sql');}, tooltip: {placement: 'bottom', text: 'Show info about SQL fields in the database.'}" class="btn btn-default selected">SQL info</button>
+					<button id="indices" data-bind="click: function() {toggleInfo('indices');}, tooltip: {placement: 'bottom', text: 'Show info and defragmentation of indices.'}" class="btn btn-default">Index info</button>
+					<button id="dbinfo" data-bind="click: function() {toggleInfo('dbinfo');}, tooltip: {placement: 'bottom', text: 'See basic database info.'}" class="btn btn-default">Database info</button>
+					<button id="sqljobs" data-bind="click: function() {toggleInfo('sqljobs');}, tooltip: {placement: 'bottom', text: 'See status for SQL-jobs.'}" class="btn btn-default">SQL Jobs</button>
+				</div>
+			</div>
+			<div class="row">
+				<div data-bind="visible: selectedInfo() == 'sql'">
+					<h4>SQL fields</h4>
+					<div data-bind="foreach: sqlTables" class="list-group">
+						<!-- <a data-bind="click: function(data,event) {toggleSQLFields($index(),data,event);}"class="list-group-item" > -->
+						<a data-bind="attr: {id: 't' + $index()}, click: function(data,event) {toggleSQLFields($index(),tname, data,event);}"class="list-group-item" >
+							<span class="fa fa-chevron-right" data-bind="visible: showTable(tname) == false"></span>
+							<span class="fa fa-chevron-down" data-bind="visible: showTable(tname) == true"></span>
+							<span data-bind="text: localname + ' [' + tname + ']'"></span>
+							<span class="badge" data-bind="text: count"></span>
+							
+						</a>
+						<div data-bind="foreach: sqlFields, visible: showTable(tname)"class="list-group">
+							<!-- <div data-bind="if: function(data,event){ sameTable(tname,data,event);}" >
+								dfsdf
+							</div> -->
+							<a data-bind="visible: showField($parent.tname, tname)"class="list-group-item disabled">
+								<span data-bind="text: flocalname + ' [' + fname + '], (' + sqltype + ')'"></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div data-bind="visible: selectedInfo() == 'indices'">
+					<h4>Index info</h4>
+
+					<table class="table table-condensed table-hover table-striped">
+						<thead>
+							<tr>
+								<th class="col-md-2">Table name</th>
+								<th class="col-md-3">Index name</th>
+								<th class="col-md-3">Fragmentation</th>
+								<th class="col-md-2">Table record count</th>
+							</tr>
+						</thead>
+						<tbody data-bind="foreach: indices">
+							
+							<tr data-bind="css : {danger: avg_fragmentation > 49}">
+								<td class="col-md-2" data-bind="text: tname"></td>
+								<td class="col-md-3" data-bind="text: indexname"></td>
+								<td class="col-md-3" data-bind="text: avg_fragmentation"></td>
+								<td class="col-md-2" data-bind="text: recordcount"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div data-bind="visible: selectedInfo() == 'dbinfo'">
+					<h4>Database info</h4>
+					<table class="table table-condensed table-hover table-striped">
+						<thead>
+							<tr>
+								<th>Attribute</th>
+								<th>Value</th>
+							</tr>
+						</thead>
+						<tbody data-bind="foreach: dbInfo">
+							<tr >
+								<td class="col-md-6">Server version</td>
+								<td class="cold-md-6" data-bind="text: serverversion"></td>
+							</tr>
+							<tr >
+								<td class="col-md-6">Server physical memory</td>
+								<td class="cold-md-6" data-bind="text: physmemory"></td>
+							</tr>
+							<tr >
+								<td class="col-md-6">Server allocated memory</td>
+								<td class="cold-md-6" data-bind="text: totmemory"></td>
+							</tr>
+							<tr >
+								<td class="col-md-6">Server target memory</td>
+								<td class="cold-md-6" data-bind="text: targetmemory"></td>
+							</tr>
+							<tr >
+								<td class="col-md-6">Database name</td>
+								<td class="cold-md-6" data-bind="text: dbname"></td>
+							</tr>
+							<tr>
+								<td class="col-md-6">LDC version</td>
+								<td class="cold-md-6" data-bind="text: ldcversion"></td>
+							</tr>
+							<tr>
+								<td class="col-md-6">Database size</td>
+								<td class="cold-md-6" data-bind="text: size + ' MB'"></td>
+							</tr>
+							<tr>
+								<td class="col-md-6">Log size</td>
+								<td class="cold-md-6" data-bind="text: logsize + ' MB'"></td>
+							</tr>
+							<tr>
+								<td class="col-md-6">Database creation date</td>
+								<td class="cold-md-6" data-bind="text: creationdate"></td>
+							</tr>
+							<tr>
+								<td class="col-md-6">Last backup date</td>
+								<td class="cold-md-6" data-bind="text: lastbackup"></td>
+							</tr>
+							
+							<tr>
+								<td class="col-md-6">VBA timestamp</td>
+								<td class="cold-md-6" data-bind="text: vbatimestamp"></td>
+							</tr>
+							<tr>
+								<td class="col-md-6">Actionpads last published</td>
+								<td class="cold-md-6" data-bind="text: actionpadtimestamp"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div data-bind="visible: selectedInfo() == 'sqljobs'">
+					<h4>SQL Job status</h4>
+					<table class="table table-condensed table-hover table-striped">
+						<thead>
+							<tr>
+								<th class="col-md-4">SQL job</th>
+								<th class="col-md-4">Run last</th>
+								<th class="col-md-2">Duration</th>
+								<th class="col-md-1">Status</th>
+								<th class="col-md-1">Enabled</th>
+							</tr>
+						</thead>
+						<tbody data-bind="foreach: sqlJobs">
+							<tr data-bind="css : {danger: status == 0, warning: enabled == 0, success: status == 1}, tooltip: {placement: 'bottom', text: message}">
+								
+								<td class="col-md-4" data-bind="text: name"></td>
+								<td class="col-md-4" data-bind="text: rundatetime"></td>
+								<td class="col-md-2" data-bind="text: runduration"></td>
+								<td class="col-md-1" data-bind="text: status == 1 ? 'Success' : 'Failed'"></td>
+								<td class="col-md-1" data-bind="text: enabled == 1 ? 'Yes' : 'No'"></td>
+							
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

@@ -1,0 +1,16 @@
+{
+	"name": "AdminTools",
+	"author":"JKA",
+	"status":"Development",
+	"shortDesc" : "App for helping the support and consultants when trouble shooting in a customer's database."
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2014-07-29",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}

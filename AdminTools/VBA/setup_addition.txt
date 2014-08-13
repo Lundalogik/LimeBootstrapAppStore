@@ -1,0 +1,10 @@
+If ActiveUser.Administrator Then
+    If Application.Panes.Exists("AdminTools") = False Then
+        Call Application.Panes.Add("AdminTools", WebFolder & "apps\AdminTools\gearwheels.ico", "", lkPaneStyleNoToolBar)
+    End If
+    Application.Panes("AdminTools").url = WebFolder & "lbs.html?ap=admintools&type=tab"
+    Application.Panes.Visible = True
+    If Not Application.Panes.ActivePane Is Application.Panes.Item("AdminTools") Then
+        Set Application.Panes.ActivePane = Application.Panes.Item("AdminTools")
+    End If
+End If
