@@ -9,6 +9,7 @@ AdminTools adds a way of monitoring usage in lime over time:
 - Number of unique logged in users.
 - Number of transactions.
 - Average transactiontimes.
+
 All these can be plotted as a function over days or hours.
 
 ### SQL Fields
