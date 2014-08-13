@@ -1,6 +1,6 @@
 #  timer #
 
-Timer adds functionality to measure time with a timer. The app requires that the ActiveInspector has a field named "time" and that the VBA-sub "SaveTime" is added to the ActionPadTools Module. 
+Timer adds functionality to measure time with a stop watch. The app requires that the ActiveInspector has a field named "time" and that the VBA-Module "Timer" is added. 
 
 Timer will always load the time spent (in minutes) from the time field. When saving your time, timer will round up to the closest minute.
 

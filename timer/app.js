@@ -79,7 +79,7 @@ lbs.apploader.register('timer', function () {
                 self.continueTimer(false);
             }
             self.saveTime  = function(){
-                lbs.common.executeVba("ActionPadTools.SaveTime, " + Math.ceil(self.mstimer()/60000));
+                lbs.common.executeVba("Timer.SaveTime, " + Math.ceil(self.mstimer()/60000));
             }
 
         }

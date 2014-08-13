@@ -1,13 +1,13 @@
 {
 	"name": "timer",
 	"author":"JKA",
-	"status":"Beta",
+	"status":"Release",
 	"shortDesc": "Adds the functionality of a stop watch and enables you to save the measured time.",
 	"versions":[
 		{
-			"version":"0.1",
-			"date":"2014-08-08",
-			"comments":"Creation"
+			"version":"1.0",
+			"date":"2014-08-13",
+			"comments":"Version 1.0"
 		}
 	],
 	"install":{

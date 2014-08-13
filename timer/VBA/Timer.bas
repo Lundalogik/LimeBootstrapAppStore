@@ -1,3 +1,4 @@
+Attribute VB_Name = "Timer"
 Public Sub SaveTime(ByVal iVal As Integer)
     On Error GoTo ErrorHandler
     If Globals.VerifyInspector("helpdesk", ActiveInspector) Then
@@ -7,6 +8,5 @@ Public Sub SaveTime(ByVal iVal As Integer)
     End If
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ActionPadTools.SaveTime")
-
+    Call UI.ShowError("Timer.SaveTime")
 End Sub
