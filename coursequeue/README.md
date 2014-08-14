@@ -17,10 +17,11 @@ All potential participants will be shown and queued up on the actionpad if there
 
 Download the installation file through the link.
 
+Your Course participant card requires two fields:
+<li>queuetime (fieldtype: datetime)</li>
+<li>queuepos (fieldtype: integer)</li>
+
 Add the \install\Queue.bas into your VBA.
 
 Open SQL-management studio, find the database where you want to use the business funnel and choose "New Query". Insert the SQL procedures csp_getQueueLength and csp_updateCampaignQueue from the Install folder for your database.
 
-Your Course participant card requires two fields:
-<li>queuetime</li
-<li>queuepos</li>
