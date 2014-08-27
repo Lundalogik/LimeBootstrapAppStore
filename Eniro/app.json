@@ -1,0 +1,15 @@
+{
+	"name": "eniro",
+	"author":"andreas åström",
+	"status":"Development",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2014-08-22",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}
