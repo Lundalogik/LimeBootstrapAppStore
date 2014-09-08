@@ -1,15 +1,16 @@
 {
-	"name": "",
-	"author":"",
-	"status":"Development",
+	"name": "Activityweb",
+	"author":"ILE",
+	"status":"Beta",
 	"versions":[
 		{
-			"version":"1.0",
-			"date":"2014-05-01",
-			"comments":" First version"
+			"version":"0.1",
+			"date":"2014-09-08",
+			"comments":"First beta release"
 		}
 	],
 	"install":{
+		
 		
 	}
 }
