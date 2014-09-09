@@ -20,7 +20,7 @@ lbs.apploader.register('activityweb', function () {
 		//fix context from app.html
 		var ctx = document.getElementById("webchart").getContext("2d");
 		
-        //insert the datamodels into a variables
+        //insert the datamodels into variables
 		var typedata = viewModel.activitytypes.data.activitytypes;
 		var data = viewModel.activities.data.activityweb.activities;
 		var dataAll = viewModel.activities.data.activityweb.activitiesall;
@@ -32,26 +32,25 @@ lbs.apploader.register('activityweb', function () {
 			//alert(activityNames[index]);
 		});
 		
-		//populate activity values
+		//set up help arrays to contain zeros instead of nulls
 		var activityValues = []
 		for (var i = 0; i < activityNames.length; i++) {
 			activityValues.push(0);
-		};
-		
+		};		
 		var activityValuesAll = []
 		for (var i = 0; i < activityNames.length; i++) {
 			activityValuesAll.push(0);
 		};
 		
-		$.each(data.value, function(index, value){
-		
+		//populate activity values for coworker
+		$.each(data.value, function(index, value){		
 			activityValues[activityNames.indexOf(value.activitytype)] = value.amount;
 			//alert(activityNames.indexOf(value.activitytype));
 			//alert(value.activitytype);
 			//alert(value.amount);
-
 		});
-		
+
+		//populate activity values for all		
 		$.each(dataAll.value, function(index, value){
 		
 			activityValuesAll[activityNames.indexOf(value.activitytype)] = value.amount;
@@ -67,7 +66,7 @@ lbs.apploader.register('activityweb', function () {
     labels: activityNames,
     datasets: [
         {
-            label: "My First dataset",
+            label: "My activity values",
             fillColor: "rgba(151,187,205,0.2)",
             strokeColor: "rgba(151,187,205,1)",
             pointColor: "rgba(151,187,205,1)",
@@ -77,7 +76,7 @@ lbs.apploader.register('activityweb', function () {
             data: activityValues
         },
         {
-            label: "My First dataset",
+            label: "All activity values",
             fillColor: "rgba(220,220,220,0.2)",
             strokeColor: "rgba(220,220,220,1)",
             pointColor: "rgba(220,220,220,1)",
@@ -89,12 +88,8 @@ lbs.apploader.register('activityweb', function () {
     ]
 };
 		
-		//loop through dataArray and push all available activities and values into it
-		//$.each(data.value, function(index, value){
-		//	dataArray.push({label:value.activitytype, value:value.amount})
-		//});
 				
-		//intialize the donut
+		//intialize the radar chart
         new Chart(ctx).Radar(dataArray);
 		
 		return viewModel;
