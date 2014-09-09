@@ -2,6 +2,7 @@
 	"name": "Activityweb",
 	"author":"ILE",
 	"status":"Release",
+	"shortDesc": "When you absolutely positively need to keep track of your activities, look no further!",
 	"versions":[
 		{
 			"version":"1.0",
