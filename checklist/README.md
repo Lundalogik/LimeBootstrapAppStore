@@ -9,9 +9,10 @@ You can eaither generate a checklist based on a template or let the user add the
 *	Create an XML field called "checklist" on the inspectors you want to have a checklist on
 *	Optional: If you want the ability to have pre-maid checklist, automagically loaded:
 	*	Add tabel "Checklist" with fields...
-		*	name
+		*	title
 		*	order
 		*	mouseover
+		*	origin
 	*	Implement "Checklist.Initalize" method in the VBA
 
 ##Usage
