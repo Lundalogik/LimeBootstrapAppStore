@@ -6,12 +6,14 @@ lbs.apploader.register('creditinfo', function() {
         orgnbr: "",
         onlyAllowPublicCompanies: true,
         maxAge: 365,
-        inline: false,
+        inline: true,
+		country: "swe",
+		showInField: false,
         dataSources: [
 
         ],
         resources: {
-            scripts: ['js/businesscheck.js', 'js/creditsafe.js'],
+            scripts: ['js/businesscheck.js', 'js/creditsafe.js' , 'js/experian.js'],
             styles: ['app.css'],
             libs: ['json2xml.js']
         },
@@ -31,6 +33,14 @@ lbs.apploader.register('creditinfo', function() {
             password: "",
             packageName: "",
             language: ""
+        },
+		experian: {
+            customerLoginName: "",
+			subuser: "",
+            password: "",
+            packageName: "",
+            language: "",
+			customerid: ""
         }
     },
 
@@ -39,7 +49,6 @@ lbs.apploader.register('creditinfo', function() {
     this.initialize = function(node, viewModel) {
         var me = this;
          viewModel.loading = ko.observable(false); //Active while loading
-
         //Rating data
         viewModel.ratingValue = ko.observable("");
         viewModel.ratingText = ko.observable("");
@@ -65,22 +74,37 @@ lbs.apploader.register('creditinfo', function() {
             if(!viewModel.inline){
                 loadingTimer();
             }
-
+			
             viewModel.activeInspector = lbs.loader.loadDataSources({}, [{ type: 'activeInspector', alias: 'activeInspector'}]).activeInspector;
             self.config.orgnbr = viewModel.activeInspector.registrationno.text
 
             //Let's check the company has a registration number
-            if (!isPublicCompany(self.config.orgnbr)) {
-                if (self.config.onlyAllowPublicCompanies) {
-                    alert("App app app! Du får bara ta kreditkontroll på Aktiebolag!") //TODO: Localize
-                    return;
-                } else {
-                    var proceed = confirm("Det kommer skickas ut en omfrågekopia. Vill du fortsätta?") //TODO: Localize
-                    if (!proceed) {
-                        return;
-                    }
-                }
-            }
+			if (self.config.country == 'swe') {
+				if (!isPublicCompany(self.config.orgnbr)) {
+					if (self.config.onlyAllowPublicCompanies) {
+						alert("App app app! Du får bara ta kreditkontroll på Aktiebolag!") //TODO: Localize
+						return;
+					} else {
+						var proceed = confirm("Det kommer skickas ut en omfrågekopia. Vill du fortsätta?") //TODO: Localize
+						if (!proceed) {
+							return;
+						}
+					}
+				}
+			}
+			else if (self.config.country == 'nor') {
+				if (!isPublicCompanyNorway(self.config.orgnbr)) {
+					if (self.config.onlyAllowPublicCompanies) {
+						alert("Du kan bare ta kredittsjekk på Aksjeselskap!") //TODO: Localize
+						return;
+					} else {
+						var proceed = confirm("Det vil sende ut en omfrågekopia. Ønsker du å fortsette?") //TODO: Localize
+						if (!proceed) {
+							return;
+						}
+					}
+				}
+			}
             // => If we have made it this far we are good to go for performing the check
             var ratingData = {};
 
@@ -96,12 +120,16 @@ lbs.apploader.register('creditinfo', function() {
             //Creditsafe
             else if (self.config.creditsafe.customerLoginName !== "") {
                 creditsafe.getRating(viewModel,self.config);
-            }                   
+            }
+			//Experian
+            else if (self.config.experian.customerLoginName !== "") {
+                experian.getRating(viewModel,self.config);
+            }
             
             //Implement your own here
 
             viewModel.ratingDate(moment().format("YYYY-MM-DD HH:mm:ss"));
-            save();
+            viewModel.save();
 
         }
 
@@ -119,6 +147,10 @@ lbs.apploader.register('creditinfo', function() {
                 //Creditsafe
                 else if (self.config.creditsafe.customerLoginName !== "") {
                     creditsafe.setColor(viewModel);
+                }
+				//Experian
+                else if (self.config.experian.customerLoginName !== "") {
+                    experian.setColor(viewModel);
                 }
 
                 //Implement your own here
@@ -263,15 +295,33 @@ lbs.apploader.register('creditinfo', function() {
             }
             return isPublic;
         }
+		
+		function isPublicCompanyNorway(regNbr) {
+            var isPublic = false;
+
+            if (regNbr.length > 7) {
+                //5 is equal to a Aktiebolag (this should always be true, but there are exeptions)
+                if (regNbr.charAt(0) === '8' || regNbr.charAt(0) === '9') {
+                        isPublic = true;
+                }
+            }
+            return isPublic;
+        }
 
         //Converts rating value, text and date to XML and saves in creditinfo-field in LIME
-        function save() {
+        viewModel.save = function() {
             var ratingData = {};
             ratingData.ratingValue = viewModel.ratingValue();
             ratingData.ratingText = viewModel.ratingText();
             ratingData.ratingDate = viewModel.ratingDate();
             ratingData = "<ratingData>" + json2xml($.parseJSON(JSON.stringify(ratingData)), '') + "</ratingData>";
             lbs.limeDataConnection.ActiveInspector.Controls.SetValue('creditinfo', ratingData);
+			
+			//Save data to field for extended usage (need the field ratingdata)
+			if (self.config.showInField == true) {
+				lbs.limeDataConnection.ActiveInspector.Controls.SetValue('ratingdata', viewModel.ratingValue());		
+			}
+			lbs.limeDataConnection.ActiveInspector.Record.Update();
         }
 
 
