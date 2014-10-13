@@ -1,19 +1,20 @@
 lbs.apploader.register('checklist', function () {
     var self = this;
     //config
-    self.config = {
-        dataSources: [
-            {type: 'xml', source: 'Checklist.Initialize', alias:'checklistdata'}
-        ],
-        resources: {
+    self.config = function(appConfig){
+        this.name = appConfig.name || 'Checklista'
+        this.xmlFieldName = appConfig.xmlFieldName || 'checklist'
+        this.canBeUnchecked = appConfig.canBeUnchecked || false
+        this.canAddTask = appConfig.canAddTask || false
+        this.allowRemove = appConfig.allowRemove || false
+        this.dataSources = [
+            {type: 'xml', source: 'Checklist.Initialize,' + this.xmlFieldName, alias:'checklistdata'}
+        ]
+        this.resources= {
             scripts: ['placeholders.min.js'],
             styles: ['checklist.css'],
             libs: ['json2xml.js']
-        },
-        name: 'Checklista',
-        canBeUnchecked: false,
-        canAddTask: false,
-        allowRemove: false
+        }
     },
 
     //initialize
@@ -126,7 +127,7 @@ lbs.apploader.register('checklist', function () {
             me.save = function(){
                         var tempJSON = JSON.stringify({checklist:ko.toJS(me.tasks)});
                         var tempXML = "<xmlchecklist>" + json2xml($.parseJSON(tempJSON),'') + "</xmlchecklist>";
-                        lbs.common.executeVba("Checklist.Save," + tempXML) ;
+                        lbs.common.executeVba("Checklist.Save," + tempXML + "," + self.config.xmlFieldName) ;
             }
         }
 
