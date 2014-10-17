@@ -2439,6 +2439,7 @@
 		name: "Line",
 		defaults : defaultConfig,
 		initialize:  function(data){
+			
 			//Declare the extension of the default point, to cater for the options passed in to the constructor
 			this.PointClass = Chart.Point.extend({
 				strokeWidth : this.options.pointDotStrokeWidth,
@@ -2724,7 +2725,7 @@
 			},this);
 		}
 	});
-
+	
 
 }).call(this);
 (function(){
@@ -3256,6 +3257,7 @@
 			this.reflow();
 			this.render();
 		},
+
 		reflow: function(){
 			helpers.extend(this.scale, {
 				width : this.chart.width,

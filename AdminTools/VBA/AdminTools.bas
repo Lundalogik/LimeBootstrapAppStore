@@ -90,6 +90,22 @@ ErrorHandler:
 
 End Function
 
+Public Function GetNewIndices() As String
+    On Error GoTo ErrorHandler
+    Dim oProc As LDE.Procedure
+    Dim ret As String
+    
+    Set oProc = Database.Procedures.Lookup("csp_admintools_get_new_indices", lkLookupProcedureByName)
+    Call oProc.Execute(False)
+    ret = oProc.Parameters("@@retval").OutputValue
+    GetNewIndices = ret
+    
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError("AdminTools.GetNewIndices")
+
+End Function
+
 Public Function GetDBInfo() As String
     On Error GoTo ErrorHandler
     Dim oProc As LDE.Procedure
@@ -124,3 +140,139 @@ ErrorHandler:
     Call UI.ShowError("AdminTools.GetSqlJobs")
 
 End Function
+
+Public Function GetUsers(ByVal sDate As String, ByVal sFormat As String) As String
+    On Error GoTo ErrorHandler
+    Dim oProc As LDE.Procedure
+    Dim ret As String
+    
+    Set oProc = Database.Procedures.Lookup("csp_admintools_get_userlist", lkLookupProcedureByName)
+    oProc.Parameters("@@date") = sDate
+    oProc.Parameters("@@format") = sFormat
+    Call oProc.Execute(False)
+    ret = oProc.Parameters("@@retval").OutputValue
+   
+    GetUsers = ret
+    
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError("AdminTools.GetUsers")
+
+End Function
+
+Public Function GetInfoLog(ByVal sFormat As String, ByVal sDate As String) As String
+    On Error GoTo ErrorHandler
+    Dim oProc As LDE.Procedure
+    Dim ret As String
+    
+    Set oProc = Database.Procedures.Lookup("csp_admintools_get_infologstats", lkLookupProcedureByName)
+    oProc.Parameters("@@date") = sDate
+    oProc.Parameters("@@groupby") = sFormat
+    Call oProc.Execute(False)
+    ret = oProc.Parameters("@@retxml").OutputValue
+   
+    GetInfoLog = ret
+    
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError("AdminTools.GetInfoLog")
+
+End Function
+
+
+Public Function GetRecords(ByVal sDate As String, ByVal sFormat As String) As String
+    On Error GoTo ErrorHandler
+    Dim oProc As LDE.Procedure
+    Dim ret As String
+    
+    Set oProc = Database.Procedures.Lookup("csp_admintools_get_records", lkLookupProcedureByName)
+    oProc.Parameters("@@date") = sDate
+    oProc.Parameters("@@format") = sFormat
+    Call oProc.Execute(False)
+    ret = oProc.Parameters("@@retval").OutputValue
+   
+    GetRecords = ret
+    
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError("AdminTools.GetRecords")
+
+End Function
+
+
+Public Function GetSqlProgrammability() As String
+    On Error GoTo ErrorHandler
+    Dim oProc As LDE.Procedure
+    Dim ret As String
+    
+    Set oProc = Database.Procedures.Lookup("csp_admintools_get_procedures", lkLookupProcedureByName)
+    Call oProc.Execute(False)
+    ret = oProc.Parameters("@@retval").OutputValue
+    GetSqlProgrammability = ret
+    
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError("AdminTools.GetSqlProgramability")
+
+End Function
+
+Public Function SearchProgrammability(ByVal sVal As String) As String
+    On Error GoTo ErrorHandler
+    Dim oProc As LDE.Procedure
+    Dim ret As String
+    
+    Set oProc = Database.Procedures.Lookup("csp_admintools_search_in_programmability", lkLookupProcedureByName)
+    oProc.Parameters("@@searchval").InputValue = sVal
+    Call oProc.Execute(False)
+    ret = oProc.Parameters("@@retval").OutputValue
+    SearchProgrammability = ret
+    
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError("AdminTools.SearchProgrammability")
+
+End Function
+
+
+
+Public Sub ExecuteSQLOnUpdate(ByVal sTableName As String)
+    On Error GoTo ErrorHandler
+    Dim oProc As LDE.Procedure
+    Dim ret As String
+    
+    Set oProc = Database.Procedures.Lookup("csp_admintools_trigger_sqlonupdate", lkLookupProcedureByName)
+    oProc.Parameters("@@table") = sTableName
+    Call oProc.Execute(False)
+    Exit Sub
+ErrorHandler:
+    Call UI.ShowError("AdminTools.ExecuteSQL")
+End Sub
+
+Public Sub StartJob(ByVal jobName As String)
+    On Error GoTo ErrorHandler
+    Dim oProc As LDE.Procedure
+    Dim ret As String
+    Dim sql As String
+    
+    sql = "EXECUTE msdb.dbo.sp_start_job @job_name = '" + jobName + "'"
+    Set oProc = Database.Procedures.Lookup("csp_admintools_executesql", lkLookupProcedureByName)
+    oProc.Parameters("@@sql") = sql
+    Call oProc.Execute(False)
+    Exit Sub
+ErrorHandler:
+    Call UI.ShowError("AdminTools.ExecuteSQL")
+End Sub
+
+Public Sub ExecuteSQL(ByVal sSQL As String)
+    On Error GoTo ErrorHandler
+    Dim oProc As LDE.Procedure
+    If vbYes = Lime.MessageBox("Är du säker på att du vill göra detta?", vbYesNo) Then
+    Set oProc = Database.Procedures.Lookup("csp_admintools_executesql", lkLookupProcedureByName)
+    oProc.Parameters("@@sql") = sSQL
+    Call oProc.Execute(False)
+    End If
+    Exit Sub
+ErrorHandler:
+    Call UI.ShowError("AdminTools.ExecuteSQL")
+End Sub
+
