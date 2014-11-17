@@ -7,7 +7,7 @@ lbs.apploader.register('AdminTools', function () {
         The variabels specified in "config:{}", when you initalize your app are available in in the object "appConfig".
     */
     self.config =  function(appConfig){
-            this.yourPropertyDefinedWhenTheAppIsUsed = appConfig.yourProperty;
+          
             this.dataSources = [];
             this.resources = {
                 scripts: ['chart.js','jquery-ui.js'], // <= External libs for your apps. Must be a file
@@ -20,43 +20,90 @@ lbs.apploader.register('AdminTools', function () {
      
         self.vm = function(){
             var self = this;
-            self.searchVal = ko.observable("").extend({ throttle: 200 });
+            
             self.progSearchResult = ko.observableArray();
-            self.hhLogins = ko.observableArray();
-            self.Logins = ko.observableArray();
+
+            self.Logins = ko.observableArray();       
             self.InfoLog = ko.observableArray();
-            self.selectedProgrammabilityFrame = ko.observable("list");
-            self.selectedTimeFrame = ko.observable("daily");
-            self.selectedIndexFrame = ko.observable("existing");
-            self.selectedIndex = ko.observable("");
             self.UpdateLog = ko.observableArray();
+            
+            self.userList = ko.observableArray();
+            self.newRecords = ko.observableArray();
+            self.updatedRecords = ko.observableArray();
+            self.deletedRecords = ko.observableArray();
+            self.newIndices = ko.observableArray(); 
+            
             self.sqlTables = ko.observableArray();
             self.sqlFields = ko.observableArray();
             self.programmability = ko.observableArray();
             self.sqlJobs = ko.observableArray();
-            self.dateIndex = ko.observable(100);//.extend({throttle: 350});
-            self.selectedDate = ko.observable(moment().format("YYYY-MM-DD"));
-            self.currentDate = ko.observable(moment().format("YYYY-MM-DD"));
-            self.selectedTables = ko.observableArray();
             self.indices = ko.observableArray();
             self.dbInfo = ko.observableArray();
-            self.selectedInfo = ko.observable("logins");
-            self.userList = ko.observableArray();
-            self.showUserList = ko.observable(false);
-            self.newRecords = ko.observableArray();
-            self.updatedRecords = ko.observableArray();
-            self.deletedRecords = ko.observableArray();
-            self.showRecords = ko.observable(false);
+
             self.selectedRecords = ko.observableArray();
+            self.selectedProgrammabilityFrame = ko.observable("list");
+            self.selectedTimeFrame = ko.observable("daily");
+            self.selectedIndexFrame = ko.observable("existing");
+            self.selectedInfo = ko.observable("logins");
+            self.selectedIndex = ko.observable("");
+            self.selectedTables = ko.observableArray();
+            self.selectedDate = ko.observable(moment().format("YYYY-MM-DD"));
+            
+            self.currentDate = ko.observable(moment().format("YYYY-MM-DD"));
+            self.dateIndex = ko.observable(100);
+            self.recordDate = ko.observable("");
+            self.userDate = ko.observable("");
+            
+            
+            self.showUserList = ko.observable(false);
+            self.showRecords = ko.observable(false);
+            
             self.nbrNewRecords = ko.observable(0);
             self.nbrUpdatedRecords = ko.observable(0);
             self.nbrDeletedRecords = ko.observable(0);
-            self.recordDate = ko.observable("");
-            self.userDate = ko.observable("");
-            self.contextMenuVar = ko.observable("");
-            self.newIndices = ko.observableArray();
 
+            self.contextMenuVar = ko.observable("");
+
+            self.searchVal = ko.observable("").extend({ throttle: 200 });
             self.searchVal.subscribe(function(){self.searchProgrammability()});  
+
+            self.goptions = {
+                tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %><%if (datasetLabel == 'Transactiontimes'){%> ms<%}%>",
+                multiTooltipTemplate: "<%if (datasetLabel){%><%=datasetLabel%>: <%}%><%= value %>",
+                scaleBeginAtZero: true,
+                bezierCurveTension : 0.3
+            };
+
+            self.selectedDate.subscribe(function(newValue){
+                self.dateIndex(100-Math.floor(moment.duration(moment().diff(moment(self.selectedDate()))).asDays()));
+            });
+
+            self.dateIndex.subscribe(function(){
+                var max = 100;
+                var diff = max - self.dateIndex();
+                self.selectedDate(moment().subtract('days',diff).format("YYYY-MM-DD"));
+            });
+
+            self.tmpData = {
+                labels: [],
+                datasets: [
+                    {
+
+                        data: []
+                    }
+                ]
+            };
+            
+            self.ctx = $("#dGraph").get(0).getContext("2d");
+            self.loginLineChart = new Chart(self.ctx).Line(self.tmpData, self.goptions);
+            self.hloginLineChart = new Chart(ctx).Line(tmpData, self.goptions);
+            self.dUpdateLogLineChart = new Chart(ctx).Line(tmpData, self.goptions);
+            self.dDurationLineChart = new Chart(ctx).Line(tmpData, self.goptions);
+            self.hDurationLineChart = new Chart(ctx).Line(tmpData, self.goptions);
+            self.hUpdateLogLineChart = new Chart(ctx).Line(tmpData, self.goptions);
+            self.dInfoLogLineChart = new Chart(ctx).Line(tmpData, self.goptions);
+            self.hInfoLogLineChart = new Chart(ctx).Line(tmpData, self.goptions);
+
 
             self.expandAllSQL = function(i,n,d,e){
                 ko.utils.arrayForEach(self.sqlTables(),function(sqlTable,i){
@@ -95,45 +142,7 @@ lbs.apploader.register('AdminTools', function () {
                     self.selectedIndex(i);
                 }
             }
-
-
-            
-            self.goptions = {
-                tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %><%if (datasetLabel == 'Transactiontimes'){%> ms<%}%>",
-                multiTooltipTemplate: "<%if (datasetLabel){%><%=datasetLabel%>: <%}%><%= value %>",
-                scaleBeginAtZero: true,
-                bezierCurveTension : 0.3
-            };
-
-            self.selectedDate.subscribe(function(newValue){
-                self.dateIndex(100-Math.floor(moment.duration(moment().diff(moment(self.selectedDate()))).asDays()));
-            });
-
-            self.dateIndex.subscribe(function(){
-                var max = 100;
-                var diff = max - self.dateIndex();
-                self.selectedDate(moment().subtract('days',diff).format("YYYY-MM-DD"));
-            });
-
-            var tmpData = {
-                        labels: [],
-                        datasets: [
-                            {
- 
-                                data: []
-                            }
-                        ]
-                    };
-            
-            var ctx = $("#dGraph").get(0).getContext("2d");
-            var loginLineChart = new Chart(ctx).Line(tmpData, self.goptions);
-            var hloginLineChart = new Chart(ctx).Line(tmpData, self.goptions);
-            var dUpdateLogLineChart = new Chart(ctx).Line(tmpData, self.goptions);
-            var dDurationLineChart = new Chart(ctx).Line(tmpData, self.goptions);
-            var hDurationLineChart = new Chart(ctx).Line(tmpData, self.goptions);
-            var hUpdateLogLineChart = new Chart(ctx).Line(tmpData, self.goptions);
-            var dInfoLogLineChart = new Chart(ctx).Line(tmpData, self.goptions);
-            var hInfoLogLineChart = new Chart(ctx).Line(tmpData, self.goptions);
+           
             self.sqlContextMenu = function(d,e,tname){
                 self.contextMenuVar(tname);
                 $(e.currentTarget).contextMenu('#sqlContextMenu',$(e.currentTarget).attr("id"));            
@@ -240,47 +249,158 @@ lbs.apploader.register('AdminTools', function () {
             }
 
             self.toggleTimeFrame = function(c){
-             
-
                 if(self.selectedTimeFrame() != c){
                     self.selectedTimeFrame(c);
                     $("#btnchartgroup").children("button").toggleClass("selected");
-
                 }
-                
             }
 
             self.toggleIndexFrame = function(c){
-            
                 if(self.selectedIndexFrame() != c){
                     self.selectedIndexFrame(c);
                     $("#btnindexgroup").children("button").toggleClass("selected");
-
                 }
-                
             }
 
             self.toggleProgrammabilityFrame = function(c){
-            
                 if(self.selectedProgrammabilityFrame() != c){
                     self.selectedProgrammabilityFrame(c);
                     $("#btnprogrammabilitygroup").children("button").toggleClass("selected");
-
                 }
-                
             }
 
-            loadChartData = function(){
+            self.toggleSQLFields = function(i,n,d,e){
+                if(self.selectedTables().indexOf(n) < 0){
+                    self.selectedTables.push(n);
+                    $("#t" + i).addClass("selected");
+                }
+                else{   
+                    self.removeSQL(n);
+                    $("#t" + i).removeClass("selected");
+                }
+            }
+
+            self.toggleRecords = function(i,e){
+                var n = $(e.currentTarget).attr("id");
+                if(self.selectedRecords().indexOf(n) < 0){
+                    self.selectedRecords.push(n);
+                    $("#" + n).addClass("selected");
+                }
+                else{   
+                    self.removeRec(n);
+                    $("#" + n).removeClass("selected");
+                }
+            }
+            self.toggleMain = function(c){
+                if(c == "logins"){
+                    self.showUserList(true);
+                    self.showRecords(false);
+                }
+                else if(c == "ulog"){
+                    self.showRecords(true);
+                    self.showUserList(false);
+                }
+                else{
+                    self.showUserList(false);
+                    self.showRecords(false);   
+                }
+
+                if(self.selectedInfo() != c){
+                    self.selectedInfo(c);
+                    $(".btn-main").removeClass("selected");
+                    $("#" + c).addClass("selected");
+                }
+            }
 
 
-               // getLoginStats();
+            self.showField = function(pName, name){
+                if(pName == name){
+                    return true;
+                }
+                return false;
+            }
+
+            self.showTable = function(tname){
+                if(self.selectedTables().indexOf(tname) >= 0){
+                    return true;
+                }
+                return false;
+            }
+
+            self.showRecordList = function(tname){
+                if(self.selectedRecords().indexOf(tname) >= 0){
+                    return true;
+                }
+                return false;
+            }
+
+            self.searchProgrammability = function(){
+
+                var xmlData = {};
+                lbs.loader.loadDataSource(
+                    xmlData,
+                    {type: 'xml', source: 'AdminTools.SearchProgrammability,' + self.searchVal()},
+                    true
+                );
+  
+                self.progSearchResult.removeAll();
+                if(!jQuery.isEmptyObject(xmlData)){
+                    var tmp = xmlData.xmlSource.searchresult.s;
+                    if(!(tmp instanceof Array)){
+                        tmp = [tmp];
+                    }
+                    self.progSearchResult(tmp);
+
+                }
+
+
+            }
+
+            self.openCoworker = function(i,e){
+                var eid = $(e.currentTarget).attr("id")
+                var idrecord = eid.substring(2,eid.length);
+                var link = lbs.common.createLimeLink('coworker', idrecord);
+                document.location.href(link);
+            }
+
+            self.openRecord = function(i,e){
+                var eid = $(e.currentTarget).attr("id");
+                var table = eid.split("_")[0];
+                var idrecord = eid.split("_")[1];
+                var removed = eid.split("_")[2];
+                if(removed == 0){
+                    var link = lbs.common.createLimeLink(table, idrecord);
+                    document.location.href(link);
+                }
+            }
+
+
+            self.removeSQL = function (item) {
+                var inItems = self.selectedTables().filter(function(elem){
+                    return elem === item; // find the item with the same id
+                })[0];
+                self.selectedTables.remove(inItems);
+                //item.isAdded(false);
+            };
+
+            self.removeRec = function (item) {
+                var inItems = self.selectedRecords().filter(function(elem){
+                    return elem === item; // find the item with the same id
+                })[0];
+                self.selectedRecords.remove(inItems);
+                //item.isAdded(false);
+            };
+
+
+            self.loadChartData = function(){
 
                 // DAILY LOGINS LATEST WEEK
+                
                 self.showUserList(false);
                 self.showRecords(false);
                 
                 self.currentDate(self.selectedDate());
-
+                var dayData = {};
                 var xmlData = {};
                 lbs.loader.loadDataSource(
                     xmlData,
@@ -315,13 +435,11 @@ lbs.apploader.register('AdminTools', function () {
                         loginLineChart.removeData();
                     }
 
-                    ctx = $("#dGraph").get(0).getContext("2d");  
-                    loginLineChart = new Chart(ctx).Line(dayData, self.goptions);
-                    
-                    
+                    self.ctx = $("#dGraph").get(0).getContext("2d");
+   
+                    self.loginLineChart = new Chart(self.ctx).Line(dayData, self.goptions);
+
                 }
-
-
 
                 // HOURLY LOGINS LATEST 24H
                 
@@ -632,7 +750,6 @@ lbs.apploader.register('AdminTools', function () {
                     ctx = $("#hLog").get(0).getContext("2d");
                     hUpdateLogLineChart = new Chart(ctx).Line(hourUpdateLogData, self.goptions);
 
-                  
 
                     hourAvgDurationData = {
                         labels: getHourLabels("updatelog"),
@@ -660,9 +777,7 @@ lbs.apploader.register('AdminTools', function () {
                 }
             }
 
-            loadStaticData = function(){
-
-
+            self.loadStaticData = function(){
 
                 var xmlData = {};
                 
@@ -673,7 +788,7 @@ lbs.apploader.register('AdminTools', function () {
                 );
                 self.sqlTables.removeAll();
                 if(!jQuery.isEmptyObject(xmlData)){
-                    var tmp = xmlData.xmlSource.tables.table;
+                    tmp = xmlData.xmlSource.tables.table;
                     if(!(tmp instanceof Array)){
                         tmp = [tmp];
                     }
@@ -681,8 +796,7 @@ lbs.apploader.register('AdminTools', function () {
 
                 }
 
-
-                var xmlData = {};
+                xmlData = {};
                 
                 lbs.loader.loadDataSource(
                     xmlData,
@@ -691,7 +805,7 @@ lbs.apploader.register('AdminTools', function () {
                 );
                 self.newIndices.removeAll();
                 if(!jQuery.isEmptyObject(xmlData)){
-                    var tmp = xmlData.xmlSource.indices.mid;
+                    tmp = xmlData.xmlSource.indices.mid;
                     if(!(tmp instanceof Array)){
                         tmp = [tmp];
                     }
@@ -699,7 +813,7 @@ lbs.apploader.register('AdminTools', function () {
 
                 }
              
-                var xmlData = {};
+                xmlData = {};
      
                 lbs.loader.loadDataSource(
                     xmlData,
@@ -709,7 +823,7 @@ lbs.apploader.register('AdminTools', function () {
                 
                 self.sqlFields.removeAll();
                 if(!jQuery.isEmptyObject(xmlData)){
-                    var tmp = xmlData.xmlSource.sqlfields.sqlfield;
+                    tmp = xmlData.xmlSource.sqlfields.sqlfield;
                     if(!(tmp instanceof Array)){
                         tmp = [tmp];
                     }
@@ -717,7 +831,7 @@ lbs.apploader.register('AdminTools', function () {
 
                 }
 
-                var xmlData = {};
+                xmlData = {};
      
                 lbs.loader.loadDataSource(
                     xmlData,
@@ -727,7 +841,7 @@ lbs.apploader.register('AdminTools', function () {
                 
                 self.indices.removeAll();
                 if(!jQuery.isEmptyObject(xmlData)){
-                    var tmp = xmlData.xmlSource.indices.i;
+                    tmp = xmlData.xmlSource.indices.i;
                     if(!(tmp instanceof Array)){
                         tmp = [tmp];
                     }
@@ -735,7 +849,7 @@ lbs.apploader.register('AdminTools', function () {
 
                 }
 
-                var xmlData = {};
+                xmlData = {};
      
                 lbs.loader.loadDataSource(
                     xmlData,
@@ -745,7 +859,7 @@ lbs.apploader.register('AdminTools', function () {
                 
                 self.dbInfo.removeAll();
                 if(!jQuery.isEmptyObject(xmlData)){
-                    var tmp = xmlData.xmlSource.dbinfo.DB;
+                    tmp = xmlData.xmlSource.dbinfo.DB;
                     if(!(tmp instanceof Array)){
                         tmp = [tmp];
                     }
@@ -753,7 +867,7 @@ lbs.apploader.register('AdminTools', function () {
 
                 }
 
-                var xmlData = {};
+                xmlData = {};
      
                 lbs.loader.loadDataSource(
                     xmlData,
@@ -763,7 +877,7 @@ lbs.apploader.register('AdminTools', function () {
                 
                 self.sqlJobs.removeAll();
                 if(!jQuery.isEmptyObject(xmlData)){
-                    var tmp = xmlData.xmlSource.sqljobs.job;
+                    tmp = xmlData.xmlSource.sqljobs.job;
                     if(!(tmp instanceof Array)){
                         tmp = [tmp];
                     }
@@ -771,7 +885,7 @@ lbs.apploader.register('AdminTools', function () {
 
                 }
 
-                var xmlData = {};
+                xmlData = {};
      
                 lbs.loader.loadDataSource(
                     xmlData,
@@ -780,9 +894,8 @@ lbs.apploader.register('AdminTools', function () {
                 );
                 
                 self.programmability.removeAll();
-                if(!jQuery.isEmptyObject(xmlData)){
-                   
-                    var tmp = xmlData.xmlSource.procedures.p;
+                if(!jQuery.isEmptyObject(xmlData)){  
+                    tmp = xmlData.xmlSource.procedures.p;
                     if(!(tmp instanceof Array)){
                         tmp = [tmp];
                     }
@@ -793,138 +906,8 @@ lbs.apploader.register('AdminTools', function () {
 
             }
 
-            showField = function(pName, name){
-                if(pName == name){
-                    return true;
-                }
-                return false;
-            }
 
-            showTable = function(tname){
-              
-
-                if(self.selectedTables().indexOf(tname) >= 0){
-                    return true;
-                }
-                return false;
-       
-                
-            }
-
-            showRecordList = function(tname){
-                if(self.selectedRecords().indexOf(tname) >= 0){
-                    return true;
-                }
-                return false;
-
-            }
-
-
-            toggleSQLFields = function(i,n,d,e){
-
-                if(self.selectedTables().indexOf(n) < 0){
-                    self.selectedTables.push(n);
-                    $("#t" + i).addClass("selected");
-                }
-                else{   
-                    self.removeSQL(n);
-                    $("#t" + i).removeClass("selected");
-                }
-            }
-
-            toggleRecords = function(i,e){
-                
-                var n = $(e.currentTarget).attr("id");
-                if(self.selectedRecords().indexOf(n) < 0){
-                    self.selectedRecords.push(n);
-                    $("#" + n).addClass("selected");
-                }
-                else{   
-                    self.removeRec(n);
-                    $("#" + n).removeClass("selected");
-                }
-            }
-
-            self.removeSQL = function (item) {
-                var inItems = self.selectedTables().filter(function(elem){
-                    return elem === item; // find the item with the same id
-                })[0];
-                self.selectedTables.remove(inItems);
-                //item.isAdded(false);
-            };
-
-            self.removeRec = function (item) {
-                var inItems = self.selectedRecords().filter(function(elem){
-                    return elem === item; // find the item with the same id
-                })[0];
-                self.selectedRecords.remove(inItems);
-                //item.isAdded(false);
-            };
-
-            self.searchProgrammability = function(){
-
-                var xmlData = {};
-                lbs.loader.loadDataSource(
-                    xmlData,
-                    {type: 'xml', source: 'AdminTools.SearchProgrammability,' + self.searchVal()},
-                    true
-                );
-  
-                self.progSearchResult.removeAll();
-                if(!jQuery.isEmptyObject(xmlData)){
-                    var tmp = xmlData.xmlSource.searchresult.s;
-                    if(!(tmp instanceof Array)){
-                        tmp = [tmp];
-                    }
-                    self.progSearchResult(tmp);
-
-                }
-
-
-            }
-
-
-            toggleMain = function(c){
-               
-                if(c == "logins"){
-                    self.showUserList(true);
-                    self.showRecords(false);
-                }
-                else if(c == "ulog"){
-                    self.showRecords(true);
-                    self.showUserList(false);
-                }
-                else{
-                    self.showUserList(false);
-                    self.showRecords(false);   
-                }
-
-                if(self.selectedInfo() != c){
-                    self.selectedInfo(c);
-                    $(".btn-main").removeClass("selected");
-                    $("#" + c).addClass("selected");
-                }
-            }  
-
-            openCoworker = function(i,e){
-                var eid = $(e.currentTarget).attr("id")
-                var idrecord = eid.substring(2,eid.length);
-                var link = lbs.common.createLimeLink('coworker', idrecord);
-                document.location.href(link);
-            }
-
-            openRecord = function(i,e){
-                var eid = $(e.currentTarget).attr("id");
-                var table = eid.split("_")[0];
-                var idrecord = eid.split("_")[1];
-                var removed = eid.split("_")[2];
-                if(removed == 0){
-                    var link = lbs.common.createLimeLink(table, idrecord);
-                    document.location.href(link);
-                }
-            }
-
-            loadRecords = function(i,e){
+            self.loadRecords = function(i,e){
 
                 var a;
                 var t = $(e.currentTarget).attr("id");
@@ -1021,7 +1004,7 @@ lbs.apploader.register('AdminTools', function () {
 
             }
       
-            loadUsers = function(i,e){
+            self.loadUsers = function(i,e){
                 var a;
                 var t = $(e.currentTarget).attr("id");
                 var c = "";
@@ -1068,8 +1051,7 @@ lbs.apploader.register('AdminTools', function () {
                         {type: 'xml', source: c},
                         true
                     );
-                    
-                    
+
                     if(!jQuery.isEmptyObject(xmlData)){
                         var tmp = xmlData.xmlSource.users.u;
                         if(!(tmp instanceof Array)){
@@ -1079,25 +1061,17 @@ lbs.apploader.register('AdminTools', function () {
 
                     }
                 }
-               
-                
             }
-                 
         }
-       
-
         return self.vm;
     };
-
-
 });
+
 
 $(document).ready(function () {
     loadStaticData();
     loadChartData();
 });
-
-
 
 ko.bindingHandlers.slider = {
   init: function (element, valueAccessor, allBindingsAccessor) {

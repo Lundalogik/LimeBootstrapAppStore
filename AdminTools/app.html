@@ -243,7 +243,7 @@
 							</tr>
 						</thead>
 						<tbody data-bind="foreach: sqlJobs">
-							<tr data-bind="css : {danger: status == 0, warning: enabled == 0, success: status == 1}, tooltip: {placement: 'bottom', text: message}, event:{contextmenu: function(i,e){jobContextMenu(i,e,name)}}">
+							<tr data-bind="css : {danger: status == 0, warning: enabled == 0, success: status == 1}, tooltip: {placement: 'bottom', text: 'Sist oppdatert: 2014-10-29 09:10 av Eirik Rake'}, event:{contextmenu: function(i,e){jobContextMenu(i,e,name)}}">
 								
 								<td class="col-md-3" data-bind="text: name"></td>
 								<td class="col-md-1" data-bind="text: step_id"></td>
@@ -364,7 +364,7 @@
 				<div id="codecontainer" data-bind="visible: selectedIndex() != '' && selectedIndexFrame() == 'new' && selectedInfo() == 'indices'">
 					<h4>SQL for creating index</h4>
 					<div class="input-group col-md-11">
-					  	<textarea id="codetext" rows="5" class="form-control" data-bind="text: selectedIndex()" wrap="virtual"/>
+					  	<textarea id="codetext" rows="5" class="form-control" data-bind="text: selectedIndex()" wrap="virtual" disabled />
 					  	<button class="input-group-addon btn btn-default" data-bind="click: function(data,event){ createIndex(data,event);}, tooltip:{placement: 'bottom', text:'Execute the code to create the selected  index.'}">Execute</button>
 					</div>
 				</div>

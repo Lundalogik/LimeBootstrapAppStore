@@ -9,6 +9,10 @@
   cursor: not-allowed;
 }
 
+a.list-group-item:hover{
+  background-color: rgba(135,172,72,0.3);
+}
+
 .btn-list{
   margin-top:-8px;
   border-radius: 100px;
@@ -186,7 +190,7 @@ background-color: hsl(82, 41%, 36%) !important;
 
  .table-hover tbody tr.selected:hover > td,
  .table-hover tbody tr.selected:hover > th {
-background-color: hsl(82, 41%, 36%) !important;
+  background-color: hsl(82, 41%, 36%) !important;
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#87ac48", endColorstr="#658136");
   background-image: -khtml-gradient(linear, left top, left bottom, from(#87ac48), to(#658136));
@@ -202,6 +206,10 @@ background-color: hsl(82, 41%, 36%) !important;
   -webkit-font-smoothing: antialiased;
 }
 
+.table-hover tbody tr:hover > td,
+.table-hover tbody tr:hover > th{
+  background-color: rgba(135,172,72,0.3);
+}
 .list-group{
   margin-bottom: 0px;
 }
