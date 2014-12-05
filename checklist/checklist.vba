@@ -31,7 +31,7 @@ If Source = "table" Then
     Call oView.Add("mouseover")
     Call oView.Add("origin")
     
-     Select Case ActiveControls.Class.name
+     Select Case ActiveControls.Class.Name
         Case "helpdesk":
             Call oFilter.AddCondition("origin", lkOpEqual, "BusinessTest")
      End Select
@@ -46,10 +46,9 @@ If Source = "table" Then
     
 'Define your own static checklist here
 ElseIf Source = "static" Then
-    Dim Checklist(2) As ChecklistItem
-    
-    Checklist(1).title = "test"
-    Checklist(2).title = "test2"
+    Dim Checklist(1) As ChecklistItem
+    Checklist(0).title = "test"
+    Checklist(1).title = "test2"
     XMLText = SerializeChecklistItems(Checklist)
 End If
 
@@ -69,12 +68,12 @@ End Function
 Public Function Initialize(XmlField As String) As String
 On Error GoTo ErrorHandler
     If AutoCreate = True Then
-        If ActiveControls.GetText("XmlField") = "" Then
-            Call CreateChecklist
+        If ActiveControls.GetText(XmlField) = "" Then
+            Call CreateChecklist("checklist")
         End If
     End If
-    If ActiveControls.GetText("XmlField") <> "" Then
-        Initialize = ActiveControls.GetText("XmlField")
+    If ActiveControls.GetText(XmlField) <> "" Then
+        Initialize = ActiveControls.GetText(XmlField)
     Else
         Initialize = "<xmlchecklist></xmlchecklist>"
     End If
@@ -83,7 +82,7 @@ ErrorHandler:
     UI.ShowError ("Checklist.Initialize")
 End Function
 
-Public Function Save(xmlString As String, XmlField as String)
+Public Function Save(xmlString As String, XmlField As String)
 On Error GoTo ErrorHandler
     Call ActiveControls.SetValue(XmlField, xmlString)
 Exit Function
@@ -94,8 +93,8 @@ End Function
 Public Sub test()
     Dim Checklistitems(2) As ChecklistItem
     
-    Checklistitems(1).title = "test"
-    Checklistitems(2).title = "test2"
+    Checklistitems(1).title = "test123"
+    Checklistitems(2).title = "test2213"
     
     Debug.Print (SerializeChecklistItems(Checklistitems))
     
@@ -121,4 +120,3 @@ Private Function SerializeChecklistItems(ByRef Checklistitems() As ChecklistItem
     SerializeChecklistItems = XML
 
 End Function
-
