@@ -1,6 +1,6 @@
 <!-- Henu header -->
 <!-- ko if: canAddTask || tasks().length > 0 -->
-<ul class="menu expandable checklist">
+<ul class="menu expandable collapsed checklist">
 	<li class="menu-header" >
 		<span data-bind="text:name"></span>
 		<span class="badge pull-right" data-bind="text:' (' + nbrOfChecked() + '/' + tasks().length + ')'" id="counter"></span>
