@@ -11,7 +11,10 @@ lbs.apploader.register('checklist', function () {
         this.autoCreate = appConfig.autoCreate || true;
         this.createChecklistFunction = appConfig.createChecklistFunction || "Checklist.CreateChecklist";
         this.performActionFunction = appConfig.performActionFunction || "Checklist.PerformAction";
-        this.dataSources = [{type: 'xml', source: 'Checklist.Initialize,' + this.xmlFieldName, alias:'checklistdata'}];
+        this.dataSources = [
+                            {type: 'xml', source: 'Checklist.Initialize,' + this.xmlFieldName, alias:'checklistdata'},
+                            {type: 'localization', source: '' }
+                            ];
         this.resources = {
             scripts: ['placeholders.min.js'],
             styles: ['checklist.css'],
@@ -89,8 +92,9 @@ lbs.apploader.register('checklist', function () {
         /**
         Checklistmodel
         */
-        function ChecklistModel(rawChecklistItems) {
+        function ChecklistModel(rawChecklistItems, localize) {
             var me = this;
+
             me.checklist = ko.observableArray();
             me.name = self.config.name;
             me.canAddTask = self.config.canAddTask;
@@ -98,6 +102,7 @@ lbs.apploader.register('checklist', function () {
             me.inputValue = ko.observable('');
             me.isSelected = ko.observable(false)
             me.collapsed = self.config.collapsed;
+            me.localize = localize.Checklist
 
             populateChecklist();
 
@@ -134,9 +139,9 @@ lbs.apploader.register('checklist', function () {
             }
 
             me.removeTask = function(checklistItem){
-                if (confirm('Uppgiften kommer försvinna för evigt! Riktigt, riktigt säker?')) {
-                me.checklist.remove(checklistItem);
-                me.save();
+                if (confirm(me.localize.remove_warning)) {
+                    me.checklist.remove(checklistItem);
+                    me.save();
                 }
             }
             //Save change to LIME
@@ -161,7 +166,13 @@ lbs.apploader.register('checklist', function () {
                 alert("Your config of the checklist is bad and you should feel bad \n You supply no data to the checklist and you don't allow the user to create new items. Please check the config for 'autoCreate' and 'canAddTask' ")
             }
         }
-        var checklistModel = new ChecklistModel(rawChecklistData);
+
+        if(!appData.localize.Checklist){
+            alert("No Checklist translations found. Please run 'Checklist.Install' in LIME")
+            return {}
+        }
+
+        var checklistModel = new ChecklistModel(rawChecklistData, appData.localize);
         return checklistModel
   
     }

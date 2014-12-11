@@ -241,3 +241,69 @@ Exit Function
 ErrorHandler:
     UI.ShowError ("Checklist.CreateChecklist")
 End Function
+
+'------------------------------------------
+'===============INSTALLER==================
+'------------------------------------------
+Public Sub Install()
+    Dim sOwner As String
+    sOwner = "Checklist"
+
+    Call AddOrCheckLocalize( _
+        sOwner, _
+        "remove_warning", _
+        "Gives the user a warning before removing a checklist item", _
+        "You are about to remove this item. You won't be able to undo this action. Proceeed?", _
+        "Du är på väg att ta bort uppgiften för gott. Du kommer inte kunna återställa uppgiften. Fortsätta?", _
+        " ", _
+        " " _
+    )
+
+End Sub
+
+
+Private Function AddOrCheckLocalize(sOwner As String, sCode As String, sDescription As String, sEN_US As String, sSV As String, sNO As String, sFI As String) As Boolean
+    On Error GoTo ErrorHandler:
+    Dim oFilter As New LDE.Filter
+    Dim oRecs As New LDE.Records
+    
+    Call oFilter.AddCondition("owner", lkOpEqual, sOwner)
+    Call oFilter.AddCondition("code", lkOpEqual, sCode)
+    oFilter.AddOperator lkOpAnd
+    
+    If oFilter.HitCount(Database.Classes("localize")) = 0 Then
+        Debug.Print ("Localization " & sOwner & "." & sCode & " not found, creating new!")
+        Dim oRec As New LDE.Record
+        Call oRec.Open(Database.Classes("localize"))
+        oRec.value("owner") = sOwner
+        oRec.value("code") = sCode
+        oRec.value("context") = sDescription
+        oRec.value("sv") = sSV
+        oRec.value("en_us") = sEN_US
+        oRec.value("no") = sNO
+        oRec.value("fi") = sFI
+        Call oRec.Update
+    ElseIf oFilter.HitCount(Database.Classes("localize")) = 1 Then
+    Debug.Print ("Updating localization " & sOwner & "." & sCode)
+        Call oRecs.Open(Database.Classes("localize"), oFilter)
+        oRecs(1).value("owner") = sOwner
+        oRecs(1).value("code") = sCode
+        oRecs(1).value("context") = sDescription
+        oRecs(1).value("sv") = sSV
+        oRecs(1).value("en_us") = sEN_US
+        oRecs(1).value("no") = sNO
+        oRecs(1).value("fi") = sFI
+        Call oRecs.Update
+        
+    Else
+        Call MsgBox("There are multiple copies of " & sOwner & "." & sCode & "  which is bad! Fix it", vbCritical, "To many translations makes Jack a dull boy")
+    End If
+    
+    Set Localize.dicLookup = Nothing
+    AddOrCheckLocalize = True
+    Exit Function
+ErrorHandler:
+    Debug.Print ("Error while validating or adding Localize")
+    AddOrCheckLocalize = False
+End Function
+
