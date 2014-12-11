@@ -1,17 +1,17 @@
 <!-- Henu header -->
-<!-- ko if: canAddTask || tasks().length > 0 -->
-<ul class="menu expandable checklist">
+<!-- ko if: canAddTask || checklist().length > 0 -->
+<ul class="menu expandable checklist" data-bind="css:{collapsed:collapsed}">
 	<li class="menu-header" >
 		<span data-bind="text:name"></span>
-		<span class="badge pull-right" data-bind="text:' (' + nbrOfChecked() + '/' + tasks().length + ')'" id="counter"></span>
+		<span class="badge pull-right" data-bind="text:' (' + nbrOfChecked() + '/' + checklist().length + ')'" id="counter"></span>
 	</li>
 	<li class="divider" ></li>
 
-<!-- List of tasks -->
-	<!-- ko foreach: tasks -->
-		<li class='task' data-bind="attr:{title: checkedDate() === '' ? mouseover : checkedBy() + ': ' + moment(checkedDate()).format('LLL')}"> 
-			<span data-bind="click:$parent.taskClicked">
-				<input type='checkbox' data-bind="checked: isChecked, attr:{id:'a_' + order}" /> 
+<!-- Checklist -->
+	<!-- ko foreach: checklist -->
+		<li class='task' data-bind="attr:{title: isChecked() == false ? description : checkedBy() + ': ' + moment(checkedDate()).format('LLL')}"> 
+			<span data-bind="click:clicked">
+				<input type='checkbox' data-bind="checked: isChecked(), attr:{id:'a_' + order}" /> 
 				<label data-bind="attr:{for:'a_' + order}"></label> 
 				<span class="taskText" data-bind="text: title"></span>
 			</span>
