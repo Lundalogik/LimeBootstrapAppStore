@@ -11,6 +11,8 @@
 		}
 	],
 	"install":{
+		"preInstallScript":"",
+		"postInstallScript":"",
 		"localize":[
 			{
 			"owner":"checklist",
@@ -27,6 +29,12 @@
 			"en_us":"Add new",
 			"no":"Skap ny",
 			"fi":"Mumamamakkkk!"
+			}
+		],
+		"vba":[
+			{
+				"relPath":"Checklist.bas",
+				"name":"Checklist"
 			}
 		],
 		"tables":[
