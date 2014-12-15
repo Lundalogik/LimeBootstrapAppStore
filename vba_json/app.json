@@ -1,0 +1,27 @@
+{
+	"name": "vba_json",
+	"author":"External",
+	"status":"Release",
+	"shortDesc":"A JSON parser lib for VBA",
+	"versions":[
+		{
+			"version":"1.0",
+			"date":"2014-12-15",
+			"comments":"First commit"
+		}
+	],
+	"install":{
+		"preInstallScript":"",
+		"postInstallScript":"",
+		"vba":[
+			{
+				"relPath":"JSON.bas",
+				"name":"JSON"
+			},
+			{
+				"relPath":"cStringBuilder.cls",
+				"name":"cStringBuilder"
+			}
+		]
+	}
+}
