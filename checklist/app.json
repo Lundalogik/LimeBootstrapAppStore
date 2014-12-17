@@ -1,9 +1,14 @@
-{
+﻿{
 	"name": "Checklist",
 	"author":"FPE",
 	"status":"Release",
 	"shortDesc":"The checklist is a very simpel checklist. It can be used in any case you need someting to keep track of things that should be done.",
 	"versions":[
+		{
+			"version":"1.0",
+			"date":"2014-12-17",
+			"comments":"The intermediate stable beta of the checklist"
+		},
 		{
 			"version":"0.9",
 			"date":"2013-11-18",
