@@ -16,7 +16,7 @@ lbs.apploader.register('checklist', function () {
                             {type: 'localization', source: '' }
                             ];
         this.resources = {
-            scripts: ['placeholders.min.js'],
+            scripts: [],
             styles: ['checklist.css'],
             libs: ['json2xml.js']
         };
