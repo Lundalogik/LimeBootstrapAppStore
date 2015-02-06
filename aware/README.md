@@ -1,4 +1,8 @@
 #Aware
+
+## Requires a license
+For more information please contact Lundalogik AB. 
+
 ##About
 Aware allows you to get a visual overview on your company. You can visualizing if a
 company hasn't got a history note in a long time. If the company has an active
