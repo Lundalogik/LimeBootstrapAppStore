@@ -1,0 +1,36 @@
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+  /*z-index: 1001;*/
+}
+
+.node circle:hover {
+  fill: #eee;
+  stroke: #1E90FF;
+  cursor: pointer;
+}
+
+.node {
+  font: 10px sans-serif;
+  /*z-index:1000;*/
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+  /*z-index: 10;*/
+}
+
+#treecontainerlist{
+  height: 100%;
+
+}
+
+#treecontainerwindowed{
+  height: 100%;
+  width: 100%;
+  margin-left: 0%;
+  margin-top: -5%;
+}

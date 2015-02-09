@@ -1,0 +1,16 @@
+{
+	"name": "companytree",
+	"author":"JKA",
+	"status":"Beta",
+	"shortDesc" : "App for visualizing corporation structure.",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2015-01-29",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}

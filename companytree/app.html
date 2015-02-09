@@ -1,0 +1,12 @@
+<!--ko if: type() == 'list' -->
+<ul class="menu expandable">
+	<li class="menu-header"data-bind=" text: 'Koncernstruktur'"></li>  
+	<li class="divider"></li>
+	<li data-bind="icon: 'fa-cubes', vba: 'CompanyTree.OpenCompanyTree'" >Visa koncernstruktur
+	</li>
+</ul>
+<!-- /ko -->
+
+<!--ko if: type() == 'windowed' -->
+<div id="treecontainerwindowed"></div>
+<!-- /ko -->
