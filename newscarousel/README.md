@@ -20,7 +20,7 @@ Installation
 -----------
 
 1. Copy the “newscarousel” folder to the “apps” folder.
-1. Run the attached SQL-script in order to create the necessary table and fields.
+1. Run the attached SQL-script in order to create the necessary procedure, table, and fields.
 1. Restart LIME Pro if open.
 1. Add the following HTML to the Index ActionPad and add configuration:
 

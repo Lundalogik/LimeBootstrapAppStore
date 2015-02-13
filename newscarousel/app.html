@@ -1,10 +1,10 @@
 
-<div class="carousel slide" data-ride="carousel" data-bind="attr: { id: uniqueId }">
+<div class="carousel slide" data-ride="carousel" data-bind="attr: { id: uniqueId }, css: { empty: !news().length, single: news().length === 1 }">
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox" data-bind="foreach: news">
     <div class="item" data-bind="css: { active: !$index() }">
-      <h1 data-bind="text: heading"></h1>
-      <p data-bind="text: text"></p>
+      <h1 data-bind="text: headline"></h1>
+      <p data-bind="markdown: text"></p>
     </div>
   </div>
 
