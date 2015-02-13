@@ -21,7 +21,36 @@
 			"comments":"First commit"
 		}
 	],
-	"install":{
-		
-	}
+		"install": {
+        "preInstallScript": "",
+        "postInstallScript": "",
+        "localize": [
+            {
+                "owner": "superinfotile",
+                "context": "title",
+                "sv": "Mega super info",
+                "en_us": "Mega super info",
+                "no": "Mega super info",
+                "fi": "Holy shit!"
+            },
+            {
+                "owner": "superinfotile",
+                "context": "edit",
+                "sv": "Edit",
+                "en_us": "Edit",
+                "no": "Edit",
+                "fi": "Mumamamakkkk!"
+            }
+        ],
+        "vba": [
+            {
+                "relPath": "install\superinfotiles.bas",
+                "name": "Superinfotiles"
+            }
+        ],
+        "tables": [
+
+         
+        ]
+    }
 }
