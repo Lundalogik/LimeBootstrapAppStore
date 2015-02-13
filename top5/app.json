@@ -1,0 +1,17 @@
+{
+	"name": "Top 5 sales reps",
+	"author":"ILE",
+	"status":"Beta",
+	"shortDesc": "When you want to rank your sales reps according to who's best and who's not! This app will let them compete against each other and boost your sales! $$$",
+	"versions":[
+		{
+			"version":"1.0",
+			"date":"2015-02-13",
+			"comments":"Appathon release"
+		}
+	],
+	"install":{
+		
+		
+	}
+}
