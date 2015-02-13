@@ -1,0 +1,42 @@
+
+.carousel {
+    /*background-color: orange;*/
+    padding-bottom: 20px;
+    padding-left: 25px;
+    padding-right: 35px;
+    padding-top: 5px;
+    position: relative;
+}
+
+.carousel-indicators {
+    bottom: 0;
+    margin-bottom: 0;
+}
+
+.item {
+    /*background-color: aqua;*/
+    font-size: 13px;
+    font-weight: 400;
+    width: 100%;
+}
+
+.item>h1 {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.carousel-control {
+    /*background-color: red;*/
+    font-size: 12px;
+    top: 0;
+    height: 100%;
+    text-align: center;
+}
+
+.carousel-control > i {
+    /*background-color: aqua;*/
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
