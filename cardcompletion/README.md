@@ -10,16 +10,49 @@ Copy the “cardcompletion” folder to the “apps” folder. Complete the conf
 Add the following HTML to the ActionPad (company.html example below):
 
 ```html
-<div class="header-container blue">
-    <div data-app="{ app: 'cardcomplete', config: { appType: 'head' } }"></div>
-</div>
+<div data-app="{ app: 'cardcomplete' }"></div>
 ```
 
 ##Setup
 
-The app is configured with the following parameters
-[vendor-config] - object with vendor properties such as user, password
-maxAge - Optional, Integer specifying the maximum age of the rating in days. Default: 365
-inline - Optional, Boolean specifing if the should be expanded from start. Set to true if you're using the app in a field an not in the actionpad
-onlyAllowPublicCompanies - Optional, If false you can perform creditchecks on all companies or persons. However they will receive a letter and there will be an additional cost. Default: False
-The app should be place just below the ActionPad class=”header-container”.
+The app is configured by setting the cardcompletion variable in app.js.
+example:
+```javascript
+tables: [{
+                name: "company",
+                fields: [{
+                    name: "phone",
+                    name_sv: "Telefon",
+                    weight: 20
+                },
+                {
+                    name: "www",
+                    name_sv: "Hemsida",
+                    weight: 10
+                },
+            	{
+                name: "person",
+                fields: [{
+                    name: "phone",
+                    name_sv: "Telefon",
+                    weight: 25
+                },
+                {
+                    name: "mobilephone",
+                    name_sv: "Mobilnummer",
+                    weight: 25
+                },
+                {
+                    name: "email",
+                    name_sv: "Epost",
+                    weight: 40
+                },
+                {
+                    name: "position",
+                    name_sv: "titel",
+                    weight: 10
+                }]
+            }]
+´´´
+
+For each table where you wish to implement this app you must add a table object. Every table object has an array of fields with their name, localname and weight. Each field is then calculated into the card completion rate.
