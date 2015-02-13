@@ -1,10 +1,10 @@
 <div id="modal">
-	<header id="header"><h1>Top 5 sales reps</h1></header>
+	<header id="header"><h1 data-bind="text: localize.Top5.header"></h1></header>
 	<section class="toggle">
-    <p class="toggle" data-bind="text: '1st: ' + top1, popover: {text:'Total value for the best: ' + top1value + ' moneys', title: 'Simply the best', type: 'custom', color:'magenta', icon: 'fa-exclamation', placement: 'top'}, vba:'Top5.SetFilter,' + top1id"></p>
-    <p class="toggle" data-bind="text: '2nd: ' + top2, popover: {text:'Total value for 2nd best: ' + top2value + ' moneys', title: 'Only the second best', type: 'custom', color:'turquoise', icon: 'fa-exclamation',placement: 'top'}, vba:'Top5.SetFilter,' + top2id"></p>
-	<p class="toggle" data-bind="text: '3rd: ' + top3, popover: {text:'Total value for 3rd best: ' + top3value + ' moneys', title: 'Third is ok I guess', type: 'custom', color:'citrus', icon: 'fa-exclamation',placement: 'top'}, vba:'Top5.SetFilter,' + top3id"></p>
-	<p class="toggle" data-bind="text: '4th: ' + top4, popover: {text:'Total value for 4th best: ' + top4value + ' moneys', title: 'No medal for no 4', type: 'custom', color:'purple-rain', icon: 'fa-exclamation',placement: 'top'}, vba:'Top5.SetFilter,' + top4id"></p>
-	<p class="toggle" data-bind="text: '5th: ' + top5, popover: {text:'Total value for 5th best: ' + top5value + ' moneys', title: 'Fifth!?', type: 'custom', color:'deep-red', icon: 'fa-exclamation',placement: 'top'}, vba:'Top5.SetFilter,' + top5id"></p>
+    <p class="toggle" data-bind="text: localize.Top5.one + ' ' + top1, popover: {text: localize.Top5.total + ': ' + top1value + ' ' + localize.Top5.money, title: 'Simply the best', type: 'custom', color:'magenta', icon: 'fa-exclamation', placement: 'top'}, vba:'Top5.SetFilter,' + top1id"></p>
+    <p class="toggle" data-bind="text: localize.Top5.two + ' ' + top2, popover: {text: localize.Top5.total + ': ' + top2value + ' ' + localize.Top5.money, title: 'Only the second best', type: 'custom', color:'turquoise', icon: 'fa-exclamation',placement: 'top'}, vba:'Top5.SetFilter,' + top2id"></p>
+	<p class="toggle" data-bind="text: localize.Top5.three + ' ' + top3, popover: {text: localize.Top5.total + ': ' + top3value + ' ' + localize.Top5.money, title: '3rd one is ok I guess', type: 'custom', color:'citrus', icon: 'fa-exclamation',placement: 'top'}, vba:'Top5.SetFilter,' + top3id"></p>
+	<p class="toggle" data-bind="text: localize.Top5.four + ' ' + top4, popover: {text: localize.Top5.total + ': ' + top4value + ' ' + localize.Top5.money, title: 'No medal for the 4th', type: 'custom', color:'purple-rain', icon: 'fa-exclamation',placement: 'top'}, vba:'Top5.SetFilter,' + top4id"></p>
+	<p class="toggle" data-bind="text: localize.Top5.five + ' ' + top5, popover: {text: localize.Top5.total + ': ' + top5value + ' ' + localize.Top5.money, title: 'Fifth?!', type: 'custom', color:'deep-red', icon: 'fa-exclamation',placement: 'top'}, vba:'Top5.SetFilter,' + top5id"></p>
 	</section>
 </div>
