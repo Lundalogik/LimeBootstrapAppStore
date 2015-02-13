@@ -1,0 +1,18 @@
+<!-- ko if: root.histories -->
+<div class="container-history-flow">
+<ul class="cbp_tmtimeline">
+
+	<li data-bind="foreach: histories()">
+		<time class="cbp_tmtime" datetime="2013-04-10 18:30"><span data-bind="text: date"></span> <span data-bind="text: time"></span></time>
+		<div class="cbp_tmicon"><span class="history-flow-icon" data-bind="icon:icon"> </span></div>
+		<div class="cbp_tmlabel" data-bind="click: openpost">
+		<!-- <div class="cbp_tmlabel"> -->
+			<h2 data-bind="text: (person? title + ' - ' + person: title)"></h2>
+			<p data-bind="text: text"></p>
+		</div>
+	</li>
+</ul>
+</div>
+<!-- /ko -->
+
+<!-- <i data-bind="icon:'fa-phone', text: ' '"></i> -->
