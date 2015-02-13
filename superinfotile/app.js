@@ -9,44 +9,40 @@ lbs.apploader.register('superinfotile', function () {
         this.icon = appConfig.icon;
         this.iconPosition = appConfig.iconPosition || "right";
         this.updateTimer = appConfig.updateTimer;
-        this.dataSources = [
-           
-        ],
+        this.dataSources = [];
         this.resources = {
             scripts: ['script/infotile.js', 'script/infoTilesViewModel.js' ],
             styles: ['app.css'],
             libs: []
-        }
+        };
     };
 
 
     //initialize
     self.initialize = function (node,viewmodel) {
 
-            viewmodel.infotileViewModel = new infoTilesViewModel();
+        viewmodel.infotileViewModel = new infoTilesViewModel();
+        viewmodel.add = function(){
+            viewmodel.infotileViewModel.addInfoTile(
+                new infotile(
+                    self.config.tileColor,
+                    self.config.filterName, 
+                    self.config.displayText,
+                    self.config.className,
+                    self.config.icon,
+                    self.config.updateTimer
+                )
+            );
 
-            var tile1 = new infotile(
-                self.config.tileColor,
-                self.config.filterName, 
-                self.config.displayText,
-                self.config.className,
-                self.config.icon,
-                self.config.updateTimer
-            );
-            var tile2 = new infotile(
-                self.config.tileColor,
-                self.config.filterName, 
-                self.config.displayText,
-                self.config.className,
-                self.config.icon,
-                self.config.updateTimer
-            );
-            viewmodel.infotileViewModel.addInfoTile(tile1) ;
-            viewmodel.infotileViewModel.addInfoTile(tile2) ;          
-            
-            return viewmodel;
+        };
+
+         return viewmodel;
+
+         
 
     };
+
+
 
 });
 

@@ -1,5 +1,9 @@
  <ul class="menu" >
- 	<li class="menu-header"data-bind="My super infotiles"></li> 
+ 	<li class="menu-header">
+ 	<span data-bind="text:'My super infotiles'"></span>
+ 		<span class="badge pull-right" data-bind="text:' ', icon:'fa-pencil', click: add" ></span>
+
+ 	</li>
 	<li class="divider"></li>	
 
 	 <li data-bind="foreach:infotileViewModel.infoTiles">
