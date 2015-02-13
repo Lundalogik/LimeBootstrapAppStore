@@ -1,0 +1,14 @@
+<div data-bind="infoTile">
+    Välj tabell:<br />
+    <select data-bind="options: tables,          
+        optionsText: 'tables', click: getFields"/> <br />
+    Välj fält:<br />
+    <select data-bind="options: fields,
+        optionsText: 'fields', enabled: false"/><br />
+    <select data-bind="enabled: false">
+        <option>Sum</option>
+        <option>Count</option>
+        <option>Average</option>
+        <option>List</option>
+    </select><br />
+</div>
