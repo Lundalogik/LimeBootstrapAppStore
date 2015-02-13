@@ -9,7 +9,6 @@
     overflow: hidden;
   }
   #modal header {
-	cursor: pointer;
     background: #f1f1f1;
     background-image: -webkit-linear-gradient( top, #f1f1f1, #CCC );
     background-image: -ms-linear-gradient( top, #f1f1f1, #CCC );
@@ -37,5 +36,4 @@
   #modal p {
 	font-family: verdana;
 	color: #888;
-	cursor: pointer;
   }

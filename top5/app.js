@@ -44,11 +44,11 @@ lbs.apploader.register('top5', function () {
 			viewModel.top4 = ((typeof(data[3]) == "undefined") ? "--" : data[3].name);
 			viewModel.top5 = ((typeof(data[4]) == "undefined") ? "--" : data[4].name);
 			
-			viewModel.top1value = ((typeof(data[0]) == "undefined") ? "no" : data[0].businessvalue);
-			viewModel.top2value = ((typeof(data[1]) == "undefined") ? "no" : data[1].businessvalue);
-			viewModel.top3value = ((typeof(data[2]) == "undefined") ? "no" : data[2].businessvalue);
-			viewModel.top4value = ((typeof(data[3]) == "undefined") ? "no" : data[3].businessvalue);
-			viewModel.top5value = ((typeof(data[4]) == "undefined") ? "no" : data[4].businessvalue);
+			viewModel.top1value = ((typeof(data[0]) == "undefined") ? "0" : data[0].businessvalue);
+			viewModel.top2value = ((typeof(data[1]) == "undefined") ? "0" : data[1].businessvalue);
+			viewModel.top3value = ((typeof(data[2]) == "undefined") ? "0" : data[2].businessvalue);
+			viewModel.top4value = ((typeof(data[3]) == "undefined") ? "0" : data[3].businessvalue);
+			viewModel.top5value = ((typeof(data[4]) == "undefined") ? "0" : data[4].businessvalue);
 			
 			viewModel.top1id = ((typeof(data[0]) == "undefined") ? 999 : data[0].idcoworker);
 			viewModel.top2id = ((typeof(data[1]) == "undefined") ? 999 : data[1].idcoworker);

@@ -5,12 +5,12 @@ When you want to rank your sales reps according to who's best and who's not! Thi
 
 Are your sales reps performing poorly because they have no idea of who's performing the best? Fear no more, Lundalogik is back once again to solve all your troubles.
 
-*	 More salescalls
-*	 More meetings
-*	 More quotes
-*	 More orders
-*	 Mo' dolla dolla!
-
+<li>More salescalls</li>
+<li>More meetings</li>
+<li>More quotes</li>
+<li>More orders</li>
+<li>Make more money!</li>
+</ul>
 
 ##Install
 Copy "top5" folder to the "apps" folder. 
@@ -25,12 +25,10 @@ Public Const sOptionkey As String = "agreement"
 'the date range of how many days back you want to see results
 Public Const dayRange As Integer = 30
 'OPTION SETUP END
-```
+´´´
 
-####SQL
-Add the stored procedure from the "/install" folder into your preferred database
-
-####HTML
+Add the stored procedures from the "/install" folder into your preferred database
+ 
 Add the following code to the `index.html`:
 
 ```html
