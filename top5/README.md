@@ -28,7 +28,7 @@ Public Const dayRange As Integer = 30
 ```
 
 ####SQL
-Add the stored procedures from the "/install" folder into your preferred database
+Add the stored procedure from the "/install" folder into your preferred database
 
 ####HTML
 Add the following code to the `index.html`:
