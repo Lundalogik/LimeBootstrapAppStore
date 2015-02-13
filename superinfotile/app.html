@@ -1,11 +1,16 @@
- <div class="infotile" data-bind="click:showFilter, style:{'background-color': tileColor()}">
-	  	
+ <ul class="menu" >
+ 	<li class="menu-header"data-bind="My super infotiles"></li> 
+	<li class="divider"></li>	
 
-	<h1 class="value"  >
-		<span class="icon-left" data-bind="visible:icon !=='' && iconPosition==='left' ,icon: icon"> </span>
-		<span data-bind="text:filterValue()"></span>
-		<span class="icon-right" data-bind="visible:icon !=='' && iconPosition==='right',icon: icon"> </span>
-	</h1>
-	<p class="name" data-bind="text:displayText"></p>
-</div>
-
+	 <li data-bind="foreach:infotileViewModel.infoTiles">
+		 <div class="infotile" data-bind="click:showFilter, style:{'background-color': tileColor()}">
+			 
+			<h1 class="value" >
+				<span class="icon-left" data-bind="visible:icon !=='' && iconPosition==='left' ,icon: icon"> </span>
+				<span data-bind="text:filterValue()"></span>
+				<span class="icon-right" data-bind="visible:icon !=='' && iconPosition==='right',icon: icon"> </span>
+			</h1>
+			<p class="name" data-bind="text:displayText"></p>
+		</div>
+	</li>
+</ul>

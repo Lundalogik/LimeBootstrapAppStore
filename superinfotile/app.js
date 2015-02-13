@@ -13,67 +13,40 @@ lbs.apploader.register('superinfotile', function () {
            
         ],
         this.resources = {
-            scripts: ['script/infotile.js'],
+            scripts: ['script/infotile.js', 'script/infoTilesViewModel.js' ],
             styles: ['app.css'],
             libs: []
         }
-    },
+    };
 
 
     //initialize
     self.initialize = function (node,viewmodel) {
-            var tile =                
-            viewmodel.filterValue =  ko.observable(data);            
-            if(self.config.displayText){
-                viewmodel.displayText = self.config.displayText;
-            }else{
-                viewmodel.displayText = self.config.filterName;    
-            }
 
-            viewmodel.iconPosition=self.config.iconPosition;
+            viewmodel.infotileViewModel = new infoTilesViewModel();
 
-            viewmodel.icon = self.config.icon;
-            viewmodel.tileColor = function(){
-                switch(self.config.tileColor){
-                    case "blue":
-                        return "rgb(70, 116, 238)";
-                    break;
-                    case "darkgrey":
-                        return "rgb(176, 176, 176)";
-                    break;
-                    case "red":
-                        return "rgb(232, 89, 89)";
-                    break;
-                    case "pink":
-                        return "rgb(243, 150, 206)";
-                    break;
-                    case "orange":
-                        return "rgb(244, 187, 36)";
-                    break;
-                    case "green":
-                        return "rgb(153, 216, 122)";
-                    break;
-                    default:
-                        return self.config.tileColor;
-                    break;
-                }
+            var tile1 = new infotile(
+                self.config.tileColor,
+                self.config.filterName, 
+                self.config.displayText,
+                self.config.className,
+                self.config.icon,
+                self.config.updateTimer
+            );
+            var tile2 = new infotile(
+                self.config.tileColor,
+                self.config.filterName, 
+                self.config.displayText,
+                self.config.className,
+                self.config.icon,
+                self.config.updateTimer
+            );
+            viewmodel.infotileViewModel.addInfoTile(tile1) ;
+            viewmodel.infotileViewModel.addInfoTile(tile2) ;          
+            
+            return viewmodel;
 
-            }
-            if(self.config.updateTimer){
-            setInterval(function()
-            {                                     
-                // Får jag inte ut något värde try catch med felmeddelande i rutan. 
-                viewmodel.filterValue(lbs.common.executeVba("infotile.GetInfo," + self.config.className + "," + self.config.filterName));                            
-            },self.config.updateTimer);
-            }
-
-            viewmodel.showFilter = function(){
-                lbs.common.executeVba("infotile.ShowFilter," + self.config.className + "," + self.config.filterName)
-            }
-
-            return  viewmodel;
-
-    }
+    };
 
 });
 
