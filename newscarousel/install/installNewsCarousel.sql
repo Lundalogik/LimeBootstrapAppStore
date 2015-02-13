@@ -3,7 +3,7 @@
 
 BEGIN TRY
 	BEGIN TRANSACTION
-	
+
 	-- Variables
 	DECLARE	@return_value INT
 			, @defaultvalue NVARCHAR(128)
@@ -57,7 +57,7 @@ BEGIN TRY
 
 	-- ##TODO: Behövs kod för att räkna fram table order om den ska hamna sist??
 	-- SET @tableorder = (SELECT )
-	
+
 	PRINT N'CREATE TABLE: ' + @newtablename
 	EXEC [dbo].[lsp_addtable]
 		@@name = @newtablename
@@ -126,7 +126,7 @@ BEGIN TRY
 	--	, @@idrecord = @idtable
 	--	, @@name = N'tableorder'
 	--	, @@valueint = @tableorder
-		
+
 
 
 	---------------------------------------------
@@ -140,9 +140,9 @@ BEGIN TRY
 	--	, @idstring INT
 	--	, @sqlcommand NVARCHAR(2048)
 	--	, @fieldname NVARCHAR(64)
-	
-	
-	
+
+
+
 	SET @fieldname = N'headline'
 	PRINT N'CREATE FIELD: ' + @newtablename + '.' + @fieldname
 	SET @return_value = null
@@ -151,7 +151,7 @@ BEGIN TRY
 	SET @localname = null
 	SET @idcategory = null
 	SET @idstring = null
-	
+
 	EXEC @return_value = [dbo].[lsp_addfield]
 		@@table = @newtablename,
 		@@name = @fieldname,
@@ -161,7 +161,7 @@ BEGIN TRY
 		@@idfield = @idfield OUTPUT,
 		@@localname = @localname OUTPUT,
 		@@idcategory = @idcategory OUTPUT
-	
+
 	UPDATE [string]
 	SET en_us = N'Headline'
 		, sv = N'Rubrik'
@@ -169,12 +169,12 @@ BEGIN TRY
 		, [no] = N'Overskrift'
 		, fi = N'Otsikko'
 	WHERE [idstring] = @localname
-	
+
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'width', @@valueint = 4
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'newline', @@valueint = 2	--Fast bredd
-	
-	
-	
+
+
+
 	SET @fieldname = N'text'
 	PRINT N'CREATE FIELD: ' + @newtablename + '.' + @fieldname
 	SET @return_value = null
@@ -183,7 +183,7 @@ BEGIN TRY
 	SET @localname = null
 	SET @idcategory = null
 	SET @idstring = null
-	
+
 	EXEC @return_value = [dbo].[lsp_addfield]
 		@@table = @newtablename,
 		@@name = @fieldname,
@@ -193,7 +193,7 @@ BEGIN TRY
 		@@idfield = @idfield OUTPUT,
 		@@localname = @localname OUTPUT,
 		@@idcategory = @idcategory OUTPUT
-	
+
 	UPDATE [string]
 	SET en_us = N'Text'
 		, sv = N'Brödtext'
@@ -201,13 +201,13 @@ BEGIN TRY
 		, [no] = N'Brødtekst'
 		, fi = N'Kuvaus'
 	WHERE [idstring] = @localname
-	
+
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'width', @@valueint = 4
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'height', @@valueint = 4	--Höjd
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'newline', @@valueint = 3	--Fast bredd på ny rad
-	
-	
-	
+
+
+
 	SET @fieldname = N'startdate'
 	PRINT N'CREATE FIELD: ' + @newtablename + '.' + @fieldname
 	SET @return_value = null
@@ -225,7 +225,7 @@ BEGIN TRY
 		@@idfield = @idfield OUTPUT,
 		@@localname = @localname OUTPUT,
 		@@idcategory = @idcategory OUTPUT
-			
+
 	UPDATE [string]
 	SET en_us = N'Start date'
 		, sv = N'Startdatum'
@@ -237,8 +237,8 @@ BEGIN TRY
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'type', @@valueint = 1		--Format: Datum, tid
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'required', @@valueint = 1  --Obligatoriskt
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'newline', @@valueint = 3	--Fast bredd på ny rad
-	
-	
+
+
 	SET @fieldname = N'enddate'
 	PRINT N'CREATE FIELD: ' + @newtablename + '.' + @fieldname
 	SET @return_value = null
@@ -257,7 +257,7 @@ BEGIN TRY
 		@@idfield = @idfield OUTPUT,
 		@@localname = @localname OUTPUT,
 		@@idcategory = @idcategory OUTPUT
-			
+
 	UPDATE [string]
 	SET en_us = N'End date'
 		, sv = N'Slutdatum'
@@ -268,11 +268,11 @@ BEGIN TRY
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'width', @@valueint = 2
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'type', @@valueint = 1		--Format: Datum, tid
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'newline', @@valueint = 2	--Fast bredd
-	
-	
+
+
 	---------------------------------------------
 	----------- CREATE RELATION START -----------
-	
+
 	-- Special relation variables.
 	DECLARE @idfield1 INT		--Field
 	DECLARE @idfield2 INT		--Tab
@@ -294,7 +294,7 @@ BEGIN TRY
 	SET @relationfieldname = N'coworker'
 	SET @nameoftablewithtab = N'coworker'
 	SET @relationtabname = @newtablename
-	
+
 	PRINT N'CREATE FIELD: ' + @nameoftablewithfield + '.' + @relationfieldname
 	SET @return_value = NULL
 	SET @defaultvalue = ''
@@ -319,12 +319,12 @@ BEGIN TRY
 		, [no] = N'Medarbeider'
 		, fi = N'Työntekijä'
 	WHERE [idstring] = @localname
-	
+
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield1, @@name = N'width', @@valueint = 2
 	EXEC lsp_setattributevalue @@owner = N'field', @@idrecord = @idfield1, @@name = N'relationmincount', @@value = 0
-	EXEC lsp_setattributevalue @@owner = N'field', @@idrecord = @idfield1, @@name = N'limedefaultvalue', @@value = N'ActiveUser.Record.ID'	-- Default Value (interpreted by LIME Pro) 
+	EXEC lsp_setattributevalue @@owner = N'field', @@idrecord = @idfield1, @@name = N'limedefaultvalue', @@value = N'ActiveUser.Record.ID'	-- Default Value (interpreted by LIME Pro)
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield1, @@name = N'newline', @@valueint = 3	--Fast bredd på ny rad
-	
+
 	PRINT N'CREATE FIELD: ' + @nameoftablewithtab + '.' + @relationtabname
 	SET @return_value = NULL
 	SET @defaultvalue = ''
@@ -349,13 +349,13 @@ BEGIN TRY
 		, [no] = @newtablelocalname_no
 		, fi = @newtablelocalname_fi
 	WHERE [idstring] = @localname
-	
+
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield2, @@name = N'invisible', @@valueint = 65535	--Överallt
-	
+
 	EXEC lsp_setattributevalue @@owner = N'field', @@idrecord = @idfield2, @@name = N'relationmincount', @@value = 0
 	EXEC lsp_setattributevalue @@owner = N'field', @@idrecord = @idfield2, @@name = N'relationmaxcount', @@value = 1
-	
-	
+
+
 	PRINT N'ADD RELATION: ' + @nameoftablewithfield + ' - ' + @nameoftablewithtab
 	SELECT @idtable1 = idtable
 	FROM [table]
@@ -371,11 +371,11 @@ BEGIN TRY
 		@@idfield2 = @idfield2,
 		@@idtable2 = @idtable2,
 		@@idrelation = @idrelation OUTPUT
-	
+
 	------------ CREATE RELATION END ------------
 	---------------------------------------------
-	
-	
+
+
 	SET @fieldname = N'inactive'
 	PRINT N'CREATE FIELD: ' + @newtablename + '.' + @fieldname
 	SET @return_value = null
@@ -394,8 +394,8 @@ BEGIN TRY
 			@@idfield = @idfield OUTPUT,
 			@@localname = @localname OUTPUT,
 			@@idcategory = @idcategory OUTPUT
-			
-			
+
+
 	UPDATE [string]
 	SET en_us = N'Inactive'
 		, sv = N'Inaktiv'
@@ -405,12 +405,12 @@ BEGIN TRY
 	WHERE [idstring] = @localname
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'width', @@valueint = 2
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'newline', @@valueint = 2	--Fast bredd
-	
-	
+
+
 	------------- CREATE FIELDS END -------------
 	---------------------------------------------
-	
-	
+
+
 
 	-- Set table descriptive
 	SET @descriptiveexpression = N'[' + @newtablename + N'].[headline]'
@@ -419,7 +419,7 @@ BEGIN TRY
 		@@idstring = @descriptive
 		, @@lang = N'ALL'
 		, @@string = @descriptiveexpression
-	
+
 END TRY
 BEGIN CATCH
 	DECLARE @errormessage NVARCHAR(512)
@@ -445,7 +445,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 -- =============================================
 -- Author:		Niklas Olsson
--- Description:	Returns a xml with data for the news carousel app. 
+-- Description:	Returns a xml with data for the news carousel app.
 -- =============================================
 CREATE PROCEDURE csp_app_newscarousel_getxml
 	@@lang NVARCHAR(32) = N''
@@ -453,7 +453,7 @@ CREATE PROCEDURE csp_app_newscarousel_getxml
 AS
 BEGIN
 	SET NOCOUNT ON;
-    
+
     -- FLAG_EXTERNALACCESS --
 
 	SELECT TOP 5 nc.headline
@@ -467,6 +467,10 @@ BEGIN
 		AND ISNULL(nc.enddate,'2990-11-01') > GETDATE()
 		AND nc.[status] = 0
 	FOR XML PATH('news')
-			
+
 END
+GO
+
+EXEC lsp_refreshldc
+
 GO
