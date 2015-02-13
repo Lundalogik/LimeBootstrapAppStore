@@ -9,7 +9,7 @@ Are your sales reps performing poorly because they have no idea of who's perform
 *	 More meetings
 *	 More quotes
 *	 More orders
-*	 Make more money!
+*	 Mo' dolla dolla!
 
 
 ##Install
