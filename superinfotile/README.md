@@ -1,11 +1,27 @@
-#Info Tile
+#Super Info Tile
 
-##Info
-The Info Tile is a super simple app, inspired from the Win8 tiles. Supply your favourite LIME Filter and the tile will show the count of the filter and the name. An example is "My todos". You can even supply a icon and your own color! Almost like a real designer!
+##Why is it awesome?
+The Super Info Tile is a upgraded version from ["Info Tile"](http://limebootstrap.lundalogik.com/web/appstore/index.html#infotile) but soooo much better! 
+
+With Super Info Tile you can add all the filters you want to the "Actionpad". It is the easiest way to reach your filters from the exact second you start LIME Pro.
+See the latest affairs, prospects, total value or what ever you want without using a single click. 
+You can easily modify the Super Info Tile to your own needs and change which columns you want to display. 
+
+Nuff said.
+
+##Screenshots
+
+![Alt text](url "bildtext om man vill")
+
+##Awesomeness and benefits:
+
+*	Eliminates the long hours of clicking.
+*	Puts a smile on your face.
+*	Best way to track you affairs, prospects and other activities you need quick access to.
 
 ##Install
 
-Copy "infotile" folder to the “apps” folder. 
+Copy "superinfotile" folder to the "apps" folder. 
  
 Add the following HTML to the `index.html`, see setup below for configuration settings:
 
