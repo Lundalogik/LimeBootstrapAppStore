@@ -18,15 +18,19 @@ Copy "top5" folder to the "apps" folder.
 Create a VBA module called "Top5" and add the .bas file from the "/install" folder (drag n drop of the .bas file works well).
 You can modify the date range (i.e. how many days back do you want to see the results from) and business status in the VBA code:
 
+```html
 'OPTION SETUP
 'the option key of the preferred business status
 Public Const sOptionkey As String = "agreement"
 'the date range of how many days back you want to see results
 Public Const dayRange As Integer = 30
 'OPTION SETUP END
+```
 
+####SQL
 Add the stored procedures from the "/install" folder into your preferred database
- 
+
+####HTML
 Add the following code to the `index.html`:
 
 ```html
