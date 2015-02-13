@@ -1,11 +1,11 @@
-<div data-bind="infoTile">
-    V‰lj tabell:<br />
+Ôªø<div data-bind="infoTile">
+    V√§lj tabell:<br />
     <select data-bind="options: tables,          
-        optionsText: 'tables', click: getFields"/> <br />
-    V‰lj f‰lt:<br />
+        optionsText: 'tables', click: getFields, value: table"/> <br />
+    V√§lj f√§lt:<br />
     <select data-bind="options: fields,
-        optionsText: 'fields', enabled: false"/><br />
-    <select data-bind="enabled: false">
+        optionsText: 'fields', enabled: fieldsenabledforedit, value: field"/><br />
+    <select data-bind="enabled: typeenabledforedit, value: type">
         <option>Sum</option>
         <option>Count</option>
         <option>Average</option>
