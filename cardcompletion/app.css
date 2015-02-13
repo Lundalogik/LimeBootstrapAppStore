@@ -1,0 +1,76 @@
+.cardcomplete{   
+  height:50px;
+  background-color:Black;
+   margin-left: -10px;
+  margin-right:-10px;
+}
+
+.completed-rate-text{
+    padding-left: 20px;    
+    font-size: 30px;
+    color: #333;
+}
+
+/* Variations */
+.cardcomplete.cardcomplete-background.low {
+  
+  background-color: #fdbebd; 
+  color: #ed6d6b;  
+  border-bottom: 1px solid #d9a53d;
+}
+
+.cardcomplete .completed-rate.low {
+    padding-top:5px;
+    background-color: #ef7977;
+    border-bottom: 1px solid #d9a53d;
+    width: 25%;
+    height:50px;
+}
+
+
+/* Variations */
+.cardcomplete.cardcomplete-background.medium-low {
+  background-color: #ffecc4; 
+  border-bottom: 1px solid #fcd17e;
+  color: #b94a48;  
+}
+
+.cardcomplete .completed-rate.medium-low {
+    padding-top:5px;
+    background-color: #fcd17e;
+    border-bottom: 1px solid #fcd17e;
+    width: 50%;
+    height:50px;
+}
+
+
+/* Variations */
+.cardcomplete.cardcomplete-background.medium-high {  
+  background-color: #fef8c9; 
+  border-bottom: 1px solid #d6d5c8;
+  color: #b94a48;  
+}
+
+.cardcomplete .completed-rate.medium-high {
+    padding-top:5px;
+    background-color: #fff179;
+    border-bottom: 1px solid #d6d5c8;
+    width: 75%;
+    height:50px;
+}
+
+
+/* Variations */
+.cardcomplete.cardcomplete-background.high {
+  background-color: #94dd7b; 
+  border-bottom: 1px solid #63b249;
+  color: #b94a48;  
+}
+
+.cardcomplete .completed-rate.high {
+    padding-top:5px;
+    background-color: #94dd7b;
+    border-bottom: 1px solid #63b249;
+    width: 100%;
+    height:50px;
+}

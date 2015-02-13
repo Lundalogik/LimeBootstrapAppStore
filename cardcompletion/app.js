@@ -1,32 +1,136 @@
-lbs.apploader.register('template', function () { // <= Insert name of app here
+lbs.apploader.register('cardcomplete', function () {
     var self = this;
 
-    /*Config (version 2.0)
-        This is the setup of your app. Specify which data and resources that should loaded to set the enviroment of your app.
-        App specific setup for your app to the config section here, i.e self.config.yourPropertiy:'foo'
-        The variabels specified in "config:{}", when you initalize your app are available in in the object "appConfig".
-    */
-    self.config =  function(appConfig){
-            this.yourPropertyDefinedWhenTheAppIsUsed = appConfig.yourProperty;
-            this.dataSources = [];
-            this.resources = {
-                scripts: [], // <= External libs for your apps. Must be a file
-                styles: ['app.css'], // <= Load styling for the app.
-                libs: [] // <= Allready included libs, put not loaded per default. Example json2xml.js
-            };
-    };
-    /*Initialize
-        Initialize happens after the data and recources are loaded but before the view is rendered.
-        Here it is your job to implement the logic of your app, by attaching data and functions to 'viewModel' and then returning it
-        The data you requested along with localization are delivered in the variable viewModel.
-        You may make any modifications you please to it or replace is with a entirely new one before returning it.
-        The returned viewModel will be used to build your app.
-        
-        Node is a reference to the HTML-node where the app is being initalized form. Frankly we do not know when you'll ever need it,
-        but, well, here you have it.
-    */
-    self.initialize = function (node, viewModel) {
-        viewModel.hello = "world";
+    //config
+    this.config = {
+        dataSources: [
+            { type: 'activeInspector' }
+        ],
+
+        cardcompletion: {
+            tables: [{
+                name: "company",
+                fields: [{
+                    name: "phone",
+                    name_sv: "Telefon",
+                    weight: 20
+                },
+                {
+                    name: "www",
+                    name_sv: "Hemsida",
+                    weight: 10
+                },
+                {
+                    name: "postaladdress1",
+                    name_sv: "Postadress 1",
+                    weight: 15
+                },
+                {
+                    name: "postalzipcode",
+                    name_sv: "Postnummer",
+                    weight: 5
+                },
+                {
+                    name: "postalcity",
+                    name_sv: "Postort",
+                    weight: 10
+                },
+                {
+                    name: "registrationno",
+                    name_sv: "Organisationsnummer",
+                    weight: 30
+                },
+                {
+                    name: "buyingstatus",
+                    name_sv: "Kundstatus",
+                    weight: 10
+                }]
+            },
+            {
+                name: "person",
+                fields: [{
+                    name: "phone",
+                    name_sv: "Telefon",
+                    weight: 25
+                },
+                {
+                    name: "mobilephone",
+                    name_sv: "Mobilnummer",
+                    weight: 25
+                },
+                {
+                    name: "email",
+                    name_sv: "Epost",
+                    weight: 40
+                },
+                {
+                    name: "position",
+                    name_sv: "titel",
+                    weight: 10
+                }]
+            }]
+        },
+
+        resources: {
+            scripts: [],
+            styles: ['app.css'],
+            libs: ['json2xml.js']
+        }
+    }
+
+    //initialize
+    this.initialize = function (node, viewModel) {
+
+        //lbs.loader.loadDataSources(viewModel, this.config.dataSources, true)
+        var activeInspector = lbs.loader.loadDataSources({}, [{ type: 'activeInspector', alias: 'activeInspector'}]).activeInspector;
+        viewModel.incompleteFields = ko.observableArray();
+
+        //Use this method to setup you app.
+        //
+        //The data you requested along with activeInspector are delivered in the variable viewModel.
+        //You may make any modifications you please to it or replace is with a entirely new one before returning it.
+        //The returned viewmodel will be used to build your app.
+        var weighedSum = 0;
+        var totalSum = 0;
+
+        $.each(this.config.cardcompletion.tables, function (i, table) {
+            if (lbs.activeClass == table.name) {
+                $.each(table.fields, function (i, field) {
+                    totalSum += field.weight;
+
+
+                    if (activeInspector.hasOwnProperty(field.name)) {
+                        if (eval("activeInspector." + field.name + ".text") != "") {
+                            weighedSum += field.weight;
+                        } else {
+                            viewModel.incompleteFields.push(field);
+                        }
+                    }
+
+                });
+
+                viewModel.completePercent = Math.floor( weighedSum / totalSum * 100);
+            }
+        });
+
+        viewModel.completionRate = ko.computed(function () {
+            if (viewModel.completePercent <= 25) {
+                return "low";
+            }
+            else if (viewModel.completePercent > 25 && viewModel.completePercent <= 50) {
+                return "medium-low";
+            }
+            else if (viewModel.completePercent > 50 && viewModel.completePercent <= 75) {
+                return "medium-high";
+            }
+            else if (viewModel.completePercent > 75) {
+                return "high";
+            }
+        },this);
+
+        viewModel.weighedSum = weighedSum;
+        viewModel.totalSum = totalSum;
+
         return viewModel;
-    };
+    }
 });
