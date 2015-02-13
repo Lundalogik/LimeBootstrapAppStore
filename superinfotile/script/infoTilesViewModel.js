@@ -7,9 +7,9 @@ var infoTilesViewModel = function () {
     self.loadInfoTiles = function () {
         infoTiles(lbs.common.executeVba("superinfotile.LoadInfoTiles"));
     },
-    self.addInfoTile = function () {
-        var infoTile = New infotile();
-        infoTiles.push(infoTile);
+    self.addInfoTile = function (newTile) {
+        
+        infoTiles.push(newTile);
     }
 
 }
