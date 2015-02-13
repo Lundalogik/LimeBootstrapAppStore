@@ -11,7 +11,7 @@ lbs.apploader.register('superinfotile', function () {
         this.updateTimer = appConfig.updateTimer;
         this.dataSources = [];
         this.resources = {
-            scripts: ['script/infotile.js', 'script/infoTilesViewModel.js' ],
+            scripts: ['script/infotile.js', 'script/infoTilesViewModel.js', 'script/infoTilesEditViewModel.js' ],
             styles: ['app.css'],
             libs: []
         };
@@ -22,18 +22,10 @@ lbs.apploader.register('superinfotile', function () {
     self.initialize = function (node,viewmodel) {
 
         viewmodel.infotileViewModel = new infoTilesViewModel();
+        viewmodel.infotileViewModel.loadInfoTiles();
+        viewmodel.edit = ko.observable();
         viewmodel.add = function(){
-            viewmodel.infotileViewModel.addInfoTile(
-                new infotile(
-                    self.config.tileColor,
-                    self.config.filterName, 
-                    self.config.displayText,
-                    self.config.className,
-                    self.config.icon,
-                    self.config.updateTimer
-                )
-            );
-
+            viewmodel.edit(new infoTilesEditViewModel( viewmodel.infotileViewModel));
         };
 
          return viewmodel;

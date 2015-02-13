@@ -1,7 +1,7 @@
 {
 	"name": "Info Tile",
 	"author":"FPE",
-	"status":"Release",
+	"status":"Development",
 	"shortDesc":"The Info Tile is a super simple app, inspired from the Win8 tiles. Supply your favourite LIME Filter and the tile will show the count of the filter and the name.",
 	"versions":[
 		{

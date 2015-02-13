@@ -1,12 +1,12 @@
 var infotile = function(tileColor, filterName, displayText, className, icon, iconPosition, updateTimer){		
 		var self = this;
-		self.tileColor = tileColor;
         self.filterName = filterName;
         self.className = className;
         self.icon = icon;
         self.iconPosition = iconPosition || "right";
+        
 
-        var data = lbs.common.executeVba("infotile.GetInfo," + className + "," + filterName);
+        var data = lbs.common.executeVba("Superinfotile.GetInfo," + className + "," + filterName);
         self.filterValue =  ko.observable(data);            
         if(displayText){
             self.displayText = displayText;
@@ -14,7 +14,7 @@ var infotile = function(tileColor, filterName, displayText, className, icon, ico
             self.displayText = filterName;    
         }
 
-        self.tileColor = function(){
+        getColor = function(){
                 switch(tileColor){
                     case "blue":
                         return "rgb(70, 116, 238)";
@@ -39,18 +39,19 @@ var infotile = function(tileColor, filterName, displayText, className, icon, ico
                     break;
                 }
 
-            }
+            };
+            self.tileColor = getColor();
 
             if(updateTimer){
             	setInterval(function()
             {                                     
                 // Får jag inte ut något värde try catch med felmeddelande i rutan. 
-             	self.filterValue(lbs.common.executeVba("infotile.GetInfo," + className + "," + filterName));                            
+             	self.filterValue(lbs.common.executeVba("Superinfotile.GetInfo," + className + "," + filterName));                            
             },updateTimer);
             }
 
             self.showFilter = function(){
-                lbs.common.executeVba("infotile.ShowFilter," + className + "," + filterName)
+                lbs.common.executeVba("Superinfotile.ShowFilter," + className + "," + filterName)
             }
 
     }
