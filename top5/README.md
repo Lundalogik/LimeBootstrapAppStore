@@ -25,10 +25,12 @@ Public Const sOptionkey As String = "agreement"
 'the date range of how many days back you want to see results
 Public Const dayRange As Integer = 30
 'OPTION SETUP END
-´´´
+Â´Â´Â´
 
+####SQL
 Add the stored procedures from the "/install" folder into your preferred database
  
+####HTML
 Add the following code to the `index.html`:
 
 ```html
