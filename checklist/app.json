@@ -1,45 +1,78 @@
 {
-	"name": "Super Info Tile",
-	"author":"FPE",
-	"status":"Development",
-	"shortDesc":"The Info Tile is a super simple app, inspired from the Win8 tiles. Supply your favourite LIME Filter and the tile will show the count of the filter and the name.",
-	"versions":[
-		{
-			"version":"1.0",
-			"date":"2014-02-06",
-			"comments":"First commit"
-		}
-	],
-	"install": {
+    "name": "Checklist",
+    "author": "FPE",
+    "status": "Release",
+    "shortDesc": "The checklist is a very simpel checklist. It can be used in any case you need someting to keep track of things that should be done.",
+    "versions": [
+        {
+            "version": "1.0",
+            "date": "2014-12-17",
+            "comments": "The intermediate stable beta of the checklist"
+        },
+        {
+            "version": "0.9",
+            "date": "2013-11-18",
+            "comments": "The first stable beta of the checklist"
+        }
+    ],    
+    "dependencies":{
+        "vba_json":"1.0"
+    },
+    "install": {
         "preInstallScript": "",
         "postInstallScript": "",
         "localize": [
             {
-                "owner": "superinfotile",
+                "owner": "checklist",
                 "context": "title",
-                "sv": "Mega super info",
-                "en_us": "Mega super info",
-                "no": "Mega super info",
+                "sv": "Checklista",
+                "en_us": "Checklist",
+                "no": "Checklista",
                 "fi": "Holy shit!"
             },
             {
-                "owner": "superinfotile",
-                "context": "edit",
-                "sv": "Edit",
-                "en_us": "Edit",
-                "no": "Edit",
+                "owner": "checklist",
+                "context": "create",
+                "sv": "Skapa ny",
+                "en_us": "Add new",
+                "no": "Skap ny",
                 "fi": "Mumamamakkkk!"
             }
         ],
         "vba": [
             {
-                "relPath": "install\superinfotiles.bas",
-                "name": "Superinfotiles"
+                "relPath": "Checklist.bas",
+                "name": "Checklist"
             }
         ],
         "tables": [
-
-         
+            {
+                "name": "checklist",
+                "sv": "Checklista",
+                "en_us": "Checklist",
+                "fields": [
+                    {
+                        "name": "title",
+                        "sv": "Titel",
+                        "en_us": "Title"
+                    },
+                    {
+                        "name": "origin",
+                        "sv": "Tillhörighet",
+                        "en_us": "Origin"
+                    },
+                    {
+                        "name": "order",
+                        "sv": "Plats i listan",
+                        "en_us": "Order"
+                    },
+                    {
+                        "name": "mouseover",
+                        "sv": "Utökad beskrivning",
+                        "en_us": "Mouse over message"
+                    }
+                ]
+            }
         ]
     }
 }
