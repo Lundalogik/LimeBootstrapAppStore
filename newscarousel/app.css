@@ -1,11 +1,16 @@
 
 .carousel {
-    /*background-color: orange;*/
+    /*background-color: green;*/
+    margin: 0;
     padding-bottom: 20px;
-    padding-left: 25px;
-    padding-right: 35px;
+    padding-left: 30px;
+    padding-right: 30px;
     padding-top: 5px;
     position: relative;
+}
+
+.carousel-inner {
+    padding: 0;
 }
 
 .carousel-indicators {
@@ -14,9 +19,11 @@
 }
 
 .item {
-    /*background-color: aqua;*/
+    /*background-color: orange;*/
     font-size: 13px;
     font-weight: 400;
+    margin: 0;
+    padding: 0;
     width: 100%;
 }
 
@@ -28,13 +35,12 @@
 .carousel-control {
     /*background-color: red;*/
     font-size: 12px;
-    top: 0;
     height: 100%;
     text-align: center;
+    top: 0;
 }
 
 .carousel-control > i {
-    /*background-color: aqua;*/
     left: 50%;
     position: absolute;
     top: 50%;
