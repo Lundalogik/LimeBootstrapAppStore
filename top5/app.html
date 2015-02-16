@@ -1,0 +1,10 @@
+<div id="modal">
+	<header id="header"><h1 data-bind="text: localize.Top5.header"></h1></header>
+	<section class="toggle">
+    <p class="toggle" data-bind="text: localize.Top5.one + ' ' + top1, icon: 'fa fa-star fa-spin', popover: {text: localize.Top5.total + ': ' + top1value + ' ' + localize.Top5.money, title: 'Simply the best', type: 'custom', color:'magenta', icon: 'fa-bolt', placement: 'top'}, vba:'Top5.SetFilter,' + top1id"></p>
+    <p class="toggle" data-bind="text: localize.Top5.two + ' ' + top2, icon: 'fa-star', popover: {text: localize.Top5.total + ': ' + top2value + ' ' + localize.Top5.money, title: 'Only the second best', type: 'custom', color:'turquoise', icon: 'fa-glass',placement: 'top'}, vba:'Top5.SetFilter,' + top2id"></p>
+	<p class="toggle" data-bind="text: localize.Top5.three + ' ' + top3, icon: 'fa-star', popover: {text: localize.Top5.total + ': ' + top3value + ' ' + localize.Top5.money, title: '3rd one is ok I guess', type: 'custom', color:'citrus', icon: 'fa-child',placement: 'top'}, vba:'Top5.SetFilter,' + top3id"></p>
+	<p class="toggle" data-bind="text: localize.Top5.four + ' ' + top4, icon: 'fa-star', popover: {text: localize.Top5.total + ': ' + top4value + ' ' + localize.Top5.money, title: 'No medal for the 4th', type: 'custom', color:'purple-rain', icon: 'fa-crosshairs',placement: 'top'}, vba:'Top5.SetFilter,' + top4id"></p>
+	<p class="toggle" data-bind="text: localize.Top5.five + ' ' + top5, icon: 'fa-star', popover: {text: localize.Top5.total + ': ' + top5value + ' ' + localize.Top5.money, title: 'Fifth? More like filth!', type: 'custom', color:'deep-red', icon: 'fa-bomb',placement: 'top'}, vba:'Top5.SetFilter,' + top5id"></p>
+	</section>
+</div>

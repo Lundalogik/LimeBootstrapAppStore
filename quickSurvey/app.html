@@ -1,0 +1,32 @@
+<div class="content-container alert alert-info">
+	<div class="yo">
+    <!-- ko if: qtype() === 'information' -->
+    <h5 data-bind="text: text, icon:'fa-exclamation'" ></h5>
+    	<button class="btn btn-lime btn-default" data-bind="vba:'Yo.SaveAnswer, OK, ' + id()">OK</button>
+	<!-- /ko -->
+	<!-- ko if: qtype() === 'yesno'-->
+
+    <h5 data-bind="text: text, icon:'fa-question'" ></h5>
+	<div class="btn-group" role="group" aria-label="...">
+
+    	<button class="btn  btn-default" data-bind="vba:'Yo.SaveAnswer, Ja,' + id()">Ja</button>
+    	<button class="btn btn-default" data-bind="vba:'Yo.SaveAnswer, Kanske,' + id()">Kanske</button>
+    	<button class="btn btn-default" data-bind="vba:'Yo.SaveAnswer, Nej, ' + id()">Nej</button>
+    	</div>
+	<!-- /ko -->
+	<!-- ko if: qtype() === 'freetext' -->
+
+    <h5 data-bind="text: text, icon:'fa-question'" ></h5>
+    	<div class="input-group">
+       <input type="text" databind="value:answer()" id="answer" class="form-control" placeholder="Skriv här..."></input>
+
+        <button class="btn btn-default" type="button"  data-bind="click:SaveAnswer">Skicka</button>
+	
+    </div><!-- /input-group -->
+
+	<!-- /ko --></div>
+</div>
+
+
+
+

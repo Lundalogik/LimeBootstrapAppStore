@@ -1,0 +1,41 @@
+  article, aside, figure, footer, header, hgroup, 
+  menu, nav, section { display: block; }
+  #modal {
+    border: 1px solid #CCC;
+    box-shadow: 0 1px 5px #CCC;
+    border-radius: 5px;
+    font-family: verdana;
+    margin: 25px auto;
+    overflow: hidden;
+  }
+  #modal header {
+    background: #f1f1f1;
+    background-image: -webkit-linear-gradient( top, #f1f1f1, #CCC );
+    background-image: -ms-linear-gradient( top, #f1f1f1, #CCC );
+    background-image: -moz-linear-gradient( top, #f1f1f1, #CCC );
+    background-image: -o-linear-gradient( top, #f1f1f1, #CCC );
+    box-shadow: 0 1px 2px #888;
+    padding: 10px;
+	cursor: pointer;
+  }
+  #modal h1 {
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    font-weight: normal;
+    text-shadow: 0 1px 2px white;
+    color: #888;
+    text-align: center;
+  }
+  #modal section {
+	height: 170px;
+    padding: 10px 30px; 
+    font-size: 12px;
+    line-height: 175%;
+    color: #333;
+  }
+  #modal p {
+	font-family: verdana;
+	color: #888;
+	cursor: pointer;
+  }

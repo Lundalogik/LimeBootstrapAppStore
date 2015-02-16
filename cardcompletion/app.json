@@ -1,0 +1,16 @@
+{
+	"name": "Card Complete",
+	"author":"SSM, PDE, MFA, JLI, SEK, ADE",
+	"status":"Development",
+	"shortDesc":"Improve the quality of your data with this maginficent app!",
+	"versions":[
+		{
+			"version":"1.0",
+			"date":"2015-02-13",
+			"comments":" First version"
+		}
+	],
+	"install":{
+		
+	}
+}
