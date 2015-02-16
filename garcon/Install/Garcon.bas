@@ -33,7 +33,7 @@ Public Sub ShowFilter(ByVal lngidgarcon_settings As Long)
     
     sWarning = "Garcon served a filter not working!"
     
-    Call oRecord.Open(Application.Database.Classes("garcon_settings"), lngidgarcon_settings)
+    Call oRecord.Open(Application.Database.Classes("garconsettings"), lngidgarcon_settings)
     sExplorer = oRecord.Text("explorer")
     sFilterName = oRecord.Text("name")
     If Application.Explorers.Exists(sExplorer) Then
@@ -64,8 +64,10 @@ On Error GoTo ErrorHandler
     Dim lngHitcount As Long
     
     Call oFilter.AddCondition("coworker", lkOpEqual, ActiveUser.Record.ID)
+    Call oFilter.AddCondition("all", lkOpEqual, 1)
+    Call oFilter.AddOperator(lkOpOr)
     
-    Call oRecords.Open(Application.Database.Classes("garcon_settings"), oFilter)
+    Call oRecords.Open(Application.Database.Classes("garconsettings"), oFilter)
     
     FetchFiltersXML = "<filters>"
     
@@ -75,7 +77,7 @@ On Error GoTo ErrorHandler
             If lngHitcount >= 0 Then
                 If ((lngHitcount = 0 And oRecord.Value("visibleonzero") = 1) Or (lngHitcount > 0)) Then
                     FetchFiltersXML = FetchFiltersXML + "<filter>" _
-                        & "<idgarcon_settings>" & VBA.CStr(oRecord.ID) & "</idgarcon_settings>" _
+                        & "<idgarconsettings>" & VBA.CStr(oRecord.ID) & "</idgarconsettings>" _
                         & "<explorer>" & oRecord.Text("explorer") & "</explorer>" _
                         & "<name>" & oRecord.Text("name") & "</name>" _
                         & "<color>" & oRecord.Text("color") & "</color>" _

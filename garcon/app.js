@@ -17,19 +17,19 @@ lbs.apploader.register('garcon', function () {
     //initialize
     self.initialize = function (node,viewmodel) {
 
-		function garconItem(label, color,hitcount, icon, idgarcon_settings) {
+		function garconItem(label, color,hitcount, icon, idgarconsettings) {
             var me = this;
  
             me.label = label;
             me.color = color;
 			me.hitcount = hitcount;
             me.icon = icon;
-            me.idgarcon_settings = idgarcon_settings;// || "";
+            me.idgarconsettings = idgarconsettings;// || "";
 
             
             me.clicked = function(){
                 try{
-					lbs.common.executeVba("Garcon.ShowFilter," + me.idgarcon_settings);
+					lbs.common.executeVba("Garcon.ShowFilter," + me.idgarconsettings);
                 }catch(e){
                     alert(e);  
                 }
@@ -74,7 +74,7 @@ lbs.apploader.register('garcon', function () {
                     rawGarconItem.color ,
 					rawGarconItem.hitcount ,
                     rawGarconItem.icon, 
-                    rawGarconItem.idgarcon_settings
+                    rawGarconItem.idgarconsettings
                     );     
 					
         }
