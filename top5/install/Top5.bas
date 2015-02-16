@@ -48,6 +48,8 @@ Public Sub SetFilter(ByVal idcoworker As Long)
     Call oFilter.AddCondition("businesstatus", lkOpEqual, lOptionValue)
     Call oFilter.AddCondition("coworker", lkOpEqual, idcoworker)
     Call oFilter.AddOperator(lkOpAnd)
+    Call oFilter.AddCondition("quotesent", lkOpGreaterOrEqual, DateAdd("d", -dayRange, Date))
+    Call oFilter.AddOperator(lkOpAnd)
     
     Set pExplorer = Application.Explorers("business")
     

@@ -17,7 +17,7 @@ AS
 BEGIN
 	-- FLAG_EXTERNALACCESS --
 
-	Select top 5 c.name, c.idcoworker, CAST(sum(b.businessvalue) as bigint) as businessvalue from business b inner join coworker c on b.coworker = c.idcoworker where b.quotesent >= DATEADD(day, -@@dayrange, getdate()) and b.businesstatus = @@businessstatus
+	Select top 5 c.name, c.idcoworker, CAST(sum(b.businessvalue) as bigint) as businessvalue from business b inner join coworker c on b.coworker = c.idcoworker where b.quotesent >= DATEADD(day, -@@dayrange, convert(date, getdate())) and b.businesstatus = @@businessstatus
 		group by c.[name], c.[idcoworker] 
 		order by [businessvalue] desc 
 		FOR XML RAW ('value'), TYPE, ROOT ('top5');
