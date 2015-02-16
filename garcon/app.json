@@ -1,0 +1,17 @@
+{
+	"name": "Garcon",
+	"author":"MOL",
+	"status":"Beta",
+	"shortDesc":"Supply your favourite LIME Filter and the tile will show the count of the filter and the name.",
+	"versions":[
+		
+		{
+			"version":"1.0",
+			"date":"2015-02-16",
+			"comments":"First commit"
+		}
+	],
+	"install":{
+		
+	}
+}

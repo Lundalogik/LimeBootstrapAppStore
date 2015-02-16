@@ -1,0 +1,43 @@
+<!-- ko if: garcon().length > 0 -->
+<ul class="menu expandable">
+<li class="menu-header"data-bind="text:'Garcon'"></li> 
+	<li class="divider"></li>	
+	
+    <li>
+ <!-- ko foreach: garcon -->
+		
+		<div class="infotile" data-bind="click:clicked , style:{'background-color': tileColor(color)}">
+		
+		<h1 class="value"   >
+        <span class="value" data-bind="text:hitcount"></span>
+			<span class="icon-left" data-bind="icon:icon"> </span>
+			
+			
+			<span class="name" data-bind="text:label"></span>
+			
+			
+		</h1>
+
+	</div>
+	
+	<!-- /ko -->
+	</li>
+	<li >
+	<div class="refresh" data-bind="click:refresh ">
+		
+		<h1 class="value"   >
+        
+			<span class="icon-left" data-bind="icon:'fa-refresh'"> </span>
+			
+			
+			<span class="refresh" data-bind="text:' '"></span>
+			
+			
+		</h1>
+
+	</div>
+	</li>
+	</ul>
+<!-- /ko -->
+ 
+

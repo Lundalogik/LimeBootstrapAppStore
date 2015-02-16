@@ -1,0 +1,73 @@
+.narrow{
+margin-top:-20px;
+
+padding: 0px;
+
+	}
+.infotile{
+
+ margin-top:-20px;
+  margin-left: -10px;
+  margin-right: -10px;
+  border-right-color: rgba(0, 0, 0, 0);
+  border-right-style: solid;
+  border-right-width: 1px;
+  position: relative;
+  height: 38px; /*110px*/
+  color: #FFF;
+  cursor: pointer;
+border-bottom-color: rgba(0, 0, 0, 0);
+border-radius: 1px;
+border-bottom-style: solid;
+border-bottom-width: 1px;
+box-shadow: rgba(0, 0, 0, 0.0784314) 0px 2px 1px 0px;
+}
+.refresh{
+  margin: 10px;
+  margin-left: 5px;
+  margin-right: -10px;
+
+  position: relative;
+  height: 28px; /*110px*/
+  color: #0000;
+  cursor: pointer;
+}
+
+.infotile:hover{
+
+}
+
+.infotile .name{
+padding-top: 0px;
+font-size: 14px;
+text-align: left;
+color: #FFF;
+margin-left: 0px;
+text-overflow: ellipsis;
+vertical-align:middle;
+white-space: nowrap;
+overflow: hidden
+
+}
+.infotile .refresh{
+
+
+}
+.infotile .value{
+  font-size: 28px; /*54px*/
+  text-align: left;
+  margin-left: 10px;
+  padding-top: 5px;
+  margin-bottom: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.infotile .fa-fw {
+  width: inherit;
+  font-size: 20px;
+  vertical-align:middle;
+  text-align: left;
+  margin-bottom:0px;
+}
