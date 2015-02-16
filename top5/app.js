@@ -24,14 +24,17 @@ lbs.apploader.register('top5', function () {
 
     //initialize
     this.initialize = function (node, viewModel) {
-		
-		var data = viewModel.top5.data.top5.value;
-		
-		if (!Array.isArray(data.value)) {
-            var arr = [data.value];
-            data.value = arr;
-        }
-
+		var data;
+		if (!viewModel.top5.data) {
+			data = [];
+		}
+		else {
+			data = viewModel.top5.data.top5.value;
+			if (!Array.isArray(data)) {
+				var arr = [data];
+				data = arr;
+			}
+		};
         //Use this method to setup you app. 
         //
         //The data you requested along with activeInspector are delivered in the variable viewModel.
