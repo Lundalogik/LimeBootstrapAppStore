@@ -63,9 +63,11 @@ On Error GoTo ErrorHandler
     Dim oView As New LDE.View
     Dim lngHitcount As Long
     
+    Call oFilter.AddCondition("active", lkOpEqual, 1)
     Call oFilter.AddCondition("coworker", lkOpEqual, ActiveUser.Record.ID)
     Call oFilter.AddCondition("all", lkOpEqual, 1)
     Call oFilter.AddOperator(lkOpOr)
+    Call oFilter.AddOperator(lkOpAnd)
     
     Call oRecords.Open(Application.Database.Classes("garconsettings"), oFilter)
     
