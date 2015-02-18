@@ -16,8 +16,6 @@ lbs.apploader.register('companytree', function () {
             };
     };
 
-    //initialize---------------------------
-
     /*Initialize
         Initialize happens after the data and recources are loaded but before the view is rendered.
         Here it is your job to implement the logic of your app, by attaching data and functions to 'viewModel' and then returning it
@@ -31,212 +29,199 @@ lbs.apploader.register('companytree', function () {
     self.initialize = function (node, viewModel) {
         var appConfig = self.config.appConfig;
 
-        self.vm = function(){
-          var self = this;
-          self.config = appConfig;
+        viewModel.type = ko.observable();
+        var yscale = 1;
+        var xscale = 1;
 
-          self.type = ko.observable();
-          var yscale = 1;
-          var xscale = 1;
+        if(appConfig.type === undefined){
+          viewModel.type("list");
+        }
+        else{
+          viewModel.type(appConfig.type);
+        }
 
-          if(self.config.type === undefined){
-            self.type("list");
+        if(viewModel.type()==='windowed'){
+         
+          var idrecord = lbs.common.executeVba("CompanyHierarchy.GetRecordID," + viewModel.type());
+
+          var json = lbs.common.executeVba("CompanyHierarchy.GetHierarchy," + idrecord + ", " + appConfig.persons)         
+          viewModel.data = $.parseJSON(json);
+          
+          var margin = {top: 30, right: 20, bottom: 30, left: 120};
+          var i = 0,
+              duration = 750,
+              root;
+
+          var width = ko.observable($(window).width());
+          var height = ko.observable($(window).height());
+
+          var tree = d3.layout.tree()
+              .size([height(), width() - 30]);
+
+          var diagonal = d3.svg.diagonal()
+              .projection(function(d) { return [d.y, d.x]; });
+
+          var svg = d3.select("#treecontainer" + viewModel.type()).append("svg")
+              .attr("width", width() + margin.right + margin.left)
+              .attr("height", height() + margin.top + margin.bottom)
+              .append("g")
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+          var nodes = tree.nodes(viewModel.data);
+          var root = nodes[0];
+        }
+
+        collapse = function(d) {
+          if (d.children) {
+            d._children = d.children;
+            d._children.forEach(collapse);
+            d.children = null;
           }
-          else{
-            self.type(self.config.type);
-          }
+        }
 
-          if(self.type()==='windowed'){
-           
-            var idrecord = lbs.common.executeVba("CompanyTree.GetRecordID," + self.type());
+        update = function(source){
 
-            var json = lbs.common.executeVba("CompanyTree.GetHierarchy," + idrecord)
-            self.data = $.parseJSON(json);
-            
-            var margin = {top: 20, right: 20, bottom: 20, left: 120};
-            var i = 0,
-                duration = 750,
-                root;
-
-            var width = ko.computed(function(){
-                return $(window).width();
-            });
-            var height = ko.computed(function(){
-                return $(window).height();
-            });
-
-            var tree = d3.layout.tree()
-                .size([height(), width() - 30]);
-
-            var diagonal = d3.svg.diagonal()
-                .projection(function(d) { return [d.y, d.x]; });
-
-            var svg = d3.select("#treecontainer" + type()).append("svg")
-                .attr("width", width() + margin.right + margin.left)
-                .attr("height", height() + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-            var nodes = tree.nodes(self.data);
-
-            var root = nodes[0];
-          }
-
-          self.collapse = function(d) {
-            if (d.children) {
-              d._children = d.children;
-              d._children.forEach(collapse);
-              d.children = null;
+          var nodes = tree.nodes(root).reverse();
+  
+          var links = tree.links(nodes);
+          
+          var maxDepth = 0;
+          nodes.forEach(function(d){
+            if(d.depth > maxDepth){
+              maxDepth = d.depth;
             }
-          }
+          });
 
-          self.update = function(source){
+          nodes.forEach(function(d) { d.y = d.depth * width() / (1.5*maxDepth ); });
 
-            var nodes = tree.nodes(root).reverse();
-    
-            var links = tree.links(nodes);
-            var maxDepth = 0;
-            nodes.forEach(function(d){
-              if(d.depth > maxDepth){
-                maxDepth = d.depth;
-              }
-            });
-            nodes.forEach(function(d) { d.y = d.depth * width() / (1.5*maxDepth ); });
+          var node = svg.selectAll("g.node")
+              .data(nodes, function(d) { return d.id || (d.id = ++i); });
 
-            var node = svg.selectAll("g.node")
-                .data(nodes, function(d) { return d.id || (d.id = ++i); });
+          // Enter any new nodes at the parent's previous position.
+          var nodeEnter = node.enter().append("g")
+              .attr("class", "node")
+              .attr("transform", function(d) {return "translate(" + source.y0 + "," + source.x0 + ")"; });
 
-            // Enter any new nodes at the parent's previous position.
-            var nodeEnter = node.enter().append("g")
-                .attr("class", "node")
-                .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; });
+          nodeEnter.append("circle")
+              .attr("r", 1e-6)
+              .attr("class",function(d){ return d.type;})
+              .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; })
+              .on("click", click);
 
+          nodeEnter.append("text")
+              .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+              .attr("dy", ".35em")
+              .attr("style", function(d){ return (d.idrecord == idrecord && d.type == "company" ? "font-weight: bold; font-size: 13px; "  : "font-size: 11px; ") + "cursor: pointer;"})
+              .attr("name", function(d){return d.name})
+              .attr("id", function(d){return d.type + d.idrecord;})
+              .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+              // .attr("data-bind", function(d){ return d.info != "" ? "popover: {text: '" + d.info + "', type: 'info'}" : "";})
+              .text(function(d) { return d.name; })
+              .style("fill-opacity", 1e-6)
+              .on("click",openRecord);
 
-            nodeEnter.append("circle")
-                .attr("r", 1e-6)
-                .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; })
-                .on("click", click);
+          // Transition nodes to their new position.
+          var nodeUpdate = node.transition()
+              .duration(duration)
+              .attr("transform", function(d) {d.y = (isNaN(d.y) ? height()/2: d.y); return "translate(" + d.y + "," + d.x + ")"; });
 
-            nodeEnter.append("text")
-                .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
-                .attr("dy", ".35em")
-                .attr("style", function(d){ return (d.idrecord == idrecord ? "font-weight: bold; font-size: 13px; "  : "font-size: 11px; ") + "cursor: pointer;"})
-                .attr("idrecord", function(d){return d.name})
-                .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-                .text(function(d) { return d.name; })
-                .style("fill-opacity", 1e-6)
-                .on("click",openRecord);
+          nodeUpdate.select("circle")
+              .attr("r", 4.5)
+              .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
 
-            // Transition nodes to their new position.
-            var nodeUpdate = node.transition()
-                .duration(duration)
-                .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+          nodeUpdate.select("text")
+              .style("fill-opacity", 1);
 
-            nodeUpdate.select("circle")
-                .attr("r", 4.5)
-                .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+          // Transition exiting nodes to the parent's new position.
+          var nodeExit = node.exit().transition()
+              .duration(duration)
+              .attr("transform", function(d) {return "translate(" + source.y + "," + source.x + ")"; })
+              .remove();
 
-            nodeUpdate.select("text")
-                .style("fill-opacity", 1);
+          nodeExit.select("circle")
+              .attr("r", 1e-6);
 
-            // Transition exiting nodes to the parent's new position.
-            var nodeExit = node.exit().transition()
-                .duration(duration)
-                .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
-                .remove();
+          nodeExit.select("text")
+              .style("fill-opacity", 1e-6);
 
-            nodeExit.select("circle")
-                .attr("r", 1e-6);
-
-            nodeExit.select("text")
-                .style("fill-opacity", 1e-6);
-
-            // Update the links…
-            var link = svg.selectAll("path.link")
-                .data(links, function(d) { return d.target.id; });
-
-            // Enter any new links at the parent's previous position.
-            link.enter().insert("path", "g")
-                .attr("class", "link")
-                .attr("d", function(d) {
-                  var o = {x: source.x0, y: source.y0};
-                  return diagonal({source: o, target: o});
-                });
-
-            // Transition links to their new position.
-            link.transition()
-                .duration(duration)
-                .attr("d", diagonal);
-
-            // Transition exiting nodes to the parent's new position.
-            link.exit().transition()
-                .duration(duration)
-                .attr("d", function(d) {
-                  var o = {x: source.x, y: source.y};
-                  return diagonal({source: o, target: o});
-                })
-                .remove();
-
-            // Stash the old positions for transition.
-            nodes.forEach(function(d) {
-              d.x0 = d.x;
-              d.y0 = d.y;
-            });
-
-          }
-
-          function click(d) {
-            if (d.children) {
-              d._children = d.children;
-              d.children = null;
-            } else {
-              d.children = d._children;
-              d._children = null;
-            }
-            update(d);
-          }
-
-          function openRecord(d){
+          // Update the links…
+          var link = svg.selectAll("path.link")
+              .data(links, function(d) { return d.target.id; });
               
-              var link = lbs.common.createLimeLink('company', d.idrecord);
-              window.open('','_parent','');
-              window.close();
-              lbs.common.executeVba('CompanyTree.OpenCompanyRecord,' + link)
-              
+          // Enter any new links at the parent's previous position.
+          link.enter().insert("path", "g")
+              .attr("class", "link")
+              .attr("stroke-dasharray",function(d){ return d.target.type == "company" ? "10000,10000" : "5,5";})
+              .attr("d", function(d) {
+                var o = {x: source.x0, y: source.y0};
+                return diagonal({source: o, target: o});
+              });
 
-          }
-          if(type() == 'windowed'){
-            if(root.children === undefined){
-              self.collapse(root);
-              self.update(root);
-            }
-            else{
-              root.children.forEach(collapse);
-              self.update(root.children);
-            }
+          // Transition links to their new position.
+          link.transition()
+              .duration(duration)
+              .attr("d", diagonal);
 
-            nodes.forEach(function(d){
-              if(d.idrecord == idrecord){
-                toggleParent(d)
-              }
-            });
-          }
+          // Transition exiting nodes to the parent's new position.
+          link.exit().transition()
+              .duration(duration)
+              .attr("d", function(d) {
+                var o = {x: source.x, y: source.y};
+                return diagonal({source: o, target: o});
+              })
+              .remove();
 
-          function toggleParent(d){
-            if(d.parent !== undefined){
-              click(d);
-              toggleParent(d.parent);
-            }
-          }
+          // Stash the old positions for transition.
+          nodes.forEach(function(d) {
+            d.x0 = d.x;
+            d.y0 = d.y;
+          });
 
         }
 
-        $(window).resize(function(){
+        function toggleParent(d){
+          if(d.parent !== undefined && d.type == "company"){
+            click(d);
+            toggleParent(d.parent);
+          }
+        }
 
-        })
-        return self.vm;
+        function click(d) {
+          if (d.children) {
+            d._children = d.children;
+            d.children = null;
+          } else {
+            d.children = d._children;
+            d._children = null;
+          }
+          update(d);
+        }
 
-    };
+        function openRecord(d){
+            
+            var link = lbs.common.createLimeLink(d.type, d.idrecord);
+            window.open('','_parent','');
+            window.close();
+            lbs.common.executeVba('CompanyHierarchy.OpenCompanyRecord,' + link)
+        }
 
+        if(viewModel.type() == 'windowed'){
+          if(root.children === undefined){
+            collapse(root);
+            update(root);
+          }
+          else{
+            root.children.forEach(collapse);
+            update(root.children);
+          }
 
+          nodes.forEach(function(d){
+            if(d.idrecord == idrecord){
+              toggleParent(d)
+            }
+          });
+        }
+
+        return viewModel;
+    }
 });

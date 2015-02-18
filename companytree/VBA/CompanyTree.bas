@@ -1,4 +1,6 @@
-Attribute VB_Name = "CompanyTree"
+Declare Function GetSystemMetrics32 Lib "user32" _
+    Alias "GetSystemMetrics" (ByVal nIndex As Long) As Long
+
 Public Function GetRecordID(ByVal sType As String) As Long
     On Error GoTo ErrorHandler
     GetRecordID = -1
@@ -21,7 +23,7 @@ ErrorHandler:
 End Function
 
 
-Public Function GetHierarchy(ByVal idcompany As Long) As String
+Public Function GetHierarchy(ByVal idcompany As Long, ByVal includperson As Integer) As String
     On Error GoTo ErrorHandler
     Dim oProc As LDE.Procedure
     Dim retval As String
@@ -29,6 +31,7 @@ Public Function GetHierarchy(ByVal idcompany As Long) As String
     Set oProc = Database.Procedures.Lookup("csp_get_company_hierarchy", lkLookupProcedureByName)
     If Not oProc Is Nothing Then
         oProc.Parameters("@@idcompany").InputValue = idcompany
+        oProc.Parameters("@@includeperson").InputValue = includperson
         Call oProc.Execute(False)
         retval = oProc.Parameters("@@retval").OutputValue
     End If
@@ -48,6 +51,8 @@ Public Sub OpenCompanyTree()
     If Globals.VerifyInspector("company", ActiveInspector, False) Then
         oDialog.Type = lkDialogHTML
         oDialog.Property("url") = Application.WebFolder & "lbs.html?ap=companytree&type=tab"
+        oDialog.Property("height") = 0.9 * GetSystemMetrics32(1)
+        oDialog.Property("width") = 0.8 * GetSystemMetrics32(0)
         oDialog.show
         Exit Sub
     End If
@@ -58,6 +63,8 @@ Public Sub OpenCompanyTree()
         End If
         oDialog.Type = lkDialogHTML
         oDialog.Property("url") = Application.WebFolder & "lbs.html?ap=companytree&type=tab"
+        oDialog.Property("height") = 0.9 * GetSystemMetrics32(1)
+        oDialog.Property("width") = 0.8 * GetSystemMetrics32(0)
         oDialog.show
         Exit Sub
     End If
@@ -76,3 +83,4 @@ Public Sub OpenCompanyRecord(ByVal sLimeLink As String)
 ErrorHandler:
     UI.ShowError ("CompanyTree.OpenCompanyTree")
 End Sub
+

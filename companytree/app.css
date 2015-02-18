@@ -1,6 +1,13 @@
-.node circle {
+.node circle.company{
   fill: #fff;
   stroke: steelblue;
+  stroke-width: 1.5px;
+  /*z-index: 1001;*/
+}
+
+.node circle.person{
+  fill: #fff;
+  stroke: #c2b800;
   stroke-width: 1.5px;
   /*z-index: 1001;*/
 }
@@ -8,6 +15,12 @@
 .node circle:hover {
   fill: #eee;
   stroke: #1E90FF;
+  cursor: pointer;
+}
+
+.node circle.person:hover {
+  fill: #eee;
+  stroke: #c2b800;
   cursor: pointer;
 }
 
@@ -29,8 +42,9 @@
 }
 
 #treecontainerwindowed{
-  height: 100%;
-  width: 100%;
-  margin-left: 0%;
-  margin-top: -5%;
+  height: 105%;
+  width: 105%;
+  margin-left: -1%;
+  margin-top: -2%;
+  background-color: #fff;
 }
