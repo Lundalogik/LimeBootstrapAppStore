@@ -1,12 +1,17 @@
 {
 	"name": "History flow",
 	"author":"Andreas & Jonatan ",
-	"status":"Development",
+	"status":"Release",
 	"versions":[
 		{
 			"version":"0.1",
 			"date":"2015-02-13",
 			"comments":"Creation"
+		},
+		{
+			"version":"1.0",
+			"date":"2015-02-18",
+			"comments":"Release!"
 		}
 	],
 	"install":{
