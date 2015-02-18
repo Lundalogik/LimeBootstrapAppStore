@@ -26,5 +26,3 @@ Import the module CompanyTree.bas from the VBA folder into the Lime database.
 Add the following code to the company actionpad or the index actionpad:
     
 	<div data-app="{app: 'companytree', config:{}}"></div>
-
-CREATED BY: JKA
