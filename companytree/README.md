@@ -1,4 +1,4 @@
-#  companytree #
+#  Company Tree #
 
 Companytree is an app for visualizing corporate structures in a tree overview.
 
