@@ -8,12 +8,12 @@
 		{
 			"version":"0.1",
 			"date":"2015-01-29",
-			"comments":"Creation",
+			"comments":"Creation"
 		},
 		{
 			"version":"1.0",
 			"date":"2015-02-18",
-			"comments":"Fixed bugs and added support for contact persons.",
+			"comments":"Fixed bugs and added support for contact persons."
 		}
 	],
 	"install":{
