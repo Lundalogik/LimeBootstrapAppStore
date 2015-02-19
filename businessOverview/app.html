@@ -1,0 +1,15 @@
+
+<div id="historyContainer" class="container orange" data-bind="vba:'app_BusinessOverview.openTab, history'">
+    <p data-bind="visible:businessoverview.data.History.row.Last_contact > 0"><strong data-bind="text: businessoverview.data.History.row.Last_contact"> </strong>  day since last contact</p>
+    <p data-bind="visible:businessoverview.data.History.row.Last_contact == 0"><strong data-bind="text: businessoverview.data.History.row.Last_contact"> </strong>  days since last contact</p>
+    <p data-bind="visible:businessoverview.data.History.row.Last_contact == -1">No history on this customer</p>
+</div>
+<div id="businessContainer" class="container green" data-bind="vba:'app_BusinessOverview.openTab, business'">
+	<!-- You can freely change the names that follows the different total sums, if the sums overflows the actionpad -->
+    <p> <strong data-bind="text: businessoverview.data.Business.Total_opportunity.value.Total"> </strong> Sales opp.  </p>
+    <p> <strong data-bind="text: businessoverview.data.Business.Total_won.value.Total"> </strong> Total won </p>
+</div>
+<div id="helpdeskContainer" class="container red" data-bind="vba:'app_BusinessOverview.openTab, helpdesk'">
+    <p> <strong data-bind="text: businessoverview.data.Helpdesk.row.Antall_aktive"> </strong> Active SOS! </p>
+     <p> <strong data-bind="text: businessoverview.data.Helpdesk.Total.value.Total_helpdesk"> </strong> In Total </p>
+</div>

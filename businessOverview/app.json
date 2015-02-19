@@ -1,0 +1,26 @@
+{
+	"name": "Business Overview",
+	"author":"JSV",
+	"status":"Beta",
+	"shortDesc":"Helps you get a quick overview then viewing a customer",
+	"versions":[
+		{
+			"version":"1.0",
+			"date":"2015-02-13",
+			"comments":"First release"
+		},
+		{
+			"version":"1.0",
+			"date":"2015-02-13",
+			"comments":"Namespacing of CSS"
+		},
+		{
+			"version":"0.9",
+			"date":"2013-11-18",
+			"comments":"The first stable beta of the helpdeskstatistics"
+		}
+	],
+	"install":{
+		
+	}
+}
