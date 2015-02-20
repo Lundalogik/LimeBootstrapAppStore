@@ -31,3 +31,8 @@ Installation
 Setup
 ---
 The app should not need any further setup. Go to the News tab in LIME Pro and add your first news!
+
+Technical info
+---
+The news texts can be formatted using [Markdown](http://daringfireball.net/projects/markdown/syntax).
+News are loaded into the app on startup, so you need to restart the client in order to see changes made.
