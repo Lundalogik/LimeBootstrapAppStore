@@ -1,0 +1,21 @@
+{
+	"name": "Yo!",
+	"author":"BOS,CBE,MJO,JKA",
+	"status":"Release",
+	"shortDesc" : "App for sending out quick surveys",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2015-02-13",
+			"comments":"Creating"
+		},
+		{
+			"version":"1.0",
+			"date":"2015-02-13",
+			"comments":"Creating"
+		}
+	],
+	"install":{
+		
+	}
+}

@@ -1,0 +1,37 @@
+ <!-- ko if: qtype() !== '' -->
+<div class="container alert alert-info">
+	<div class="fa fa-4x pull-left yo-icon" data-bind="css:{'fa-exclamation' : qtype() == 'information', 'fa-question' : qtype() != 'information'}">
+	</div>
+	<div class="yo pull-right">
+	    <!-- ko if: qtype() === 'information' -->
+	    <div class="survey-header-right" data-bind="text: text" ></div>
+	    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+    		<button class="btn btn-lime btn-default button" data-bind="click:SaveAnswer.bind($data, 'OK', id())">OK</button>
+    	</div>
+		<!-- /ko -->
+
+		<!-- ko if: qtype() === 'yesno'-->
+	    <div class="survey-header-right" data-bind="text: text" ></div>
+
+		<div class="btn-group btn-group-sm" role="group" aria-label="...">
+	    	<button class="btn btn-default" data-bind="click:SaveAnswer.bind($data, 'Ja', id())">Ja</button>
+	    	<button class="btn btn-default" data-bind="click:SaveAnswer.bind($data, 'Kanske', id())">Kanske</button>
+	    	<button class="btn btn-default" data-bind="click:SaveAnswer.bind($data, 'Nej', id())">Nej</button>
+    	</div>
+
+		<!-- /ko -->
+
+		<!-- ko if: qtype() === 'freetext' -->		
+	    <div class="survey-header-right" data-bind="text: text" ></div>
+		<div class="input-group input-group-sm">
+	       	<input class="form-control yo-form" type="text" data-bind="value:answer, valueUpdate: 'afterkeydown'" placeholder="Skriv här..."></input>
+	       	<button class="input-group-addon yo-form" type="button"  data-bind="click:SaveAnswer.bind($data, answer(), id())">Skicka</button>		
+    	</div>
+		<!-- /ko -->
+	</div>
+</div>
+<!-- /ko -->
+
+
+
+

@@ -12,6 +12,7 @@ Public Function GetQuestionsXML() As String
     Dim oRecords As New LDE.Records
     Dim oRecord As LDE.Record
     Dim oView As New LDE.View
+    Dim oCreatedCoworker As New LDE.Record
     
     'get idquestion for the coworkers answers
     Call oQuestionExcludeFilter.AddCondition("answer.coworker", lkOpEqual, ActiveUser.Record.ID)
@@ -28,22 +29,29 @@ Public Function GetQuestionsXML() As String
     Call oView.Add("urgent", lkSortDescending)
     Call oView.Add("showfrom", lkSortDescending)
     Call oView.Add("showto", lkSortAscending)
+    Call oView.Add("range")
+    
+    
     
     Call oRecords.Open(Database.Classes("question"), oQuestionFilter, oView, 1)
     questionXML = "<yo>"
     
     For Each oRecord In oRecords
         'Build XML...
-        questionXML = questionXML & "<id>"
-        questionXML = questionXML & oRecord.ID
-        questionXML = questionXML & "</id>"
-        questionXML = questionXML & "<text>"
-        questionXML = questionXML & oRecord.Text("text")
-        questionXML = questionXML & "</text>"
-        questionXML = questionXML & "<type>"
-        questionXML = questionXML & oRecord.GetOptionKey("type")
-        questionXML = questionXML & "</type>"
+        Call oCreatedCoworker.Open(Database.Classes("coworker"), oRecord.CreatedBy, "office")
+        If (oRecord.GetOptionKey("range") = "my" And oCreatedCoworker.Value("office") = ActiveUser.Record.Value("office")) Or oRecord.GetOptionKey("range") = "all" Then
+            questionXML = questionXML & "<id>"
+            questionXML = questionXML & oRecord.ID
+            questionXML = questionXML & "</id>"
+            questionXML = questionXML & "<text>"
+            questionXML = questionXML & oRecord.Text("text")
+            questionXML = questionXML & "</text>"
+            questionXML = questionXML & "<type>"
+            questionXML = questionXML & oRecord.GetOptionKey("type")
+            questionXML = questionXML & "</type>"
+        End If
     Next oRecord
+    
     questionXML = questionXML & "</yo>"
     
     
