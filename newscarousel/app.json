@@ -1,13 +1,18 @@
 {
     "name": "News Carousel",
-    "author": "Team TFAN",
+    "author": "Tomas Eketorp, Fredrik Eriksson, Niklas Olsson, Adrian Schmidt",
     "status": "Development",
-    "shortDesc": "",
+    "shortDesc": "Your own info channel within LIME Pro.",
     "versions": [
+        {
+            "version": "0.9",
+            "date": "2015-02-20",
+            "comments": "RC1"
+        },
         {
             "version": "0.1",
             "date": "2015-02-13",
-            "comments": ""
+            "comments": "The Lundalogik Appathon 2015 winner!"
         }
     ]
 }
