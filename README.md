@@ -1,16 +1,16 @@
 #LIME Bootstrap AppStore
 
-This repo contains all apps avaible for LIME Bootstrap. The appstore itself can be found [here](http://limebootstrap.lundalogik.com/web/appstore/index.html)
+This repo contains all apps available for LIME Bootstrap. The appstore itself can be found [here](http://limebootstrap.lundalogik.com/web/appstore/index.html)
 
-##Buildning apps
+##Building apps
 Check out the [manual page](http://limebootstrap.lundalogik.com/web/manual/buildingApps/)
 
-##Commiting an app
-Any app commited, containing a valid `app.json`-file will automatically be added to the AppStore. As soon as you visit the AppStore a complete rebuild will be trigged and your app should show up. The purpose of the `app.json`-file is to provide information about the app, versioning and installation.
+##Committing an app
+Any app committed, containing a valid `app.json`-file will automatically be added to the AppStore. As soon as you visit the AppStore, a complete rebuild will be trigged, and your app should show up. The purpose of the `app.json`-file is to provide information about the app, versioning and installation.
 
-A commit is done by pushing a new folder, cotaining an app, to this repo. If you are a member of the Lundalogik organisation you can simply push it to master. Otherwise use a pull request.
+A commit is done by pushing a new folder, containing an app, to this repo. If you are a member of the Lundalogik organisation you can simply push it to master. Otherwise use a pull request.
 
-__VARNING:__ Committing an invalid `app.json` may cause the appstore to crash. Take an extra look before committing. If something goes bad, just fix your json and the appstore should recover all by itself.
+__WARNING:__ Committing an invalid `app.json` may cause the appstore to crash. Take an extra look before committing. If something goes bad, just fix your json and the appstore should recover all by itself.
 
 __NOTE:__ The `app.json` powers the versioning system of the app. When you raise a version number an automatic message will be shown to all users of the app, with debug enabled, asking them to update.
 
