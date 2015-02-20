@@ -6,7 +6,7 @@ This repo contains all apps avaible for LIME Bootstrap. The appstore itself can 
 Check out the [manual page](http://limebootstrap.lundalogik.com/web/manual/buildingApps/)
 
 ##Commiting an app
-Any app commited, containing a valid `app.json`-file will automagically be added to the AppStore. As soon as you visit the AppStore a complete rebuild will be trigged and your app should show up. The purpose of the `app.json`-file is to provide information about the app, versioning and installation.
+Any app commited, containing a valid `app.json`-file will automatically be added to the AppStore. As soon as you visit the AppStore a complete rebuild will be trigged and your app should show up. The purpose of the `app.json`-file is to provide information about the app, versioning and installation.
 
 A commit is done by pushing a new folder, cotaining an app, to this repo. If you are a member of the Lundalogik organisation you can simply push it to master. Otherwise use a pull request.
 
