@@ -1,9 +1,14 @@
 {
     "name": "News Carousel",
     "author": "Tomas Eketorp, Fredrik Eriksson, Niklas Olsson, Adrian Schmidt",
-    "status": "Development",
+    "status": "Beta",
     "shortDesc": "Your own info channel within LIME Pro.",
     "versions": [
+        {
+            "version": "0.99",
+            "date": "2015-02-23",
+            "comments": "RC2. Now moved from Development to Beta."
+        },
         {
             "version": "0.9",
             "date": "2015-02-20",
