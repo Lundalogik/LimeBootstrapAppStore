@@ -2,6 +2,7 @@
 	"name": "Garcon",
 	"author":"MOL",
 	"status":"Release",
+	"license": true,
 	"shortDesc":"Supply your favourite LIME Filter and the tile will show the count of the filter and the name.",
 	"versions":[
 		
