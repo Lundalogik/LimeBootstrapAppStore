@@ -69,7 +69,15 @@ On Error GoTo ErrorHandler
     Call oFilter.AddOperator(lkOpOr)
     Call oFilter.AddOperator(lkOpAnd)
     
-    Call oRecords.Open(Application.Database.Classes("garconsettings"), oFilter)
+    Call oView.Add("sortorder", lkSortAscending)
+    Call oView.Add("explorer")
+    Call oView.Add("name")
+    Call oView.Add("visibleonzero")
+    Call oView.Add("color")
+    Call oView.Add("label")
+    Call oView.Add("icon")
+    
+    Call oRecords.Open(Application.Database.Classes("garconsettings"), oFilter, oView)
     
     FetchFiltersXML = "<filters>"
     
