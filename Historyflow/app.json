@@ -2,6 +2,7 @@
 	"name": "History flow",
 	"author":"Andreas & Jonatan ",
 	"status":"Release",
+	"shortDesc" : "This fantastic app allows you to view your latest history notes.",
 	"versions":[
 		{
 			"version":"0.1",
