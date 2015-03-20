@@ -3,7 +3,7 @@
 CREATED BY: Andreas Åström
 
 ##About
-With this fancy app are allowed you to pick a date when you like to park an errand. 
+With this fancy app are you allowed to pick a date when you like to park an errand. 
 
 ##Installation
 * Add VBA-file
