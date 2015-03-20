@@ -1,0 +1,17 @@
+Public Sub ParkWithDatepicker(parkeddate As String, deadlinedate As String)
+    On Error GoTo Errorhandler
+        Dim oInspector As Lime.inspector
+        
+        Set oInspector = Application.ActiveInspector
+        
+        If Not oInspector Is Nothing Then
+            If oInspector.Class.name = "helpdesk" Then
+                Call oInspector.Controls.SetValue("parkeddate", parkeddate)
+                Call oInspector.Controls.SetValue("deadlinedate", deadlinedate)
+                Call oInspector.Save(True)
+            End If
+        End If
+    Exit Sub
+Errorhandler:
+    Call UI.ShowError("ActionPad_Helpdesk.ParkWithDatepicker")
+End Sub

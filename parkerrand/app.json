@@ -1,0 +1,15 @@
+{
+	"name": "parkerrand",
+	"author":"Andreas Åström",
+	"status":"Development",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2015-03-17",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}
