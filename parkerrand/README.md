@@ -1,6 +1,6 @@
 #  parkerrand #
 
-CREATED BY: Andreas Åström idea: Tomas Eketorp
+CREATED BY: Andreas Åström & Tomas Eketorp
 
 ##About
 With this fancy app are you allowed to pick a date when you like to park an errand. 
