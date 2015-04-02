@@ -1,12 +1,12 @@
 {
 	"name": "Fulltextsearch",
-	"author":"Andreas Åström",
-	"status":"Development",
+	"author":"Andreas Åström & Amina Demirovic",
+	"status":"Release",
 	"versions":[
 		{
 			"version":"0.1",
-			"date":"2014-10-23",
-			"comments":"Creation"
+			"date":"2015-04-02",
+			"comments":"Relseas party!"
 		}
 	],
 	"install":{
