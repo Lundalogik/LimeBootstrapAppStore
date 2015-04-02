@@ -1,0 +1,15 @@
+{
+	"name": "Fulltextsearch",
+	"author":"Andreas Åström",
+	"status":"Development",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2014-10-23",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}

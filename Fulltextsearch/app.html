@@ -1,0 +1,12 @@
+<div class="fulltextsearch">
+	<p id="title" data-bind="text:'FULLTEXTSÖK', icon: 'fa-file', popover:{text:'Här kan du söka bland dokument som ligger inlästa i LIME Pro. Appen klarar av att söka i textfiler, word-dokument etc.',type:'info'}"></p>
+	<!-- <p id="title" data-bind="text:'FULLTEXTSÖK', icon: 'fa-file', popover:'Här kan du söka bland dokument som ligger inlästa i LIME Pro. Appen klarar av att söka i textfiler, word-dokument etc.'"></p> -->
+	<div class="separator"></div>
+	<div class="input-group input-group-md search-input">	  
+	  <input id="searchValue" type="text" class="form-control" placeholder="sökord" data-bind="value: searchValue, valueUpdate:'afterkeydown'">
+	  <span class="input-group-addon" data-bind="icon: 'fa-search', click:showString"> </span>
+	</div>	
+	<!-- <span class="label label-primary" data-bind="text: 'OCH', click: and"> </span> -->
+	<span class="label label-primary" data-bind="text: 'ELLER', click: or"></span>
+	<span class="label label-primary" data-bind="text: 'INNEHÅLLER', click: like"> </span>
+</div>

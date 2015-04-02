@@ -1,0 +1,29 @@
+.fulltextsearch{
+	height: 150px;
+	width: 100%;
+	background-color: #fff;
+	margin-top: 20px;
+	padding: 10px;
+	border: 1px solid #d6e7ff;
+}
+#title{	
+	margin-bottom: 10px;
+	margin-top: 10px;
+	color: #6985B5;
+	margin-left: 2px;
+}
+.separator{
+	border-bottom: 1px solid #d6e7ff;
+	width: 100%;
+	margin-top: -8px;
+	margin-bottom: 10px;
+}
+#title{
+	
+}
+#searchValue{
+	color: #6985B5;
+}
+.search-input{
+	margin-bottom: 8px;	
+15
