@@ -1,5 +1,4 @@
 #  Fulltextsearch #
 
-CREATED BY: Andreas Åström
+CREATED BY: Andreas Åström 
 
-***Test
