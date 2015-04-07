@@ -1,4 +1,4 @@
-lbs.apploader.register('Dynamic Checklist', function () {
+lbs.apploader.register('DynamicChecklist', function () {
     var self = this;
     //var dummy = lbs.loader.xmlToJSON('<checklist><checklistactivity><title>Felanmälan(1)</title><id>1001</id><done>0</done></checklistactivity><checklistactivity><title>Kontakta kund</title><id>1201</id><done>0</done></checklistactivity></checklist>');
     //alert(JSON.stringify(dummy));
