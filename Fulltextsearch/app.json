@@ -2,6 +2,7 @@
 	"name": "Fulltextsearch",
 	"author":"Andreas Åström & Amina Demirovic",
 	"status":"Release",
+	"license":true,
 	"versions":[
 		{
 			"version":"0.1",
