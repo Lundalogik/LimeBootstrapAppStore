@@ -1,0 +1,22 @@
+{
+	"name": "Dynamic Checklist",
+	"author":"Andreas Åström",
+	"status":"Development",
+	"license":true,
+	"versions":[
+		{
+            "version": "1.0",
+            "date": "2015-04-07",
+            "comments": "A stable beta version of the checklist."
+        },
+		{
+			"version":"0.1",
+			"date":"2014-07-02",
+			"comments":"Creation"
+		}
+		
+	],
+	"install":{
+		
+	}
+}

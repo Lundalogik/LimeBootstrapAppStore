@@ -1,0 +1,195 @@
+/*
+PUT SOME FANCY CSS STUFF HERE PLEASE!
+*/
+
+
+html{
+	background-color: #fff;
+	overflow: hidden;
+}
+.options{
+	background-color: #fff;
+}
+#container1{
+/*height: 500px;
+width: 100%;
+overflow: hidden;	*/
+height: 235px;
+width: 100%;
+overflow: hidden;
+/*border-top: 3px solid #d6e7ff;*/
+padding-left: 10px;
+}
+
+@media screen and (max-height:1200px){
+	#container1{
+	height: 300px;
+	}
+}
+@media screen and (max-height:1100px){
+	#container1{
+	height: 300px;
+	}
+}
+@media screen and (max-height:1050px){
+	#container1{
+	height: 300px;
+	}
+}
+@media screen and (max-height:1000px){
+	#container1{
+	height: 515px;
+	}
+}
+@media screen and (max-height:950px){
+	#container1{
+	height: 465px;
+	}
+}
+@media screen and (max-height:900px){
+	#container1{
+	height: 415px;
+	}
+}
+@media screen and (max-height:850px){
+	#container1{
+	height: 365px;
+	}
+}
+@media screen and (max-height:800px){
+	#container1{
+	height: 315px;
+	}
+}
+@media screen and (max-height:750px){
+	#container1{
+	height: 265px;
+	}
+}
+@media screen and (max-height:700px){
+	#container1{
+	height: 215px;
+	}
+}
+@media screen and (max-height:650px){
+	#container1{
+	height: 165px;
+	}
+}
+@media screen and (max-height:600px){
+	#container1{
+	height: 115px;
+	}
+}
+
+.headercontainer{
+border-top: 3px solid #d6e7ff;
+/*border-left: 3px solid #d6e7ff;
+border-right: 3px solid #d6e7ff;*/
+border-bottom: 3px solid #d6e7ff;
+height: 275px;
+line-height: 40px;
+/*border-radius: 5px;*/
+}
+@media screen and (max-height:1200px){
+	.headercontainer{
+	height: 755px;
+	}
+}
+@media screen and (max-height:1100px){
+	.headercontainer{
+	height: 655px;
+	}
+}
+@media screen and (max-height:1050px){
+	.headercontainer{
+	height: 605px;
+	}
+}
+@media screen and (max-height:1000px){
+	.headercontainer{
+	height: 555px;
+	}
+}
+@media screen and (max-height:950px){
+	.headercontainer{
+	height: 505px;
+	}
+}
+@media screen and (max-height:900px){
+	.headercontainer{
+	height: 455px;
+	}
+}
+@media screen and (max-height:850px){
+	.headercontainer{
+	height: 405px;
+	}
+}
+@media screen and (max-height:800px){
+	.headercontainer{
+	height: 355px;
+	}
+}
+@media screen and (max-height:750px){
+	.headercontainer{
+	height: 305px;
+	}
+}
+@media screen and (max-height:700px){
+	.headercontainer{
+	height: 255px;
+	}
+}
+@media screen and (max-height:650px){
+	.headercontainer{
+	height: 205px;
+	}
+}
+@media screen and (max-height:600px){
+	.headercontainer{
+	height: 155px;
+	}
+}
+
+div#container2>ul#list>li#listitem{
+	line-height: 20px;
+}
+#container2
+{	
+	margin-top:-10px;
+	height: 95%;
+	width: auto;
+	overflow: auto;
+	padding-right: 20px;
+	
+}
+
+#up{		
+	height: 20px;	
+	width: 30%;	
+	margin-left: 35%;
+	background-color: #6985B7;
+	text-align: center;
+	color: #fff;
+	margin-bottom: 10px;
+	border-radius: 15px;
+	/*font-size: 20px;*/
+}
+#down{	
+	height: 20px;	
+	width: 30%;	
+	margin-left: 35%;
+	background-color: #6985B7;
+	text-align: center;
+	color: #fff;	
+	margin-top: 10px;
+	border-radius: 15px;
+	/*font-size: 15px;*/
+}
+#menuText{
+	font-size: 13px;
+	font-weight: bold;
+	padding-left: 10px;
+}
+
