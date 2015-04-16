@@ -37,7 +37,7 @@
                             "defaultvalue": "0",
                             "localname": 
                             [
-                                {"sv": "Behov"}
+                                {"sv": "Behov"},
                                 {"en_us": "Need"}
                             ]    
                         }
@@ -49,7 +49,7 @@
                             "defaultvalue": "0",
                             "localname": 
                             [
-                                {"sv": "Belsutsfattare"}
+                                {"sv": "Belsutsfattare"},
                                 {"en_us": "Decisionmaker"}
                             ]    
                         }
@@ -61,7 +61,7 @@
                             "defaultvalue": 0,
                             "localname": 
                             [
-                                {"sv": "Budget"}
+                                {"sv": "Budget"},
                                 {"en_us": "Budget"}
                             ]    
                         }
