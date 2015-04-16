@@ -1,0 +1,1 @@
+#  Pattern 3b #

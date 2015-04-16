@@ -1,0 +1,73 @@
+{
+    "name": "Pattern 3B",
+    "author":"FER",
+    "status":"development",
+    "shortDesc":"Install pattern 3B",
+    "versions":[
+        {
+            "version":"0.1",
+            "date":"2015-04-16",
+            "comments":"First test"
+        }
+    ],
+    "dependencies":{
+
+    },
+    "install": {
+
+        "vba": [
+            {
+                "relPath": "Pattern_3b.cls",
+                "name": "Pattern_3b"
+            }
+        ],
+        "tables": [
+            {
+                "name": "business",
+                "localname": 
+                [
+                    {"sv": "Affär"},
+                    {"en_us": "Business"}
+                ],
+                "fields": [
+                    {
+                        "name": "need",
+                        "type": "yesno",
+                        "attributes": {
+                            "defaultvalue": "0",
+                            "localname": 
+                            [
+                                {"sv": "Behov"}
+                                {"en_us": "Need"}
+                            ]    
+                        }
+                    },
+                     {
+                        "name": "decisionmaker",
+                        "type": "yesno",
+                        "attributes": {
+                            "defaultvalue": "0",
+                            "localname": 
+                            [
+                                {"sv": "Belsutsfattare"}
+                                {"en_us": "Decisionmaker"}
+                            ]    
+                        }
+                    },
+                    {
+                        "name": "budget",
+                        "type": "yesno",
+                        "attributes": {
+                            "defaultvalue": 0,
+                            "localname": 
+                            [
+                                {"sv": "Budget"}
+                                {"en_us": "Budget"}
+                            ]    
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
