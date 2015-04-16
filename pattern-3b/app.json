@@ -24,46 +24,42 @@
         "tables": [
             {
                 "name": "business",
-                "localname": 
-                [
-                    {"sv": "Affär"},
-                    {"en_us": "Business"}
-                ],
+                "localname": {
+                    "sv": "Affär",
+                    "en_us": "Business"
+                },
                 "fields": [
                     {
                         "name": "need",
                         "type": "yesno",
+                        "localname": {
+                            "sv": "Behov",
+                            "en_us": "Need"
+                        },
                         "attributes": {
-                            "defaultvalue": "0",
-                            "localname": 
-                            [
-                                {"sv": "Behov"},
-                                {"en_us": "Need"}
-                            ]    
+                            "defaultvalue": "0"   
                         }
                     },
                      {
                         "name": "decisionmaker",
                         "type": "yesno",
+                        "localname": {
+                            "sv": "Belsutsfattare",
+                            "en_us": "Decisionmaker"
+                        },
                         "attributes": {
-                            "defaultvalue": "0",
-                            "localname": 
-                            [
-                                {"sv": "Belsutsfattare"},
-                                {"en_us": "Decisionmaker"}
-                            ]    
+                            "defaultvalue": "0"
                         }
                     },
                     {
                         "name": "budget",
                         "type": "yesno",
+                        "localname": {
+                            "sv": "Budget",
+                            "en_us": "Budget"
+                        },
                         "attributes": {
-                            "defaultvalue": 0,
-                            "localname": 
-                            [
-                                {"sv": "Budget"},
-                                {"en_us": "Budget"}
-                            ]    
+                            "defaultvalue": "0"   
                         }
                     }
                 ]
