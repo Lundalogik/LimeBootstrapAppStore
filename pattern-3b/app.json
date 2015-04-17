@@ -26,7 +26,7 @@
                 "name": "business",
                 "localname": {
                     "sv": "Affär",
-                    "en_us": "Business"
+                    "en-us": "Business"
                 },
                 "fields": [
                     {
@@ -34,7 +34,7 @@
                         "type": "yesno",
                         "localname": {
                             "sv": "Behov",
-                            "en_us": "Need"
+                            "en-us": "Need"
                         },
                         "attributes": {
                             "defaultvalue": "0"   
@@ -45,7 +45,7 @@
                         "type": "yesno",
                         "localname": {
                             "sv": "Belsutsfattare",
-                            "en_us": "Decisionmaker"
+                            "en-us": "Decisionmaker"
                         },
                         "attributes": {
                             "defaultvalue": "0"
@@ -56,7 +56,7 @@
                         "type": "yesno",
                         "localname": {
                             "sv": "Budget",
-                            "en_us": "Budget"
+                            "en-us": "Budget"
                         },
                         "attributes": {
                             "defaultvalue": "0"   
