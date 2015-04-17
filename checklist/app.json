@@ -103,7 +103,7 @@
                         "type":"string",
                         "localname": {
                             "sv": "Utökad beskrivning",
-                            "en-us": "Mouse over message",
+                            "en-us": "Mouse over message"
                         }, 
                         "attributes": {
                             "length": 256
