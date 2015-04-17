@@ -15,9 +15,7 @@
             "comments": "The first stable beta of the checklist"
         }
     ],    
-    "dependencies":{
-        "vba_json":"1.0"
-    },
+
     "install": {
         "preInstallScript": "",
         "postInstallScript": "",
