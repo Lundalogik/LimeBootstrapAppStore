@@ -1,0 +1,20 @@
+.JobStatus{
+	background-color: #e56c19;
+	padding:0px 10px 5px 10px;
+	color: #fff;
+	position:absolute;
+	left: 0px;
+	right: 0px;
+	text-overflow: ellipsis;
+	overflow:hidden;
+	box-shadow: 0px 2px 4px 0px #89410f;
+}
+#icon{
+	margin-top: 5px;
+}
+.job-container{
+	margin-bottom: 10px;
+	/* border-top: dashed 1px #fff; */
+	width: 100%;
+	padding-top: 4px;
+}
