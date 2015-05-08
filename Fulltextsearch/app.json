@@ -3,6 +3,7 @@
 	"author":"Andreas Åström & Amina Demirovic",
 	"status":"Release",
 	"license":true,
+	"shortDesc": "Allows you to search for text IN documents.",
 	"versions":[
 		{
 			"version":"0.1",
