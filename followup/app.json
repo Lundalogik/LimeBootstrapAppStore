@@ -1,0 +1,17 @@
+{
+	"name": "followup",
+	"author":"AOL",
+	"status":"Relase",
+	"shortDesc":"Allows you to track your montly activity goals.", 
+	"license":true,
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2015-04-27",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}
