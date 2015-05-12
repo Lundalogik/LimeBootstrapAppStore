@@ -1,5 +1,3 @@
-#Aware
-
 ## Requires a license
 For more information please contact Lundalogik AB.
 
