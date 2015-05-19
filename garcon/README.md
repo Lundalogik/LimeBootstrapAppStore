@@ -15,7 +15,10 @@ As you set your filters yourself, only you, LIME and the sky is the limit.
 1. Copy "garcon" folder to the “apps” folder.
 2. Create table “garconsettings” with the necessary fields, see installation below and put the icon “..\Install\filter_and_sort.ico” on it if you don’t want to use one of your own choice.
 3. Import the file Garcon.bas from the ..Garcon\Install folder
-4. In index.html add the following row <div data-app="{app:'garcon'}"></div>
+4. In index.html add the following row: 
+``` html
+<div data-app="{app:'garcon'}"></div>
+```
 
 ##Fields (garconsettings)
 |   Field (type)   |  Description   |
