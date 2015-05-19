@@ -45,6 +45,6 @@ or
 ###Database names
 <img src="https://raw.githubusercontent.com/Lundalogik/LimeBootstrapAppStore/master/garcon/Docs/databasenames.png">
 ###Swedish names
-<img src="https://github.com/Lundalogik/LimeBootstrapAppStore/blob/master/garcon/Docs/swedishnames.png">
+<img src="https://raw.githubusercontent.com/Lundalogik/LimeBootstrapAppStore/master/garcon/Docs/swedishnames.png">
 ###English names
-<img src="https://github.com/Lundalogik/LimeBootstrapAppStore/blob/master/garcon/Docs/englishnames.png">
+<img src="https://raw.githubusercontent.com/Lundalogik/LimeBootstrapAppStore/master/garcon/Docs/englishnames.png">
