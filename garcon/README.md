@@ -32,12 +32,14 @@ As you set your filters yourself, only you, LIME and the sky is the limit.
 |   SORTORDER (Integer)  |   Sort order on actionpad  |
 |   SEARCHICON (Html field (Tab))   |   Suggested URL is [http://fortawesome.github.io/Font-Awesome/icons/] Use it to search for icons and then copy paste the preferred one into the field [icon]   |
 
+###Access query
 A recommendation is to put a LIME Access query on the table:
 ``` vba 
 (garconsettings.all = 1) 
 or 
 (garconsettings.coworker.idcoworker = activeuser.idcoworker) 
 ```
+
 
 ##Suggested field setup
 ###Database names
