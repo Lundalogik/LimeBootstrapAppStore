@@ -41,7 +41,7 @@ or
 
 ##Suggested field setup
 ###Database names
-<img src="https://github.com/Lundalogik/LimeBootstrapAppStore/blob/master/garcon/Docs/databasnames.png">
+<img src="https://github.com/Lundalogik/LimeBootstrapAppStore/blob/master/garcon/Docs/databasenames.png">
 ###Swedish names
 <img src="https://github.com/Lundalogik/LimeBootstrapAppStore/blob/master/garcon/Docs/swedishnames.png">
 ###English names
