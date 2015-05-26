@@ -2,7 +2,7 @@
 	"name": "Job Status",
 	"author":"Andreas Åström",
 	"status":"Release",
-	"shortDesc": "Keeps track of your SQL-jobs",
+	"shortDesc": "Keeps track of your SQL-jobs.",
 	"versions":[
 		{
 			"version":"0.2",
