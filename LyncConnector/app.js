@@ -189,7 +189,8 @@ lbs.apploader.register('LyncConnector', function() {
             vm.presenceText(statusObj.text);
         }
 
-        if (vm.coworkerObject().email.value) {
+        var coworkerObject = vm.coworkerObject && vm.coworkerObject() || {};
+        if (coworkerObject.email && coworkerObject.email.value) {
             try {
                 if (window.ActiveXObject) {
                     nameCtrl = new ActiveXObject("Name.NameCtrl");
