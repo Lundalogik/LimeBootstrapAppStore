@@ -5,6 +5,11 @@
 	"shortDesc": "Lync Connector - Connects people!",
 	"versions": [
 		{
+			"version":"0.3",
+			"date":"2015-05-28",
+			"comments":"Updates LyncConnector to work with later versions of LimeBootstrap."
+		},
+		{
 			"version":"0.2",
 			"date":"2015-05-28",
 			"comments":"Fixes bug that caused LyncConnector to crash if there was no coworkerObject on the card."

@@ -12,7 +12,8 @@ lbs.apploader.register('LyncConnector', function() {
             type: 'activeInspector'
         }, {
             type: 'relatedRecord',
-            source: 'coworker'
+            source: 'coworker',
+            view: 'email;name'
         }];
         this.resources = {
             scripts: [], // <= External libs for your apps. Must be a file
