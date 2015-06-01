@@ -66,7 +66,15 @@ var self = this;
 			viewModel.outcome(viewModel.root.data.followup.all.value["outcome"]);
 			viewModel.targetnow(viewModel.root.data.followup.all.value["targetnow"]);
 			viewModel.target(viewModel.root.data.followup.all.value["target"]);
-			var percent = (viewModel.root.data.followup.all.value["outcome"]/viewModel.root.data.followup.all.value["targetnow"]);
+			if (viewModel.root.data.followup.all.value["target"] == 0){
+				percent = 0
+			}
+			else if(viewModel.root.data.followup.all.value["target"] == 0 && viewModel.root.data.followup.all.value["outcome"] > 0){
+				percent = 1;
+			}
+			else{
+				percent = (viewModel.root.data.followup.all.value["outcome"]/viewModel.root.data.followup.all.value["targetnow"]);
+			}
 				if (percent < appConfig.yellow){
 					viewModel.tileColor("rgb(232, 89, 89)");
 					};
@@ -84,17 +92,26 @@ var self = this;
 			viewModel.outcome(viewModel.root.data.followup.coworker.value["outcome"]);
 			viewModel.targetnow(viewModel.root.data.followup.coworker.value["targetnow"]);
 			viewModel.target(viewModel.root.data.followup.coworker.value["target"]);
-			var percent = (viewModel.root.data.followup.coworker.value["outcome"]/viewModel.root.data.followup.coworker.value["targetnow"]);
-			
-				if (percent < appConfig.yellow){
-					viewModel.tileColor("rgb(232, 89, 89)");
-					};
-				if (percent >= appConfig.yellow && percent < 1){
-					viewModel.tileColor("rgb(244, 187, 36");
-					};
-				if (percent >= 1){
-					viewModel.tileColor("rgb(153, 216, 122)");
-					};
+			var percent
+			if (viewModel.root.data.followup.coworker.value["target"] == 0){
+				percent = 0;
+			}
+			else if(viewModel.root.data.followup.coworker.value["target"] == 0 && viewModel.root.data.followup.coworker.value["outcome"] > 0){
+				percent = 1;
+			}
+			else{
+				percent = (viewModel.root.data.followup.coworker.value["outcome"]/viewModel.root.data.followup.coworker.value["targetnow"]);
+			}
+			if (percent < appConfig.yellow){
+				viewModel.tileColor("rgb(232, 89, 89)");
+				};
+			if (percent >= appConfig.yellow && percent < 1){
+				viewModel.tileColor("rgb(244, 187, 36");
+				};
+			if (percent >= 1){
+				viewModel.tileColor("rgb(153, 216, 122)");
+				};
+
 		};
 		
 		//Runs when you press the refresh button. The user is allowed to refresh each 5 minutes 
