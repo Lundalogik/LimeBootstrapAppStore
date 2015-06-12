@@ -25,7 +25,7 @@
                 "fields": [
                     {
                         "name": "description",
-                        "type": "textfield",
+                        "type": "text",
                         "localname": {
                             "sv": "Beskrivning",
                             "en-us": "Description"
