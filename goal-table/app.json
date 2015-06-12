@@ -11,13 +11,9 @@
         }
     ],
     "dependencies":{
-
     },
     "install": {
-
         "vba": [
-            {
-            }
         ],
         "tables": [
             {
@@ -33,16 +29,6 @@
                         "localname": {
                             "sv": "Beskrivning",
                             "en-us": "Description"
-                        },
-                        "attributes": {
-                        }
-                    },
-                     {
-                        "name": "coworker",
-                        "type": "relation",
-                        "localname": {
-                            "sv": "Medarbetare",
-                            "en-us": "Coworker"
                         },
                         "attributes": {
                         }
