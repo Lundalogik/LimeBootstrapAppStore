@@ -24,11 +24,11 @@
                 },
                 "fields": [
                     {
-                        "name": "description",
+                        "name": "descriptionfield",
                         "type": "string",
                         "localname": {
-                            "sv": "Beskrivning",
-                            "en-us": "Description"
+                            "sv": "Beskrivningsfält",
+                            "en-us": "Description field"
                         },
                         "attributes": {
                         }
