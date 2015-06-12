@@ -1,1 +1,1 @@
-#  Pattern 3b #
+#  Goal table #
