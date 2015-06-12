@@ -1,0 +1,54 @@
+{
+    "name": "Goal table",
+    "author":"JSP",
+    "status":"Development",
+    "shortDesc":"Install table Goal",
+    "versions":[
+        {
+            "version":"0.1",
+            "date":"2015-06-12",
+            "comments":"First test"
+        }
+    ],
+    "dependencies":{
+
+    },
+    "install": {
+
+        "vba": [
+            {
+            }
+        ],
+        "tables": [
+            {
+                "name": "goal",
+                "localname": {
+                    "sv": "Mål",
+                    "en-us": "Goal"
+                },
+                "fields": [
+                    {
+                        "name": "description",
+                        "type": "textfield",
+                        "localname": {
+                            "sv": "Beskrivning",
+                            "en-us": "Description"
+                        },
+                        "attributes": {
+                        }
+                    },
+                     {
+                        "name": "coworker",
+                        "type": "relation",
+                        "localname": {
+                            "sv": "Medarbetare",
+                            "en-us": "Coworker"
+                        },
+                        "attributes": {
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
