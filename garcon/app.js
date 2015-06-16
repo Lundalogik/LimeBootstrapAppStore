@@ -2,8 +2,6 @@ lbs.apploader.register('garcon', function () {
     var self = this;
     //config
     self.config = {
-
-        
         dataSources: [
            
         ],
@@ -17,16 +15,18 @@ lbs.apploader.register('garcon', function () {
     //initialize
     self.initialize = function (node,viewmodel) {
 
-		function garconItem(label, color,hitcount, icon, idgarconsettings) {
+        var self = this;
+        
+		function garconItem(label, color, value, icon, idgarconsettings, size) {
             var me = this;
  
             me.label = label;
             me.color = color;
-			me.hitcount = hitcount;
+			me.value = value;
             me.icon = icon;
-            me.idgarconsettings = idgarconsettings;// || "";
-
-            
+            me.idgarconsettings = idgarconsettings;
+            me.size = size;
+            me.styling = color + " " + me.size;
             me.clicked = function(){
                 try{
 					lbs.common.executeVba("Garcon.ShowFilter," + me.idgarconsettings);
@@ -34,37 +34,6 @@ lbs.apploader.register('garcon', function () {
                     alert(e);  
                 }
             }
-			
-			 me.tileColor = function(n){
-				
-                switch(n){
-                    case "blue":
-                        return "rgb(70, 116, 238)";
-                    break;
-                    case "darkgrey":
-                        return "rgb(176, 176, 176)";
-                    break;
-                    case "red":
-                        return "rgb(232, 89, 89)";
-                    break;
-                    case "pink":
-                        return "rgb(243, 150, 206)";
-                    break;
-                    case "orange":
-                        return "rgb(244, 187, 36)";
-                    break;
-                    case "green":
-                        return "rgb(153, 216, 122)";
-                    break;
-                    default:
-                        return self.config.tileColor;
-                    break;
-                }
-
-            }
-
-         
-			
 
         }
 		
@@ -72,49 +41,95 @@ lbs.apploader.register('garcon', function () {
             return new garconItem(
                     rawGarconItem.label, 
                     rawGarconItem.color ,
-					rawGarconItem.hitcount ,
+					rawGarconItem.value ,
                     rawGarconItem.icon, 
-                    rawGarconItem.idgarconsettings
+                    rawGarconItem.idgarconsettings,
+                    rawGarconItem.size ? rawGarconItem.size : "medium"
                     );     
 					
         }
-
      
         //GarconModel
        
         function GarconModel(rawGarconItems) {
             var me = this;
 
+            me.height = ko.observable();
             me.garcon = ko.observableArray()
+            me.size = ko.observable(size = self.config.size ? self.config.size : "" || "");
+            me.refreshtype = self.config.refresh ? self.config.refresh : "manual" || "manual";
+            me.mstimer = ko.observable(0);
+            me.continueTimer = ko.observable(true);
+            me.refreshVisible = ko.observable(true); //var tidigare false
+            me.spinVisible  = ko.observable(true); //var tidigare false
+            me.timer = self.config.timer ? self.config.timer*1000 : 600000; //s -> ms
+            me.refreshHeight;
 
-			if(rawGarconItems != null) {
-            populateGarcon();
-}
-            function populateGarcon(){
-                    var rawGarconItems = rawGarconData; 
-                    // Because the XML->JSON a garcon with one item isn't parsed as an Array
-                    if ($.isArray(rawGarconItems)){
-                        me.garcon.push.apply(me.garcon,
-                            rawGarconItems.map(function(rawGarconItem){
-                              return createGarconItemFromRaw(rawGarconItem)  
-                            }
-                            ) 
-                        );
-                    }else{
-                        me.garcon.push(createGarconItemFromRaw(rawGarconItems));
-                    }
+            me.lineheight = function(item){
+                switch(item.size){
+                    case 'small': 
+                        return 33;
+                    case 'large':
+                        return 65;
+                    default:
+                        return 45;
+                }
             }
-			me.refresh = function(){
+
+            me.runTimer = function(){
+                if(me.continueTimer()){
+                    me.mstimer(me.mstimer() + 100)
+                    setTimeout(me.runTimer, 100);
+                    if(me.mstimer() > me.timer){
+                        if(me.refreshtype == "manual"){
+                            me.refreshVisible(true);
+                            me.continueTimer(false);   
+                        }
+                        else{
+                            me.refresh();
+                        }
+                    }
+                }
+            }
+            
+            function populateGarcon(){
+                var rawGarconItems = rawGarconData; 
+                // Because the XML->JSON a garcon with one item isn't parsed as an Array
+                if ($.isArray(rawGarconItems)){
+                    me.garcon.push.apply(me.garcon,
+                        rawGarconItems.map(function(rawGarconItem){
+                          return createGarconItemFromRaw(rawGarconItem)  
+                        }) 
+                    );
+                }else{
+                    me.garcon.push(createGarconItemFromRaw(rawGarconItems));
+                }
+            }
+    		
+            me.refresh = function(){
                 try{
-					lbs.common.executeVba('Garcon.RefreshWebBar');
+                    me.refreshVisible(true); //var tidigare false
+    				lbs.common.executeVba('Garcon.RefreshWebBar');
+                    me.continueTimer(true);
+                    me.mstimer(0);
+                    me.runTimer();
                 }catch(e){
                     alert(e);  
                 }
             }
-           
+
+            if(rawGarconItems != null) {
+                populateGarcon();
+            }
+
+            //me.refreshHeight = me.garcon()[0] ? me.lineheight(me.garcon()[0]) : 0;
+            //me.refreshHeight = me.refreshHeight + (me.garcon()[1] ? me.lineheight(me.garcon()[1]) : 0);
+            //$(".refresh").css('font-size', me.refreshHeight + 'px');
+            
+            me.runTimer();
         }
-		
-		//----------------------------------------------------------
+
+        
 		
 		var data ={};
 		lbs.loader.loadDataSource(
@@ -122,28 +137,16 @@ lbs.apploader.register('garcon', function () {
 				{type:'xml',source: 'Garcon.FetchFiltersXML'},
 				true
 			);
-            
-           //alert(data);
-			//alert(JSON.stringify(data));
-		//alert(data.xmlSource.filters);
-		//alert('ddd');
-		
 		var rawGarconData;
+
 		if(data.xmlSource.filters != null){
 			var rawGarconData = data.xmlSource.filters.filter;
-	}
-		
-
+	    }
+    
         var garconModel = new GarconModel(rawGarconData);
-		
-	
-		return garconModel
- 
-		
-		//----------------------------------------------------------
-		
-	
 
+
+		return garconModel
     }
 
 });

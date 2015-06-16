@@ -1,0 +1,24 @@
+'TO INSERT AT THE TOP!
+
+    Private m_ControlsHandlerGarconsettings As ControlsHandlerGarconsettings
+
+
+
+
+Private Sub m_Application_AfterActiveControlsChanged()
+    On Error GoTo ErrorHandler
+    
+    If Not m_Application.ActiveControls Is Nothing Then
+        Select Case m_Application.ActiveControls.Class.Name
+'            Case "template":
+'                Set m_ControlsHandlerTemplate = New ControlsHandlerTemplate
+
+'''...........THERE IS PROBABLY A LOT HERE IN YOUR SOLUTION....
+
+			Case "garconsettings"																	'!! INSERT THIS ROW
+                Set m_ControlsHandlerGarconsettings = New ControlsHandlerGarconsettings				'!! INSERT THIS ROW
+				
+				
+				
+				
+				

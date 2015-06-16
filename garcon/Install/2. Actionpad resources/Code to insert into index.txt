@@ -1,0 +1,7 @@
+﻿<div data-app="{app:'garcon', config:{timer: '7200', refresh: 'auto'}}"></div>
+
+
+
+<!-- 		EXPLANATION TO CONFIG ARGUMENTS ABOVE:													-->
+<!--		timer: amount of seconds until refresh of Garcon number, if auto is selected			-->
+<!--		refresh: method for data refresh. options are 'auto' (and manual) or 'manual' (only).	-->

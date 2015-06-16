@@ -1,73 +1,123 @@
-.narrow{
-margin-top:-20px;
+.garcon .refresh:hover{
+  color: rgba(255,255,255,0.8);
+}
 
-padding: 0px;
 
-	}
-.infotile{
+.garcon{
+  height:auto;
+  position: relative;
+}
 
- margin-top:-20px;
+.garcon .tile{
   margin-left: -10px;
   margin-right: -10px;
   border-right-color: rgba(0, 0, 0, 0);
   border-right-style: solid;
   border-right-width: 1px;
   position: relative;
-  height: 38px; /*110px*/
-  color: #FFF;
   cursor: pointer;
-border-bottom-color: rgba(0, 0, 0, 0);
-border-radius: 1px;
-border-bottom-style: solid;
-border-bottom-width: 1px;
-box-shadow: rgba(0, 0, 0, 0.0784314) 0px 2px 1px 0px;
-}
-.refresh{
-  margin: 10px;
-  margin-left: 5px;
-  margin-right: -10px;
-
-  position: relative;
-  height: 28px; /*110px*/
-  color: #0000;
-  cursor: pointer;
+  border-bottom-color: rgba(0, 0, 0, 0);
+  border-radius: 0px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
 }
 
-.infotile:hover{
-
+.garcon .tile:hover{
+  opacity: 0.85;
 }
 
-.infotile .name{
-padding-top: 0px;
-font-size: 14px;
-text-align: left;
-color: #FFF;
-margin-left: 0px;
-text-overflow: ellipsis;
-vertical-align:middle;
-white-space: nowrap;
-overflow: hidden
-
+.garcon .tile .name{
+  padding-top: 0px;
+  font-size: 14px;
+  text-align: left;
+  margin-left: 0px;
+  text-overflow: ellipsis;
+  vertical-align:middle;
+  white-space: nowrap;
+  overflow: hidden;
 }
-.infotile .refresh{
 
-
+.garcon .tile.small .name{
+  font-size: 12px;
 }
-.infotile .value{
-  font-size: 28px; /*54px*/
+
+.garcon .tile.large .name{
+  font-size: 22px;
+}
+
+.garcon .tile .information{
+  font-size: 18px;
   text-align: left;
   margin-left: 10px;
   padding-top: 5px;
   margin-bottom: 0;
+  line-height: 32px;
+  vertical-align:middle;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 
-.infotile .fa-fw {
-  width: inherit;
-  font-size: 20px;
+.garcon .tile.small .information{
+  padding-top: 5px;
+  margin-bottom: 0;
+  line-height: 26px;
+}
+
+.garcon .tile.large .information{
+  padding-top: 5px;
+  margin-bottom: 0;
+  line-height: 42px;
+}
+
+
+.garcon .tile .value{
+  font-size: 26px;
+  text-align: left;
+  line-height: 24px;
+  vertical-align:middle;
+  margin-left: -7px;
+  padding-top: 0px; 
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  
+}
+
+.garcon .tile.small .value{
+  font-size: 16px;
+  line-height: 16px;
+  vertical-align:middle;
+}
+
+.garcon .tile.large .value{
+  font-size: 36px;
+  line-height: 36px;
+  vertical-align:middle;
+}
+
+.garcon .refresh{
+  position: absolute;
+  right: -10px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 100%;
+  height: auto;
+  width: auto;
+  z-index: 100;
+  color: #fff;
+  margin-right:-10px;
+  background-color: rgba(255,255,255,0);
+  font-size: 12px;
+}
+
+.garcon .refresh.large{
+  font-size: 24px;
+}
+
+.garcon .tile .fa-fw {
+  font-size: 100%;
   vertical-align:middle;
   text-align: left;
-  margin-bottom:0px;
+	padding-bottom: 4px;
 }
