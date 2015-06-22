@@ -1,0 +1,17 @@
+{
+	"name": "Matrix",
+	"author":"AAS",
+	"status":"Release",
+	"license": true,
+	"shortDesc":"The new LIME Bootstrap Matrix",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2015-06-04",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}
