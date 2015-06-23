@@ -1,56 +1,56 @@
-.helpdeskstatistic .panel-heading{
+.panel-heading{
 	padding: 5px 7px;
 	background-color: #f9f9f9;
 	cursor: pointer;
 
 }
 
-.helpdeskstatistic .panel-heading h4{
+.panel-heading h4{
 	font-size: 14px;
 }
 
+.panel-title{
+	font-size: 12px;
+}
 
-
-.helpdeskstatistic .table td,
-.helpdeskstatistic .table th {
+ .table td,
+ .table th {
 	text-align: center;
 
 }
-.helpdeskstatistic .table td:first-child{
+.table td:first-child{
 	text-align: left;
 }
 
-
-
-.helpdeskstatistic .panel-body {
+.panel-body {
 
 	padding-top:	0;
 	padding-bottom:	0;
 	padding: 0;
 }
 
-.helpdeskstatistic .panel-body .menu{
+.panel-body .menu{
 	margin-top: 0;
 }
 
-.helpdeskstatistic .panel-default>.panel-heading{
+.panel-default>.panel-heading{
 	color: inherit;
 }
 
-.helpdeskstatistic .panel-group .panel-heading+.panel-collapse .panel-body {
+.panel-group .panel-heading+.panel-collapse .panel-body {
 	border-top: 0px;
 }
 
-.helpdeskstatistic .table {
+.table {
 margin-bottom: 0px;
 }
 
-.helpdeskstatistic .refresh{
+.refresh{
 
 	text-align: center;
 }
 
-.helpdeskstatistic .panel-group .menu {
-padding-top: 2px;
+.panel-group .menu {
+	padding-top: 2px;
 	margin-top: 0 ;
 }
