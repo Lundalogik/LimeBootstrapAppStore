@@ -1,5 +1,5 @@
 {
-	"name": "Job Status",
+	"name": "JobStatus",
 	"author":"Andreas Åström",
 	"status":"Release",
 	"shortDesc": "Keeps track of your SQL-jobs.",
