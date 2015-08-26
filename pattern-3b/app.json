@@ -24,41 +24,45 @@
         "tables": [
             {
                 "name": "business",
-                "localname": {
+                "localname_singular": {
                     "sv": "Affär",
-                    "en-us": "Business"
+                    "en_us": "Business"
+                },
+                "localname_plural": {
+                    "sv": "Affärer",
+                    "en_us": "Businesses"
                 },
                 "fields": [
                     {
                         "name": "need",
-                        "type": "yesno",
                         "localname": {
                             "sv": "Behov",
-                            "en-us": "Need"
+                            "en_us": "Need"
                         },
                         "attributes": {
+                            "fieldtype": "yesno",
                             "defaultvalue": "0"   
                         }
                     },
                      {
                         "name": "decisionmaker",
-                        "type": "yesno",
                         "localname": {
                             "sv": "Belsutsfattare",
                             "en-us": "Decisionmaker"
                         },
                         "attributes": {
+                            "fieldtype": "yesno",
                             "defaultvalue": "0"
                         }
                     },
                     {
                         "name": "budget",
-                        "type": "yesno",
                         "localname": {
                             "sv": "Budget",
                             "en-us": "Budget"
                         },
                         "attributes": {
+                            "fieldtype": "yesno",
                             "defaultvalue": "0"   
                         }
                     }
