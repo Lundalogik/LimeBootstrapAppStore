@@ -48,7 +48,7 @@
                         "name": "decisionmaker",
                         "localname": {
                             "sv": "Belsutsfattare",
-                            "en-us": "Decisionmaker"
+                            "en_us": "Decisionmaker"
                         },
                         "attributes": {
                             "type": "yesno",
@@ -59,7 +59,7 @@
                         "name": "budget",
                         "localname": {
                             "sv": "Budget",
-                            "en-us": "Budget"
+                            "en_us": "Budget"
                         },
                         "attributes": {
                             "type": "yesno",
