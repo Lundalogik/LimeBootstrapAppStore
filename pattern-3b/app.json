@@ -40,7 +40,7 @@
                             "en_us": "Need"
                         },
                         "attributes": {
-                            "fieldtype": "yesno",
+                            "type": "yesno",
                             "defaultvalue": "0"   
                         }
                     },
@@ -51,7 +51,7 @@
                             "en-us": "Decisionmaker"
                         },
                         "attributes": {
-                            "fieldtype": "yesno",
+                            "type": "yesno",
                             "defaultvalue": "0"
                         }
                     },
@@ -62,7 +62,7 @@
                             "en-us": "Budget"
                         },
                         "attributes": {
-                            "fieldtype": "yesno",
+                            "type": "yesno",
                             "defaultvalue": "0"   
                         }
                     }
