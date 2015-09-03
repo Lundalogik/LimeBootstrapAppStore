@@ -1,0 +1,4 @@
+﻿<div class="helpdeskhelper" data-bind="doubleclick:'', style:{backgroundColor: bgcolor(), color: fontcolor()}, visible:showapp()">    
+    <span data-bind="text: ' ',  icon: icon(), visible:showtext, click: (showtext() ? showfilter : '')"></span>    
+    <span data-bind="text:(showtext() ? newerrands() : newerrands), tooltip: text1(),click: (showtext() ? showfilter : '')"></span>        
+</div>
