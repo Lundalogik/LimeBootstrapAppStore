@@ -17,6 +17,12 @@
 		}
 	],
 	"install":{
+		"vba":[
+			{
+	                	"relPath": "Install/Garcon.bas",
+	                	"name": "Garcon"
+	            	}	
+		]
 		
 	}
 }
