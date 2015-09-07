@@ -22,7 +22,26 @@
 	                	"relPath": "Install/Garcon.bas",
 	                	"name": "Garcon"
 	            	}	
-		]
+		],
+		"tables": [
+	            	{
+	                "name": "garconsettings",
+	                "localname_singular": 
+	                {
+	                    "sv": "Garcon inställning",
+	                    "en_us": "Garcon setting"
+	                },
+	                "localname_plural": 
+	                {
+	                    "sv": "Garcon inställningar",
+	                    "en_us": "Garcon settings"
+	                },
+	                "attributes": {
+	                    "tableorder": "3"
+	                },
+	                "fields": [
+	                	
+	                ]
 		
 	}
 }
