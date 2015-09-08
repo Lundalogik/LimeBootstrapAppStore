@@ -24,7 +24,7 @@
 	"install":{
 		"vba":[
 			{
-				"relPath":"install/infoTile.bas",
+				"relPath":"Install/infoTile.bas",
 				"name":"InfoTile"	
 			}	
 		]
