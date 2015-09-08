@@ -22,7 +22,7 @@
 		}
 	],
 	"install":{
-		vba:[
+		"vba":[
 			{
 				"relPath":"install/infoTile.bas",
 				"name":"InfoTile"	
