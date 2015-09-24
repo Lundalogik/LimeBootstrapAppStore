@@ -4,6 +4,8 @@ Option Explicit
 Public Sub Search(ByVal sFind As String)
     On Error GoTo ErrorHandler
     
+    Application.MousePointer = 11
+    
     Dim oProc As New LDE.Procedure
     Dim sXML As String
     Dim oXML As New MSXML2.DOMDocument60
@@ -27,8 +29,11 @@ Public Sub Search(ByVal sFind As String)
     Set ActiveExplorer.ActiveFilter = oFilter
     Call ActiveExplorer.Requery
     
+    Application.MousePointer = 0
+    
     Exit Sub
 ErrorHandler:
+    Application.MousePointer = 0
     Call UI.ShowError ("Fulltextsearch.Search")
 End Sub
 
