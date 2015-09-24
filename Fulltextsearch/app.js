@@ -31,14 +31,11 @@ lbs.apploader.register('Fulltextsearch', function () {
         
         viewModel.searchValue = ko.observable($('#searchValue').val()).extend({throttle:1000});
         viewModel.searchString = ko.observable('');
-
-        // limeAlert({text:'hejhej',type:'success'});
-        // limeAlert('testar');
-
+        
         viewModel.searchValue.subscribe(function(newValue){
             if(newValue.length > 1){                
                 lbs.common.executeVba('Fulltextsearch.Search,' + newValue);
-                 window.focus();
+                window.focus();
                 $('#searchValue').focus();
             }
         });
@@ -68,12 +65,11 @@ lbs.apploader.register('Fulltextsearch', function () {
                 lbs.common.executeVba('Fulltextsearch.Search,' + $('#searchValue').val() + '*');
                 $('#searchValue').val($('#searchValue').val() + '*');
                 $('#searchValue').keydown();
-                $('#searchValue').focus();                
-                
-            }            
+                $('#searchValue').focus();
+            }
         }
         viewModel.showString = function(i,event){
-            lbs.common.executeVba('Fulltextsearch.Search,' + newValue);
+            lbs.common.executeVba('Fulltextsearch.Search,' + $('#searchValue').val());
         }
         return viewModel;
     };
