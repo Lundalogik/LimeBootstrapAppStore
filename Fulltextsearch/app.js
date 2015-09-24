@@ -31,12 +31,15 @@ lbs.apploader.register('Fulltextsearch', function () {
         
         viewModel.searchValue = ko.observable($('#searchValue').val()).extend({throttle:1000});
         viewModel.searchString = ko.observable('');
+        var lastManualSearchValue = "";
         
         viewModel.searchValue.subscribe(function(newValue){
-            if(newValue.length > 1){                
-                lbs.common.executeVba('Fulltextsearch.Search,' + newValue);
-                window.focus();
-                $('#searchValue').focus();
+            if(newValue.length > 1) {
+                if (newValue !== lastManualSearchValue) {
+                    lbs.common.executeVba('Fulltextsearch.Search,' + newValue);
+                    window.focus();
+                    $('#searchValue').focus();
+                }
             }
         });
 
@@ -69,6 +72,7 @@ lbs.apploader.register('Fulltextsearch', function () {
             }
         }
         viewModel.showString = function(i,event){
+            lastManualSearchValue = $('#searchValue').val();
             lbs.common.executeVba('Fulltextsearch.Search,' + $('#searchValue').val());
         }
         return viewModel;
