@@ -1,7 +1,9 @@
 {
 	"name": "SMS",
 	"author":"Andreas",
-	"status":"Development",
+	"status":"Release",
+	"license": true,
+	"description": "Why not send SMS from LIME Pro?"
 	"versions":[
 		{
 			"version":"0.1",
