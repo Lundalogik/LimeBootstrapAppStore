@@ -1,0 +1,132 @@
+﻿<div class="row">
+    <div class="col-sm-5 col-sm-offset-1 col-xs-5 col-xs-offset-1">
+        <h3>Meddelande</h3>
+        <div class="row">
+            <div class="col-sm-4 col-xs-4">
+                <div class="radio">
+                    <label>
+                        <input type="radio" data-bind="checked: messagetype" value="Använd mall"/><span>Använd mall</span></label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" data-bind="checked: messagetype"  value="Fritext"/>Fritext</label>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-6">
+                <div class="dropdown" data-bind="visible: showTemplates()">
+                    <button class="btn btn-default dropdown-toggle sms-button" type="button" data-toggle="dropdown" aria-expanded="true">
+                        Välj mall
+                    <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" data-bind="foreach: templates()">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-bind="text: title, popover:message, click:select"></a></li>                       
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <textarea class="form-control inputfield" placeholder="Skriv ditt meddelande här..." data-bind="value: inputvalue, valueUpdate: 'afterkeydown'"></textarea>
+        <!--,enable: !showTemplates()-->
+        <span data-bind="text: inputvalue().length + '/172', visible: (inputvalue().length == 0? false: true) "></span><span data-bind="icon: 'fa-warning', style:{color: 'orange'}, tooltip: 'Kr&auml;vs tv&aring; sms!', visible:(inputvalue().length < 172? false: true), text: ' '"></span>
+    </div>
+    <div class="col-sm-5 col-xs-5">
+        <h3>Avancerade inst&auml;llningar</h3>
+        <div class="row">
+            <div class="col-sm-6 col-xs-6">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle sms-button" type="button" data-toggle="dropdown" aria-expanded="true">
+                        <span data-bind="text: activeuser().username"> </span>
+                    <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"  data-bind="foreach: users()">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-bind="text: username, click:choice"></a></li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 col-xs-6 datepick">
+                        <div class="input-append date form_datetime">
+                            <input class="form-control" type="text" placeholder="Välj leveranstid" value="">
+                            <span class="add-on"><i class="icon-th"></i></span>
+                        </div>
+                    </div>
+
+
+                    <!--<input class="form-control" type="text" id="datepicker" placeholder="SMS skickas klockan" data-bind="datepicker:'', value: newValue" />-->
+                </div>
+            </div>
+        </div>
+        <h3>Person</h3>
+        <span data-bind="text: 'Urvalet innehåller '+personcounter() + ' personer'"></span>
+        <div class="row">
+            <div class="col-sm-6 col-xs-6 person-div">
+                <table class="person-table">
+                    <thead>
+                        <tr class="person-table-head-row">
+                            <th class="person-table-head">NAMN</th>
+                            <th class="person-table-head">NUMMER</th>
+                            <th class="person-table-head"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- ko foreach:{data:personsList(),as: 'person'}-->                    
+                        <tr class="person-table-row" data-bind="visible:isvisible()">                        
+                            <td data-bind="text: person.name"></td>
+                            <td data-bind="text: person.phone"></td>
+                            <td><span style="cursor: pointer" data-bind="click: remove, icon:'fa-trash'"> </span> </td>
+                        </tr>
+                        <!-- /ko -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-8 col-xs-4 col-xs-offset-8">
+                <button class="btn btn-success" data-bind="click: send">
+                    Skicka
+                </button>
+                <button class="btn btn-danger" data-bind="click: close">
+                    Avbryt
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+           <!-- ko if: success() -->
+          <h4 class="modal-title">SUCCÉ - SUCCESS - SUCCESSION - SUKSESJON - PERÄKKÄIN</h4>
+          <!-- /ko -->
+          <!-- ko if: !success() -->
+          <h4 class="modal-title">AJDÅ</h4>
+          <!-- /ko -->
+      </div>
+      <div class="modal-body" style="white-space: nowrap;">
+        <div class="row">
+            <div class="col-sm-8">
+                <!-- ko if: success() -->
+                    <p><b>Dina SMS har nu skapasts och är lagda på kö.</b></p>
+                    <p>För att se om dina SMS har skickats, gå till fliken SMS.</p>
+                <!-- /ko -->
+                <!-- ko if: !success() -->
+                    <p><b>Av en eller flera anledningar så crashade allt, tråkigt!</b></p>                    
+                <!-- /ko -->
+            </div>
+            <div class="col-sm-3">
+                <i class="fa fa-comment fa-5x"></i>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" data-bind="click: close">Okej</button>        
+      </div>
+    </div><!-- /.modal-content -->
+      
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

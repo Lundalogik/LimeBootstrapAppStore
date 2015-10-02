@@ -1,0 +1,17 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{D183A3D8-5FD8-494B-B014-37F57B35E655}") = "Send SMS", "Send SMS\Send SMS.dtproj", "{F37CCF32-27F2-4328-9DBD-CE4A7E4C2825}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F37CCF32-27F2-4328-9DBD-CE4A7E4C2825}.Development|Default.ActiveCfg = Development
+		{F37CCF32-27F2-4328-9DBD-CE4A7E4C2825}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,51 @@
+body {
+    /*background-color:#fff;*/
+}
+.inputfield {    
+    min-height: 250px;
+    height:auto;
+    margin-top: 20px;
+}
+.dropdown {
+    margin-top: 7px;    
+}
+.datepick {
+    width: 250px;
+    margin-top:10px;
+}
+.dropdown-menu {
+    min-width: 220px;
+    width:220px;
+}
+.sms-button {
+    width:220px;
+}
+.person-table {
+    width: 250px;
+    margin-bottom: 10px;    
+    overflow:scroll;        
+}
+.person-table-head {
+    font-weight:bold;
+    padding-right: 20px;    
+}
+.person-table-head-row {
+    /*position:absolute;*/
+    margin-bottom:15px;
+}
+.person-table-row {
+    margin-top: 10px;
+}
+.person-div {
+    height:154px;
+    padding:18px 0px 0px 20px;
+    overflow-y:scroll;
+    width:390px;
+    margin-bottom:30px;
+    overflow-x:hidden;
+    background-color:#fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left:14px;
+    margin-top:2px;
+}

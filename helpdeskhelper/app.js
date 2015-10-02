@@ -95,7 +95,7 @@
                 viewModel.bgcolor((self.config.bgcolor.medium === '' ? '#e56c19' : self.config.bgcolor.medium));
             }
             else if (viewModel.newerrands() > self.config.colorlevels.medium) {
-                viewModel.bgcolor((self.config.bgcolor.heigh === '' ? '#e56c19' : self.config.bgcolor.heigh));
+                viewModel.bgcolor((self.config.bgcolor.high === '' ? '#e56c19' : self.config.bgcolor.high));
             }            
         }
 
