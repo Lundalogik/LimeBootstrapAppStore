@@ -1,0 +1,17 @@
+{
+	"name": "CreateCustomerBFUS",
+	"author":"Fredrik Eriksson, Lundalogik AB",
+	"license": true,
+	"description": "This app is under development!",
+	"status":"Development",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2015-09-29",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}
