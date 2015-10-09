@@ -11,18 +11,19 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
                 {type: 'activeInspector', source: '', alias: 'rec'}
             ];
             this.resources = {
-                scripts: [], // <= External libs for your apps. Must be a file
+                //scripts: [], // <= External libs for your apps. Must be a file
+                scripts: ['script/app.customer.js'], // <= External libs for your apps. Must be a file
                 styles: ['app.css'], // <= Load styling for the app.
-                libs: [] // <= Allready included libs, put not loaded per default. Example json2xml.js
+                libs: [] // <= Already included libs, but not loaded per default. Example json2xml.js
             };
 
             this.baseURI = appConfig.baseURI;
             this.ewiKey = appConfig.ewiKey;
+            this.eligibleForBFUSSending = appConfig.eligibleForBFUSSending;
             this.crossDomainCall = appConfig.crossDomainCall;
             this.fieldMappings = appConfig.fieldMappings;
     };
 
-    //initialize
     /*Initialize
         Initialize happens after the data and recources are loaded but before the view is rendered.
         Here it is your job to implement the logic of your app, by attaching data and functions to 'viewModel' and then returning it
@@ -34,7 +35,7 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
         but, well, here you have it.
     */
     self.initialize = function (node, viewModel) {
-        
+        self.Customer = new Customer();
         self.resourceURI = '';
         self.suppressPinCodeWarning = false;
         self.suppressAddressWarning = false;
@@ -46,110 +47,20 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
         self.BFUSWarnings.warningAddress = 'Error.Customer.##TODO';
 
         viewModel.warningText = ko.observable('');
-        viewModel.isAlreadyInBFUS = ko.observable(false);   //##TODO: Ska gå på rec.xxxx
         viewModel.UIErrorText = ko.observable('');
-
+        viewModel.isAlreadyInBFUS = ko.observable(self.Customer.isIntegratedWithBFUS(self.config.fieldMappings.CustomerId));
+        
         viewModel.isRecordSaved = ko.computed(function() {
-            return lbs.common.executeVba('app_CreateCustomerBFUS.isRecordSaved,' + lbs.activeInspector.ID);
+            alert('hej');
+            return self.Customer.isRecordSaved()
         }, this);
 
         viewModel.isEligibleForSendingToBFUS = ko.computed(function() {
-            if (self.config.eligibleForBFUSSending !== undefined) {
-                return lbs.common.executeVba('app_CreateCustomerBFUS.isEligibleForSendingToBFUS,' + lbs.activeInspector.ID + ','
-                                                + self.config.eligibleForBFUSSending.limeField, + ','
-                                                + self.config.eligibleForBFUSSending.validIdstrings);
-            }
-            else {
-                return true;
-            }
+            return self.Customer.eligibleForBFUSSending(self.config.eligibleForBFUSSending)
         }, this);
 
         //Enable cross domain calls if needed.
         $.support.cors = self.config.crossDomainCall;
-
-        /**
-            Returns a customer object to send when creating a new customer in BFUS.
-        */
-        function createCustomerJSON () {
-            var c = this;
-            var exp = '';
-            
-            c.Header = {};
-            c.Header.ExternalId = lbs.activeInspector.Record.ID;
-            c.Header.SuppressPinCodeWarning = self.suppressPinCodeWarning;
-            c.Header.SuppressAddressWarning = self.suppressAddressWarning;
-            
-            c.Customer = {};
-            c.Customer.IsProtectedIdentity = false;
-            exp = exp + 'c.Customer.FirstName = viewModel.rec.' + self.config.fieldMappings.FirstName + '.text;\n';
-            exp = exp + 'c.Customer.LastName = viewModel.rec.' + self.config.fieldMappings.LastName + '.text;\n';
-            exp = exp + 'c.Customer.IsBusinessCustomer = (viewModel.rec.' + self.config.fieldMappings.IsBusinessCustomer + '.value === ' + self.config.fieldMappings.IsBusinessCustomerLIMEOptionId + ');\n';       //##TODO: gör till boolean
-            exp = exp + 'c.Customer.PinCode = viewModel.rec.' + self.config.fieldMappings.PinCode + '.text;\n';
-            exp = exp + 'c.Customer.CompanyCode = viewModel.rec.' + self.config.fieldMappings.CompanyCode + '.text;\n';
-            
-            c.Customer.EmailInformation = {};
-            exp = exp + 'c.Customer.EmailInformation.AcceptEMail = viewModel.rec.' + self.config.fieldMappings.AcceptEMail + '.text;\n';
-            if (self.config.fieldMappings.Email1 !== '') {
-                exp = exp + 'c.Customer.EmailInformation.EMail1 = viewModel.rec.' + self.config.fieldMappings.EMail1 + '.text;\n';
-            }
-            if (self.config.fieldMappings.Email2 !== '') {
-                exp = exp + 'c.Customer.EmailInformation.EMail2 = viewModel.rec.' + self.config.fieldMappings.EMail2 + '.text;\n';
-            }
-            if (self.config.fieldMappings.Email3 !== '') {
-                exp = exp + 'c.Customer.EmailInformation.EMail3 = viewModel.rec.' + self.config.fieldMappings.EMail3 + '.text;\n';
-            }
-            
-            c.Customer.SMSInformation = {};
-            exp = exp + 'c.Customer.SMSInformation.AcceptSMS = viewModel.rec.' + self.config.fieldMappings.AcceptSMS + '.text;\n';
-            
-            c.Customer.Phones = [];
-            $.each(self.config.fieldMappings.Phones, function (index, obj) {
-                exp = exp + 'c.Customer.Phones.push({'
-                exp = exp + 'PhoneTypeId : ' + obj.PhoneTypeId + ','
-                exp = exp + 'Number : viewModel.rec.' + obj.Number + '.text,'
-                exp = exp + '});'
-            });
-            
-            c.Customer.Addresses = [];
-            $.each(self.config.fieldMappings.Addresses, function (index, obj) {
-                exp = exp + 'c.Customer.Addresses.push({'
-                exp = exp + 'AddressTypeId : ' + obj.AddressTypeId + ','
-                exp = exp + 'StreetName : viewModel.rec.' + obj.StreetName + '.text,'
-                exp = exp + 'StreetQualifier : viewModel.rec.' + obj.StreetQualifier + '.text,'
-                exp = exp + 'StreetNumberSuffix : viewModel.rec.' + obj.StreetNumberSuffix + '.text,'
-                exp = exp + 'PostOfficeCode : viewModel.rec.' + obj.PostOfficeCode + '.text,'
-                exp = exp + 'City : viewModel.rec.' + obj.City + '.text,'
-                exp = exp + 'CountryCode : viewModel.rec.' + obj.CountryCode + '.text,'
-                exp = exp + 'ApartmentNumber : viewModel.rec.' + obj.ApartmentNumber + '.text,'
-                exp = exp + 'FloorNumber : viewModel.rec.' + obj.FloorNumber + '.text,'
-                exp = exp + '});'
-            });
-            
-            // Add all properties
-            eval(exp);
-            
-            return c;
-        }
-
-        /**
-            Returns a customer object to send when creating a new customer in BFUS.
-        */
-        function updateCustomerJSON () {
-            var c = this;
-            var exp = '';
-            
-            c.Header = {};
-            c.Header.ExternalId = lbs.activeInspector.Record.ID;
-            // c.Header.SuppressPinCodeWarning = self.suppressPinCodeWarning;
-            c.Header.SuppressAddressWarning = self.suppressAddressWarning;
-
-            //##TODO!
-
-            // Add all properties
-            eval(exp);
-
-            return c;
-        }
 
         function toggleLoader(showLoader) {
             toggleInfo(false);
@@ -202,28 +113,23 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
             toggleLoader(true);
             if (viewModel.isAlreadyInBFUS()) {
                 self.resourceURI = 'Common/Customer/UpdateCustomer_v1';
-                // viewModel.customerData = new updateCustomerJSON();   //##TODO: Implementera updateCustomer.
+                viewModel.customerData = new self.Customer.updateCustomerJSON();   //##TODO: Implementera updateCustomer.
             }
             else {
                 self.resourceURI = 'Common/Customer/CreateCustomer_v1';
-                viewModel.customerData = new createCustomerJSON();
+                viewModel.customerData = new self.Customer.createCustomerJSON(self.config.fieldMappings, viewModel.rec, self.suppressPinCodeWarning, self.suppressAddressWarning);
             }
             window.setTimeout(function() {sendToBFUS()}, 500);
         }
 
         sendToBFUS = function() {
-            
-            //alert(JSON.stringify(self.config));
-            
-            //##TODO: Loader hinner inte renderas innan anropet är klart om success...
-            
             var json = 
                       "{" +
                         "Header: {" +
                           "'ExternalId':'FER_TESTAR'," +
                           "'SuppressPinCodeWarning':false," +
                           "'SuppressAdressWarning':true " +
-                        "},"+
+                        "}," +
                         "Customer: {" +
                           "'IsProtectedIdentity':false," +
                           "'FirstName':'Kalle'," +
@@ -262,13 +168,12 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
                 type: "POST",
                 url: self.config.baseURI + self.resourceURI,
                 data: json,     //JSON.stringify(viewModel.customerData),
-                contentType: "application/json",        //; charset=utf-8",
+                contentType: "application/json",
                 headers: {
                     'Authorization' : 'Basic ' + self.config.ewiKey,
                     'Accept-Language' : 'sv-SE'
                 },
                 success: function(data) {
-
                     // Check if warning for existing pin code
                     if (data !== undefined) {
                         if (data.Header !== undefined) {
@@ -280,47 +185,16 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
                                 if (errorCode === self.BFUSWarnings.warningPinCode
                                         || errorCode === self.BFUSWarnings.warningCompanyCode
                                         || errorCode === self.BFUSWarnings.warningAddress) {
-// alert('warning');
-                                    
-                                    lbs.log.logToInfolog('warning', msg);
-                                    self.lastWarning = data.Header.ErrorInformation.ErrorCode;
-                                    
-                                    if (errorCode === self.BFUSWarnings.warningPinCode) {
-                                        viewModel.warningText(viewModel.localize.app_CreateCustomerBFUS.warningTextPinCode);
-                                    }
-                                    else if (errorCode === self.BFUSWarnings.warningCompanyCode) {
-                                        viewModel.warningText(viewModel.localize.app_CreateCustomerBFUS.warningTextCompanyCode);
-                                    }
-                                    else if (data.Header.ErrorInformation.ErrorCode === self.BFUSWarnings.warningAddress) {
-                                        if (viewModel.isAlreadyInBFUS()) {
-                                            viewModel.warningText(viewModel.localize.app_CreateCustomerBFUS.warningTextAddressUpdate);
-                                        }
-                                        else {
-                                            viewModel.warningText(viewModel.localize.app_CreateCustomerBFUS.warningTextAddressCreate);
-                                        }
-                                    }
-                                    toggleLoader(false);
-                                    toggleWarning(true);
+                                    treatWarning(msg, errorCode);
                                 }
                                 // Not a warning but an actual error.
                                 else {
-                                    treatErrorResponse(msg);
+                                    treatError(msg, viewModel.localize.app_CreateCustomerBFUS.e_couldNotSend);
                                 }
                             }
                             else    //Customer created or updated in BFUS
                             {
-                                toggleLoader(false);
-                                toggleInfo(true);
-                                viewModel.isAlreadyInBFUS(true);
-                                lbs.common.executeVba('app_CreateCustomerBFUS.saveBFUSResponseData,' 
-                                                        + lbs.activeInspector.ID + ',' 
-                                                        + self.config.fieldMappings.CustomerId + ',' 
-                                                        + data.Content.CustomerId + ',' 
-                                                        + self.config.fieldMappings.CustomerCode + ',' 
-                                                        + data.Content.CustomerCode);
-                                window.setTimeout(function() {
-                                        toggleInfo(false);
-                                    }, 3000);
+                                treatSuccess(data.Content.CustomerId, data.Content.CustomerCode);
                             }
                         }
                     }
@@ -353,12 +227,49 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
             toggleWarning(false);
         }
 
+        treatSuccess = function(customerId, customerCode) {
+            toggleLoader(false);
+            toggleInfo(true);
+            viewModel.isAlreadyInBFUS(true);
+            lbs.common.executeVba('app_CreateCustomerBFUS.saveBFUSResponseData,' 
+                                    + lbs.activeInspector.ID + ',' 
+                                    + self.config.fieldMappings.CustomerId + ',' 
+                                    + customerId + ',' 
+                                    + self.config.fieldMappings.CustomerCode + ',' 
+                                    + CustomerCode);
+            window.setTimeout(function() {
+                    toggleInfo(false);
+                }, 3000);
+        }
+
+        treatWarning = function(logMsg, errorCode) {
+            lbs.log.logToInfolog('warning', logMsg);
+            self.lastWarning = errorCode;
+
+            if (errorCode === self.BFUSWarnings.warningPinCode) {
+                viewModel.warningText(viewModel.localize.app_CreateCustomerBFUS.warningTextPinCode);
+            }
+            else if (errorCode === self.BFUSWarnings.warningCompanyCode) {
+                viewModel.warningText(viewModel.localize.app_CreateCustomerBFUS.warningTextCompanyCode);
+            }
+            else if (errorCode === self.BFUSWarnings.warningAddress) {
+                if (viewModel.isAlreadyInBFUS()) {
+                    viewModel.warningText(viewModel.localize.app_CreateCustomerBFUS.warningTextAddressUpdate);
+                }
+                else {
+                    viewModel.warningText(viewModel.localize.app_CreateCustomerBFUS.warningTextAddressCreate);
+                }
+            }
+            toggleLoader(false);
+            toggleWarning(true);
+        }
+
         treatError = function(logMsg, UIMsg) {
             if (logMsg !== '') {
                 lbs.log.logToInfolog('error', logMsg);
             }
-            toggleLoader(false);
             viewModel.UIErrorText(UIMsg);
+            toggleLoader(false);
             toggleError(true);
             window.setTimeout(function() {
                     toggleError(false);

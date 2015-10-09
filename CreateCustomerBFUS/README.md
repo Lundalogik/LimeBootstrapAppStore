@@ -24,8 +24,8 @@
 ```html
 <div data-app="{app:'CreateCustomerBFUS',
 				config:{
-					baseURI: 'http://46.137.102.91/BFUS_PERFOTST/WebServices/EWI6_1/',
-					ewiKey: 'HsEjFmIjNtEkMiInEGS/KlVAf7oAV19eU2mW4ot9pGV0nK+mdXR24/C7HS7GIt/n4q8Sw0AeIxSWAK/N6J4EPV0Ya2E=',
+					baseURI: 'http://...',
+					ewiKey: '...',
 					crossDomainCall: true,
 					fieldMappings: {
 						'FirstName': 'firstname',
