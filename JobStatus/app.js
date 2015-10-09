@@ -1,4 +1,4 @@
-lbs.apploader.register('Job Status', function () {
+lbs.apploader.register('JobStatus', function () {
     var self = this;
 
     /*Config (version 2.0)
