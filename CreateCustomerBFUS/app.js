@@ -42,19 +42,18 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
         self.lastWarning = '';
 
         self.BFUSWarnings = {};
-        self.BFUSWarnings.warningPinCode = 'Error.Customer.CustomerWithPinCodeAlreadyExists';
-        self.BFUSWarnings.warningCompanyCode = 'Error.Customer.CustomerWithCompanyCodeAlreadyExists';
-        self.BFUSWarnings.warningAddress = 'Error.Customer.##TODO';
+        self.BFUSWarnings.PinCode = 'Error.Customer.CustomerWithPinCodeAlreadyExists';
+        self.BFUSWarnings.CompanyCode = 'Error.Customer.CustomerWithCompanyCodeAlreadyExists';
+        self.BFUSWarnings.Address = 'Error.Customer.##TODO';
+        self.BFUSErrors = {};
+        self.BFUSErrors.missingData = 'Error.Base.ModelStateIsInvalid';
+        self.BFUSErrors.missingCompanyCode = 'Error.Customer.CompanyCodeIsMandatoryForBusinessCustomer';
+        
 
         viewModel.warningText = ko.observable('');
         viewModel.UIErrorText = ko.observable('');
         viewModel.isAlreadyInBFUS = ko.observable(self.Customer.isIntegratedWithBFUS(self.config.fieldMappings.CustomerId));
         
-        viewModel.isRecordSaved = ko.computed(function() {
-            alert('hej');
-            return self.Customer.isRecordSaved()
-        }, this);
-
         viewModel.isEligibleForSendingToBFUS = ko.computed(function() {
             return self.Customer.eligibleForBFUSSending(self.config.eligibleForBFUSSending)
         }, this);
@@ -105,8 +104,7 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
             Called when clicking on the create/update button.
         */
         viewModel.createOrUpdate = function() {
-            
-            if (!viewModel.isRecordSaved()) {
+            if (!self.Customer.isRecordSaved()) {
                 treatError('', viewModel.localize.app_CreateCustomerBFUS.e_recordNotSaved);
                 return;
             }
@@ -119,55 +117,57 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
                 self.resourceURI = 'Common/Customer/CreateCustomer_v1';
                 viewModel.customerData = new self.Customer.createCustomerJSON(self.config.fieldMappings, viewModel.rec, self.suppressPinCodeWarning, self.suppressAddressWarning);
             }
+            lbs.log.logToInfolog('info', JSON.stringify(viewModel.customerData));
             window.setTimeout(function() {sendToBFUS()}, 500);
         }
 
         sendToBFUS = function() {
-            var json = 
-                      "{" +
-                        "Header: {" +
-                          "'ExternalId':'FER_TESTAR'," +
-                          "'SuppressPinCodeWarning':false," +
-                          "'SuppressAdressWarning':true " +
-                        "}," +
-                        "Customer: {" +
-                          "'IsProtectedIdentity':false," +
-                          "'FirstName':'Kalle'," +
-                          "'LastName':'Anka'," +
-                          "'IsBusinessCustomer':false," +     // IsBusinessCustomer = false => PinCode (personal-code) must be set .
-                          "'PinCode':'19-760619-4657'," +     // PinCode (Personal-code)
-                          "'CompanyCode':null," +             // IsBusinessCustomer = true => CompanyCode must be set.
-                          "EmailInformation: {" +
-                            "'AcceptEMail':true," +
-                            "'EMail1':'test@hotmail.com'," +
-                            "'EMail2':'test2@hotmail.com'," +
-                            "'EMail3':'test3@hotmail.com'" +
-                          "},"+
-                          "SMSInformation: {" +
-                              "'AcceptSMS':false" +
-                          "}," +
-                          "Phones: [{" +
-                            "'PhoneTypeId':'10980200'," +
-                            "'Number':'070-5566778'" +
-                          "}]," +
-                          "Addresses:[{" +
-                            "'AddressTypeId':'10090000',"+    // At least one postal adress!
-                            "'StreetName':'Roskildevej',"+      
-                            "'StreetQualifier':'38',"+       
-                            "'StreetNumberSuffix':'C',"+    
-                            "'PostOfficeCode':'2000',"+
-                            "'City':'Frederiksberg',"+
-                            "'CountryCode':'DK',"+            // If null => default will be 'SE' 
-                            "'ApartmentNumber':'2',"+
-                            "'FloorNumber':'3'" +
-                          "}],"+
-                        "}," +
-                      "}";
+            // var json = 
+            //           "{" +
+            //             "Header: {" +
+            //               "'ExternalId':'FER_TESTAR'," +
+            //               "'SuppressPinCodeWarning':false," +
+            //               "'SuppressAdressWarning':true " +
+            //             "}," +
+            //             "Customer: {" +
+            //               "'IsProtectedIdentity':false," +
+            //               "'FirstName':'Kalle'," +
+            //               "'LastName':'Anka'," +
+            //               "'IsBusinessCustomer':false," +     // IsBusinessCustomer = false => PinCode (personal-code) must be set .
+            //               "'PinCode':'19-760619-4657'," +     // PinCode (Personal-code)
+            //               "'CompanyCode':null," +             // IsBusinessCustomer = true => CompanyCode must be set.
+            //               "EmailInformation: {" +
+            //                 "'AcceptEMail':true," +
+            //                 "'EMail1':'test@hotmail.com'," +
+            //                 "'EMail2':'test2@hotmail.com'," +
+            //                 "'EMail3':'test3@hotmail.com'" +
+            //               "},"+
+            //               "SMSInformation: {" +
+            //                   "'AcceptSMS':false" +
+            //               "}," +
+            //               "Phones: [{" +
+            //                 "'PhoneTypeId':'10980200'," +
+            //                 "'Number':'070-5566778'" +
+            //               "}]," +
+            //               "Addresses:[{" +
+            //                 "'AddressTypeId':'10090000',"+    // At least one postal adress!
+            //                 "'StreetName':'Roskildevej',"+      
+            //                 "'StreetQualifier':'38',"+       
+            //                 "'StreetNumberSuffix':'C',"+    
+            //                 "'PostOfficeCode':'2000',"+
+            //                 "'City':'Frederiksberg',"+
+            //                 "'CountryCode':'DK',"+            // If null => default will be 'SE' 
+            //                 "'ApartmentNumber':'2',"+
+            //                 "'FloorNumber':'3'" +
+            //               "}],"+
+            //             "}," +
+            //           "}";
             
             $.ajax({
                 type: "POST",
                 url: self.config.baseURI + self.resourceURI,
-                data: json,     //JSON.stringify(viewModel.customerData),
+                // data: json,
+                data: JSON.stringify(viewModel.customerData),
                 contentType: "application/json",
                 headers: {
                     'Authorization' : 'Basic ' + self.config.ewiKey,
@@ -182,14 +182,20 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
                                 var msg = errorCode + '.   Complete JSON: ' + JSON.stringify(data);
 
                                 // Take care of warnings.
-                                if (errorCode === self.BFUSWarnings.warningPinCode
-                                        || errorCode === self.BFUSWarnings.warningCompanyCode
-                                        || errorCode === self.BFUSWarnings.warningAddress) {
+                                if (errorCode === self.BFUSWarnings.PinCode
+                                        || errorCode === self.BFUSWarnings.CompanyCode
+                                        || errorCode === self.BFUSWarnings.Address) {
                                     treatWarning(msg, errorCode);
                                 }
                                 // Not a warning but an actual error.
                                 else {
-                                    treatError(msg, viewModel.localize.app_CreateCustomerBFUS.e_couldNotSend);
+                                    if (errorCode === self.BFUSErrors.missingData || errorCode === self.BFUSErrors.missingCompanyCode) {
+                                        treatError(msg, viewModel.localize.app_CreateCustomerBFUS.e_missingData)
+                                    }
+                                    else
+                                    {
+                                        treatError(msg, viewModel.localize.app_CreateCustomerBFUS.e_couldNotSend);
+                                    }
                                 }
                             }
                             else    //Customer created or updated in BFUS
@@ -210,10 +216,10 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
         */
         viewModel.warningYes = function() {
             
-            if (self.lastWarning === self.BFUSWarnings.warningPinCode || self.lastWarning === self.BFUSWarnings.warningCompanyCode) {
+            if (self.lastWarning === self.BFUSWarnings.PinCode || self.lastWarning === self.BFUSWarnings.CompanyCode) {
                 self.suppressPinCodeWarning = true;
             }
-            else if (self.lastWarning === self.BFUSWarnings.warningAddress) {
+            else if (self.lastWarning === self.BFUSWarnings.Address) {
                 self.suppressAddressWarning = true;
             }
             toggleWarning(false);
@@ -246,13 +252,13 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
             lbs.log.logToInfolog('warning', logMsg);
             self.lastWarning = errorCode;
 
-            if (errorCode === self.BFUSWarnings.warningPinCode) {
+            if (errorCode === self.BFUSWarnings.PinCode) {
                 viewModel.warningText(viewModel.localize.app_CreateCustomerBFUS.warningTextPinCode);
             }
-            else if (errorCode === self.BFUSWarnings.warningCompanyCode) {
+            else if (errorCode === self.BFUSWarnings.CompanyCode) {
                 viewModel.warningText(viewModel.localize.app_CreateCustomerBFUS.warningTextCompanyCode);
             }
-            else if (errorCode === self.BFUSWarnings.warningAddress) {
+            else if (errorCode === self.BFUSWarnings.Address) {
                 if (viewModel.isAlreadyInBFUS()) {
                     viewModel.warningText(viewModel.localize.app_CreateCustomerBFUS.warningTextAddressUpdate);
                 }

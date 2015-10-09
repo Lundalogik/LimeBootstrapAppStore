@@ -3,6 +3,8 @@
 ##Info
 
 
+###Important Notices
+* In the current version, the app only says that there is information missing on the customer record if BFUS returns an error claiming that some required information is not provided. A future improvement of the app could be adding support for showing to the user which information BFUS wants.
 
 ##Install
 1. Add the app folder to your Actionpad folder.
@@ -13,6 +15,7 @@
 *	app_CreateCustomerBFUS.i_sentToBFUS
 *	app_CreateCustomerBFUS.e_recordNotSaved
 *	app_CreateCustomerBFUS.e_couldNotSend
+*	app_CreateCustomerBFUS.e_missingData
 *	app_CreateCustomerBFUS.btnWarningYes
 *	app_CreateCustomerBFUS.btnWarningNo
 *	app_CreateCustomerBFUS.warningTextPinCode

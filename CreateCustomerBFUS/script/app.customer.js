@@ -47,16 +47,17 @@ var Customer = function() {
 	    c.Header.SuppressPinCodeWarning = suppressPinCodeWarning;
 	    c.Header.SuppressAddressWarning = suppressAddressWarning;
 	    
+	    // Build string with Javascript code to make configurable field mappings possible.
 	    c.Customer = {};
 	    c.Customer.IsProtectedIdentity = false;
 	    exp = exp + 'c.Customer.FirstName = rec.' + fieldMappings.FirstName + '.text;\n';
 	    exp = exp + 'c.Customer.LastName = rec.' + fieldMappings.LastName + '.text;\n';
 	    exp = exp + 'c.Customer.IsBusinessCustomer = (rec.' + fieldMappings.IsBusinessCustomer + '.value === ' + fieldMappings.IsBusinessCustomerLIMEOptionId + ');\n';
-	    exp = exp + 'c.Customer.PinCode = rec.' + fieldMappings.PinCode + '.text;\n';
-	    exp = exp + 'c.Customer.CompanyCode = rec.' + fieldMappings.CompanyCode + '.text;\n';
+	    exp = exp + 'if (!c.Customer.IsBusinessCustomer) { c.Customer.PinCode = rec.' + fieldMappings.PinCode + '.text; }\n';
+	    exp = exp + 'if (c.Customer.IsBusinessCustomer) { c.Customer.CompanyCode = rec.' + fieldMappings.CompanyCode + '.text; }\n';
 	    
 	    c.Customer.EmailInformation = {};
-	    exp = exp + 'c.Customer.EmailInformation.AcceptEMail = rec.' + fieldMappings.AcceptEMail + '.text;\n';
+	    exp = exp + 'c.Customer.EmailInformation.AcceptEMail = (rec.' + fieldMappings.AcceptEMail + '.value === 1);\n';
 	    if (fieldMappings.Email1 !== '') {
 	        exp = exp + 'c.Customer.EmailInformation.EMail1 = rec.' + fieldMappings.EMail1 + '.text;\n';
 	    }
@@ -68,8 +69,7 @@ var Customer = function() {
 	    }
 	    
 	    c.Customer.SMSInformation = {};
-	    exp = exp + 'c.Customer.SMSInformation.AcceptSMS = rec.' + fieldMappings.AcceptSMS + '.text;\n';
-	    
+	    exp = exp + 'c.Customer.SMSInformation.AcceptSMS = (rec.' + fieldMappings.AcceptSMS + '.value === 1);\n';
 	    c.Customer.Phones = [];
 	    $.each(fieldMappings.Phones, function (index, obj) {
 	        exp = exp + 'c.Customer.Phones.push({'
