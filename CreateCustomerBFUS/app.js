@@ -44,7 +44,7 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
         self.BFUSWarnings = {};
         self.BFUSWarnings.PinCode = 'Error.Customer.CustomerWithPinCodeAlreadyExists';
         self.BFUSWarnings.CompanyCode = 'Error.Customer.CustomerWithCompanyCodeAlreadyExists';
-        self.BFUSWarnings.Address = 'Error.Customer.##TODO';
+        self.BFUSWarnings.Address = 'Error.Customer.##NotYetImplementedInBFUS##';
         self.BFUSErrors = {};
         self.BFUSErrors.missingData = 'Error.Base.ModelStateIsInvalid';
         self.BFUSErrors.missingCompanyCode = 'Error.Customer.CompanyCodeIsMandatoryForBusinessCustomer';
@@ -280,6 +280,52 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
             window.setTimeout(function() {
                     toggleError(false);
                 }, 3000);
+        }
+
+        /**
+            Called when clicking the development helper button for getting the available PhoneTypeIds.
+        */
+        viewModel.getPhoneTypes = function() {
+            $.ajax({
+                type: "GET",
+                url: self.config.baseURI + 'Common/Phone/GetPhoneTypeInformation_v1/GetPhoneTypesExternalId',
+                contentType: "application/json",
+                headers: {
+                    'Authorization' : 'Basic ' + self.config.ewiKey,
+                    'Accept-Language' : 'sv-SE'
+                },
+                success: function(data) {
+                    alert('success');
+                    alert(JSON.stringify(data));
+                },
+                error: function(errMsg) {
+                    alert('error');
+                    alert(JSON.stringify(errMsg));
+                }
+            });
+        }
+
+        /**
+            Called when clicking the development helper button for getting the available AddressTypeIds.
+        */
+        viewModel.getAddressTypes = function() {
+            $.ajax({
+                type: "GET",
+                url: self.config.baseURI + 'Common/Address/GetAddressTypeInformation_v1/GetAddressTypesExternalId',
+                contentType: "application/json",
+                headers: {
+                    'Authorization' : 'Basic ' + self.config.ewiKey,
+                    'Accept-Language' : 'sv-SE'
+                },
+                success: function(data) {
+                    alert('success');
+                    alert(JSON.stringify(data));
+                },
+                error: function(errMsg) {
+                    alert('error');
+                    alert(JSON.stringify(errMsg));
+                }
+            });
         }
 
 
