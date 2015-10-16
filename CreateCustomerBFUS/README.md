@@ -85,6 +85,7 @@ Use the below JSON configuration to instantiate the app.
 						],
 						'Addresses': [
 							{
+								'AddressTypeId': 10090000,
 								'StreetName': 'invoicestreet',
 								'StreetQualifier': 'name',
 								'StreetNumberSuffix': 'name',

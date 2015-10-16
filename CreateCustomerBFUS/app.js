@@ -35,7 +35,7 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
         but, well, here you have it.
     */
     self.initialize = function (node, viewModel) {
-        self.Customer = new Customer();
+        self.Customer = new Customer(self.config.fieldMappings, viewModel.rec);
         self.resourceURI = '';
         self.suppressPinCodeWarning = false;
         self.suppressAddressWarning = false;
@@ -111,11 +111,11 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
             toggleLoader(true);
             if (viewModel.isAlreadyInBFUS()) {
                 self.resourceURI = 'Common/Customer/UpdateCustomer_v1';
-                viewModel.customerData = new self.Customer.updateCustomerJSON();   //##TODO: Implementera updateCustomer.
+                viewModel.customerData = new self.Customer.updateCustomerJSON(self.suppressPinCodeWarning, self.suppressAddressWarning);
             }
             else {
                 self.resourceURI = 'Common/Customer/CreateCustomer_v1';
-                viewModel.customerData = new self.Customer.createCustomerJSON(self.config.fieldMappings, viewModel.rec, self.suppressPinCodeWarning, self.suppressAddressWarning);
+                viewModel.customerData = new self.Customer.createCustomerJSON(self.suppressPinCodeWarning, self.suppressAddressWarning);
             }
             lbs.log.logToInfolog('info', JSON.stringify(viewModel.customerData));
             window.setTimeout(function() {sendToBFUS()}, 500);
@@ -236,13 +236,24 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
         treatSuccess = function(customerId, customerCode) {
             toggleLoader(false);
             toggleInfo(true);
+
+            var logMsg = '';
+            if (viewModel.isAlreadyInBFUS()) {
+                logMsg = 'Customer with record ID = ' + lbs.activeInspector.Record.ID + ' updated in BFUS. CustomerCode = "' + customerCode + '" and CustomerId = "' + customerId + '".';
+            }
+            else
+            {
+                logMsg = 'Customer with record ID = ' + lbs.activeInspector.Record.ID + ' created in BFUS. Given CustomerCode = "' + customerCode + '" and CustomerId = "' + customerId + '".';
+            }
+            
             viewModel.isAlreadyInBFUS(true);
             lbs.common.executeVba('app_CreateCustomerBFUS.saveBFUSResponseData,' 
                                     + lbs.activeInspector.ID + ',' 
                                     + self.config.fieldMappings.CustomerId + ',' 
                                     + customerId + ',' 
                                     + self.config.fieldMappings.CustomerCode + ',' 
-                                    + CustomerCode);
+                                    + customerCode);
+            lbs.log.logToInfolog('info', logMsg);
             window.setTimeout(function() {
                     toggleInfo(false);
                 }, 3000);

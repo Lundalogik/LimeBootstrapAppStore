@@ -47,8 +47,8 @@ Public Sub saveBFUSResponseData(sInspectorGUID As String, fieldNameCustomerId As
     If Not oInspector Is Nothing Then
         If Not oInspector.Controls Is Nothing Then
             If customerId <> "" And customerCode <> "" Then
-                Call oInspector.Controls.SetValue("fieldNameCustomerId", customerId)
-                Call oInspector.Controls.SetValue("fieldNameCustomerCode", customerCode)
+                Call oInspector.Controls.SetValue(fieldNameCustomerId, customerId)
+                Call oInspector.Controls.SetValue(fieldNameCustomerCode, customerCode)
                 Call oInspector.Controls.SetValue("lastsenttobfus", VBA.Now)
                 Call oInspector.Controls.Save
             End If
