@@ -3,7 +3,7 @@
 	"author":"Andreas",
 	"status":"Release",
 	"license": true,
-	"description": "Why not send SMS from LIME Pro?"
+	"description": "Why not send SMS from LIME Pro?", 
 	"versions":[
 		{
 			"version":"0.1",
