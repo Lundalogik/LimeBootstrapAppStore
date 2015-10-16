@@ -16,6 +16,7 @@ If BFUS already has a customer with the same organizational number or civic regi
 ##Install
 1. Add the app folder to your Actionpad folder.
 2. Add the following localize records:
+
 *	app_CreateCustomerBFUS.btnCreate
 *	app_CreateCustomerBFUS.btnUpdate
 *	app_CreateCustomerBFUS.loader
@@ -29,8 +30,10 @@ If BFUS already has a customer with the same organizational number or civic regi
 *	app_CreateCustomerBFUS.warningTextCompanyCode
 *	app_CreateCustomerBFUS.warningTextAddressCreate
 *	app_CreateCustomerBFUS.warningTextAddressUpdate
+
 3. Add the VBA module app_CreateCustomerBFUS.
 4. Remove the readonly setting done in VBA if the customer is integrated with BFUS on the fields that can be updated in BFUS by this app. Currently these are (stated by BFUS API name):
+
 * FirstName
 * LastName
 * AcceptEMail
@@ -108,6 +111,6 @@ In BUFS it is possible to create new custom Phone Types. The main integration (t
 The standard address type that is used in the main integration (that updates LIME Pro based on BFUS data) is the one set in the example configuration JSON for this app. If the customer wants to change this, it must be updated in both the main integration and the configuration JSON. Which Address Types that exist can be fetched here `Common/Address/GetAddressTypeInformation_v1/<a randomly chosen ExternalId>`. The EWI key must be set just as in the POST to create/update a customer.`.
 
 The values for `StreetName`, `StreetQualifier` and `StreetNumberSuffix` will be treated according to the following logics:
-* *StreetName*: If any of `StreetQualifier` and `StreetNumberSuffix` have been specified as the same field as `StreetName`, then the value from the LIME Pro field will be cut at the last existing space before it is sent to BFUS.
-* *StreetQualifier*: If it is the same LIME Pro field as `StreetName` then that string will be cut at the last space and the value passed will be the numeric value of the last part of the string. Otherwise, if it is the same LIME Pro field as `StreetNumberSuffix`, that string will have everything but the numerical values removed before sending to BFUS.
-* *StreetNumberSuffix*: If it is the same LIME Pro field as `StreetName` then that string will be cut at the last space and the value passed will be the string that is left when all numeric values have been removed from the string. Otherwise, if it is the same LIME Pro field as `StreetQualifier`, that string will have the numerical values removed before sending to BFUS.
+* **StreetName**: If any of `StreetQualifier` and `StreetNumberSuffix` have been specified as the same field as `StreetName`, then the value from the LIME Pro field will be cut at the last existing space before it is sent to BFUS.
+* **StreetQualifier**: If it is the same LIME Pro field as `StreetName` then that string will be cut at the last space and the value passed will be the numeric value of the last part of the string. Otherwise, if it is the same LIME Pro field as `StreetNumberSuffix`, that string will have everything but the numerical values removed before sending to BFUS.
+* **StreetNumberSuffix**: If it is the same LIME Pro field as `StreetName` then that string will be cut at the last space and the value passed will be the string that is left when all numeric values have been removed from the string. Otherwise, if it is the same LIME Pro field as `StreetQualifier`, that string will have the numerical values removed before sending to BFUS.
