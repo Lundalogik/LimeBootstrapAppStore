@@ -39,7 +39,8 @@ ErrorHandler:
 End Function
 
 ' Called when a successful call to BFUS has been made.
-Public Sub saveBFUSResponseData(sInspectorGUID As String, fieldNameCustomerId As String, customerId As String, fieldNameCustomerCode As String, customerCode As String)
+Public Sub saveBFUSResponseData(sInspectorGUID As String, fieldNameCustomerId As String, customerId As String _
+                                , fieldNameCustomerCode As String, customerCode As String)
     On Error GoTo ErrorHandler
     
     Dim oInspector As Lime.Inspector
@@ -47,8 +48,12 @@ Public Sub saveBFUSResponseData(sInspectorGUID As String, fieldNameCustomerId As
     If Not oInspector Is Nothing Then
         If Not oInspector.Controls Is Nothing Then
             If customerId <> "" And customerCode <> "" Then
-                Call oInspector.Controls.SetValue(fieldNameCustomerId, customerId)
-                Call oInspector.Controls.SetValue(fieldNameCustomerCode, customerCode)
+                If oInspector.Controls.GetValue(fieldNameCustomerId) = "" Then
+                    Call oInspector.Controls.SetValue(fieldNameCustomerId, customerId)
+                End If
+                If oInspector.Controls.GetValue(fieldNameCustomerCode) = "" Then
+                    Call oInspector.Controls.SetValue(fieldNameCustomerCode, customerCode)
+                End If
                 Call oInspector.Controls.SetValue("lastsenttobfus", VBA.Now)
                 Call oInspector.Controls.Save
             End If

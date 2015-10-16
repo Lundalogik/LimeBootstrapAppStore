@@ -1,5 +1,5 @@
 <div data-bind="visible: isEligibleForSendingToBFUS()">
-    <button type="button" id="createupdatebutton" class="btn btn-default" data-bind="text:(isAlreadyInBFUS() ? localize.app_CreateCustomerBFUS.btnUpdate : localize.app_CreateCustomerBFUS.btnCreate), click:createOrUpdate"></button>
+    <button type="button" id="createupdatebutton" class="btn btn-default" data-bind="text:(isAlreadyInBFUS() ? localize.app_CreateCustomerBFUS.btnUpdate : localize.app_CreateCustomerBFUS.btnCreate), click:createOrUpdate, icon:(isAlreadyInBFUS() ? 'fa-refresh' : 'fa-share')"></button>
     <div id="loading" class="bfus-hidefromstart">
     	<i class="fa fa-spinner fa-pulse"></i>
     	<span data-bind="text: localize.app_CreateCustomerBFUS.loader" />

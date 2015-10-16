@@ -236,24 +236,27 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
         treatSuccess = function(customerId, customerCode) {
             toggleLoader(false);
             toggleInfo(true);
-
-            var logMsg = '';
-            if (viewModel.isAlreadyInBFUS()) {
-                logMsg = 'Customer with record ID = ' + lbs.activeInspector.Record.ID + ' updated in BFUS. CustomerCode = "' + customerCode + '" and CustomerId = "' + customerId + '".';
-            }
-            else
-            {
-                logMsg = 'Customer with record ID = ' + lbs.activeInspector.Record.ID + ' created in BFUS. Given CustomerCode = "' + customerCode + '" and CustomerId = "' + customerId + '".';
-            }
-            
+            var isUpdate = viewModel.isAlreadyInBFUS();
             viewModel.isAlreadyInBFUS(true);
+
+            var logMsg = 'Customer with record ID = ' + lbs.activeInspector.Record.ID + ' %1 in BFUS. CustomerCode = "' + customerCode + '" and CustomerId = "' + customerId + '".';
+            logMsg = logMsg.replace('%1', (isUpdate ? 'updated' : 'created'));            
+            lbs.log.logToInfolog('info', logMsg);
+alert('app_CreateCustomerBFUS.saveBFUSResponseData,' 
+                                    + lbs.activeInspector.ID + ',' 
+                                    + self.config.fieldMappings.CustomerId + ',' 
+                                    + customerId + ',' 
+                                    + self.config.fieldMappings.CustomerCode + ','  
+                                    + customerCode + ',false');
             lbs.common.executeVba('app_CreateCustomerBFUS.saveBFUSResponseData,' 
                                     + lbs.activeInspector.ID + ',' 
                                     + self.config.fieldMappings.CustomerId + ',' 
                                     + customerId + ',' 
-                                    + self.config.fieldMappings.CustomerCode + ',' 
+                                    + self.config.fieldMappings.CustomerCode + ','  
                                     + customerCode);
-            lbs.log.logToInfolog('info', logMsg);
+            
+
+            //##TODO: This should be done at startup of the app using cookies instead.
             window.setTimeout(function() {
                     toggleInfo(false);
                 }, 3000);
@@ -339,10 +342,7 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
             });
         }
 
-
-        //Success-svar:
-        // {"Header":{"ErrorInformation":null,"ObjectVersion":2,"Success":true,"PerformanceTime":"00:00:08.8608000","InParameters":null},"Content":{"CustomerId":1033974840,"CustomerCode":"281"}}
-        //Kund-id är den ”interna identifikationen för kund medan kundnummret är den ”synliga” nummerkoden
+        //##TODO: Visa infotext om cookie säger att det är sparat precis. Ta bort cookie i så fall.
 
         return viewModel;
     };

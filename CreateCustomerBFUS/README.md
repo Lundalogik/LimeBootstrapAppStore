@@ -87,8 +87,8 @@ Use the below JSON configuration to instantiate the app.
 							{
 								'AddressTypeId': 10090000,
 								'StreetName': 'invoicestreet',
-								'StreetQualifier': 'name',
-								'StreetNumberSuffix': 'name',
+								'StreetQualifier': 'invoicestreet',
+								'StreetNumberSuffix': 'invoicestreet',
 								'PostOfficeCode': 'invoicezipcode',
 								'City': 'invoicecity',
 								'CountryCode': 'country',
@@ -102,7 +102,12 @@ Use the below JSON configuration to instantiate the app.
 ```
 
 ###Phone Numbers
-In BUFS it is possible to create new custom Phone Types. The main integration (that updates LIME based on BFUS data) retreives the types defined in the example configuration JSON shown here. If the customer wants to use other Phone Types they must be changed both in the main integration and in the configuration JSON for this app. Which Phone Types that exist can be fetched by a GET to `Common/Phone/GetPhoneTypeInformation_v1/<a randomly chosen ExternalId>`. The EWI key must be set just as in the POST to create/update a customer.
+In BUFS it is possible to create new custom Phone Types. The main integration (that updates LIME Pro based on BFUS data) retreives the types defined in the example configuration JSON shown here. If the customer wants to use other Phone Types they must be changed both in the main integration and in the configuration JSON for this app. Which Phone Types that exist can be fetched by a GET to `Common/Phone/GetPhoneTypeInformation_v1/<a randomly chosen ExternalId>`. The EWI key must be set just as in the POST to create/update a customer.
 
 ###Addresses
-The standard address type that is used in the main integration (that updates LIME based on BFUS data) is the one set in the example configuration JSON for this app. If the customer wants to change this, it must be updated in both the main integration and the configuration JSON. Which Address Types that exist can be fetched here `Common/Address/GetAddressTypeInformation_v1/<a randomly chosen ExternalId>`. The EWI key must be set just as in the POST to create/update a customer.`.
+The standard address type that is used in the main integration (that updates LIME Pro based on BFUS data) is the one set in the example configuration JSON for this app. If the customer wants to change this, it must be updated in both the main integration and the configuration JSON. Which Address Types that exist can be fetched here `Common/Address/GetAddressTypeInformation_v1/<a randomly chosen ExternalId>`. The EWI key must be set just as in the POST to create/update a customer.`.
+
+The values for `StreetName`, `StreetQualifier` and `StreetNumberSuffix` will be treated according to the following logics:
+* *StreetName*: If any of `StreetQualifier` and `StreetNumberSuffix` have been specified as the same field as `StreetName`, then the value from the LIME Pro field will be cut at the last existing space before it is sent to BFUS.
+* *StreetQualifier*: If it is the same LIME Pro field as `StreetName` then that string will be cut at the last space and the value passed will be the numeric value of the last part of the string. Otherwise, if it is the same LIME Pro field as `StreetNumberSuffix`, that string will have everything but the numerical values removed before sending to BFUS.
+* *StreetNumberSuffix*: If it is the same LIME Pro field as `StreetName` then that string will be cut at the last space and the value passed will be the string that is left when all numeric values have been removed from the string. Otherwise, if it is the same LIME Pro field as `StreetQualifier`, that string will have the numerical values removed before sending to BFUS.
