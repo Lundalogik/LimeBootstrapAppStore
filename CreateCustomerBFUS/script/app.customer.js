@@ -90,6 +90,7 @@ var Customer = function(fieldMappings, rec) {
 	    $.each(self.fieldMappings.Addresses, function (index, obj) {
 	        exp = exp + 'c.Customer.Addresses.push({'
 	        exp = exp + 'AddressTypeId : ' + obj.AddressTypeId + ','
+	        //##TODO: Fixa adresslogiken!   var streetAddressObj = getSplittedAddress()
 	        exp = exp + 'StreetName : self.rec.' + obj.StreetName + '.text,'
 	        exp = exp + 'StreetQualifier : self.rec.' + obj.StreetQualifier + '.text,'
 	        exp = exp + 'StreetNumberSuffix : self.rec.' + obj.StreetNumberSuffix + '.text,'
@@ -139,19 +140,33 @@ var Customer = function(fieldMappings, rec) {
 
 	    c.Customer.SMSInformation = {};
 	    exp = exp + 'c.Customer.SMSInformation.AcceptSMS = (self.rec.' + self.fieldMappings.AcceptSMS + '.value === 1);\n';
-	    c.Customer.Phones = [];
-	    $.each(self.fieldMappings.Phones, function (index, obj) {
-	        exp = exp + 'c.Customer.Phones.push({'
-	        	//##TODO: Skicka med PhoneId?
-	        exp = exp + 'PhoneTypeId : ' + obj.PhoneTypeId + ','
-	        exp = exp + 'Number : self.rec.' + obj.Number + '.text'
-	        	//##TODO: Skicka med DeleteObject?
-	        exp = exp + '});\n'
-	    });
+	    c.Customer.Phones = null;
+
+	    // The below can be used when support for updating phone numbers have been added by BFUS. You need to fix the code that sets PhoneId and DeleteObject though.
+	    // c.Customer.Phones = [];
+	    // $.each(self.fieldMappings.Phones, function (index, obj) {
+	    //     exp = exp + 'c.Customer.Phones.push({'
+	    //     	//##TODO: Set PhoneId!
+	    //     exp = exp + 'PhoneTypeId : ' + obj.PhoneTypeId + ','
+	    //     exp = exp + 'Number : self.rec.' + obj.Number + '.text'
+	    //     	//##TODO: Set DeleteObject!
+	    //     exp = exp + '});\n'
+	    // });
 
 	    // Add all properties
 	    eval(exp);
 
 	    return c;
+	}
+
+	/**
+		Splits a street address and returns it as an object with three parameters according to what BFUS wants.
+	*/
+	getSplittedAddress = function(LIMEStreetAddress) {
+		var streetAddressObj = {};
+		streetAddressObj.StreetName = '';
+		streetAddressObj.StreetQualifier = '';
+		streetAddressObj.StreetNumberSuffix = '';
+		return streetAddressObj;
 	}
 }

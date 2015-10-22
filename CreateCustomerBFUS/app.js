@@ -57,6 +57,15 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
         viewModel.isEligibleForSendingToBFUS = ko.computed(function() {
             return self.Customer.eligibleForBFUSSending(self.config.eligibleForBFUSSending)
         }, this);
+        
+        // Check if cookie exists that says the customer was just sent.
+        if (lbs.bakery.getCookie('sentToBFUS') === 'true') {
+            toggleInfo(true);
+            window.setTimeout(function() {
+                    toggleInfo(false);
+                }, 3000);
+            lbs.bakery.setCookie('sentToBFUS', 'false', 1);
+        }
 
         //Enable cross domain calls if needed.
         $.support.cors = self.config.crossDomainCall;
@@ -235,31 +244,19 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
 
         treatSuccess = function(customerId, customerCode) {
             toggleLoader(false);
-            toggleInfo(true);
+            lbs.bakery.setCookie('sentToBFUS', 'true', 1);
             var isUpdate = viewModel.isAlreadyInBFUS();
             viewModel.isAlreadyInBFUS(true);
 
             var logMsg = 'Customer with record ID = ' + lbs.activeInspector.Record.ID + ' %1 in BFUS. CustomerCode = "' + customerCode + '" and CustomerId = "' + customerId + '".';
             logMsg = logMsg.replace('%1', (isUpdate ? 'updated' : 'created'));            
             lbs.log.logToInfolog('info', logMsg);
-alert('app_CreateCustomerBFUS.saveBFUSResponseData,' 
-                                    + lbs.activeInspector.ID + ',' 
-                                    + self.config.fieldMappings.CustomerId + ',' 
-                                    + customerId + ',' 
-                                    + self.config.fieldMappings.CustomerCode + ','  
-                                    + customerCode + ',false');
             lbs.common.executeVba('app_CreateCustomerBFUS.saveBFUSResponseData,' 
                                     + lbs.activeInspector.ID + ',' 
                                     + self.config.fieldMappings.CustomerId + ',' 
                                     + customerId + ',' 
                                     + self.config.fieldMappings.CustomerCode + ','  
                                     + customerCode);
-            
-
-            //##TODO: This should be done at startup of the app using cookies instead.
-            window.setTimeout(function() {
-                    toggleInfo(false);
-                }, 3000);
         }
 
         treatWarning = function(logMsg, errorCode) {
@@ -341,8 +338,6 @@ alert('app_CreateCustomerBFUS.saveBFUSResponseData,'
                 }
             });
         }
-
-        //##TODO: Visa infotext om cookie säger att det är sparat precis. Ta bort cookie i så fall.
 
         return viewModel;
     };
