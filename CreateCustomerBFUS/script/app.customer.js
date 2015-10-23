@@ -61,8 +61,8 @@ var Customer = function(fieldMappings, rec) {
 	    exp = exp + 'c.Customer.IsBusinessCustomer = (self.rec.' + self.fieldMappings.IsBusinessCustomer + '.value === ' + self.fieldMappings.IsBusinessCustomerLIMEOptionId + ');\n';
 	    exp = exp + 'c.Customer.FirstName = self.rec.' + self.fieldMappings.FirstName + '.text;\n';
 	    exp = exp + 'if (!c.Customer.IsBusinessCustomer) { c.Customer.LastName = self.rec.' + self.fieldMappings.LastName + '.text; }\n';
-	    exp = exp + 'if (!c.Customer.IsBusinessCustomer) { c.Customer.PinCode = self.rec.' + self.fieldMappings.PinCode + '.text; }\n';
-	    exp = exp + 'if (c.Customer.IsBusinessCustomer) { c.Customer.CompanyCode = self.rec.' + self.fieldMappings.CompanyCode + '.text; }\n';
+	    exp = exp + 'if (!c.Customer.IsBusinessCustomer) { c.Customer.PinCode = \'19-\' + self.rec.' + self.fieldMappings.PinCode + '.text; }\n';
+	    exp = exp + 'if (c.Customer.IsBusinessCustomer) { c.Customer.CompanyCode = \'16-\' + self.rec.' + self.fieldMappings.CompanyCode + '.text + \'-00\'; }\n';
 	    
 	    c.Customer.EmailInformation = {};
 	    exp = exp + 'c.Customer.EmailInformation.AcceptEMail = (self.rec.' + self.fieldMappings.AcceptEMail + '.value === 1);\n';

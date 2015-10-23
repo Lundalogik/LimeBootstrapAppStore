@@ -130,3 +130,4 @@ The values for `StreetName`, `StreetQualifier` and `StreetNumberSuffix` will be 
 ##Future development ideas
 * Add support for updating phone numbers in LIME Pro. This requires the big integration to have support for PhoneId.
 * Make the button for updating in BFUS visible only if any information that can be sent to BFUS has been updated in LIME Pro.
+* In the current version, LIME Pro adds "19-" to all civic registration numbers for private persons before sending it to BFUS. It will be necessary to add "20-" on some customers instead in a near future. Not simply done though; How will 100+ year olds be treated then?
