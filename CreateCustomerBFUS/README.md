@@ -53,7 +53,6 @@ app_CreateCustomerBFUS.warningTextAddressUpdate
 * EMail2
 * EMail3
 * AcceptSMS
-* All phone numbers integrated.
 
 
 
@@ -125,4 +124,9 @@ The standard address type that is used in the main integration (that updates LIM
 The values for `StreetName`, `StreetQualifier` and `StreetNumberSuffix` will be treated according to the following logics:
 * **StreetName**: If any of `StreetQualifier` and `StreetNumberSuffix` have been specified as the same field as `StreetName`, then the value from the LIME Pro field will be cut at the last existing space before it is sent to BFUS.
 * **StreetQualifier**: If it is the same LIME Pro field as `StreetName` then that string will be cut at the last space and the value passed will be the numeric value of the last part of the string. Otherwise, if it is the same LIME Pro field as `StreetNumberSuffix`, that string will have everything but the numerical values removed before sending to BFUS.
-* **StreetNumberSuffix**: If it is the same LIME Pro field as `StreetName` then that string will be cut at the last space and the value passed will be the string that is left when all numeric values have been removed from the string. Otherwise, if it is the same LIME Pro field as `StreetQualifier`, that string will have the numerical values removed before sending to BFUS.
+* **StreetNumberSuffix**: If it is the same LIME Pro field as `StreetName` then that string will be cut at the last space and the value passed will be the string that is left when all numeric values have been removed from the string. If there is no space at all, then this property will be empty. Otherwise, if it is the same LIME Pro field as `StreetQualifier`, that string will have the numerical values removed before sending to BFUS.
+
+
+##Future development ideas
+* Add support for updating phone numbers in LIME Pro. This requires the big integration to have support for PhoneId.
+* Make the button for updating in BFUS visible only if any information that can be sent to BFUS has been updated in LIME Pro.

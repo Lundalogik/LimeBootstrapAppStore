@@ -80,28 +80,31 @@ var Customer = function(fieldMappings, rec) {
 	    exp = exp + 'c.Customer.SMSInformation.AcceptSMS = (self.rec.' + self.fieldMappings.AcceptSMS + '.value === 1);\n';
 	    c.Customer.Phones = [];
 	    $.each(self.fieldMappings.Phones, function (index, obj) {
+	    	exp = exp + 'if (self.rec.' + obj.Number + '.text !== \'\') { '
 	        exp = exp + 'c.Customer.Phones.push({'
 	        exp = exp + 'PhoneTypeId : ' + obj.PhoneTypeId + ','
 	        exp = exp + 'Number : self.rec.' + obj.Number + '.text'
-	        exp = exp + '});\n'
+	        exp = exp + '}); }\n'
 	    });
 	    
 	    c.Customer.Addresses = [];
 	    $.each(self.fieldMappings.Addresses, function (index, obj) {
+	        exp = exp + 'var splittedAddress = getSplittedAddress(self.rec.' + obj.StreetName + '.text, \'' + obj.StreetName + '\', \n';
+	        exp = exp + 'self.rec.' + obj.StreetQualifier + '.text, \'' + obj.StreetQualifier + '\', \n';
+	        exp = exp + 'self.rec.' + obj.StreetNumberSuffix + '.text, \'' + obj.StreetNumberSuffix + '\');\n';
 	        exp = exp + 'c.Customer.Addresses.push({'
-	        exp = exp + 'AddressTypeId : ' + obj.AddressTypeId + ','
-	        //##TODO: Fixa adresslogiken!   var streetAddressObj = getSplittedAddress()
-	        exp = exp + 'StreetName : self.rec.' + obj.StreetName + '.text,'
-	        exp = exp + 'StreetQualifier : self.rec.' + obj.StreetQualifier + '.text,'
-	        exp = exp + 'StreetNumberSuffix : self.rec.' + obj.StreetNumberSuffix + '.text,'
-	        exp = exp + 'PostOfficeCode : self.rec.' + obj.PostOfficeCode + '.text,'
-	        exp = exp + 'City : self.rec.' + obj.City + '.text,'
-	        exp = exp + 'CountryCode : self.rec.' + obj.CountryCode + '.text,'
-	        exp = exp + 'ApartmentNumber : self.rec.' + obj.ApartmentNumber + '.text,'
-	        exp = exp + 'FloorNumber : self.rec.' + obj.FloorNumber + '.text,'
+	        exp = exp + 'AddressTypeId : ' + obj.AddressTypeId + ', '
+	        exp = exp + 'StreetName : splittedAddress.StreetName, '
+	        exp = exp + 'StreetQualifier : splittedAddress.StreetQualifier, '
+	        exp = exp + 'StreetNumberSuffix : splittedAddress.StreetNumberSuffix, '
+	        exp = exp + 'PostOfficeCode : self.rec.' + obj.PostOfficeCode + '.text, '
+	        exp = exp + 'City : self.rec.' + obj.City + '.text, '
+	        exp = exp + 'CountryCode : self.rec.' + obj.CountryCode + '.text, '
+	        exp = exp + 'ApartmentNumber : self.rec.' + obj.ApartmentNumber + '.text, '
+	        exp = exp + 'FloorNumber : self.rec.' + obj.FloorNumber + '.text'
 	        exp = exp + '});\n'
 	    });
-	    
+
 	    // Add all properties
 	    eval(exp);
 	    
@@ -140,7 +143,7 @@ var Customer = function(fieldMappings, rec) {
 
 	    c.Customer.SMSInformation = {};
 	    exp = exp + 'c.Customer.SMSInformation.AcceptSMS = (self.rec.' + self.fieldMappings.AcceptSMS + '.value === 1);\n';
-	    c.Customer.Phones = null;
+	    c.Customer.Phones = [];
 
 	    // The below can be used when support for updating phone numbers have been added by BFUS. You need to fix the code that sets PhoneId and DeleteObject though.
 	    // c.Customer.Phones = [];
@@ -162,11 +165,47 @@ var Customer = function(fieldMappings, rec) {
 	/**
 		Splits a street address and returns it as an object with three parameters according to what BFUS wants.
 	*/
-	getSplittedAddress = function(LIMEStreetAddress) {
+	getSplittedAddress = function(streetName, streetNameFieldName, streetQualifier, streetQualifierFieldName, streetNumberSuffix, streetNumberSuffixFieldName) {
 		var streetAddressObj = {};
-		streetAddressObj.StreetName = '';
-		streetAddressObj.StreetQualifier = '';
-		streetAddressObj.StreetNumberSuffix = '';
+
+		var lastSpaceStreetName = streetName.lastIndexOf(' ');
+
+		// Fix street address
+		if (streetNameFieldName === streetQualifierFieldName || streetNameFieldName === streetNumberSuffixFieldName) {
+			var lastSpaceStreetName = streetName.lastIndexOf(' ');
+			streetAddressObj.StreetName = streetName.substr(0, (lastSpaceStreetName > 0 ? lastSpaceStreetName : streetName.length));
+		}
+		else {
+			streetAddressObj.StreetName = streetName;
+		}
+
+		// Fix street number
+		if (streetQualifierFieldName === streetNameFieldName) {
+			streetAddressObj.StreetQualifier = streetName.substr(lastSpaceStreetName + 1, streetName.length).replace(/\D+/g, '');	// replace all non-digits with nothing
+		}
+		else if (streetQualifierFieldName === streetNumberSuffixFieldName) {
+			streetAddressObj.StreetQualifier = streetQualifier.replace( /\D+/g, '');	// replace all non-digits with nothing
+		}
+		else {
+			streetAddressObj.StreetQualifier = streetQualifier;
+		}
+
+		// Fix street number suffix
+		if (streetNumberSuffixFieldName === streetNameFieldName) {
+			if (lastSpaceStreetName > 0) {
+				streetAddressObj.StreetNumberSuffix = streetName.substr(lastSpaceStreetName + 1, streetName.length).replace(/[0-9]/g, '');	// replace all digits with nothing
+			}
+			else {
+				streetAddressObj.StreetNumberSuffix = '';
+			}
+		}
+		else if (streetNumberSuffixFieldName === streetQualifierFieldName) {
+			streetAddressObj.StreetNumberSuffix = streetNumberSuffix.replace(/[0-9]/g, '');	// replace all digits with nothing
+		}
+		else {
+			streetAddressObj.StreetNumberSuffix = streetNumberSuffix;
+		}
+
 		return streetAddressObj;
 	}
 }
