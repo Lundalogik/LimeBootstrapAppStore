@@ -15,5 +15,8 @@ As you set your filters yourself, only you, LIME and the sky is the limit.
 ``` html
 <div data-app="{app:'garcon'}"></div>
 ```
+
+## Important
+Try to avoid using this app within cards, since that will slow down opening a card up, thus giving a poor user experience. Also be careful with the amount of filters you activate. The more the filters/tiles, the more the impact on performance in the solution!
 ### More reading
 For more extensive description of the app and how to install it, please see the <a href="https://raw.githubusercontent.com/Lundalogik/LimeBootstrapAppStore/master/garcon/Docs/LIME Garcon.docx" download >documentation</a>
