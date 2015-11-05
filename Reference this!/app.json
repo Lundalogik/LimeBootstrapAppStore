@@ -1,0 +1,15 @@
+{
+	"name": "Reference this!",
+	"author":"BOS",
+	"status":"Development",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2015-11-05",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}
