@@ -4,9 +4,14 @@
 -- SETTINGS --
 --------------
 DECLARE @customertablename NVARCHAR(64)
-SET @customertablename = N'customer'
+SET @customertablename = N''
 --------------
 
+IF @customertablename = N''
+BEGIN
+	RAISERROR(N'You must set a table name!', 11, 1)
+	RETURN
+END
 
 
 BEGIN TRY
