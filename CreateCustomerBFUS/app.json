@@ -2,13 +2,18 @@
 	"name": "CreateCustomerBFUS",
 	"author":"Fredrik Eriksson, Lundalogik AB",
 	"license": true,
-	"description": "This app is under development!",
-	"status":"Development",
+	"description": "This app lets the user create a LIME Pro prospect customer in BFUS and also update it once it has been created in BFUS. The app is a supplement to the big LIME Pro - BFUS integration where updates in BFUS are automatically sent to LIME Pro.",
+	"status":"Beta",
 	"versions":[
 		{
 			"version":"0.1",
 			"date":"2015-09-29",
-			"comments":"Creation"
+			"comments":"Creation."
+		},
+		{
+			"version":"0.2",
+			"date":"2015-11-13",
+			"comments":"Lifted to Beta status."
 		}
 	],
 	"install":{

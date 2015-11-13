@@ -1,7 +1,7 @@
 #CreateCustomerBFUS
 
 ##Info
-This app is a supplement to the big LIME Pro - BFUS integration that gathers data from BFUS and writes it to LIME. It could however, from a technical standpoint, also be used separately.
+This app is a supplement to the big LIME Pro - BFUS integration where updates in BFUS are automatically sent to LIME Pro. It could however, from a technical standpoint, also be used separately.
 
 The app lets the user create a LIME Pro prospect customer in BFUS. The customer will then automatically be part of the main integration. It is also possible to udpate some data in LIME Pro and send it to BFUS.
 
@@ -15,8 +15,8 @@ If BFUS already has a customer with the same organizational number or civic regi
 
 ##Install
 1. Add the app folder to your Actionpad folder.
-2. Run the script createLocalizeRecords.sql to add the necessary localize records.
-3. Add the VBA module app_CreateCustomerBFUS.
+2. Add the VBA module app_CreateCustomerBFUS.
+3. Run the script createLocalizeRecords.sql to add the necessary localize records.
 4. Remove the readonly setting if the customer is integrated with BFUS, done in VBA, on the fields that can be updated in BFUS by this app. Currently these are (stated by BFUS API name):
 
 * FirstName
@@ -111,3 +111,6 @@ The values for `StreetName`, `StreetQualifier` and `StreetNumberSuffix` will be 
 * Add support for updating phone numbers in LIME Pro. This requires that the big integration has support for PhoneId.
 * Make the button for updating in BFUS visible (or highlighted or similar) only if any information that can be updated in BFUS has been updated in LIME Pro.
 * In the current version, LIME Pro adds "19-" to all civic registration numbers for private persons before sending it to BFUS. It will be necessary to add "20-" on some customers instead in a near future. Not a trivial task though; How will 100+ year olds be treated then?
+
+##Installing in a non LIME Bootstrap environment
+It is possible, but tricky, to install and run this app in a LIME Pro solution that does not have the LIME Bootstrap framework. If you need to do this and do not currently have the localize table, a SQL script to create that table is provided under the Install folder.
