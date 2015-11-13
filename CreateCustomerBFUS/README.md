@@ -37,12 +37,19 @@ Use the below JSON configuration to instantiate the app.
 					baseURI: 'http://...',
 					ewiKey: '...',
 					crossDomainCall: true,
+					eligibleForBFUSSending: {
+						'limeField': 'category',
+						'validIdstrings': ';213601;213501;'
+					},
 					fieldMappings: {
+						'CustomerCode': 'customerno',
+						'CustomerId': 'customerid',
 						'FirstName': 'firstname',
 						'LastName': 'lastname',	
 						'IsBusinessCustomer': 'category',
-						'PinCode': 'orgnr',
-						'CompanyCode': 'orgnr',
+						'IsBusinessCustomerLIMEOptionId': 213601,
+						'PinCode': 'registrationno',
+						'CompanyCode': 'registrationno',
 						'AcceptEMail': 'accepts_email',
 						'EMail1': 'email1',
 						'EMail2': 'email2',
@@ -55,7 +62,7 @@ Use the below JSON configuration to instantiate the app.
 							},
 							{
 								'PhoneTypeId': 10980100,
-								'Number': 'fax'
+								'Number': 'telefax'
 							},
 							{
 								'PhoneTypeId': 10980200,
@@ -85,7 +92,7 @@ Use the below JSON configuration to instantiate the app.
 						]
 					}
 				}
-				}"></div>
+			}"></div>
 ```
 
 #####Phone Numbers
