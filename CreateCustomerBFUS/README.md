@@ -15,34 +15,7 @@ If BFUS already has a customer with the same organizational number or civic regi
 
 ##Install
 1. Add the app folder to your Actionpad folder.
-2. Add the following localize records:
-
-app_CreateCustomerBFUS.btnCreate
-
-app_CreateCustomerBFUS.btnUpdate
-
-app_CreateCustomerBFUS.loader
-
-app_CreateCustomerBFUS.i_sentToBFUS
-
-app_CreateCustomerBFUS.e_recordNotSaved
-
-app_CreateCustomerBFUS.e_couldNotSend
-
-app_CreateCustomerBFUS.e_missingData
-
-app_CreateCustomerBFUS.btnWarningYes
-
-app_CreateCustomerBFUS.btnWarningNo
-
-app_CreateCustomerBFUS.warningTextPinCode
-
-app_CreateCustomerBFUS.warningTextCompanyCode
-
-app_CreateCustomerBFUS.warningTextAddressCreate
-
-app_CreateCustomerBFUS.warningTextAddressUpdate
-
+2. Run the script createLocalizeRecords.sql to add the necessary localize records.
 3. Add the VBA module app_CreateCustomerBFUS.
 4. Remove the readonly setting if the customer is integrated with BFUS, done in VBA, on the fields that can be updated in BFUS by this app. Currently these are (stated by BFUS API name):
 
