@@ -1,12 +1,14 @@
 {
-	"name": "vismaadmin",
-	"author":"SSM",
-	"status":"Development",
+	"name": "VISMA Administration",
+	"author":"MFA & KSV",
+	"status":"Beta",
+	"license": true,
+    "shortDesc": "Transfer customers from LIME Pro to VISMA Administrationand receive the customers ivoicing.",
 	"versions":[
 		{
-			"version":"0.1",
-			"date":"6/30/2015",
-			"comments":"Creation"
+			"version": "1.0",
+            "date": "2015-12-02",
+            "comments": "First release!"
 		}
 	],
 	"install":{

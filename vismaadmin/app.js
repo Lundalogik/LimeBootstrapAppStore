@@ -70,7 +70,7 @@ lbs.apploader.register('vismaadmin', function () {
                     lbs.limeDataConnection.ActiveInspector.Controls.SetValue('vismaid', VismaResponse.Number);
                     lbs.limeDataConnection.ActiveInspector.Controls.SetValue('visma_turnover_yearnow', VismaResponse.AccumulateTurnoverThisYear);
                     lbs.limeDataConnection.ActiveInspector.Controls.SetValue('visma_turnover_lastyear', VismaResponse.AccumulateTurnoverLastYear);
-                    lbs.limeDataConnection.ActiveInspector.Record.Update();
+                    lbs.limeDataConnection.ActiveInspector.Save();
                     lbs.limeDataConnection.ActiveInspector.WebBar.Refresh();
                 }
             }
