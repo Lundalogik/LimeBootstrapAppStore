@@ -1,0 +1,56 @@
+/*
+PUT SOME FANCY CSS STUFF HERE PLEASE!
+*/
+/*
+.visma{
+	width: 90;
+	height: 90px;
+	bottom: 60px;
+	margin-top: -11px;
+	z-index: 1000;
+	position: absolute;
+}
+
+.vismaTurnOver {
+	margin-left: 10px;
+	margin-bottom: 5px;
+	padding: 5px;
+	font-weight: bold;
+}
+
+
+.vismaTurnOverResultThisYear {
+	margin-bottom: 10px;
+	margin-right: 15px;
+	font-size: 115%;
+}
+
+.vismaTurnOverResultLastYear {
+	margin-bottom: 25px;
+	margin-right: 15px;
+	font-size: 115%;
+}
+*/
+.vismaButton:hover {
+	background-color: #585858;
+	color: #f6f6f6;
+}
+
+.visma-icon{
+	height: 100%;
+	line-height: 100%;
+	float: left;
+	margin-left: 2px;
+	margin-top: 4px;
+}
+.visma-text{
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 6px;
+}
+.vismaButton {
+	color: #f6f6f6;
+	overflow: hidden;
+	word-wrap: normal;
+	white-space: normal;
+}

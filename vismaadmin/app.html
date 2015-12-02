@@ -1,0 +1,14 @@
+<div class="visma dark-grey">
+
+	<button class="vismaButton btn btn-lime dark-grey" data-bind="visible: newCompany(), click: sendToVisma">
+		<span class="visma-icon fa fa-send fa-2x"/>
+		<span class="visma-text" data-bind="text:'Spara till Visma Administration'"/>
+	</button>
+	
+	<button class="vismaButton btn btn-lime dark-grey" data-bind= "visible: !newCompany(), click: sendToVisma">
+		<span class="visma-icon fa fa-share fa-2x"/>
+		<span class="visma-text" data-bind="text:'Uppdatera ' +company.name.text+' i Visma Administration'"/>
+	</button>
+
+</div>
+

@@ -1,0 +1,30 @@
+﻿<div class="header-container blue">
+	<div class="header-icon">	</div>	
+	<h2 data-bind="text:company.name.text"></h2>
+	<ul class="info-links">
+		<li data-bind="text:company.postalcity.text, showOnMap: company.fullpostaladdress.text, icon: 'fa-map-marker'"> </li>
+		<li data-bind="text:company.phone.text, call: company.phone.text, icon: 'fa-phone'"></li>
+		<li data-bind="text:company.www.text, openURL: company.www.text, icon: 'fa-globe'"></li>
+	</ul>      
+</div>
+
+<!-- VISMA APP START-->
+<div data-app="{app:'vismaadmin',config:{
+	vismaUrl:'http://provisma:8194/api/v1/customer'
+	}}">
+</div>
+<!-- VISMA APP END-->
+
+<ul class="menu expandable">
+		<li class="menu-header"data-bind=" text:localize.Actionpad_Company.historyheader"></li>  
+		<li class="divider"></li>
+		<li data-bind="vba:'ActionPad_Company.NewHistory, receivedemail', text:localize.Actionpad_Company.recived_email, icon:'fa-pencil'"></li>
+		<li data-bind="vba:'ActionPad_Company.NewHistory, talkedto', text:localize.Actionpad_Company.talked_to, icon:'fa-pencil'"></li>
+		<li data-bind="vba:'ActionPad_Company.NewHistory, salescall', text:localize.Actionpad_Company.salescall, icon:'fa-pencil'"></li>
+		<li data-bind="vba:'ActionPad_Company.NewHistory, noanswer', text:localize.Actionpad_Company.noanswer, icon:'fa-pencil'"></li>        
+</ul>
+
+
+	
+
+	
