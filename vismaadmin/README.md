@@ -18,7 +18,7 @@ Every night, invoicing information is transferred from Visma Administration to L
 7. In company.html add the following row (change the vismaUrl, where it says "provisma", to the computername-specific address): 
 ``` html
 <div data-app="{app:'vismaadmin',config:{
-	VismaUrl:'http://provisma:8194/api/v1/customer'
+	vismaUrl:'http://provisma:8194/api/v1/customer'
 	}}">
 </div>
 ```
