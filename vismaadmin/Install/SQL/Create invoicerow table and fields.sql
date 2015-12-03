@@ -48,7 +48,7 @@ BEGIN TRY
 		DECLARE @tempstringid INT
 
 		INSERT INTO [string] (idcategory, sv, en_us, [no], fi) 
-		VALUES (17, N'Invoicerows', N'Fakturarader', N'Invoicerows', N'Invoicerows')
+		VALUES (17, N'Fakturarader', N'Invoicerows', N'Invoicerows', N'Invoicerows')
 		SELECT TOP(1) @tempstringid = idstring FROM string ORDER BY idstring DESC
 
 		INSERT INTO attributedata (owner, idrecord, name, value)

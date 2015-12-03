@@ -52,7 +52,7 @@ BEGIN TRY
 		DECLARE @tempstringid INT
 
 		INSERT INTO [string] (idcategory, sv, en_us, [no], fi) 
-		VALUES (17, N'Invoices', N'Fakturor', N'Invoices', N'Invoices')
+		VALUES (17, N'Fakturor', N'Invoices', N'Invoices', N'Invoices')
 		SELECT TOP(1) @tempstringid = idstring FROM string ORDER BY idstring DESC
 
 		INSERT INTO attributedata (owner, idrecord, name, value)
@@ -342,7 +342,7 @@ BEGIN TRY
 			@@localname = @localname OUTPUT,
 			@@idcategory = @idcategory OUTPUT
 						
-		UPDATE [string] SET en_us = N'Toal Amount', sv = N'Total Belopp', [no] = N'Totalt Beløp', fi = N'Kokonaismäärä' WHERE [idstring] = @localname
+		UPDATE [string] SET en_us = N'Total Amount', sv = N'Total Belopp', [no] = N'Totalt Beløp', fi = N'Kokonaismäärä' WHERE [idstring] = @localname
 
 		--CREATE DECIMAL FIELD invoice_balance
 		SET @tablename = N'invoice'

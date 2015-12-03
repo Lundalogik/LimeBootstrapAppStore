@@ -11,17 +11,19 @@ Every night, invoicing information is transferred from Visma Administration to L
 ##Installation
 1. Install the Visma-service on the Visma server...
 2. Copy "vismaadmin" folder to the “apps” folder in the Actionpad-folder.
-3. Run the SQL-scripts for creating the tables and fields needed ("..\Install\SQL") and put the icons ("..\Install\ICONS") on the tables.
-4. Import the file Visma.bas ("..\Install\VBA").
-5. In company.html add the following row (change the vismaUrl, where it says "proVisma", to the computername-specific address): 
+3. Run the SQL-scripts for creating the tables, fields and localization-records needed ("..\Install\SQL") in the right order according to the README-file in the folder and put the icons ("..\Install\ICONS") on the tables.
+4. Add separators according to the images in the ..\Install\SQL folder.
+5. Create a security policy named "tbl_visma" with only read rights for all groups except administrators. Add the policy to the tables "invoice" and "invoicerow".
+6. Import the file Visma.bas ("..\Install\VBA").
+7. In company.html add the following row (change the vismaUrl, where it says "provisma", to the computername-specific address): 
 ``` html
 <div data-app="{app:'vismaadmin',config:{
 	VismaUrl:'http://provisma:8194/api/v1/customer'
 	}}">
 </div>
 ```
-6. Create a user in LIME Pro that is a member of the Administrators group. Make sure that the user has default login set to "Lime" and not "Windows".
-7. Run the Visma service in order to fully receive all invoices and invoicerows.
+8. Create a user in LIME Pro that is a member of the Administrators group. Make sure that the user has default login set to "Lime" and not "Windows".
+9. Run the Visma service in order to fully create all invoices and invoicerows in LIME Pro.
 
 ## Important
 You need to be able to connect to your Visma-database when transferring your customers from LIME Pro to Visma Administration.
