@@ -1,0 +1,16 @@
+{
+	"name": "quicknote",
+	"author":"TLN",
+	"status":"Beta",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2015-12-10",
+			"comments":"Creation"
+		}
+	],
+	"shortDesc" : "Fill with good words, because it's greate!",
+	"install":{
+		
+	}
+}

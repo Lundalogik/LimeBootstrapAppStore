@@ -1,0 +1,30 @@
+<div class="panel panel-info" id="wrapper">
+	<!--div class="panel-heading">
+		<h3 class="panel-title" data-bind="text:'Quicknote'"></h3>
+	</div-->
+	<div class="panel-body">
+  		<select id="history-select" class="form-control selectpicker"  data-style="btn-info" id="history"  data-bind="value:chosenHistory">
+			<!-- ko foreach: historyTypes -->
+				<option data-bind="value:id, text:text"/>
+			<!-- /ko -->
+		</select>
+
+		<div id="text-area-history" class="form-group">
+			<textarea class="form-control" rows="4" id="comment" maxlength="512" data-bind="value:noteText"></textarea>
+		</div>
+
+		<div class="btn-group btn-group-lime btn-group-justified" role="group" aria-label="...">
+			<div class="btn-group btn-group-lime" role="group">
+				<button type="button" class="btn btn-lime" data-bind="text: ' ', icon:'fa-arrow-circle-left', click: goToPrevious, visible:prevEnabled, tooltip:'Föregående post'" />
+			</div>
+			<div class="btn-group btn-group-lime" role="group">
+				<button type="button" class="btn btn-lime" data-bind="text:' ', icon:'fa-floppy-o', click: saveHistory, tooltip:'Spara'"/>
+			</div>
+			<div class="btn-group btn-group-lime" role="group">
+				<button type="button" class="btn btn-lime" data-bind="text: ' ', icon:'fa-arrow-circle-right', click: goToNext, visible:nextEnabled, tooltip:'Nästa post'" />
+			</div>
+		</div>
+
+ 	</div>
+</div>
+
