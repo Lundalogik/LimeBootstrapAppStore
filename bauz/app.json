@@ -1,0 +1,16 @@
+{
+	"name": "bauz",
+	"author":"jma, cwa, mno, jfe, gga",
+	"status":"Development",
+	"shortDesc":"Gives an overview in the Overview tab, built on Garcon and Top5 sales. Both are needed for the app to work.",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2015-12-10",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}
