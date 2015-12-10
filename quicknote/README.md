@@ -1,6 +1,5 @@
 #  quicknote #
 
-CREATED BY: TLN
 
 ##Tired of pop-up windows?
 ##Take a look at LIME QuickNote™!
@@ -20,3 +19,5 @@ Requirements? LIME Pro version 10.11 or later and Actionpad with bootstrap.
 ``` html
 <div data-app="{app:'quicknote',config:{}}"></div>
 ```
+
+CREATED BY: TLN
