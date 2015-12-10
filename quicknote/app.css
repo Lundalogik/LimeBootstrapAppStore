@@ -1,0 +1,27 @@
+#wrapper {
+
+}
+
+
+#wrapper .btn-group-justified button {
+	font-size: 30px;
+	background-color: white;
+}
+
+#wrapper .fa {
+	/*color: green;*/
+}
+
+#comment {
+	resize: none;
+	overflow-y: auto;
+	white-space: normal;
+}
+
+#history-select {
+	color: white;
+}
+
+#text-area-history {
+	margin-top: 10px;
+}
