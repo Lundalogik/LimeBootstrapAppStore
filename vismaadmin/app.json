@@ -1,9 +1,9 @@
 {
 	"name": "VISMA Administration",
-	"author":"MFA & KSV",
+	"author":"MFA, CHS & KSV",
 	"status":"Beta",
 	"license": true,
-    "shortDesc": "Transfer customers from LIME Pro to VISMA Administrationand receive the customers ivoicing.",
+    "shortDesc": "Transfer customers from LIME Pro to VISMA Administration and receive the customers ivoicing.",
 	"versions":[
 		{
 			"version": "1.0",

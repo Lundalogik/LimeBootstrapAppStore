@@ -9,7 +9,7 @@ The Visma Administration app allows you to create customers from LIME Pro to Vis
 Every night, invoicing information is transferred from Visma Administration to LIME Pro and visualized in the tab "Invoices" on the company card.
 
 ##Installation
-1. Install the Visma-service on the Visma server...
+1. Install the Visma-service on the Visma server by following the instructions in ..\Install\SERVICE\README.txt or <a href="http://docs.lundalogik.com/pro/addons/visma-administration/installation">here</a>
 2. Copy "vismaadmin" folder to the “apps” folder in the Actionpad-folder.
 3. Run the SQL-scripts for creating the tables, fields and localization-records needed ("..\Install\SQL") in the right order according to the README-file in the folder and put the icons ("..\Install\ICONS") on the tables.
 4. Add separators according to the images in the ..\Install\SQL folder.
