@@ -1,4 +1,4 @@
-Attribute VB_Name = "app_CreateCustomerBFUS"
+Attribute VB_Name = "App_CreateCustomerBFUS"
 Option Explicit
 
 ' Returns true if the record is not updated and false if it is updated.
@@ -11,7 +11,8 @@ Public Function isRecordSaved(sInspectorGUID As String) As Boolean
     Dim oInspector As Lime.Inspector
     Set oInspector = Application.Inspectors.Lookup(sInspectorGUID)
     If Not oInspector Is Nothing Then
-        isSaved = Not (oInspector.Controls.State And lkControlsStateModified) = lkControlsStateModified
+        isSaved = Not (oInspector.Controls.State And lkControlsStateModified) = lkControlsStateModified _
+                    And Not (oInspector.Controls.State And lkControlsStateNew) = lkControlsStateNew
     End If
     isRecordSaved = isSaved
 
