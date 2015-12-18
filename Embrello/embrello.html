@@ -1,0 +1,27 @@
+<div data-app="{app:'Embrello', config: {
+		boards : [ {
+			table: 'business',
+			laneOptionField: 'businesstatus',
+			card: {
+				titleField: 'name',
+				additionalInfo: {
+					field: 'businessvalue',
+					icon: 'fa-money'
+				},
+				sumField: 'businessvalue',
+				percentField: '',
+				sorting: {
+					field: 'timestamp',
+					descending: true
+				},
+				owner: {
+					fieldName: 'coworker',
+					relatedTableName: 'coworker',
+					relatedTableFieldName: 'name'
+				}
+			}
+		}]
+	}
+}"></div>
+
+<!-- <div data-app="{app:'Embrello', config: {}}"></div> -->

@@ -1,0 +1,69 @@
+<div class="embrello-board">
+	<div class="embrello-board-header">
+		<div class="embrello-board-refresh">
+			<i class="fa fa-refresh embrello-refresh"></i>
+		</div>
+		<div class="embrello-board-title" data-bind="text: board().name"></div>
+	</div>
+	<!-- <div data-bind="text: 'hej'"></div> -->
+	<div class="embrello-lanes-container" data-bind="foreach: board().lanes()">
+		<div class="embrello-lane-container">
+			<div class="embrello-lane">
+				<div class="embrello-lane-header">
+					<div class="embrello-lane-title" data-bind="text: name"></div>
+					<div class="embrello-lane-count" data-bind="text: cards().length"></div>
+					<div class="embrello-lane-sum" data-bind="text: $parent.board().sumLocalFieldName + ': ' + sum
+																, visible: (cards().length > 0)"></div>
+				</div>
+				<div data-bind="foreach: cards()">
+					<div class="embrello-card" data-bind="click: function() { $root.openLIMERecord(link) }">
+				    	<div class="embrello-card-title" data-bind="text: title"></div>
+				    	<div class="embrello-card-additionalinfo" data-bind="text: additionalInfo, icon:$root.board().additionalInfoIcon"></div>
+				    	<div class="embrello-owner" data-bind="text: owner"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="embrello-notactivated-container">
+	<i class="fa fa-exclamation-triangle embrello-notactivated-icon"></i>
+	<div class="embrello-notactivated" data-bind="text: localize.app_Embrello.notActivated">
+	</div>
+	<i class="fa fa-refresh embrello-refresh"></i>
+</div>
+
+
+<!-- <div class="embrello-lane">
+	<div class="embrello-lane-header">
+	Backlog
+	</div>
+	<div class="embrello-card">
+    	<p data-bind="text: card1"></p>
+    	<div class="embrello-owner">Fredrik Eriksson</div>
+	</div>
+	<div class="embrello-card">
+    	<p data-bind="text: card2"></p>
+    	<div class="embrello-owner">Fredrik Eriksson</div>
+	</div>
+	<div class="embrello-card">
+    	<p data-bind="text: card3"></p>
+	</div>
+</div>
+<div class="embrello-lane">
+	<div class="embrello-lane-header">
+	Krav
+	</div>
+	<div class="embrello-card">
+    	<p data-bind="text: card1"></p>
+    	<div class="embrello-owner">Fredrik Eriksson</div>
+	</div>
+	<div class="embrello-card">
+    	<p data-bind="text: card2"></p>
+    	<div class="embrello-owner">Fredrik Eriksson</div>
+	</div>
+	<div class="embrello-card">
+    	<p data-bind="text: card3"></p>
+	</div>
+</div>
+ -->
