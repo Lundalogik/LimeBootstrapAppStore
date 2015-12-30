@@ -1,0 +1,54 @@
+/* The wrapper */
+.visualizer {
+  margin-left: -10px;
+  margin-right:-10px;
+  margin-top: -5px;
+  padding-bottom: 5px;
+  position: relative;
+
+}
+
+/* The content */
+.visualizer-content {
+	background-color: #CBE0FC;
+	max-height: 56px;
+ 	position: relative;
+	width: 100%;
+	z-index: 2;
+}
+
+/* The icons */
+.visualizer-icon-holder {
+	background-color: #C1D3ED;
+	color: #FFFFFF;  
+    float: left;
+    font-size: 32px;
+    font-weight: 100;
+    letter-spacing: 0.1px;
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    vertical-align: middle;
+    width: 50px;
+}
+
+/* The text */
+.visualizer-text {
+	font-size: 14px;
+    white-space:  normal;
+    overflow: hidden;
+    display: block;
+    height: 56px;
+    margin-left: -5px;
+    padding-left: 5px;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+/* Clearfix for the other apps below*/
+.clearfix {
+	float: none;
+	margin: 0;
+	padding: 0;
+}
