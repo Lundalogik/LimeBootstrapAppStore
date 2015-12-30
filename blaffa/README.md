@@ -1,4 +1,4 @@
-Field Visualizer
+﻿Field Visualizer
 =========
 
 Field Visualizer turns data into prettiness.
@@ -19,7 +19,7 @@ It makes the experience more visual and thereby faster and more intuitive.
 Install
 -----------
 
-1. Copy “blaffa” folder to the “apps” folder. 
+1. Copy “Visualizer” folder to the “apps” folder. 
 1. Create your integer, yes/no or option field if it doesn't already exists. E.g. if you want different icons for customers and suppliers, you probably already have an option field with these two options.
 1. Add the following HTML to the ActionPad and add configuration:
 
@@ -94,3 +94,4 @@ lbs.activeInspector.Controls('buyingstatus')
 - value:  font awesome name of the icon
 - text: the helptext
 - colorVar: hexdecimal for the background colour
+
