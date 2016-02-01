@@ -40,15 +40,49 @@ lbs.apploader.register('Embrello', function () {
         var refreshButtons = $('.embrello-refresh');
 
         refreshButtons.hover(function() {
-            $(this).addClass('fa-spin');
+            $(this).children('i').addClass('fa-spin');
         },
         function() {
-            $(this).removeClass('fa-spin');
+            $(this).children('i').removeClass('fa-spin');
         });
 
         refreshButtons.click(function() {
             viewModel.board(initBoard());
         });
+
+        ko.bindingHandlers.donut = {
+            update : function(element, valueAccessor, bindingContext) {
+                lbs.log.debug('hej');
+                var options = ko.unwrap(valueAccessor());
+                // alert(JSON.stringify(options.value));
+                var degree = options.value;
+
+                $(element).children('.embrello-donut-slice').children('.embrello-donut-inner').css({
+                    '-webkit-transform': 'rotate(' + degree + 'deg)',
+                    '-moz-transform': 'rotate(' + degree + 'deg)',
+                    '-o-transform': 'rotate(' + degree + 'deg)',
+                    'transform': 'rotate(' + degree + 'deg)',
+                });
+
+                $(element).children('.embrello-donut-endmarker').css({
+                    '-webkit-transform': 'rotate(' + degree + 'deg)',
+                    '-moz-transform': 'rotate(' + degree + 'deg)',
+                    '-o-transform': 'rotate(' + degree + 'deg)',
+                    'transform': 'rotate(' + degree + 'deg)',
+                });
+
+                if (degree > 180) {
+                    $(element).children('.embrello-donut-slice').css({
+                        'clip': 'rect(0px, 15px, 30px, 0px)'
+                    }).addClass('embrello-color-lessimportant-background');
+
+                    $(element).children('.embrello-donut-master')
+                        .removeClass('embrello-color-lessimportant-background')
+                        .addClass('embrello-color-positive-background');
+                }
+            }
+        };
+        // alert(ko.bindingHandlers.donut);
 
         initBoard = function() {
             // Clear old board data
@@ -60,6 +94,8 @@ lbs.apploader.register('Embrello', function () {
             var boardConfig = $.grep(self.config.boards, function(obj, i) {
                 return obj.table === self.activeTable;
             });
+
+            // lbs.log.debug(JSON.stringify(boardConfig[0]));
             
             // Check if valid active table
             if (boardConfig.length !== 1) {
@@ -78,11 +114,15 @@ lbs.apploader.register('Embrello', function () {
             var boardForVBA = { board: boardConfig[0] };
             var vbaCommand = 'App_Embrello.getBoardXML, ' + json2xml(boardForVBA);
             lbs.loader.loadDataSource(data, { type: 'xml', source: vbaCommand, alias: 'board' }, false);
-            
-            self.b.name = lbs.common.executeVba('app_Embrello.getActiveBoardName');
-            lbs.log.debug(self.b.name);
-            self.b.sumLocalFieldName = lbs.common.executeVba('app_Embrello.getSumLocalFieldName,' + boardConfig[0].table + ',' + boardConfig[0].card.sumField);
-            self.b.additionalInfoIcon = boardConfig[0].card.additionalInfo.icon;
+            self.b.name = lbs.common.executeVba('app_Embrello.getActiveBoardName') + ', totalt:';
+            self.b.localNamePlural = lbs.common.executeVba('app_Embrello.getActiveTableLocalNamePlural');
+            self.b.sumPositive = numericStringMakePretty('5300000');
+            self.b.sumNegative = numericStringMakePretty('1000000000.23');
+            self.b.sumUnit = boardConfig[0].summation.unit;
+            self.b.cardValueUnit = boardConfig[0].card.value.unit;
+
+            // lbs.log.debug(self.b.name);
+            // self.b.sumLocalFieldName = lbs.common.executeVba('app_Embrello.getSumLocalFieldName,' + boardConfig[0].table + ',' + boardConfig[0].card.sumField);
             
             $.each(data.board.data.Lanes, function(i, laneObj) {
                 var cardsArray = ko.observableArray();
@@ -93,8 +133,10 @@ lbs.apploader.register('Embrello', function () {
                         $.each(laneObj.Cards, function(j, cardObj) {
                             cardsArray.push({ title: cardObj.title,
                                     additionalInfo: strMakePretty(cardObj.additionalInfo),
-                                    completionRate: cardObj.completionRate,
+                                    completionRate: cardObj.completionRate * 100,
+                                    angle: ko.observable(cardObj.completionRate * 360),
                                     sumValue: cardObj.sumValue,
+                                    value: numericStringMakePretty(cardObj.value),
                                     sortValue: cardObj.sortValue,
                                     owner: cardObj.owner,
                                     link: cardObj.link
@@ -120,7 +162,9 @@ lbs.apploader.register('Embrello', function () {
                         cardsArray.push({ title: laneObj.Cards.title,
                                 additionalInfo: strMakePretty(laneObj.Cards.additionalInfo),
                                 completionRate: laneObj.Cards.completionRate,
+                                angle: ko.observable(100),
                                 sumValue: laneObj.Cards.sumValue,
+                                value: laneObj.Cards.value,
                                 sortValue: laneObj.Cards.sortValue,
                                 owner: laneObj.Cards.owner,
                                 link: laneObj.Cards.link
@@ -128,7 +172,20 @@ lbs.apploader.register('Embrello', function () {
                         laneSum = parseFloat(laneObj.Cards.sumValue);
                     }
                 }
+
+                individualLaneSettings = $.grep(boardConfig[0].lanes.individualLaneSettings, function(obj, i) {
+                    if (obj.key !== undefined) {
+                        if (obj.key !== '') {
+                            return obj.key === laneObj.key;
+                        }
+                    }
+                    return obj.id.toString() === laneObj.id;
+                });
+
+                // lbs.log.debug(JSON.stringify(individualLaneSettings[0]));
+
                 self.b.lanes.push({ name: laneObj.name,
+                        color: individualLaneSettings[0].color,     //##TODO: Add class (if that is enough) to set background color on div.
                         cards: cardsArray,
                         sum: numericStringMakePretty(laneSum.toString())
                 });
@@ -176,7 +233,7 @@ lbs.apploader.register('Embrello', function () {
             Only has support for sv or en-us (default) at the moment. */
         localizeNumber = function(str) {
             if (self.lang === 'sv') {
-                return str.replace(',', ' ').replace('.', ',');
+                return str.split(',').join(' ').replace('.', ',');      //Use split and join to replace ALL occurrencies of ','.
             }
             else return str;
         }

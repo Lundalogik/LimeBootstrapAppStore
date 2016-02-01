@@ -1,15 +1,58 @@
 <div data-app="{app:'Embrello', config: {
 		boards : [ {
 			table: 'business',
-			laneOptionField: 'businesstatus',
+			lanes : {
+				optionField: 'businesstatus',
+				individualLaneSettings: [
+					{
+						id: 14401,
+						color: 'blue',
+						cardIcon: 'completion',
+						positiveSummation: true
+					},
+					{
+						key: 'requirement',
+						color: 'turquoise',
+						cardIcon: 'completion',
+						positiveSummation: true
+					},
+					{
+						key: 'tender',
+						color: 'green',
+						cardIcon: 'completion',
+						positiveSummation: true
+					},
+					{
+						key: 'agreement',
+						color: 'clean-green',
+						cardIcon: 'happy',
+						positiveSummation: true
+					},
+					{
+						key: 'rejection',
+						color: 'deep-red',
+						cardIcon: 'sad',
+						positiveSummation: false
+					},
+					{
+						key: 'onhold',
+						color: 'orange',
+						cardIcon: 'wait',
+						positiveSummation: false
+					}
+				]
+			},
+			summation: {
+				field: 'businessvalue',
+				unit: 'SEK'
+			},
 			card: {
 				titleField: 'name',
-				additionalInfo: {
+				value: {
 					field: 'businessvalue',
-					icon: 'fa-money'
+					unit: 'SEK'
 				},
-				sumField: 'businessvalue',
-				percentField: '',
+				percentField: 'probability',
 				sorting: {
 					field: 'timestamp',
 					descending: true
@@ -25,3 +68,9 @@
 }"></div>
 
 <!-- <div data-app="{app:'Embrello', config: {}}"></div> -->
+
+<!-- cardIcon can be completion, happy, sad or wait. -->
+
+
+<!-- 
+ -->

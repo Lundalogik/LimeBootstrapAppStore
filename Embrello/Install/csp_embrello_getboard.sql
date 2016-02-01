@@ -8,6 +8,7 @@ ALTER PROCEDURE [dbo].[csp_embrello_getboard]
 	, @@titlefieldname NVARCHAR(64)
 	, @@additionalinfofieldname NVARCHAR(64) = N''
 	, @@completionfieldname NVARCHAR(64) = N''
+	, @@sumfieldname NVARCHAR(64) = N''
 	, @@valuefieldname NVARCHAR(64) = N''
 	, @@sortfieldname NVARCHAR(64) = N''
 	, @@ownerrelationfieldname NVARCHAR(64)
@@ -53,7 +54,9 @@ BEGIN
 	-- Get lanes
 	SET @sql = @sql + N'	SELECT 1 AS Tag' + CHAR(10)
 	SET @sql = @sql + N'		, NULL AS Parent' + CHAR(10)
-	SET @sql = @sql + N'		, s.stringorder AS [Lanes!1!id]' + CHAR(10)
+	SET @sql = @sql + N'		, s.[stringorder] AS [Lanes!1!order]' + CHAR(10)
+	SET @sql = @sql + N'		, s.[idstring] AS [Lanes!1!id]' + CHAR(10)
+	SET @sql = @sql + N'		, s.[key] AS [Lanes!1!key]' + CHAR(10)
 	SET @sql = @sql + N'		, s.[' + @@lang + N'] AS [Lanes!1!name]' + CHAR(10)
 	SET @sql = @sql + N'		, NULL AS [Cards!2!title]' + CHAR(10)
 	
@@ -67,9 +70,14 @@ BEGIN
 		SET @sql = @sql + N'		, NULL AS [Cards!2!completionRate]' + CHAR(10)
 	END
 	
-	IF @@valuefieldname <> N''
+	IF @@sumfieldname <> N''
 	BEGIN
 		SET @sql = @sql + N'		, NULL AS [Cards!2!sumValue]' + CHAR(10)
+	END
+	
+	IF @@valuefieldname <> N''
+	BEGIN
+		SET @sql = @sql + N'		, NULL AS [Cards!2!value]' + CHAR(10)
 	END
 	
 	IF @@sortfieldname <> N''
@@ -87,7 +95,9 @@ BEGIN
 	SET @sql = @sql + N'	UNION ALL' + CHAR(10)
 	SET @sql = @sql + N'	SELECT 2 AS Tag' + CHAR(10)
 	SET @sql = @sql + N'		, 1 AS Parent' + CHAR(10)
-	SET @sql = @sql + N'		, s.stringorder AS [Lanes!1!id]' + CHAR(10)
+	SET @sql = @sql + N'		, s.stringorder AS [Lanes!1!order]' + CHAR(10)
+	SET @sql = @sql + N'		, NULL AS [Lanes!1!id]' + CHAR(10)
+	SET @sql = @sql + N'		, NULL AS [Lanes!1!key]' + CHAR(10)
 	SET @sql = @sql + N'		, NULL AS [Lanes!1!name]' + CHAR(10)
 	SET @sql = @sql + N'		, A1.[' + @@titlefieldname + N'] AS [Cards!2!title]' + CHAR(10)
 	
@@ -98,12 +108,17 @@ BEGIN
 	
 	IF @@completionfieldname <> N''
 	BEGIN
-		SET @sql = @sql + N'		, A1.[' + @@completionfieldname + N'] AS [Cards!2!completionRate]' + CHAR(10)
+		SET @sql = @sql + N'		, CONVERT(NVARCHAR(32), A1.[' + @@completionfieldname + N']) AS [Cards!2!completionRate]' + CHAR(10)
+	END
+	
+	IF @@sumfieldname <> N''
+	BEGIN
+		SET @sql = @sql + N'		, A1.[' + @@sumfieldname + N'] AS [Cards!2!sumValue]' + CHAR(10)
 	END
 	
 	IF @@valuefieldname <> N''
 	BEGIN
-		SET @sql = @sql + N'		, A1.[' + @@valuefieldname + N'] AS [Cards!2!sumValue]' + CHAR(10)
+		SET @sql = @sql + N'		, A1.[' + @@valuefieldname + N'] AS [Cards!2!value]' + CHAR(10)
 	END
 	
 	IF @@sortfieldname <> N''
@@ -122,7 +137,7 @@ BEGIN
 	SET @sql = @sql + N'		ON A2.[id' + @@ownerrelatedtablename + N'] = A1.[' + @@ownerrelationfieldname + N']' + CHAR(10)
 	SET @sql = @sql + N'	WHERE s.[' + @@lang + N'] <> N''''' + CHAR(10)
 	SET @sql = @sql + N') t' + CHAR(10)
-	SET @sql = @sql + N'ORDER BY t.[Lanes!1!id] ASC, t.Tag ASC' + CHAR(10)
+	SET @sql = @sql + N'ORDER BY t.[Lanes!1!order] ASC, t.Tag ASC' + CHAR(10)
 	SET @sql = @sql + N'FOR XML EXPLICIT' + CHAR(10)
 	
 	-- Run SQL code to get XML that will be returned to LIME Pro VBA.
