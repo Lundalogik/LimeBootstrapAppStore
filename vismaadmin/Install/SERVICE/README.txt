@@ -5,9 +5,13 @@ Installationsanvisning Visma Administration-integration (english below)
 3. Packa upp programfilerna till undermappen "bin"
 4. Ladda hem och installera Pyton 3.4 från https://www.python.org/downloads/
 5. Skapa en virtuel miljö i mappen som du skapade i punkt 1 (kör cmd som administratör).
+<<<<<<< HEAD
+ * C:\VismaIntegration > c:\Python34\python.exe -m venv venv
+=======
  * C:\VismaIntegration>c:\Python34\python.exe -m venv venv
+>>>>>>> origin/master
 6. Aktivera miljön
- * C:\VismaIntegration>venv\Scripts\activate.bat
+ * C:\VismaIntegration > venv\Scripts\activate.bat
 7. Installera Lime Pro API klienten från PyPi
  * (venv) C:\VismaIntegration>pip install limeclient
 (Mer information om installationen av Python och Import-api'et finns på http://docs.lundalogik.com/pro/integration/import/api)
@@ -23,7 +27,7 @@ Installationsanvisning Visma Administration-integration (english below)
  * LimeApiPassword = lösenord för den LIME Pro-användare som kör python skriptet. Användaren skall ha skapats för installation av tjänsten
 9. Installera VismaIntegrationService.exe som Windows-tjänst
  * start->run-> cmd.exe (högerklick, kör som Admin)
- * C:\windows\microsoft.net\framework\v4.0.30319>installutil c:\VismaIntegration\bin\VismaIntegrationService.exe
+ * C:\windows\microsoft.net\framework\v4.0.30319 > installutil c:\VismaIntegration\bin\VismaIntegrationService.exe
 10. Lägg till VismaIntegrationService.exe i Windows-brandvägg
  * Start->control panel->windows firewall->Allow an app or feature through Windows Firewall->Följ guiden. 
 11. Starta tjänsten
