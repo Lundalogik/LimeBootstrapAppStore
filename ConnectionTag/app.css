@@ -1,0 +1,12 @@
+/*
+PUT SOME FANCY CSS STUFF HERE PLEASE!
+*/
+
+.nudge-left{
+	margin-right: 10px;
+}
+
+.dropdown-menu{
+	max-height: 250px;
+	overflow-y: auto;
+}
