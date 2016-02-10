@@ -1,0 +1,15 @@
+{
+	"name": "DrivingInfo",
+	"author":"Team Norge",
+	"status":"Development",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"10.02.2016",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}
