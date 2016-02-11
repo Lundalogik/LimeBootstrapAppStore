@@ -1,0 +1,17 @@
+{
+	"name": "DrivingInfo",
+	"author":"Team Norge",
+	"status":"Development",
+	"license": true,
+	"shortDesc" : "App for showing the driving distance to customers.",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2016-02-10",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}
