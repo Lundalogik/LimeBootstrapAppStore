@@ -10,7 +10,9 @@ lbs.apploader.register('Embrello', function () {
             this.boards = appConfig.boards;
             this.dataSources = [];
             this.resources = {
-                scripts: ['script/numeraljs/numeral.min.js'], // <= External libs for your apps. Must be a file
+                scripts: ['script/numeraljs/numeral.min.js',
+                    'script/embrello-colors.js'
+                ], // <= External libs for your apps. Must be a file
                 styles: ['app.css'], // <= Load styling for the app.
                 libs: ['json2xml.js'] // <= Already included libs, put not loaded per default. Example json2xml.js
             };
@@ -52,7 +54,7 @@ lbs.apploader.register('Embrello', function () {
 
         ko.bindingHandlers.donut = {
             update : function(element, valueAccessor, bindingContext) {
-                lbs.log.debug('hej');
+                // lbs.log.debug('hej');
                 var options = ko.unwrap(valueAccessor());
                 // alert(JSON.stringify(options.value));
                 var degree = options.value;
@@ -115,15 +117,19 @@ lbs.apploader.register('Embrello', function () {
             var vbaCommand = 'App_Embrello.getBoardXML, ' + json2xml(boardForVBA);
             lbs.loader.loadDataSource(data, { type: 'xml', source: vbaCommand, alias: 'board' }, false);
             self.b.name = lbs.common.executeVba('app_Embrello.getActiveBoardName') + ', totalt:';
+            self.b.localNameSingular = lbs.common.executeVba('app_Embrello.getActiveTableLocalNameSingular');
             self.b.localNamePlural = lbs.common.executeVba('app_Embrello.getActiveTableLocalNamePlural');
-            self.b.sumPositive = numericStringMakePretty('5300000');
-            self.b.sumNegative = numericStringMakePretty('1000000000.23');
+            // self.b.sumPositive = numericStringMakePretty('5300000');            //##TODO
+            // self.b.sumNegative = numericStringMakePretty('1000000000.23');       //##TODO
             self.b.sumUnit = boardConfig[0].summation.unit;
             self.b.cardValueUnit = boardConfig[0].card.value.unit;
 
             // lbs.log.debug(self.b.name);
             // self.b.sumLocalFieldName = lbs.common.executeVba('app_Embrello.getSumLocalFieldName,' + boardConfig[0].table + ',' + boardConfig[0].card.sumField);
             
+            var boardSumPositive = 0;
+            var boardSumNegative = 0;
+
             $.each(data.board.data.Lanes, function(i, laneObj) {
                 var cardsArray = ko.observableArray();
                 var laneSum = 0;
@@ -161,10 +167,10 @@ lbs.apploader.register('Embrello', function () {
                     {
                         cardsArray.push({ title: laneObj.Cards.title,
                                 additionalInfo: strMakePretty(laneObj.Cards.additionalInfo),
-                                completionRate: laneObj.Cards.completionRate,
-                                angle: ko.observable(100),
+                                completionRate: laneObj.Cards.completionRate * 100,
+                                angle: ko.observable(laneObj.Cards.completionRate * 360),
                                 sumValue: laneObj.Cards.sumValue,
-                                value: laneObj.Cards.value,
+                                value: numericStringMakePretty(laneObj.Cards.value),
                                 sortValue: laneObj.Cards.sortValue,
                                 owner: laneObj.Cards.owner,
                                 link: laneObj.Cards.link
@@ -173,6 +179,7 @@ lbs.apploader.register('Embrello', function () {
                     }
                 }
 
+                // Get the individual lane settings from the config.
                 individualLaneSettings = $.grep(boardConfig[0].lanes.individualLaneSettings, function(obj, i) {
                     if (obj.key !== undefined) {
                         if (obj.key !== '') {
@@ -182,14 +189,30 @@ lbs.apploader.register('Embrello', function () {
                     return obj.id.toString() === laneObj.id;
                 });
 
-                // lbs.log.debug(JSON.stringify(individualLaneSettings[0]));
+                // Check if selected color is a valid color, otherwise use default color.
+                if ($.inArray(individualLaneSettings[0].color, embrelloColors.colors) < 0) {
+                    individualLaneSettings[0].color = embrelloColors.defaultColor;
+                }
 
+                // Add lane to board object.
                 self.b.lanes.push({ name: laneObj.name,
-                        color: individualLaneSettings[0].color,     //##TODO: Add class (if that is enough) to set background color on div.
+                        color: individualLaneSettings[0].color,
                         cards: cardsArray,
-                        sum: numericStringMakePretty(laneSum.toString())
+                        sum: numericStringMakePretty(laneSum.toString()),
+                        positiveSummation: individualLaneSettings[0].positiveSummation
                 });
+
+                // Add to board summation properties
+                if (individualLaneSettings[0].positiveSummation) {
+                    boardSumPositive = boardSumPositive + laneSum;
+                }
+                else {
+                    boardSumNegative = boardSumNegative + laneSum;
+                }
             });
+
+            self.b.sumPositive = numericStringMakePretty(boardSumPositive.toString());
+            self.b.sumNegative = numericStringMakePretty(boardSumNegative.toString());
 
             // Set dynamic css property to make room for all lanes in width.
             var laneWidth = $('.embrello-lane-container').css('width').replace(/\D+/g, '');     // replace all non-digits with nothing
@@ -220,7 +243,11 @@ lbs.apploader.register('Embrello', function () {
 
         /* Makes a string pretty depending on what kind of info it contains. */
         strMakePretty = function(str) {
-            if (isNaN(str)) {
+            if (str === undefined) {
+                str = '';
+            }
+            
+            if (str === '' || isNaN(str)) {
                 return str;
             }
             else {

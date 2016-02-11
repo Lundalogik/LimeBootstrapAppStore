@@ -38,25 +38,37 @@ Public Function getBoardXML(boardConfigXML As String) As String
     Dim oProc As LDE.Procedure
     Set oProc = Database.Procedures("csp_embrello_getboard")
     oProc.Parameters("@@tablename").InputValue = ActiveExplorer.Class.Name
-    
-    Call addSQLParameterFromXML(oProc, "@@lanefieldname", oXmlDoc, "/board/laneOptionField")
+
+    Call addSQLParameterFromXML(oProc, "@@lanefieldname", oXmlDoc, "/board/lanes/optionField")
     Call addSQLParameterFromXML(oProc, "@@titlefieldname", oXmlDoc, "/board/card/titleField")
-    Call addSQLParameterFromXML(oProc, "@@additionalinfofieldname", oXmlDoc, "/board/card/additionalInfo/field")
     Call addSQLParameterFromXML(oProc, "@@completionfieldname", oXmlDoc, "/board/card/percentField")
-    Call addSQLParameterFromXML(oProc, "@@valuefieldname", oXmlDoc, "/board/card/sumField")
+    Call addSQLParameterFromXML(oProc, "@@sumfieldname", oXmlDoc, "/board/summation/field")
+    Call addSQLParameterFromXML(oProc, "@@valuefieldname", oXmlDoc, "/board/card/value/field")
     Call addSQLParameterFromXML(oProc, "@@sortfieldname", oXmlDoc, "/board/card/sorting/field")
-    Call addSQLParameterFromXML(oProc, "@@ownerrelationfieldname", oXmlDoc, "/board/card/owner/fieldName")
+    Call addSQLParameterFromXML(oProc, "@@ownerfieldname", oXmlDoc, "/board/card/owner/fieldName")
     Call addSQLParameterFromXML(oProc, "@@ownerrelatedtablename", oXmlDoc, "/board/card/owner/relatedTableName")
     Call addSQLParameterFromXML(oProc, "@@ownerdescriptivefieldname", oXmlDoc, "/board/card/owner/relatedTableFieldName")
+    Call addSQLParameterFromXML(oProc, "@@additionalinfofieldname", oXmlDoc, "/board/card/additionalInfo/fieldName")
+    Call addSQLParameterFromXML(oProc, "@@additionalinforelatedtablename", oXmlDoc, "/board/card/additionalInfo/relatedTableName")
+    Call addSQLParameterFromXML(oProc, "@@additionalinfodescriptivefieldname", oXmlDoc, "/board/card/additionalInfo/relatedTableFieldName")
     
     oProc.Parameters("@@idrecords").InputValue = getIdsAsString()
     oProc.Parameters("@@lang").InputValue = Application.Locale
     oProc.Parameters("@@limeservername").InputValue = Database.RemoteServerName
     oProc.Parameters("@@limedbname").InputValue = Database.Name
-    
+
     Call oProc.Execute(False)
-    'Debug.Print oProc.result
+    Debug.Print oProc.result
     getBoardXML = oProc.result
+
+'Dim strFilename As String: strFilename = "D:\temp\embrelloexamplexml.txt"
+'Dim strFileContent As String
+'Dim iFile As Integer: iFile = FreeFile
+'Open strFilename For Input As #iFile
+'strFileContent = Input(LOF(iFile), iFile)
+'Close #iFile
+'Debug.Print strFileContent
+'    getBoardXML = strFileContent
     
     Exit Function
 ErrorHandler:
@@ -94,6 +106,38 @@ Public Function getActiveTable() As String
     Exit Function
 ErrorHandler:
     Call UI.ShowError("App_Embrello.getActiveTable")
+End Function
+
+
+' ##SUMMARY Returns the local singular name of the active explorer.
+Public Function getActiveTableLocalNameSingular() As String
+    On Error GoTo ErrorHandler
+    
+    If Not ActiveExplorer Is Nothing Then
+        getActiveTableLocalNameSingular = ActiveExplorer.Class.LocalName
+    Else
+        getActiveTableLocalNameSingular = "Error!"
+    End If
+    
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError("App_Embrello.getActiveTableLocalNameSingular")
+End Function
+
+
+' ##SUMMARY Returns the local plural name of the active explorer.
+Public Function getActiveTableLocalNamePlural() As String
+    On Error GoTo ErrorHandler
+    
+    If Not ActiveExplorer Is Nothing Then
+        getActiveTableLocalNamePlural = ActiveExplorer.Class.Attributes("localnameplural")
+    Else
+        getActiveTableLocalNamePlural = "Error!"
+    End If
+    
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError("App_Embrello.getActiveTableLocalNamePlural")
 End Function
 
 
@@ -151,26 +195,6 @@ Private Function getIdsAsString() As String
     Exit Function
 ErrorHandler:
     Call UI.ShowError("App_Embrello.getIdsAsString")
-End Function
-
-
-' ##SUMMARY Called by app. Returns the local field name of the field used as a sum field.
-Public Function getSumLocalFieldName(tableName As String, sumFieldName As String) As String
-    On Error GoTo ErrorHandler
-    
-    Dim retString As String
-    retString = ""
-    If Database.Classes.Exists(tableName) Then
-        If Database.Classes(tableName).Fields.Exists(sumFieldName) Then
-            retString = Database.Classes(tableName).Fields(sumFieldName).LocalName
-        End If
-    End If
-    
-    getSumLocalFieldName = retString
-    
-    Exit Function
-ErrorHandler:
-    Call UI.ShowError("App_Embrello.getSumLocalFieldName")
 End Function
 
 

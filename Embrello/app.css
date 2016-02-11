@@ -67,11 +67,35 @@ body
 }
 
 .embrello-color-positive-background {
-	background-color: #00b05b;	
+	background-color: #00b05b;
 }
 
 .embrello-color-lessimportant-background {
 	background-color: #8b8b8b;
+}
+
+.embrello-color-blue {
+	background-color: #2693ff;
+}
+
+.embrello-color-turquoise {
+	background-color: #00a4b0;
+}
+
+.embrello-color-green {
+	background-color: #83Ba1f;
+}
+
+.embrello-color-clean-green {
+	background-color: #00b05b;
+}
+
+.embrello-color-orange {
+	background-color: #e56c19;
+}
+
+.embrello-color-deep-red {
+	background-color: #c81c1c;
 }
 
 
@@ -107,7 +131,7 @@ body
 }
 
 .embrello-lane-info {
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 }
 
 .embrello-lane-title {
@@ -136,10 +160,10 @@ body
 
 .embrello-lane-coloredbar {
 	height: 4px;
-	background-color: red;
 }
 
 .embrello-card {
+	/*width: 100%;*/
 	border-width: 0px 0px 1px 0px;
 	border-style: solid;
 	border-color: #c7cdd3;
@@ -150,6 +174,7 @@ body
 	/*border-radius: 5px;*/
 	cursor: pointer;
 	height: 90px;
+	/*border: 1px solid black;*/
 }
 
 .embrello-card:last-child {
@@ -158,21 +183,45 @@ body
 
 .embrello-card-leftside {
 	float: left;
+	/*width: 22%;*/
 	height: 100%;
 	padding-top: 20px;
 	padding-right: 10px;
 	padding-left: 10px;
+	/*border: 1px solid orange;*/
 }
 
 .embrello-card-rightside {
 	padding-top: 18px;
-	
+	padding-right: 10px;
+	position: relative;
+	/*width: 100%;*/
+	/*border: 1px solid black;*/
 }
 
 .embrello-card-title {
 	font-size: 13px;
+	overflow: hidden;
+	white-space: nowrap;
 	margin-bottom: -2px;
-	/*border: 1px solid yellow;*/
+	/*width: 100px;
+	height: 20px;*/
+	/*border: 1px solid green;*/
+    /*background:linear-gradient(to right, transparent 50px, red);*/
+}
+
+.embrello-card-title::before {
+	content: '';
+	width: 172px;
+    height: 18px;    
+    position: absolute;
+    background: linear-gradient(to right, transparent 140px, #FFFFFF);
+    /*border: 1px solid green;*/
+}
+
+.embrello-card-inforow {
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .embrello-card-value {
@@ -184,16 +233,39 @@ body
 	font-size: 10px;
 }
 
-/*.embrello-card-additionalinfo {
-	font-size: 11px;
-	padding-top: 3px;
-}*/
-
-.embrello-owner {
+.embrello-card-additionalinfo {
 	font-size: 12px;
-	/*text-align: right;
-	font-style: italic;*/
+	/*float: left;*/
+}
+
+.embrello-card-additionalinfo-separator {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.embrello-card-value::before {
+	content: '';
+	width: 172px;
+    height: 16px;    
+    position: absolute;
+    background: linear-gradient(to right, transparent 140px, #FFFFFF);
+    /*border: 1px solid green;*/
+}
+
+.embrello-card-owner {
+	font-size: 12px;
+	overflow: hidden;
+	white-space: nowrap;
 	padding-top: 4px;
+}
+
+.embrello-card-owner::before {
+	content: '';
+	width: 172px;
+    height: 16px;    
+    position: absolute;
+    background: linear-gradient(to right, transparent 140px, #FFFFFF);
+	/*border: 1px solid green;*/
 }
 
 .embrello-notactivated-container {
