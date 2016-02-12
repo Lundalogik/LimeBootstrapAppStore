@@ -20,13 +20,22 @@
 				<div class="embrello-lane-header">
 					<div class="embrello-lane-title embrello-color-title" data-bind="text: name"></div>
 					<div class="embrello-lane-info">
-						<span class="embrello-lane-count embrello-color-lessimportant" data-bind="text: cards().length + ' ' + $parent.board().localNamePlural.toLowerCase() + (cards().length > 0 ? ': ' : '')"></span>
+						<span class="embrello-lane-count embrello-color-lessimportant"
+								data-bind="text: cards().length + ' ' + (cards().length === 1 ? $parent.board().localNameSingular.toLowerCase() : $parent.board().localNamePlural.toLowerCase()) + (cards().length > 0 ? ': ' : '')"></span>
 						<span data-bind="visible: (cards().length > 0)">
-							<span class="embrello-lane-sum" data-bind="text: sum"></span>
-							<span class="embrello-lane-sum-unit" data-bind="text: $parent.board().sumUnit"></span>
+							<span class="embrello-lane-sum" data-bind="text: sum,
+																		css: {
+																			'embrello-color-positive' : positiveSummation,
+																			'embrello-color-negative' : !positiveSummation
+																		}"></span>
+							<span class="embrello-lane-sum-unit" data-bind="text: $parent.board().sumUnit,
+																			css: {
+																				'embrello-color-positive' : positiveSummation,
+																				'embrello-color-negative' : !positiveSummation
+																			}"></span>
 						</span>
 					</div>
-					<div class="embrello-lane-coloredbar"></div>
+					<div class="embrello-lane-coloredbar" data-bind="css: 'embrello-color-' + color"></div>
 				</div>
 				<div data-bind="foreach: cards()">
 					<div class="embrello-card" data-bind="click: function() { $root.openLIMERecord(link) }">
@@ -39,7 +48,8 @@
 									</div>
 									<div class="embrello-donut-endmarker"></div>
 									<div class="embrello-donut-cover embrello-color-title">
-										<span data-bind="text: completionRate, css: { 'embrello-donut-cover-smalltext': completionRate === 100 }"></span>
+										<span data-bind="text: completionRate,
+															css: { 'embrello-donut-cover-smalltext': completionRate === 100 }"></span>
 										<span class="embrello-donut-cover-percentsign">%</span>
 									</div>
 									<div class="embrello-donut-startmarker"></div>
@@ -47,10 +57,24 @@
 					    	</div>
 					    </div>
 						<div class="embrello-card-rightside">
-					    	<div class="embrello-card-title embrello-color-title" data-bind="text: title"></div>
-					    	<span class="embrello-card-value" data-bind="text: value"></span>
-							<span class="embrello-card-value-unit" data-bind="text: $root.board().cardValueUnit"></span>
-					    	<div class="embrello-owner embrello-color-lessimportant" data-bind="text: owner"></div>
+							<div class="embrello-card-title embrello-color-title" data-bind="text: title"></div>
+							<div class="embrello-card-inforow">
+						    	<span class="embrello-card-value" data-bind="text: value,
+						    													css: {
+						    														'embrello-color-positive' : $parent.positiveSummation,
+						    														'embrello-color-negative' : !$parent.positiveSummation
+						    													}"></span>
+								<span class="embrello-card-value-unit" data-bind="text: $root.board().cardValueUnit,
+																					css: {
+																						'embrello-color-positive' : $parent.positiveSummation,
+																						'embrello-color-negative' : !$parent.positiveSummation
+																					}"></span>
+								<span data-bind="visible: additionalInfo !== ''">
+									<span class="embrello-card-additionalinfo-separator embrello-color-title">-</span>
+									<span class="embrello-card-additionalinfo embrello-color-title" data-bind="text: additionalInfo"></span>
+								</span>
+							</div>
+					    	<div class="embrello-card-owner embrello-color-lessimportant" data-bind="text: owner"></div>
 					    </div>
 					</div>
 				</div>

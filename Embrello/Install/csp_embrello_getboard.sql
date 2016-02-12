@@ -6,14 +6,16 @@ ALTER PROCEDURE [dbo].[csp_embrello_getboard]
 	@@tablename NVARCHAR(64)
 	, @@lanefieldname NVARCHAR(64)
 	, @@titlefieldname NVARCHAR(64)
-	, @@additionalinfofieldname NVARCHAR(64) = N''
 	, @@completionfieldname NVARCHAR(64) = N''
 	, @@sumfieldname NVARCHAR(64) = N''
 	, @@valuefieldname NVARCHAR(64) = N''
 	, @@sortfieldname NVARCHAR(64) = N''
-	, @@ownerrelationfieldname NVARCHAR(64)
+	, @@ownerfieldname NVARCHAR(64)
 	, @@ownerrelatedtablename NVARCHAR(64)
 	, @@ownerdescriptivefieldname NVARCHAR(64)
+	, @@additionalinfofieldname NVARCHAR(64) = N''
+	, @@additionalinforelatedtablename NVARCHAR(64) = N''
+	, @@additionalinfodescriptivefieldname NVARCHAR(64) = N''
 	, @@idrecords NVARCHAR(MAX)
 	, @@lang NVARCHAR(5)
 	, @@limeservername NVARCHAR(64)
@@ -60,11 +62,6 @@ BEGIN
 	SET @sql = @sql + N'		, s.[' + @@lang + N'] AS [Lanes!1!name]' + CHAR(10)
 	SET @sql = @sql + N'		, NULL AS [Cards!2!title]' + CHAR(10)
 	
-	IF @@additionalinfofieldname <> N''
-	BEGIN
-		SET @sql = @sql + N'		, NULL AS [Cards!2!additionalInfo]' + CHAR(10)
-	END
-	
 	IF @@completionfieldname <> N''
 	BEGIN
 		SET @sql = @sql + N'		, NULL AS [Cards!2!completionRate]' + CHAR(10)
@@ -86,6 +83,12 @@ BEGIN
 	END
 	
 	SET @sql = @sql + N'		, NULL AS [Cards!2!owner]' + CHAR(10)
+	
+	IF @@additionalinfofieldname <> N''
+	BEGIN
+		SET @sql = @sql + N'		, NULL AS [Cards!2!additionalInfo]' + CHAR(10)
+	END
+	
 	SET @sql = @sql + N'		, NULL AS [Cards!2!link]' + CHAR(10)
 	SET @sql = @sql + N'	FROM string s' + CHAR(10)
 	SET @sql = @sql + N'	WHERE idcategory = ' + CONVERT(NVARCHAR(20), @idcategory) + CHAR(10)
@@ -100,11 +103,6 @@ BEGIN
 	SET @sql = @sql + N'		, NULL AS [Lanes!1!key]' + CHAR(10)
 	SET @sql = @sql + N'		, NULL AS [Lanes!1!name]' + CHAR(10)
 	SET @sql = @sql + N'		, A1.[' + @@titlefieldname + N'] AS [Cards!2!title]' + CHAR(10)
-	
-	IF @@additionalinfofieldname <> N''
-	BEGIN
-		SET @sql = @sql + N'		, A1.[' + @@additionalinfofieldname + N'] AS [Cards!2!additionalInfo]' + CHAR(10)
-	END
 	
 	IF @@completionfieldname <> N''
 	BEGIN
@@ -127,6 +125,20 @@ BEGIN
 	END
 	
 	SET @sql = @sql + N'		, A2.[' + @@ownerdescriptivefieldname + '] AS [Cards!2!owner]' + CHAR(10)
+	
+	IF @@additionalinfofieldname <> N''
+	BEGIN
+		-- Check if additionalInfo is a field on the table itself or on a related table
+		IF @@additionalinforelatedtablename <> N''
+		BEGIN
+			SET @sql = @sql + N'		, A3.[' + @@additionalinfodescriptivefieldname + N'] AS [Cards!2!additionalInfo]' + CHAR(10)
+		END
+		ELSE
+		BEGIN
+			SET @sql = @sql + N'		, A1.[' + @@additionalinfofieldname + N'] AS [Cards!2!additionalInfo]' + CHAR(10)
+		END
+	END
+	
 	SET @sql = @sql + N'		, N''limecrm:' + @@tablename + N'.' + @@limedbname + '.' + @@limeservername + '?'' + CONVERT(NVARCHAR(20), A1.[id' + @@tablename + N']) AS [Cards!2!link]' + CHAR(10)
 	SET @sql = @sql + N'	FROM [' + @@tablename + N'] A1' + CHAR(10)
 	SET @sql = @sql + N'	INNER JOIN [dbo].[cfn_gettablefromstring](@@idrecords, N'';'') ids' + CHAR(10)
@@ -134,7 +146,15 @@ BEGIN
 	SET @sql = @sql + N'	INNER JOIN string s' + CHAR(10)
 	SET @sql = @sql + N'		ON s.idstring = A1.[' + @@lanefieldname + N']' + CHAR(10)
 	SET @sql = @sql + N'	LEFT JOIN [' + @@ownerrelatedtablename + N'] A2' + CHAR(10)
-	SET @sql = @sql + N'		ON A2.[id' + @@ownerrelatedtablename + N'] = A1.[' + @@ownerrelationfieldname + N']' + CHAR(10)
+	SET @sql = @sql + N'		ON A2.[id' + @@ownerrelatedtablename + N'] = A1.[' + @@ownerfieldname + N']' + CHAR(10)
+	
+	IF @@additionalinfofieldname <> N''
+			AND @@additionalinforelatedtablename <> N''
+	BEGIN
+		SET @sql = @sql + N'	LEFT JOIN [' + @@additionalinforelatedtablename + N'] A3' + CHAR(10)
+		SET @sql = @sql + N'		ON A3.[id' + @@additionalinforelatedtablename + N'] = A1.[' + @@additionalinfofieldname + N']' + CHAR(10)
+	END
+	
 	SET @sql = @sql + N'	WHERE s.[' + @@lang + N'] <> N''''' + CHAR(10)
 	SET @sql = @sql + N') t' + CHAR(10)
 	SET @sql = @sql + N'ORDER BY t.[Lanes!1!order] ASC, t.Tag ASC' + CHAR(10)
