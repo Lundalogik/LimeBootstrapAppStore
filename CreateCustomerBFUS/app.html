@@ -1,20 +1,20 @@
 <div data-bind="visible: isEligibleForSendingToBFUS()">
-    <button type="button" id="createupdatebutton" class="btn btn-default" data-bind="text:(isAlreadyInBFUS() ? localize.app_CreateCustomerBFUS.btnUpdate : localize.app_CreateCustomerBFUS.btnCreate), click:createOrUpdate, icon:(isAlreadyInBFUS() ? 'fa-refresh' : 'fa-share')"></button>
+    <button type="button" id="createupdatebutton" class="btn btn-default" data-bind="text:(isAlreadyInBFUS() ? localize.App_CreateCustomerBFUS.btnUpdate : localize.App_CreateCustomerBFUS.btnCreate), click:createOrUpdate, icon:(isAlreadyInBFUS() ? 'fa-refresh' : 'fa-share')"></button>
     <div id="loading" class="bfus-hidefromstart">
     	<i class="fa fa-spinner fa-pulse"></i>
-    	<span data-bind="text: localize.app_CreateCustomerBFUS.loader" />
+    	<span data-bind="text: localize.App_CreateCustomerBFUS.loader" />
     </div>
     <div id="info" class="alert alert-info bfus-hidefromstart">
-		<div id="infotext" data-bind="text: localize.app_CreateCustomerBFUS.i_sentToBFUS"></div>
+		<div id="infotext" data-bind="text: localize.App_CreateCustomerBFUS.i_sentToBFUS"></div>
 	</div>
     <div id="warning" class="alert alert-warning bfus-hidefromstart">
 	    <div id="warningtext" data-bind="text:warningText()">
 	    </div>
 	    <div id="warningbuttons">
 	    	<button type="button" id="warningyesbutton" class="btn btn-success bfus-warningbutton"
-	    			data-bind="text:localize.app_CreateCustomerBFUS.btnWarningYes, click:warningYes"></button>
+	    			data-bind="text:localize.App_CreateCustomerBFUS.btnWarningYes, click:warningYes"></button>
 	    	<button type="button" id="warningnobutton" class="btn btn-danger bfus-warningbutton"
-	    			data-bind="text:localize.app_CreateCustomerBFUS.btnWarningNo, click:warningNo"></button>
+	    			data-bind="text:localize.App_CreateCustomerBFUS.btnWarningNo, click:warningNo"></button>
 	    </div>
 	</div>
 	<div id="error" class="alert alert-danger bfus-hidefromstart">

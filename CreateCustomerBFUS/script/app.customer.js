@@ -16,12 +16,28 @@ var Customer = function(fieldMappings, rec) {
 	}
 
 	/**
+		Sends the LIME Pro field names of the fields that can be updated in BFUS the current version of this app to VBA.
+	*/
+	self.setUpdateableFields = function() {
+		var bfusFieldNames = ['FirstName','LastName','AcceptEMail','EMail1','EMail2','EMail3','AcceptSMS'];
+		var limeFieldNames = ';';
+		var exp = '';			// We have to use dynamic Javascript here
+
+		// Loop over all BFUS fields.
+		$.each(bfusFieldNames, function(i, field) {
+			exp = exp + 'if (self.fieldMappings.' + field + ' !== \'\') { limeFieldNames = limeFieldNames + self.fieldMappings.' + field + ' + \';\' };\n'
+		});
+		eval(exp);
+		lbs.common.executeVba('App_CreateCustomerBFUS.setUpdateableFields,' + limeFieldNames);
+	}
+
+	/**
 		Returns true if the customer is eligible for sending to BFUS.
 		Since it is not mandatory to define any rules in the config for the app the default of this function is true.
 	*/
 	self.eligibleForBFUSSending = function(eligibleForBFUSSending) {
 		if (eligibleForBFUSSending !== undefined) {
-	        return lbs.common.executeVba('app_CreateCustomerBFUS.isEligibleForSendingToBFUS,' + lbs.activeInspector.ID + ','
+	        return lbs.common.executeVba('App_CreateCustomerBFUS.isEligibleForSendingToBFUS,' + lbs.activeInspector.ID + ','
 	                                        + eligibleForBFUSSending.limeField, + ','
 	                                        + eligibleForBFUSSending.validIdstrings);
 	    }
@@ -34,7 +50,33 @@ var Customer = function(fieldMappings, rec) {
 		Returns false if the customer is modified and otherwise true.
 	*/
 	self.isRecordSaved = function() {
-		return lbs.common.executeVba('app_CreateCustomerBFUS.isRecordSaved,' + lbs.activeInspector.ID);
+		return lbs.common.executeVba('App_CreateCustomerBFUS.isRecordSaved,' + lbs.activeInspector.ID);
+	}
+
+	/**
+		Returns true if the customer was successfully saved and otherwise false.
+	*/
+	self.saveRecord = function() {
+		return lbs.common.executeVba('App_CreateCustomerBFUS.saveRecord,' + lbs.activeInspector.ID);
+	}
+
+	/**
+		Calls VBA sub to save info on successful calls to the BFUS service.
+	*/
+	self.saveSuccessInfo = function(customerId, customerCode) {
+		lbs.common.executeVba('App_CreateCustomerBFUS.saveBFUSResponseData,' 
+                                    + lbs.activeInspector.ID + ',' 
+                                    + self.fieldMappings.CustomerId + ',' 
+                                    + customerId + ',' 
+                                    + self.fieldMappings.CustomerCode + ','  
+                                    + customerCode);
+	}
+
+	/**
+		Calls VBA sub to save info on errors.
+	*/
+	self.saveErrorInfo = function() {
+		lbs.common.executeVba('App_CreateCustomerBFUS.saveErrorInfo,' + lbs.activeInspector.ID);
 	}
 
 	/**
