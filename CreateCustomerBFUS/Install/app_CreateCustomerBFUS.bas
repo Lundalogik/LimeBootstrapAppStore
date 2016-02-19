@@ -3,7 +3,11 @@ Option Explicit
 
 ' This property contains the LIME Pro field names for the fields that are sent to BFUS when updating a customer.
 ' It is set by the app when the app is initialized.
-Public m_updateableFields As String
+Private m_updateableFields As String
+
+' This property is set when the app is initialized. It contains the LIME Pro field name of the field for CustomerId.
+' Is used to check if the customer is integrated with BFUS or not when the app starts.
+Private m_fieldNameCustomerId As String
 
 ' This property is checked in the BeforeSave logics in the ControlsHandler class for the customer class.
 ' Used to decide whether to check if BFUS fields has been updated (this must be done if a manual save is made) or not.
@@ -163,26 +167,41 @@ ErrorHandler:
 End Sub
 
 
+' ##SUMMARY Sets property m_fieldNameCustomerId. Called from app Javascript code when app is initialized.
+Public Sub setFieldNameCustomerId(fieldName As String)
+    On Error GoTo ErrorHandler
+
+    m_fieldNameCustomerId = fieldName
+
+    Exit Sub
+ErrorHandler:
+    Call UI.ShowError("App_CreateCustomerBFUS.setFieldNameCustomerId")
+End Sub
+
+
 ' ##SUMMARY Should be called from the BeforeSave code on the controls object.
 ' Returns true if any of the fields in m_updateableFields has been updated and otherwise false.
+' If it is a customer that is not yet integrated with BFUS, false is always returned.
 Public Function hasUpdatedBFUSFields(ByRef oControls As Lime.Controls)
     On Error GoTo ErrorHandler
     
     ' Set default value
     hasUpdatedBFUSFields = False
     
-    ' Get updateable fields as Array and loop over it
-    Dim fieldsArray() As String
-    fieldsArray = VBA.Split(m_updateableFields, ";")
-    Dim i As Long
-    For i = LBound(fieldsArray) To UBound(fieldsArray)
-        If fieldsArray(i) <> "" Then
-            If oControls.GetOriginalValue(fieldsArray(i)) <> oControls.GetValue(fieldsArray(i)) Then
-                hasUpdatedBFUSFields = True
-                Exit For
+    If oControls.GetValue(m_fieldNameCustomerId, "") <> "" Then
+        ' Get updateable fields as Array and loop over it
+        Dim fieldsArray() As String
+        fieldsArray = VBA.Split(m_updateableFields, ";")
+        Dim i As Long
+        For i = LBound(fieldsArray) To UBound(fieldsArray)
+            If fieldsArray(i) <> "" Then
+                If oControls.GetOriginalValue(fieldsArray(i)) <> oControls.GetValue(fieldsArray(i)) Then
+                    hasUpdatedBFUSFields = True
+                    Exit For
+                End If
             End If
-        End If
-    Next i
+        Next i
+    End If
     
     Exit Function
 ErrorHandler:

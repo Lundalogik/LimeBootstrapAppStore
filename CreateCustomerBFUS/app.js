@@ -36,6 +36,7 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
     self.initialize = function (node, viewModel) {
         self.Customer = new Customer(self.config.fieldMappings, viewModel.rec);
         self.Customer.setUpdateableFields();
+        self.Customer.setFieldNameCustomerId();
         self.resourceURI = '';
         self.suppressPinCodeWarning = false;
         self.suppressAddressWarning = false;

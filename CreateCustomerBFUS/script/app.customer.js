@@ -32,6 +32,13 @@ var Customer = function(fieldMappings, rec) {
 	}
 
 	/**
+		Sends the LIME Pro field name of the CustomerId field to VBA so that code there can check the field when needed.
+	*/
+	self.setFieldNameCustomerId = function() {
+		lbs.common.executeVba('App_CreateCustomerBFUS.setFieldNameCustomerId,' + self.fieldMappings.CustomerId);
+	}
+
+	/**
 		Returns true if the customer is eligible for sending to BFUS.
 		Since it is not mandatory to define any rules in the config for the app the default of this function is true.
 	*/
