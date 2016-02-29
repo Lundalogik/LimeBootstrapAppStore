@@ -1,8 +1,9 @@
 <div class="embrello-board">
 	<div class="embrello-board-header">
-		<!-- <div class="embrello-board-refresh"> -->
-		<button type="button" class="btn embrello-btn embrello-refresh" ><i class="fa fa-refresh"></i>Uppdatera</button>
-		<!-- </div> -->
+		<button type="button" class="btn embrello-btn embrello-refresh"><i class="fa fa-refresh"></i></button>
+		<i class="fa fa-exclamation-triangle embrello-filterwarning embrello-color-lessimportant"
+				data-bind="tooltip: { text: localize.App_Embrello.tooltipFilter, placement: 'bottom' },
+							visible: board().filterApplied"></i>
 		<span class="embrello-board-header-title embrello-color-title" data-bind="text: board().name"></span>
 		<span class="embrello-color-positive" data-bind="text: board().sumPositive"></span>
 		<span class="embrello-board-header-unit embrello-color-positive" data-bind="text: board().sumUnit"></span>
@@ -13,7 +14,6 @@
 			<span class="embrello-parenthesis">)</span>
 		</span>
 	</div>
-	<!-- <div data-bind="text: 'hej'"></div> -->
 	<div class="embrello-lanes-container" data-bind="foreach: board().lanes()">
 		<div class="embrello-lane-container">
 			<div class="embrello-lane">
@@ -41,7 +41,7 @@
 					<div class="embrello-card" data-bind="click: function() { $root.openLIMERecord(link) }">
 						<div class="embrello-card-leftside">
 					    	<div class="embrello-card-icon">
-					    		<div class="embrello-donut" data-bind="donut: { value : angle() }">
+					    		<div class="embrello-donut" data-bind="donut: { value : angle() }, visible: $parent.cardIcon === 'completion'">
 									<div class="embrello-donut-master embrello-color-lessimportant-background"></div>
 									<div class="embrello-donut-slice">
 										<div class="embrello-donut-inner embrello-color-positive-background"></div>
@@ -54,6 +54,12 @@
 									</div>
 									<div class="embrello-donut-startmarker"></div>
 								</div>
+					    		<img class="svg embrello-card-icon-image" src="apps/Embrello/resources/happy.svg"
+					    				data-bind="style: { fill: $parent.colorHex}, visible: $parent.cardIcon === 'happy'"/>
+					    		<img class="svg embrello-card-icon-image" src="apps/Embrello/resources/wait.svg"
+					    				data-bind="style: { fill: $parent.colorHex}, visible: $parent.cardIcon === 'wait'"/>
+					    		<img class="svg embrello-card-icon-image" src="apps/Embrello/resources/sad.svg"
+					    				data-bind="style: { fill: $parent.colorHex}, visible: $parent.cardIcon === 'sad'"/>
 					    	</div>
 					    </div>
 						<div class="embrello-card-rightside">
@@ -83,8 +89,8 @@
 	</div>
 </div>
 <div class="embrello-notactivated-container">
-	<i class="fa fa-exclamation-triangle embrello-notactivated-icon"></i>
-	<div class="embrello-notactivated" data-bind="text: localize.app_Embrello.notActivated">
+	<i class="fa fa-exclamation-triangle embrello-notactivated-icon embrello-color-title"></i>
+	<div class="embrello-notactivated embrello-color-title" data-bind="text: localize.App_Embrello.notActivated">
 	</div>
-	<button type="button" class="btn embrello-btn embrello-refresh" ><i class="fa fa-refresh"></i>Uppdatera</button>
+	<button type="button" class="btn embrello-btn embrello-refresh" ><i class="fa fa-refresh"></i></button>
 </div>

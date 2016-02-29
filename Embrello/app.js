@@ -7,18 +7,18 @@ lbs.apploader.register('Embrello', function () {
         The variabels specified in "config:{}", when you initalize your app are available in in the object "appConfig".
     */
     self.config =  function(appConfig){
+            this.maxNbrOfRecords = appConfig.maxNbrOfRecords;
             this.boards = appConfig.boards;
             this.dataSources = [];
             this.resources = {
                 scripts: ['script/numeraljs/numeral.min.js',
-                    'script/embrello-colors.js'
+                    'script/embrello.colors.js'
                 ], // <= External libs for your apps. Must be a file
                 styles: ['app.css'], // <= Load styling for the app.
                 libs: ['json2xml.js'] // <= Already included libs, put not loaded per default. Example json2xml.js
             };
     };
 
-    //initialize
     /*Initialize
         Initialize happens after the data and recources are loaded but before the view is rendered.
         Here it is your job to implement the logic of your app, by attaching data and functions to 'viewModel' and then returning it
@@ -31,8 +31,14 @@ lbs.apploader.register('Embrello', function () {
     */
     self.initialize = function (node, viewModel) {
 
+        // Get colors object
+        self.embrelloColors = new embrelloColors();
+
         // Get current LIME Pro client language
         self.lang = lbs.common.executeVba('App_Embrello.getLocale');
+
+        // Set the maximum number of records in VBA
+        lbs.common.executeVba('App_Embrello.setMaxNbrOfRecords,' + self.config.maxNbrOfRecords)
         
         // Set up board variable to be filled later if table is activated.
         self.b = {};
@@ -40,13 +46,15 @@ lbs.apploader.register('Embrello', function () {
         
         // Set event handlers
         var refreshButtons = $('.embrello-refresh');
+        refreshButtons.append(viewModel.localize.App_Embrello.btnRefresh);
 
         refreshButtons.hover(function() {
-            $(this).children('i').addClass('fa-spin');
-        },
-        function() {
-            $(this).children('i').removeClass('fa-spin');
-        });
+                $(this).children('i').addClass('fa-spin');
+            },
+            function() {
+                $(this).children('i').removeClass('fa-spin');
+            }
+        );
 
         refreshButtons.click(function() {
             viewModel.board(initBoard());
@@ -84,7 +92,42 @@ lbs.apploader.register('Embrello', function () {
                 }
             }
         };
-        // alert(ko.bindingHandlers.donut);
+        
+        // Replace all SVG images with inline SVG
+        $('img.svg').each(function() {
+            var $img = $(this);
+            var imgID = $img.attr('id');
+            var imgClass = $img.attr('class');
+            var imgDataBind = $img.attr('data-bind');
+            var imgURL = $img.attr('src');
+
+            $.get(imgURL, function(data) {
+                // Get the SVG tag, ignore the rest
+                var $svg = $(data).find('svg');
+
+                // Add replaced image's ID to the new SVG
+                if(typeof imgID !== 'undefined') {
+                    $svg = $svg.attr('id', imgID);
+                }
+                
+                // Add replaced image's classes to the new SVG
+                if(typeof imgClass !== 'undefined') {
+                    $svg = $svg.attr('class', imgClass+' replaced-svg');
+                }
+
+                // Add replaced image's data-binds to the new SVG
+                if(typeof imgDataBind !== 'undefined') {
+                    $svg = $svg.attr('data-bind', imgDataBind);
+                }
+
+                // Remove any invalid XML tags as per http://validator.w3.org
+                $svg = $svg.removeAttr('xmlns:a');
+
+                // Replace image with new SVG
+                $img.replaceWith($svg);
+
+            }, 'xml');
+        });
 
         initBoard = function() {
             // Clear old board data
@@ -92,13 +135,11 @@ lbs.apploader.register('Embrello', function () {
             self.b.lanes([]);
 
             // Get config for active table
-            self.activeTable = lbs.common.executeVba('app_Embrello.getActiveTable');
+            self.activeTable = lbs.common.executeVba('App_Embrello.getActiveTable');
             var boardConfig = $.grep(self.config.boards, function(obj, i) {
                 return obj.table === self.activeTable;
             });
 
-            // lbs.log.debug(JSON.stringify(boardConfig[0]));
-            
             // Check if valid active table
             if (boardConfig.length !== 1) {
                 $('.embrello-board').hide();
@@ -110,22 +151,20 @@ lbs.apploader.register('Embrello', function () {
                 $('.embrello-board').show();
             }
 
+            // Check if filter is applied
+            self.b.filterApplied = lbs.common.executeVba('App_Embrello.getListFiltered');
+
             // Get JSON data and fill board variable
             var data = {};
 
             var boardForVBA = { board: boardConfig[0] };
             var vbaCommand = 'App_Embrello.getBoardXML, ' + json2xml(boardForVBA);
             lbs.loader.loadDataSource(data, { type: 'xml', source: vbaCommand, alias: 'board' }, false);
-            self.b.name = lbs.common.executeVba('app_Embrello.getActiveBoardName') + ', totalt:';
-            self.b.localNameSingular = lbs.common.executeVba('app_Embrello.getActiveTableLocalNameSingular');
-            self.b.localNamePlural = lbs.common.executeVba('app_Embrello.getActiveTableLocalNamePlural');
-            // self.b.sumPositive = numericStringMakePretty('5300000');            //##TODO
-            // self.b.sumNegative = numericStringMakePretty('1000000000.23');       //##TODO
+            self.b.name = lbs.common.executeVba('App_Embrello.getActiveBoardName') + ', totalt:';
+            self.b.localNameSingular = lbs.common.executeVba('App_Embrello.getActiveTableLocalNameSingular');
+            self.b.localNamePlural = lbs.common.executeVba('App_Embrello.getActiveTableLocalNamePlural');
             self.b.sumUnit = boardConfig[0].summation.unit;
             self.b.cardValueUnit = boardConfig[0].card.value.unit;
-
-            // lbs.log.debug(self.b.name);
-            // self.b.sumLocalFieldName = lbs.common.executeVba('app_Embrello.getSumLocalFieldName,' + boardConfig[0].table + ',' + boardConfig[0].card.sumField);
             
             var boardSumPositive = 0;
             var boardSumNegative = 0;
@@ -148,7 +187,6 @@ lbs.apploader.register('Embrello', function () {
                                     link: cardObj.link
                             });
                             laneSum = laneSum + parseFloat(cardObj.sumValue);
-                            // lbs.log.debug(parseFloat(laneSum).toString());
                         });
 
                         // Sort the cards
@@ -190,16 +228,21 @@ lbs.apploader.register('Embrello', function () {
                 });
 
                 // Check if selected color is a valid color, otherwise use default color.
-                if ($.inArray(individualLaneSettings[0].color, embrelloColors.colors) < 0) {
-                    individualLaneSettings[0].color = embrelloColors.defaultColor;
+                if ($.grep(self.embrelloColors.colors, function(obj) {
+                        return obj.name === individualLaneSettings[0].color;
+                    })[0] === undefined) {
+                    
+                    individualLaneSettings[0].color = self.embrelloColors.defaultColor;
                 }
 
                 // Add lane to board object.
                 self.b.lanes.push({ name: laneObj.name,
                         color: individualLaneSettings[0].color,
+                        colorHex: self.embrelloColors.getColorHex(individualLaneSettings[0].color),
                         cards: cardsArray,
                         sum: numericStringMakePretty(laneSum.toString()),
-                        positiveSummation: individualLaneSettings[0].positiveSummation
+                        positiveSummation: individualLaneSettings[0].positiveSummation,
+                        cardIcon: individualLaneSettings[0].cardIcon
                 });
 
                 // Add to board summation properties
@@ -210,19 +253,20 @@ lbs.apploader.register('Embrello', function () {
                     boardSumNegative = boardSumNegative + laneSum;
                 }
             });
-
+            
             self.b.sumPositive = numericStringMakePretty(boardSumPositive.toString());
             self.b.sumNegative = numericStringMakePretty(boardSumNegative.toString());
 
             // Set dynamic css property to make room for all lanes in width.
-            var laneWidth = $('.embrello-lane-container').css('width').replace(/\D+/g, '');     // replace all non-digits with nothing
-            $('.embrello-lanes-container').css('width', self.b.lanes().length * laneWidth);
+            var laneWidth = parseInt($('.embrello-lane-container').css('width').replace(/\D+/g, ''));     // replace all non-digits with nothing
+            var laneMargins =  parseInt($('.embrello-lane-container').css('margin-left').replace(/\D+/g, ''))
+                                + parseInt($('.embrello-lane-container').css('margin-right').replace(/\D+/g, ''));     // replace all non-digits with nothing
+            $('.embrello-lanes-container').css('width', self.b.lanes().length * (laneWidth + laneMargins));
             
             // Set dynamic css property to use the whole body height.
-            var bodyHeight = $('body').css('height').replace(/\D+/g, '');     // replace all non-digits with nothing
+            var bodyHeight = parseInt($('body').css('height').replace(/\D+/g, ''));     // replace all non-digits with nothing
             $('.embrello-board').css('height', bodyHeight - 20);
-            // alert($('body').css('height'));
-
+            
             return self.b;
         }
 
@@ -246,7 +290,7 @@ lbs.apploader.register('Embrello', function () {
             if (str === undefined) {
                 str = '';
             }
-            
+
             if (str === '' || isNaN(str)) {
                 return str;
             }

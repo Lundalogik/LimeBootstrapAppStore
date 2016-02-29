@@ -3,12 +3,17 @@
 	"author":"Fredrik Eriksson, Lundalogik AB",
 	"license": true,
 	"description": "Embrello provides a kanban type of overview of the LIME Pro records in your current list.",
-	"status":"Development",
+	"status":"Beta",
 	"versions":[
 		{
 			"version":"0.1",
 			"date":"2015-12-18",
 			"comments":"An early version. A GUI redesign is looming."
+		},
+		{
+			"version":"1.0",
+			"date":"2016-02-29",
+			"comments":"The first version that could be considered somewhat releaseable!"
 		}
 	],
 	"install":{

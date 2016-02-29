@@ -1,6 +1,9 @@
 Attribute VB_Name = "app_Embrello"
 Option Explicit
 
+' Is set in sub setMaxNbrOfRecords.
+Private m_maxNbrOfRecords As Long
+
 ' ##SUMMARY Opens Embrello in a pane
 Public Sub openEmbrello()
     On Error GoTo ErrorHandler
@@ -58,7 +61,7 @@ Public Function getBoardXML(boardConfigXML As String) As String
     oProc.Parameters("@@limedbname").InputValue = Database.Name
 
     Call oProc.Execute(False)
-    Debug.Print oProc.result
+    'Debug.Print oProc.result
     getBoardXML = oProc.result
 
 'Dim strFilename As String: strFilename = "D:\temp\embrelloexamplexml.txt"
@@ -184,10 +187,16 @@ Private Function getIdsAsString() As String
     Dim ids As String
     
     If Not ActiveExplorer Is Nothing Then
-        Dim item As Lime.ExplorerItem
-        For Each item In ActiveExplorer.Items
-            ids = ids & VBA.CStr(item.ID) & ";"
-        Next item
+        Dim nbrOfRecords As Long
+        If ActiveExplorer.Items.Count > m_maxNbrOfRecords Then
+            nbrOfRecords = m_maxNbrOfRecords
+        Else
+            nbrOfRecords = ActiveExplorer.Items.Count
+        End If
+        Dim i As Long
+        For i = 1 To nbrOfRecords
+            ids = ids & VBA.CStr(ActiveExplorer.Items(i).ID) & ";"
+        Next i
     End If
     
     getIdsAsString = ids
@@ -212,6 +221,50 @@ Public Function getLocale() As String
     Exit Function
 ErrorHandler:
     Call UI.ShowError("App_Embrello.getLocale")
+End Function
+
+
+' ##SUMMARY Called from Embrello to set the config value of the maximum number of records that should be fetched from the database.
+Public Sub setMaxNbrOfRecords(val As Long)
+    On Error GoTo ErrorHandler
+    
+    m_maxNbrOfRecords = val
+    
+    Exit Sub
+ErrorHandler:
+    Call UI.ShowError("App_Embrello.setMaxNbrOfRecords")
+End Sub
+
+
+' ##SUMMARY Called from Embrello. Returns true if either a fast filter or column filters are applied on the current Explorer list.
+Public Function getListFiltered() As Boolean
+    On Error GoTo ErrorHandler
+
+    ' Set default value
+    getListFiltered = False
+    
+    
+    If Not ActiveExplorer Is Nothing Then
+        ' Check if any column filter is used
+        If Not ActiveExplorer.ActiveView Is Nothing Then
+            Dim i As Long
+            For i = 1 To ActiveExplorer.ActiveView.Count
+                If ActiveExplorer.ColumnFilterIsActive(i) Then
+                    getListFiltered = True
+                    Exit For
+                End If
+            Next i
+        End If
+        
+        ' Check if a fast filter is applied
+        If Not getListFiltered Then
+            getListFiltered = (ActiveExplorer.TextFilter <> "")
+        End If
+    End If
+    Exit Function
+ErrorHandler:
+    getListFiltered = False
+    Call UI.ShowError("App_Embrello.getListFiltered")
 End Function
 
 
