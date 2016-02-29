@@ -133,6 +133,9 @@ lbs.apploader.register('Embrello', function () {
             // Clear old board data
             self.b.name = '';
             self.b.lanes([]);
+            self.b.sumPositive = 0;
+            self.b.sumNegative = 0;
+            self.b.sumUnit = '';
 
             // Get config for active table
             self.activeTable = lbs.common.executeVba('App_Embrello.getActiveTable');
