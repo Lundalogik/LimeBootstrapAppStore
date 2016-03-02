@@ -26,11 +26,8 @@ var embrelloColors = function() {
 			hex: '#c81c1c'
 		}
 	];
-	self.defaultColor = 'clean-green';
 	
 	self.getColorHex = function(colorName) {
-		// alert('asöld');
-		// alert(JSON.stringify(self.colors));
 		return $.grep(self.colors, function(obj) {
 			return obj.name === colorName;
 		})[0].hex;

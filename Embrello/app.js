@@ -44,7 +44,7 @@ lbs.apploader.register('Embrello', function () {
         self.b = {};
         self.b.lanes = ko.observableArray();
         
-        // Set event handlers
+        // Set up refresh buttons
         var refreshButtons = $('.embrello-refresh');
         refreshButtons.append(viewModel.localize.App_Embrello.btnRefresh);
 
@@ -62,9 +62,7 @@ lbs.apploader.register('Embrello', function () {
 
         ko.bindingHandlers.donut = {
             update : function(element, valueAccessor, bindingContext) {
-                // lbs.log.debug('hej');
                 var options = ko.unwrap(valueAccessor());
-                // alert(JSON.stringify(options.value));
                 var degree = options.value;
 
                 $(element).children('.embrello-donut-slice').children('.embrello-donut-inner').css({
@@ -159,7 +157,6 @@ lbs.apploader.register('Embrello', function () {
 
             // Get JSON data and fill board variable
             var data = {};
-
             var boardForVBA = { board: boardConfig[0] };
             var vbaCommand = 'App_Embrello.getBoardXML, ' + json2xml(boardForVBA);
             lbs.loader.loadDataSource(data, { type: 'xml', source: vbaCommand, alias: 'board' }, false);
@@ -175,7 +172,6 @@ lbs.apploader.register('Embrello', function () {
             $.each(data.board.data.Lanes, function(i, laneObj) {
                 var cardsArray = ko.observableArray();
                 var laneSum = 0;
-                // lbs.log.debug(laneObj.name);
                 if (laneObj.Cards !== undefined) {
                     if ($.isArray(laneObj.Cards)) {
                         $.each(laneObj.Cards, function(j, cardObj) {
@@ -221,35 +217,20 @@ lbs.apploader.register('Embrello', function () {
                 }
 
                 // Get the individual lane settings from the config.
-                individualLaneSettings = $.grep(boardConfig[0].lanes.individualLaneSettings, function(obj, i) {
-                    if (obj.key !== undefined) {
-                        if (obj.key !== '') {
-                            return obj.key === laneObj.key;
-                        }
-                    }
-                    return obj.id.toString() === laneObj.id;
-                });
-
-                // Check if selected color is a valid color, otherwise use default color.
-                if ($.grep(self.embrelloColors.colors, function(obj) {
-                        return obj.name === individualLaneSettings[0].color;
-                    })[0] === undefined) {
-                    
-                    individualLaneSettings[0].color = self.embrelloColors.defaultColor;
-                }
+                var laneSettings = getLaneSettings(boardConfig[0].lanes, laneObj);
 
                 // Add lane to board object.
                 self.b.lanes.push({ name: laneObj.name,
-                        color: individualLaneSettings[0].color,
-                        colorHex: self.embrelloColors.getColorHex(individualLaneSettings[0].color),
+                        color: laneSettings.color,
+                        colorHex: self.embrelloColors.getColorHex(laneSettings.color),
                         cards: cardsArray,
                         sum: numericStringMakePretty(laneSum.toString()),
-                        positiveSummation: individualLaneSettings[0].positiveSummation,
-                        cardIcon: individualLaneSettings[0].cardIcon
+                        positiveSummation: laneSettings.positiveSummation,
+                        cardIcon: laneSettings.cardIcon
                 });
 
                 // Add to board summation properties
-                if (individualLaneSettings[0].positiveSummation) {
+                if (laneSettings.positiveSummation) {
                     boardSumPositive = boardSumPositive + laneSum;
                 }
                 else {
@@ -279,16 +260,14 @@ lbs.apploader.register('Embrello', function () {
 
             // Check if integer or float
             if (parseFloat(str).toFixed(2).toString().substr(-2) === "00") {
-                // lbs.log.debug('int');
                 return localizeNumber(numeral(str).format('0,0'));
             }
             else {
-                // lbs.log.debug('float');
                 return localizeNumber(numeral(str).format('0,0.00'));
             }
         }
 
-        /* Makes a string pretty depending on what kind of info it contains. */
+        /*  Makes a string pretty depending on what kind of info it contains. */
         strMakePretty = function(str) {
             if (str === undefined) {
                 str = '';
@@ -312,7 +291,70 @@ lbs.apploader.register('Embrello', function () {
             else return str;
         }
 
-        /* Called when clicking a card. */
+        /*  Returns an object with the settings for the specified lane. 
+            Uses default values from app config if lane or some of the parameters are not present in individualLaneSettings object. */
+        getLaneSettings = function(lanesConfig, lane) {
+
+            // Create return object.
+            var laneSettings = {};
+            
+            // Get the individual lane settings from the config.
+            var individualLaneSettings = $.grep(lanesConfig.individualLaneSettings, function(obj, i) {
+                if (obj.key !== undefined) {
+                    if (obj.key !== '') {
+                        return obj.key === lane.key;
+                    }
+                }
+                return obj.id.toString() === lane.id;
+            });
+
+            // Check if a laneSetting was found
+            if (individualLaneSettings.length === 1) {
+
+                // Check if selected color is a valid color, otherwise use default color.
+                if ($.grep(self.embrelloColors.colors, function(obj) {
+                        return obj.name === individualLaneSettings[0].color;
+                    })[0] === undefined) {
+                    
+                    individualLaneSettings[0].color = lanesConfig.defaultValues.laneColor;
+                }
+
+                // Check if a cardIcon was specified for the lane, otherwise use the default
+                individualLaneSettings[0].cardIcon = getConfigLaneIcon(individualLaneSettings[0].cardIcon, lanesConfig.defaultValues.icon);
+                
+                // Check if summation boolean was specified for the lane, otherwise use the default
+                if (individualLaneSettings[0].positiveSummation === undefined) {
+                    individualLaneSettings[0].positiveSummation = lanesConfig.defaultValues.positiveSummation;
+                }
+
+                // Set return values
+                laneSettings.color = individualLaneSettings[0].color;
+                laneSettings.cardIcon = individualLaneSettings[0].cardIcon;
+                laneSettings.positiveSummation = individualLaneSettings[0].positiveSummation;
+            }
+            else {
+                // Use defaults
+                laneSettings.color = lanesConfig.defaultValues.laneColor;
+                laneSettings.cardIcon = lanesConfig.defaultValues.icon;
+                laneSettings.positiveSummation = lanesConfig.defaultValues.positiveSummation;
+            }
+
+            return laneSettings;
+        }
+
+        /*  Checks if the specified icon is a valid icon. If not it returns the default icon from the app config. */
+        getConfigLaneIcon = function(chosenIcon, defaultIcon) {
+            if (chosenIcon === undefined
+                    || (chosenIcon !== 'completion' && chosenIcon !== 'happy' && chosenIcon !== 'sad' && chosenIcon !== 'wait') ) {
+                return defaultIcon;
+            }
+            else {
+                return chosenIcon;
+            }
+
+        }
+
+        /*  Called when clicking a card. */
         viewModel.openLIMERecord = function(link) {
             if (link !== '') {
                 window.location.href = link;

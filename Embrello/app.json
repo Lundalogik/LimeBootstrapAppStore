@@ -14,6 +14,11 @@
 			"version":"1.0",
 			"date":"2016-02-29",
 			"comments":"The first version that could be considered somewhat releaseable!"
+		},
+		{
+			"version":"1.1",
+			"date":"2016-03-02",
+			"comments":"Added features include: inactive options not fetched from database, an option doesn't have to have a specified individualLaneSetting, possibility to set default values for lane settings."
 		}
 	],
 	"install":{

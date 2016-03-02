@@ -2,7 +2,7 @@
 -- Created: 2015-11-05
 
 -- Returns xml with information needed to draw a board.
-ALTER PROCEDURE [dbo].[csp_embrello_getboard]
+CREATE PROCEDURE [dbo].[csp_embrello_getboard]
 	@@tablename NVARCHAR(64)
 	, @@lanefieldname NVARCHAR(64)
 	, @@titlefieldname NVARCHAR(64)
@@ -91,8 +91,13 @@ BEGIN
 	
 	SET @sql = @sql + N'		, NULL AS [Cards!2!link]' + CHAR(10)
 	SET @sql = @sql + N'	FROM string s' + CHAR(10)
-	SET @sql = @sql + N'	WHERE idcategory = ' + CONVERT(NVARCHAR(20), @idcategory) + CHAR(10)
+	SET @sql = @sql + N'	LEFT JOIN attributedata ad' + CHAR(10)
+	SET @sql = @sql + N'		ON s.idstring = ad.idrecord' + CHAR(10)
+	SET @sql = @sql + N'			AND ad.[owner] = N''string''' + CHAR(10)
+	SET @sql = @sql + N'			AND ad.name = N''inactive''' + CHAR(10)
+	SET @sql = @sql + N'	WHERE s.idcategory = ' + CONVERT(NVARCHAR(20), @idcategory) + CHAR(10)
 	SET @sql = @sql + N'		AND s.[' + @@lang + N'] <> N''''' + CHAR(10)
+	SET @sql = @sql + N'		AND ISNULL(ad.value, 0) = 0' + CHAR(10)
 
 	-- Get cards
 	SET @sql = @sql + N'	UNION ALL' + CHAR(10)
@@ -145,6 +150,10 @@ BEGIN
 	SET @sql = @sql + N'		ON ids.value = A1.[id' + @@tablename + N']' + CHAR(10)
 	SET @sql = @sql + N'	INNER JOIN string s' + CHAR(10)
 	SET @sql = @sql + N'		ON s.idstring = A1.[' + @@lanefieldname + N']' + CHAR(10)
+	SET @sql = @sql + N'	LEFT JOIN attributedata ad' + CHAR(10)
+	SET @sql = @sql + N'		ON s.idstring = ad.idrecord' + CHAR(10)
+	SET @sql = @sql + N'			AND ad.[owner] = N''string''' + CHAR(10)
+	SET @sql = @sql + N'			AND ad.name = N''inactive''' + CHAR(10)
 	SET @sql = @sql + N'	LEFT JOIN [' + @@ownerrelatedtablename + N'] A2' + CHAR(10)
 	SET @sql = @sql + N'		ON A2.[id' + @@ownerrelatedtablename + N'] = A1.[' + @@ownerfieldname + N']' + CHAR(10)
 	
@@ -156,6 +165,7 @@ BEGIN
 	END
 	
 	SET @sql = @sql + N'	WHERE s.[' + @@lang + N'] <> N''''' + CHAR(10)
+	SET @sql = @sql + N'		AND ISNULL(ad.value, 0) = 0' + CHAR(10)
 	SET @sql = @sql + N') t' + CHAR(10)
 	SET @sql = @sql + N'ORDER BY t.[Lanes!1!order] ASC, t.Tag ASC' + CHAR(10)
 	SET @sql = @sql + N'FOR XML EXPLICIT' + CHAR(10)
