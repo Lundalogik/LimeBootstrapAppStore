@@ -109,7 +109,12 @@ On Error GoTo ErrorHandler
         
         Call oActiveUserView.Add(sDepartmentFieldname)
         Call oRecordActiveUser.Open(Application.Database.Classes("coworker"), ActiveUser.Record.id, oActiveUserView)
-        lDepartmentRecordID = oRecordActiveUser.Value(sDepartmentFieldname)
+        
+        If oRecordActiveUser.Value(sDepartmentFieldname) <> Null Then
+            lDepartmentRecordID = oRecordActiveUser.Value(sDepartmentFieldname)
+        Else
+            lDepartmentRecordID = 0
+        End If
         
         'FILTER CREATION MADNESS
         Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("garconsettings").Fields("visiblefor").Options.Lookup("all", lkLookupOptionByKey))
