@@ -5,7 +5,7 @@ CREATED BY: Fredrik Eriksson, Lundalogik AB
 DESIGNED BY: Joakim Lindblom, Lundalogik AB
 
 ## About ##
-Embrello offers a new and different way to look at LIME Pro data. Embrello lives in the Panes next to the calendar, inbox and browser and lets you view the records in your current tab as cards on a Kanban style board (think Trello, LeanKit Kanban etc.). This gives you a good overview and offers a different way to view your data besides the classic LIME Pro list.
+Embrello offers a new and different way to look at LIME Pro data. Embrello lives in the Panes next to the Limelight, browser, calendar and inbox and lets you view the records in your current tab as cards on a Kanban style board (think Trello, LeanKit Kanban etc.). This gives you a good overview and offers a different way to view your data besides the classic LIME Pro list.
 
 
 ## Features ##
@@ -44,6 +44,9 @@ You need to do the following to add Embrello to your database.
 ```html
 <li data-bind="vba:'App_Embrello.openEmbrello', text:localize.App_Embrello.openEmbrello, icon:'fa-align-left fa-rotate-90'"></li>
 ```
+
+### Update ###
+**Important**: If you update your version of Embrello, remember to first make a copy of the file `embrello.html` so you don't lose your app configuration.
 
 
 ## Setup ##
