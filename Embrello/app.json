@@ -6,19 +6,24 @@
 	"status":"Beta",
 	"versions":[
 		{
-			"version":"0.1",
+			"version":"0.1.0",
 			"date":"2015-12-18",
 			"comments":"An early version. A GUI redesign is looming."
 		},
 		{
-			"version":"1.0",
+			"version":"1.0.0",
 			"date":"2016-02-29",
 			"comments":"The first version that could be considered somewhat releaseable!"
 		},
 		{
-			"version":"1.1",
+			"version":"1.1.0",
 			"date":"2016-03-02",
 			"comments":"Added features include: inactive options not fetched from database, an option doesn't have to have a specified individualLaneSetting, possibility to set default values for lane settings."
+		},
+		{
+			"version":"1.1.1",
+			"date":"2016-03-10",
+			"comments":"Added features: Board size now follows the window size."
 		}
 	],
 	"install":{
