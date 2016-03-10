@@ -110,7 +110,7 @@ On Error GoTo ErrorHandler
         Call oActiveUserView.Add(sDepartmentFieldname)
         Call oRecordActiveUser.Open(Application.Database.Classes("coworker"), ActiveUser.Record.id, oActiveUserView)
         
-        If oRecordActiveUser.Value(sDepartmentFieldname) <> Null Then
+        If oRecordActiveUser.Value(sDepartmentFieldname) = False Then
             lDepartmentRecordID = oRecordActiveUser.Value(sDepartmentFieldname)
         Else
             lDepartmentRecordID = 0
