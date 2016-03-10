@@ -60,6 +60,17 @@ lbs.apploader.register('Embrello', function () {
             viewModel.board(initBoard());
         });
 
+        /* Sets dynamic css property to use the current window size as board height (otherwise no scrollbar will appear). */
+        resizeBoardHeight = function() {
+            var bodyHeight = parseInt($('body').css('height').replace(/\D+/g, ''));     // replace all non-digits with nothing
+            $('.embrello-board').css('height', bodyHeight - 20);
+        }
+
+        // Make sure that the board is resized whenever the window size is changed.
+        $(window).resize(resizeBoardHeight);
+
+
+        // Knockout handlers for completion donut chart
         ko.bindingHandlers.donut = {
             update : function(element, valueAccessor, bindingContext) {
                 var options = ko.unwrap(valueAccessor());
@@ -123,7 +134,6 @@ lbs.apploader.register('Embrello', function () {
 
                 // Replace image with new SVG
                 $img.replaceWith($svg);
-
             }, 'xml');
         });
 
@@ -247,10 +257,8 @@ lbs.apploader.register('Embrello', function () {
                                 + parseInt($('.embrello-lane-container').css('margin-right').replace(/\D+/g, ''));     // replace all non-digits with nothing
             $('.embrello-lanes-container').css('width', self.b.lanes().length * (laneWidth + laneMargins));
             
-            // Set dynamic css property to use the whole body height.
-            var bodyHeight = parseInt($('body').css('height').replace(/\D+/g, ''));     // replace all non-digits with nothing
-            $('.embrello-board').css('height', bodyHeight - 20);
-            
+            resizeBoardHeight();
+
             return self.b;
         }
 
@@ -351,7 +359,6 @@ lbs.apploader.register('Embrello', function () {
             else {
                 return chosenIcon;
             }
-
         }
 
         /*  Called when clicking a card. */
