@@ -172,7 +172,7 @@ The file `embrello.html` contains the app config object. An example is shown bel
 
 **boards.card.value.unit**: The unit that will be shown after the card values.
 
-**boards.card.percentField**: The database name of the field that will be used to show the completion icon on the cards.
+**boards.card.percentField**: The database name of the field that will be used to show the completion icon on the cards. Must be a percent field. Can be left empty or removed from configuration.
 
 **boards.card.sorting**: Settings for how the cards should be sorted within the lanes.
 

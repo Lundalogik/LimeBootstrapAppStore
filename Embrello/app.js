@@ -187,8 +187,8 @@ lbs.apploader.register('Embrello', function () {
                         $.each(laneObj.Cards, function(j, cardObj) {
                             cardsArray.push({ title: cardObj.title,
                                     additionalInfo: strMakePretty(cardObj.additionalInfo),
-                                    completionRate: cardObj.completionRate * 100,
-                                    angle: ko.observable(cardObj.completionRate * 360),
+                                    completionRate: fixCompletionRate(cardObj.completionRate),
+                                    angle: ko.observable(fixCompletionRate(cardObj.completionRate) * 3.6),
                                     sumValue: cardObj.sumValue,
                                     value: numericStringMakePretty(cardObj.value),
                                     sortValue: cardObj.sortValue,
@@ -214,8 +214,8 @@ lbs.apploader.register('Embrello', function () {
                     {
                         cardsArray.push({ title: laneObj.Cards.title,
                                 additionalInfo: strMakePretty(laneObj.Cards.additionalInfo),
-                                completionRate: laneObj.Cards.completionRate * 100,
-                                angle: ko.observable(laneObj.Cards.completionRate * 360),
+                                completionRate: fixCompletionRate(laneObj.Cards.completionRate),
+                                angle: ko.observable(fixCompletionRate(laneObj.Cards.completionRate) * 3.6),
                                 sumValue: laneObj.Cards.sumValue,
                                 value: numericStringMakePretty(laneObj.Cards.value),
                                 sortValue: laneObj.Cards.sortValue,
@@ -260,6 +260,16 @@ lbs.apploader.register('Embrello', function () {
             resizeBoardHeight();
 
             return self.b;
+        }
+
+        /* Checks if the specified value is undefined. If so, returns -1 and otherwise returns the value times 100. */
+        fixCompletionRate = function(val) {
+            if (val) {
+                return parseFloat(val * 100).toFixed(0);
+            }
+            else {
+                return -1;
+            }
         }
 
         /*  Returns the specified sum as a string either with two decimals or without decimals

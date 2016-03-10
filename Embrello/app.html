@@ -41,7 +41,7 @@
 					<div class="embrello-card" data-bind="click: function() { $root.openLIMERecord(link) }">
 						<div class="embrello-card-leftside">
 					    	<div class="embrello-card-icon">
-					    		<div class="embrello-donut" data-bind="donut: { value : angle() }, visible: $parent.cardIcon === 'completion'">
+					    		<div class="embrello-donut" data-bind="donut: { value : angle() }, visible: $parent.cardIcon === 'completion' && completionRate >= 0">
 									<div class="embrello-donut-master embrello-color-lessimportant-background"></div>
 									<div class="embrello-donut-slice">
 										<div class="embrello-donut-inner embrello-color-positive-background"></div>
