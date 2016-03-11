@@ -1,4 +1,4 @@
-Attribute VB_Name = "app_Embrello"
+Attribute VB_Name = "App_Embrello"
 Option Explicit
 
 ' Is set in sub setMaxNbrOfRecords.
