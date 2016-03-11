@@ -121,12 +121,12 @@ BEGIN
 	
 	IF @@sumfieldname <> N''
 	BEGIN
-		SET @sql = @sql + N'		, A1.[' + @@sumfieldname + N'] AS [Cards!2!sumValue]' + CHAR(10)
+		SET @sql = @sql + N'		, ISNULL(A1.[' + @@sumfieldname + N'], 0) AS [Cards!2!sumValue]' + CHAR(10)
 	END
 	
 	IF @@valuefieldname <> N''
 	BEGIN
-		SET @sql = @sql + N'		, A1.[' + @@valuefieldname + N'] AS [Cards!2!value]' + CHAR(10)
+		SET @sql = @sql + N'		, ISNULL(A1.[' + @@valuefieldname + N'], 0) AS [Cards!2!value]' + CHAR(10)
 	END
 	
 	IF @@sortfieldname <> N''
