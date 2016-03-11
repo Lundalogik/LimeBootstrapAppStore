@@ -25,6 +25,7 @@ CREATE PROCEDURE [dbo].[csp_embrello_getboard]
 	, @@lang NVARCHAR(5)
 	, @@limeservername NVARCHAR(64)
 	, @@limedbname NVARCHAR(64)
+	, @@iduser INT
 AS
 BEGIN
 
@@ -53,6 +54,7 @@ BEGIN
 	
 	-- Build string with dynamic SQL
 	DECLARE @sql NVARCHAR(MAX)
+	DECLARE @sqlexpression NVARCHAR(MAX)
 	
 	SET @sql = N'SELECT *' + CHAR(10)
 	SET @sql = @sql + N'FROM' + CHAR(10)
@@ -116,17 +118,44 @@ BEGIN
 	
 	IF @@completionfieldname <> N''
 	BEGIN
-		SET @sql = @sql + N'		, CONVERT(NVARCHAR(32), A1.[' + @@completionfieldname + N']) AS [Cards!2!completionRate]' + CHAR(10)
+		-- Check if SQL expression on field
+		SET @sqlexpression = [dbo].[cfn_embrello_getsqlexpression](@@tablename, @@completionfieldname, N'A1', @@iduser)
+		IF @sqlexpression <> N''
+		BEGIN
+			SET @sql = @sql + N'		, CONVERT(NVARCHAR(32), ISNULL(' + @sqlexpression + N', 0)) AS [Cards!2!value]' + CHAR(10)
+		END
+		ELSE
+		BEGIN
+			SET @sql = @sql + N'		, CONVERT(NVARCHAR(32), A1.[' + @@completionfieldname + N']) AS [Cards!2!completionRate]' + CHAR(10)
+		END
 	END
 	
 	IF @@sumfieldname <> N''
 	BEGIN
-		SET @sql = @sql + N'		, ISNULL(A1.[' + @@sumfieldname + N'], 0) AS [Cards!2!sumValue]' + CHAR(10)
+		-- Check if SQL expression on field
+		SET @sqlexpression = [dbo].[cfn_embrello_getsqlexpression](@@tablename, @@sumfieldname, N'A1', @@iduser)
+		IF @sqlexpression <> N''
+		BEGIN
+			SET @sql = @sql + N'		, ISNULL(' + @sqlexpression + N', 0) AS [Cards!2!value]' + CHAR(10)
+		END
+		ELSE
+		BEGIN
+			SET @sql = @sql + N'		, ISNULL(A1.[' + @@sumfieldname + N'], 0) AS [Cards!2!sumValue]' + CHAR(10)
+		END
 	END
 	
 	IF @@valuefieldname <> N''
 	BEGIN
-		SET @sql = @sql + N'		, ISNULL(A1.[' + @@valuefieldname + N'], 0) AS [Cards!2!value]' + CHAR(10)
+		-- Check if SQL expression on field
+		SET @sqlexpression = [dbo].[cfn_embrello_getsqlexpression](@@tablename, @@valuefieldname, N'A1', @@iduser)
+		IF @sqlexpression <> N''
+		BEGIN
+			SET @sql = @sql + N'		, ISNULL(' + @sqlexpression + N', 0) AS [Cards!2!value]' + CHAR(10)
+		END
+		ELSE
+		BEGIN
+			SET @sql = @sql + N'		, ISNULL(A1.[' + @@valuefieldname + N'], 0) AS [Cards!2!value]' + CHAR(10)
+		END
 	END
 	
 	IF @@sortfieldname <> N''

@@ -59,6 +59,7 @@ Public Function getBoardXML(boardConfigXML As String) As String
     oProc.Parameters("@@lang").InputValue = Application.Locale
     oProc.Parameters("@@limeservername").InputValue = Database.RemoteServerName
     oProc.Parameters("@@limedbname").InputValue = Database.Name
+    oProc.Parameters("@@iduser").InputValue = ActiveUser.ID
 
     Call oProc.Execute(False)
     'Debug.Print oProc.result

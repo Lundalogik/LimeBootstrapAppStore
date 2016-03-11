@@ -159,7 +159,7 @@ The file `embrello.html` contains the app config object. An example is shown bel
 
 **boards.summation**: An object with settings for how the summation in the title of the board should be done.
 
-**boards.summation.field**: The database name of the field that should be summarized. Note: This does not have to be the same as the value field on the card.
+**boards.summation.field**: The database name of the field that should be summarized. Note: This does not have to be the same as the value field on the card. SQL expression on the field is supported by Embrello.
 
 **boards.summation.unit**: The unit that will be shown after the summarized values.
 
@@ -169,11 +169,11 @@ The file `embrello.html` contains the app config object. An example is shown bel
 
 **boards.card.value**: An object with settings for the value of the cards.
 
-**boards.card.value.field**: The database name of the field that will be shown as the value on the card.
+**boards.card.value.field**: The database name of the field that will be shown as the value on the card. SQL expression on the field is supported by Embrello.
 
 **boards.card.value.unit**: The unit that will be shown after the card values.
 
-**boards.card.percentField**: The database name of the field that will be used to show the completion icon on the cards. Must be a percent field. Can be left empty or removed from configuration.
+**boards.card.percentField**: The database name of the field that will be used to show the completion icon on the cards. Must be a percent field. Can be left empty or removed from configuration. SQL expression on the field is supported by Embrello.
 
 **boards.card.sorting**: Settings for how the cards should be sorted within the lanes. Can be removed from the configuration.
 
@@ -185,7 +185,7 @@ The file `embrello.html` contains the app config object. An example is shown bel
 
 **boards.card.owner.fieldName**: The database name of the relation field on the card the board is configured for.
 
-**boards.card.owner.relatedTableName**: The database name of the table the relation field points to.
+**boards.card.owner.relatedTableName**: The database name of the table the relation field points to. *Important*: Record access on the target table is neglected.
 
 **boards.card.owner.relatedTableFieldName**: The database name of the field on the related table that should be shown on the card in Embrello.
 
@@ -193,7 +193,7 @@ The file `embrello.html` contains the app config object. An example is shown bel
 
 **boards.card.additionalInfo.fieldName**: The database name of the field (relation or other) on the card the board is configured for.
 
-**boards.card.additionalInfo.relatedTableName**: If the field is a relation field, then this parameter should be set to the database name of the table the relation field points to. If not a relation field, then just leave this parameter empty.
+**boards.card.additionalInfo.relatedTableName**: If the field is a relation field, then this parameter should be set to the database name of the table the relation field points to. If not a relation field, then just leave this parameter empty. *Important*: Record access on the target table is neglected.
 
 **boards.card.additionalInfo.relatedTableFieldName**: If the field is a relation field, then this parameter should be set to the database name of the field on the related table that should be shown on the card in Embrello. If not a relation field, then just leave this parameter empty.
 
