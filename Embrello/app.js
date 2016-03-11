@@ -192,7 +192,7 @@ lbs.apploader.register('Embrello', function () {
                                     sumValue: cardObj.sumValue,
                                     value: numericStringMakePretty(cardObj.value),
                                     sortValue: cardObj.sortValue,
-                                    owner: cardObj.owner,
+                                    owner: strMakePretty(cardObj.owner),
                                     link: cardObj.link
                             });
                             laneSum = laneSum + parseFloat(cardObj.sumValue);
@@ -219,7 +219,7 @@ lbs.apploader.register('Embrello', function () {
                                 sumValue: laneObj.Cards.sumValue,
                                 value: numericStringMakePretty(laneObj.Cards.value),
                                 sortValue: laneObj.Cards.sortValue,
-                                owner: laneObj.Cards.owner,
+                                owner: strMakePretty(laneObj.Cards.owner),
                                 link: laneObj.Cards.link
                         });
                         laneSum = parseFloat(laneObj.Cards.sumValue);
