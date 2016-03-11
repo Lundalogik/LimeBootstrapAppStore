@@ -184,7 +184,15 @@ END
 
 GO
 
-EXEC lsp_refreshldc
-EXEC lsp_setdatabasetimestamp
+-- Make procedure available in VBA
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'lsp_refreshldc')
+BEGIN
+	EXEC lsp_refreshldc
+END
+
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'lsp_setdatabasetimestamp')
+BEGIN
+	EXEC lsp_setdatabasetimestamp
+END
 
 GO
