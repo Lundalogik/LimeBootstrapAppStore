@@ -112,7 +112,7 @@ BEGIN
 	SET @sql = @sql + N'		, NULL AS [Lanes!1!id]' + CHAR(10)
 	SET @sql = @sql + N'		, NULL AS [Lanes!1!key]' + CHAR(10)
 	SET @sql = @sql + N'		, NULL AS [Lanes!1!name]' + CHAR(10)
-	SET @sql = @sql + N'		, A1.[' + @@titlefieldname + N'] AS [Cards!2!title]' + CHAR(10)
+	SET @sql = @sql + N'		, REPLACE(REPLACE(A1.[' + @@titlefieldname + N'], N''\'', N''\\''), N''"'', N''\"'') AS [Cards!2!title]' + CHAR(10)
 	
 	IF @@completionfieldname <> N''
 	BEGIN
@@ -134,18 +134,18 @@ BEGIN
 		SET @sql = @sql + N'		, A1.[' + @@sortfieldname + N'] AS [Cards!2!sortValue]' + CHAR(10)
 	END
 	
-	SET @sql = @sql + N'		, A2.[' + @@ownerdescriptivefieldname + '] AS [Cards!2!owner]' + CHAR(10)
+	SET @sql = @sql + N'		, REPLACE(REPLACE(A2.[' + @@ownerdescriptivefieldname + '], N''\'', N''\\''), N''"'', N''\"'') AS [Cards!2!owner]' + CHAR(10)
 	
 	IF @@additionalinfofieldname <> N''
 	BEGIN
 		-- Check if additionalInfo is a field on the table itself or on a related table
 		IF @@additionalinforelatedtablename <> N''
 		BEGIN
-			SET @sql = @sql + N'		, A3.[' + @@additionalinfodescriptivefieldname + N'] AS [Cards!2!additionalInfo]' + CHAR(10)
+			SET @sql = @sql + N'		, REPLACE(REPLACE(A3.[' + @@additionalinfodescriptivefieldname + N'], N''\'', N''\\''), N''"'', N''\"'') AS [Cards!2!additionalInfo]' + CHAR(10)
 		END
 		ELSE
 		BEGIN
-			SET @sql = @sql + N'		, A1.[' + @@additionalinfofieldname + N'] AS [Cards!2!additionalInfo]' + CHAR(10)
+			SET @sql = @sql + N'		, REPLACE(REPLACE(A1.[' + @@additionalinfofieldname + N'], N''\'', N''\\''), N''"'', N''\"'') AS [Cards!2!additionalInfo]' + CHAR(10)
 		END
 	END
 	
