@@ -1,3 +1,8 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
 -- Written by: Fredrik Eriksson
 -- Created: 2015-11-05
 
@@ -176,3 +181,10 @@ BEGIN
 		, N'@@idrecords NVARCHAR(MAX)'
 		, @@idrecords
 END
+
+GO
+
+EXEC lsp_refreshldc
+EXEC lsp_setdatabasetimestamp
+
+GO

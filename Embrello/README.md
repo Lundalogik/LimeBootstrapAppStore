@@ -37,6 +37,7 @@ You need to do the following to add Embrello to your database.
 * Add the SQL table valued function `cfn_gettablefromstring` using the script in the file `cfn_gettablefromstring.sql` under the Install subfolder.
 * Add the SQL procedure `csp_embrello_getboard` using the script in the file `csp_embrello_getboard.sql` under the Install subfolder.
 * Add the localization records needed by running the script in the file `createLocalizeRecords.sql` under the Install folder. *Beware*: If you do not have all the language columns that exist in the LIME Pro Core Database you have to remove the ones you do not have from the SQL script before running it. Otherwise it will fail.
+* If you are running LIME Pro 10.12 or later, please restart the LDC manually (right-click on it and click "Shut down").
 * Add the VBA module `App_Embrello` located in the Install subfolder.
 * Add the folder embrello under apps in your Actionpad folder.
 * Configure the embrello.html file to make Embrello work the way you want to. Out of the box, Embrello is configured to work for the Deals tab in the LIME Pro Core Database.
@@ -174,7 +175,7 @@ The file `embrello.html` contains the app config object. An example is shown bel
 
 **boards.card.percentField**: The database name of the field that will be used to show the completion icon on the cards. Must be a percent field. Can be left empty or removed from configuration.
 
-**boards.card.sorting**: Settings for how the cards should be sorted within the lanes.
+**boards.card.sorting**: Settings for how the cards should be sorted within the lanes. Can be removed from the configuration.
 
 **boards.card.sorting.field**: The database name of the field that should control the sorting.
 
