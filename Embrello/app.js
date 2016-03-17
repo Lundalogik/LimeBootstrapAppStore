@@ -170,7 +170,7 @@ lbs.apploader.register('Embrello', function () {
             var boardForVBA = { board: boardConfig[0] };
             var vbaCommand = 'App_Embrello.getBoardXML, ' + json2xml(boardForVBA);
             lbs.loader.loadDataSource(data, { type: 'xml', source: vbaCommand, alias: 'board' }, false);
-            self.b.name = lbs.common.executeVba('App_Embrello.getActiveBoardName') + ', totalt:';
+            self.b.name = lbs.common.executeVba('App_Embrello.getActiveBoardName') + ', ' + viewModel.localize.App_Embrello.boardtitleSumLabel + ':';
             self.b.localNameSingular = lbs.common.executeVba('App_Embrello.getActiveTableLocalNameSingular');
             self.b.localNamePlural = lbs.common.executeVba('App_Embrello.getActiveTableLocalNamePlural');
             self.b.sumUnit = boardConfig[0].summation.unit;

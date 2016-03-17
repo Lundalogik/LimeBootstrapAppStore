@@ -29,6 +29,11 @@
 			"version":"1.2.0",
 			"date":"2016-03-11",
 			"comments":"Added features: SQL expressions on summation field, completion field and value field are now supported."
+		},
+		{
+			"version":"1.2.1",
+			"date":"2016-03-17",
+			"comments":"Added features: Negative sum not shown if zero. Bugfix: Board title now fetched from localize table."
 		}
 	],
 	"install":{

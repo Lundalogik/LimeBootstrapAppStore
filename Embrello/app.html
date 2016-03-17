@@ -7,7 +7,7 @@
 		<span class="embrello-board-header-title embrello-color-title" data-bind="text: board().name"></span>
 		<span class="embrello-color-positive" data-bind="text: board().sumPositive"></span>
 		<span class="embrello-board-header-unit embrello-color-positive" data-bind="text: board().sumUnit"></span>
-		<span class="embrello-board-header-negativesum embrello-color-negative">
+		<span class="embrello-board-header-negativesum embrello-color-negative" data-bind="visible: board().sumNegative > 0">
 			<span class="embrello-parenthesis">(</span>
 			<span class="" data-bind="text: board().sumNegative"></span>
 			<span class="embrello-board-header-unit" data-bind="text: board().sumUnit"></span>
