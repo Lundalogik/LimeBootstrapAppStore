@@ -1,4 +1,3 @@
-Attribute VB_Name = "Garcon"
 '===================== SETTINGS ============================
 '
 '       Change constant below to true if you have activated
@@ -108,18 +107,18 @@ On Error GoTo ErrorHandler
         Dim oActiveUserView As New LDE.View
         
         Call oActiveUserView.Add(sDepartmentFieldname)
-        Call oRecordActiveUser.Open(Application.Database.Classes("coworker"), ActiveUser.Record.id, oActiveUserView)
+        Call oRecordActiveUser.Open(Application.Database.Classes("coworker"), ActiveUser.Record.ID, oActiveUserView)
         
-        If oRecordActiveUser.Value(sDepartmentFieldname) = False Then
+        If IsNull(oRecordActiveUser.Value(sDepartmentFieldname)) = False Then
             lDepartmentRecordID = oRecordActiveUser.Value(sDepartmentFieldname)
         Else
             lDepartmentRecordID = 0
         End If
-        
+            
         'FILTER CREATION MADNESS
         Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("garconsettings").Fields("visiblefor").Options.Lookup("all", lkLookupOptionByKey))
         Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("garconsettings").Fields("visiblefor").Options.Lookup("me", lkLookupOptionByKey))
-        Call oFilter.AddCondition("coworker", lkOpEqual, ActiveUser.Record.id)
+        Call oFilter.AddCondition("coworker", lkOpEqual, ActiveUser.Record.ID)
         Call oFilter.AddOperator(lkOpAnd)
         Call oFilter.AddOperator(lkOpOr)
         Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("garconsettings").Fields("visiblefor").Options.Lookup("department", lkLookupOptionByKey))
@@ -138,7 +137,7 @@ On Error GoTo ErrorHandler
     Else
         Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("garconsettings").Fields("visiblefor").Options.Lookup("all", lkLookupOptionByKey))
         Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("garconsettings").Fields("visiblefor").Options.Lookup("me", lkLookupOptionByKey))
-        Call oFilter.AddCondition("coworker", lkOpEqual, ActiveUser.Record.id)
+        Call oFilter.AddCondition("coworker", lkOpEqual, ActiveUser.Record.ID)
         Call oFilter.AddOperator(lkOpAnd)
         Call oFilter.AddOperator(lkOpOr)
         Call oFilter.AddCondition("active", lkOpEqual, 1)
@@ -170,7 +169,7 @@ On Error GoTo ErrorHandler
             If lngValue >= 0 Then
                 If ((lngValue = 0 And oRecord.Value("visibleonzero") = 1) Or (lngValue > 0)) Then
                     FetchFiltersXML = FetchFiltersXML + "<filter>" _
-                        & "<idgarconsettings>" & VBA.CStr(oRecord.id) & "</idgarconsettings>" _
+                        & "<idgarconsettings>" & VBA.CStr(oRecord.ID) & "</idgarconsettings>" _
                         & "<explorer>" & oRecord.Text("classname") & "</explorer>" _
                         & "<name>" & oRecord.Text("filtername") & "</name>" _
                         & "<color>" & oRecord.GetOptionKey("color") & "</color>" _
