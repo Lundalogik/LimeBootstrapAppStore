@@ -1,0 +1,108 @@
+<!--ko if: type() == 'list' -->
+<div class="sidebar">
+	<div class="ga-list" data-bind="visible: login_verified && lbs.common.executeVba('GetAccept.showList,' + class_name)">
+	<!-- <div class="ga-list" data-bind="visible:lbs.common.executeVba('GetAccept.showList,' + class_name)  "> -->
+		<div class="list-header">
+			<img class="" src="apps/getaccept/img/logo.png"> 
+			<span data-bind="click:checkDocuments, tooltip: localize.GetAccept.ga_refresh" class="refresh-icon fa fa-refresh">
+		</div>
+	
+		<ul class="document-list" data-bind="foreach: document_list">
+			<li>
+				<a href="#" data-bind="openURL: sso_url, text: name"></a>
+				<span data-bind="visible: is_signing=='1'" class="signing-icon fa fa-pencil"></span>
+				<span data-bind="text: getStatus(status), css: status" class="ga-status"></span> 
+				<span data-bind="click:saveDocument, visible: status == 'signed', tooltip:$root.localize.GetAccept.ga_download" class="download-icon fa fa-download">
+				</span>
+			</li>
+		</ul>
+	</div>
+
+	<!--div><img class="logo-icon" src="apps/getaccept/img/logo-icon.png"></div-->
+	<button class="btn btn-lime ga-btn" data-bind="click:openModal, text: localize.GetAccept.send_document_button"></button>
+	<!--button class="btn btn-lime ga-btn" data-bind="click:openModal, visible: login_verified==false"><img class="ga-logo" src="apps/getaccept/img/logo-icon.png">Login</button-->
+	
+</div>
+<!-- /ko -->
+
+<!--ko if: type() == 'windowed' -->
+<div class="document">
+    <div class="win-auth login-box hidden">
+		<h2 data-bind="text: localize.GetAccept.login_to_ga" ></h2>
+		<form>
+			<input type="email" id="email" value="" placeholder="email">
+			<input type="password" id="password" value="" placeholder="password">	
+			<button class="btn btn-login" data-bind="text: localize.GetAccept.login_button"></button>		
+		</form>
+	</div>
+	<div class="win-entity login-box hidden">
+		<h2 data-bind="text: localize.GetAccept.select_ga_entity"></h2>
+		<ul class="entity_list" data-bind="foreach: entity_list">
+			<li data-bind="click: selectEntity, id: entity_id, user: user_hash, text: entity_name"></li>
+		</ul>
+	</div>
+
+	<div class="win-document login-box document-box hidden">
+	    <h2 data-bind="text: localize.GetAccept.send_with_ga"></h2>
+
+		<label class="document_name" for="document_name" data-bind="text: localize.GetAccept.ga_document_name"></label>
+		<input type="text" class="document_name" size="45" data-bind="value:send_json.name"></span>
+		
+		<div class="row">
+			<div class="col-md-6">
+				<input type="search" data-bind="textInput: signer_filter" placeholder="{{$root.localize.GetAccept.ga_search}}" autocomplete="off">
+				<h4 data-bind="text: localize.GetAccept.ga_signer"></h4>
+				<ul class="signer_list" data-bind="foreach: signer_filtered_list">				
+					<li data-bind="visible: email">
+						<label data-bind="attr: { title: email }">
+							<!-- <input type="checkbox" data-bind="checkedValue: email, checked: $parent.selected_signer, enable: email"><span data-bind="text: name"></span> -->
+							
+							<input type="checkbox" data-bind="checkedValue: email, checked: signer, disable: cc(), click: setSigner"><span data-bind="text: name, style: { color: cc() ? '#888' : 'white' }"></span>
+						</label>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-6">
+				<h4 data-bind="text: localize.GetAccept.ga_recipient"></h4>
+				<!-- <ul class="cc_list" data-bind="foreach: cc_list">
+					<li data-bind="visible: email">				
+						<label>
+							<input type="checkbox" data-bind="checkedValue: email, checked: $parent.selected_cc, enable: email"><span data-bind="text: firstname+' '+lastname"></span>
+						</label>
+					</li>
+				</ul> -->
+				<ul class="cc_list" data-bind="foreach: signer_filtered_list">
+					<li data-bind="visible: email">				
+						<label data-bind="attr: { title: email }">
+							<!-- <input type="checkbox" data-bind="checkedValue: email, checked: cc, disable: 
+							signer()"><span data-bind="text: name, style: { color: signer() ? '#888' : 'white' }"></span> -->
+							<input type="checkbox" data-bind="checkedValue: email, checked: cc,  disable: signer(), click: setCC"><span data-bind="text: name, style: { color: signer() ? '#888' : 'white' }"></span>
+						</label>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div style="clear:both;width:100%;height:5px;"></div>
+		<table width="94%">
+			<tr>
+				<!--td><button class="btn" data-bind="icon: 'fa-upload', text: 'Upload'" onclick="uploadDocument()"></button></td-->
+				<td align="left">
+					<button class="btn" data-bind="icon: 'fa-paper-plane', text: localize.GetAccept.send_with_ga" onclick="sendDocument()"></button>
+					<button class="btn" data-bind="icon: 'fa-folder-open', text: localize.GetAccept.open_in_ga" onclick="openDocument()"></button>
+				</td>
+			</tr>
+		</table>
+		<a href="#" class="logout-link" data-bind="icon: 'fa-sign-out', text: localize.GetAccept.logout_button" onclick="logoutSession()"></a>
+	</div>
+	<div class="win-loading login-box document-box hidden">
+		<h1></h1>
+		<div class="progress">
+		  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="background-color:#F49231;width: 0%">
+		    <span class="sr-only">45% Complete</span>
+		  </div>
+		</div>
+
+		<div data-bind="text: localize.GetAccept.ga_modal_closed"></div>
+	</div>
+</div>
+<!-- /ko -->

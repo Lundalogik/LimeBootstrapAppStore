@@ -1,0 +1,357 @@
+﻿.highlight{
+    color: #F89300;
+}
+
+.list-header{
+    background-color: #383A41;   
+    padding: 8px;
+    text-align: center;
+    position: relative;
+
+}
+
+.refresh-icon{
+    color: rgba(255, 255 , 255, 0.75);
+    position: absolute;
+    right: 10px;
+    margin-top: 6px;
+    cursor: pointer;
+}
+
+.refresh-icon:hover{
+    color: #fff;
+    cursor: pointer;
+}
+
+.download-icon{
+    position: relative;
+    float: right;
+    color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    margin-right: 4px;
+    font-size: 13px;
+    line-height: 22px;
+}
+
+.download-icon:hover{
+    color: rgba(0, 0, 0, 0.7);
+}
+.signing-icon{
+    margin-left: -16px;
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 13px;
+    line-height: 22px;
+}
+
+.ga-btn{
+    border: 0;
+    text-decoration: none;
+    text-align: center;
+    color: #ffffff;
+    display: inline-block;
+    padding: 8px;   
+    font-size: 13px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    border: none;
+    outline: none;
+    -o-border-radius: 0.2em;
+    -moz-border-radius: 0.2em;
+    -webkit-border-radius: 0.2em;
+    border-radius: 2px;
+    background-color: #383A41;
+    
+
+    /*line-height: 40px;
+    padding-left: 44px;
+    padding-right: 22px;
+    background: #383A41 url(img/logo.png) no-repeat 9px 9px;
+    background-size: 32px auto;*/
+}
+
+.ga-btn:hover{
+    color: #ffffff;
+}
+.ga-btn:focus{
+    color: #ffffff;
+}
+.ga-logo{
+     width: 32px;
+    line-height: 15px;
+}
+.logo-icon{
+    width: 32px;
+}
+.document-list{
+    font-size: 15px;
+    background: #fff;
+    padding: 4px;
+}
+
+
+ul.document-list{
+    list-style: none;
+}
+ul.document-list li{
+    margin: 8px 5px;
+}
+ul.document-list li a{
+    width: 60%;
+    font-size: 12px;
+    display:inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+.ga-status{
+    float: right;
+    background: grey;
+    color: #fff;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 4px;
+    height: 100%;
+    width: 72px;
+    text-align: center;
+    vertical-align: middle;
+}
+/*Set color on badge depending on status*/
+.importing .processing{
+    background-color: #3E82F7;
+}
+.draft{
+    background-color: grey;
+}
+.viewed{
+    background-color: orange;
+}
+.sent{
+    background-color: #3D81DA; /*blue*/
+}
+.signed{
+    background-color: green;
+}
+.rejected{
+    background-color: #FA8885;
+}
+.reviewed{
+    background-color: orange;
+}
+
+.document .btn{
+    border: 0;
+    text-decoration: none;
+    text-align: center;
+    color: #ffffff;
+    display: inline-block;
+    min-width: 8em; 
+    cursor: pointer;
+    -webkit-appearance: none;
+    border: none;
+    outline: none;
+    background: #F49231;
+    -o-border-radius: 0.2em;
+    -moz-border-radius: 0.2em;
+    -webkit-border-radius: 0.2em;
+    border-radius: 0.2em;
+    padding: 0.5em 1em;
+}
+.document .btn:hover {
+    background: #f9b122;
+}
+.document .btn-fill{
+    width: 80%; 
+}
+.document .btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    pointer-events: none;
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    opacity: .65;
+}
+
+.document .document_name{
+    float: left;
+}
+.document label.document_name{
+    padding-top: 12px;
+    padding-left: 50px;
+    color: #dddddd;
+}
+.document{
+    height: 700px;
+    margin: 0 -10px;
+    padding: 10px;
+    background: url(img/login-bg.jpg) no-repeat top left;
+    background-size: cover;
+    background-attachment: fixed;
+    color:#ffffff;
+}
+
+.document .login-box{
+    background: #f6f8f7;
+    background: rgba(0,0,0,.6);
+    background-image: url(img/login-bg-blur.jpg);
+    background-repeat: no-repeat;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-attachment: fixed;
+    text-align: center;
+    border-radius: 0.4em;
+    -o-border-radius: 0.4em;
+    -webkit-border-radius: 0.4em;
+    -moz-border-radius: 0.4em;
+    width: 300px;
+    min-width: 360px;
+    height: 200px;
+    padding-bottom: 20px;
+    margin: 0 auto;
+    margin-top: 40px;
+    -moz-box-shadow: 0 20px 30px rgba(0, 0, 0, 0.6);
+    -webkit-box-shadow: 0 20px 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+
+    -webkit-animation-duration: 2s;
+    animation-duration:2s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: fadeInUp;
+    animation-name: fadeInUp;
+}
+.document .document-box{
+    width: 600px;
+    height: 350px;
+    text-align: center;
+    padding: 10px;
+}
+.document .document-box .btn{
+    margin-left: 30px;
+}
+.document .document-box pre{
+    margin: 0px 20px;
+    width: 90%;    
+    font-size: 0.7em;
+}
+.document .signer_list, .document .cc_list, .document .entity_list{
+    list-style: none;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    color: #eeeeee;
+    overflow: auto;
+    height: 120px;
+}
+.document .signer_list li, .document .cc_list li, .document .entity_list li {
+    padding: 0;
+    margin: 0;
+}
+.document .entity_list{
+    text-align: center;
+}
+.document .entity_list li{
+    cursor: pointer;
+}
+.document .entity_list li:hover{
+    color: #ffffff;
+    text-decoration: underline;
+}
+.document .col-md-6:first-child{
+    margin-left: 50px;    
+}
+.document .col-md-6{
+    float: left;
+    width: 250px;
+    margin: 8px;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 3px;
+}
+.document .col-md-6 h4{
+    color: #ffffff;
+    text-align: left;
+    margin: 0;
+    margin-bottom: 5px;
+}
+.document .col-md-6 input{
+    margin-right: 10px;
+}
+
+.document h2{
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.document .login-box input[type="text"], .document .login-box input[type="email"], .document .login-box input[type="password"],.document .login-box input[type="search"] {
+    background-color: rgba(0,0,0,0.3);
+    border: none;
+    border-bottom: 1px solid #9e9e9e;
+    font-size: 14px;
+    line-height: 22px;
+    height: 36px;
+    margin: 4px 25px;
+    border-radius: 3px;
+    box-shadow: none;
+    float: left;
+    -webkit-transition: .3s border-bottom,.3s box-shadow;
+    transition: .3s border-bottom,.3s box-shadow;
+
+    padding: 0.6em 0.4em 0.6em 0.8em;
+    color: #eeeeee;
+    outline: none;
+    border: none;
+    -webkit-appearance: none;
+    
+}
+.document .login-box input[type="text"]:focus, .document .login-box input[type="email"]:focus, .document .login-box input[type="password"]:focus, .document .login-box input[type="search"]:focus {
+    outline: none;
+    border-bottom:1px solid #F9B122;
+    box-shadow:0 1px 0 0 #F9B122;
+}
+.document .login-box input[type="search"]{
+    background-color: rgba(0,0,0,0.5);
+    float: right;
+    width: 100px;
+    height: 26px;
+    line-height: 12px;
+    font-size: 12px;
+    margin: -3px;
+    opacity: 0.3;
+}
+.document .login-box input[type="search"]:focus {
+    opacity: 1;
+}
+.document .login-box .btn.btn-login{
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    margin-left: 210px;
+}
+.document  input:-webkit-autofill {
+    -webkit-text-fill-color: #ffffff;
+    -webkit-box-shadow: inset 0 0 0 50px #272425;
+}
+.document .logout-link{
+    float: right;
+    margin-top: -15px;
+    margin-right: 20px;
+    color: #eeeeee;
+    text-decoration: none;
+}
+.document .win-loading{
+    padding:4em;
+}
+
+@-webkit-keyframes fadeInUp{
+    0%{opacity:0;-webkit-transform:translateY(2em);transform:translateY(2em)}
+    100%{opacity:1;-webkit-transform:translateY(0);transform:translateY(0)}
+}
+@keyframes fadeInUp{
+    0%{opacity:0;-webkit-transform:translateY(2em);-ms-transform:translateY(2em);transform:translateY(2em)}
+    100%{opacity:1;-webkit-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}
+}
