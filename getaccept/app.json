@@ -1,7 +1,8 @@
 {
 	"name": "GetAccept",
 	"author":"GetAcce[t",
-	"status":"Development",
+	"status":"Release",
+	"license" true,
 	"versions":[
 		{
 			"version":"0.1",
