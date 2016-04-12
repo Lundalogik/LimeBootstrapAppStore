@@ -1,6 +1,6 @@
 {
 	"name": "LicenseCounter",
-	"author":"JKA & AAS",
+	"author":"JKA",
 	"status":"Release",
 	"shortDesc":"Counting active users in a database",
 	"license": true,
