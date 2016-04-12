@@ -1,0 +1,17 @@
+{
+	"name": "License counter",
+	"author":"JKA/AAS",
+	"status":"Release",
+	"shortDesc":"Counting active users in a database",
+	"license": true,
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2016-04-12",
+			"comments":"First upload"
+		},		
+	],
+	"install":{
+		
+	}
+}
