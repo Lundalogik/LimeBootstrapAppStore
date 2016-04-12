@@ -1,5 +1,8 @@
-Attribute VB_Name = "app_Embrello"
+Attribute VB_Name = "App_Embrello"
 Option Explicit
+
+' Is set in sub setMaxNbrOfRecords.
+Private m_maxNbrOfRecords As Long
 
 ' ##SUMMARY Opens Embrello in a pane
 Public Sub openEmbrello()
@@ -38,25 +41,38 @@ Public Function getBoardXML(boardConfigXML As String) As String
     Dim oProc As LDE.Procedure
     Set oProc = Database.Procedures("csp_embrello_getboard")
     oProc.Parameters("@@tablename").InputValue = ActiveExplorer.Class.Name
-    
-    Call addSQLParameterFromXML(oProc, "@@lanefieldname", oXmlDoc, "/board/laneOptionField")
+
+    Call addSQLParameterFromXML(oProc, "@@lanefieldname", oXmlDoc, "/board/lanes/optionField")
     Call addSQLParameterFromXML(oProc, "@@titlefieldname", oXmlDoc, "/board/card/titleField")
-    Call addSQLParameterFromXML(oProc, "@@additionalinfofieldname", oXmlDoc, "/board/card/additionalInfo/field")
     Call addSQLParameterFromXML(oProc, "@@completionfieldname", oXmlDoc, "/board/card/percentField")
-    Call addSQLParameterFromXML(oProc, "@@valuefieldname", oXmlDoc, "/board/card/sumField")
+    Call addSQLParameterFromXML(oProc, "@@sumfieldname", oXmlDoc, "/board/summation/field")
+    Call addSQLParameterFromXML(oProc, "@@valuefieldname", oXmlDoc, "/board/card/value/field")
     Call addSQLParameterFromXML(oProc, "@@sortfieldname", oXmlDoc, "/board/card/sorting/field")
-    Call addSQLParameterFromXML(oProc, "@@ownerrelationfieldname", oXmlDoc, "/board/card/owner/fieldName")
+    Call addSQLParameterFromXML(oProc, "@@ownerfieldname", oXmlDoc, "/board/card/owner/fieldName")
     Call addSQLParameterFromXML(oProc, "@@ownerrelatedtablename", oXmlDoc, "/board/card/owner/relatedTableName")
     Call addSQLParameterFromXML(oProc, "@@ownerdescriptivefieldname", oXmlDoc, "/board/card/owner/relatedTableFieldName")
+    Call addSQLParameterFromXML(oProc, "@@additionalinfofieldname", oXmlDoc, "/board/card/additionalInfo/fieldName")
+    Call addSQLParameterFromXML(oProc, "@@additionalinforelatedtablename", oXmlDoc, "/board/card/additionalInfo/relatedTableName")
+    Call addSQLParameterFromXML(oProc, "@@additionalinfodescriptivefieldname", oXmlDoc, "/board/card/additionalInfo/relatedTableFieldName")
     
     oProc.Parameters("@@idrecords").InputValue = getIdsAsString()
     oProc.Parameters("@@lang").InputValue = Application.Locale
     oProc.Parameters("@@limeservername").InputValue = Database.RemoteServerName
     oProc.Parameters("@@limedbname").InputValue = Database.Name
-    
+    oProc.Parameters("@@iduser").InputValue = ActiveUser.ID
+
     Call oProc.Execute(False)
     'Debug.Print oProc.result
     getBoardXML = oProc.result
+
+'Dim strFilename As String: strFilename = "D:\temp\embrelloexamplexml.txt"
+'Dim strFileContent As String
+'Dim iFile As Integer: iFile = FreeFile
+'Open strFilename For Input As #iFile
+'strFileContent = Input(LOF(iFile), iFile)
+'Close #iFile
+'Debug.Print strFileContent
+'    getBoardXML = strFileContent
     
     Exit Function
 ErrorHandler:
@@ -94,6 +110,38 @@ Public Function getActiveTable() As String
     Exit Function
 ErrorHandler:
     Call UI.ShowError("App_Embrello.getActiveTable")
+End Function
+
+
+' ##SUMMARY Returns the local singular name of the active explorer.
+Public Function getActiveTableLocalNameSingular() As String
+    On Error GoTo ErrorHandler
+    
+    If Not ActiveExplorer Is Nothing Then
+        getActiveTableLocalNameSingular = ActiveExplorer.Class.LocalName
+    Else
+        getActiveTableLocalNameSingular = "Error!"
+    End If
+    
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError("App_Embrello.getActiveTableLocalNameSingular")
+End Function
+
+
+' ##SUMMARY Returns the local plural name of the active explorer.
+Public Function getActiveTableLocalNamePlural() As String
+    On Error GoTo ErrorHandler
+    
+    If Not ActiveExplorer Is Nothing Then
+        getActiveTableLocalNamePlural = ActiveExplorer.Class.Attributes("localnameplural")
+    Else
+        getActiveTableLocalNamePlural = "Error!"
+    End If
+    
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError("App_Embrello.getActiveTableLocalNamePlural")
 End Function
 
 
@@ -140,10 +188,16 @@ Private Function getIdsAsString() As String
     Dim ids As String
     
     If Not ActiveExplorer Is Nothing Then
-        Dim item As Lime.ExplorerItem
-        For Each item In ActiveExplorer.Items
-            ids = ids & VBA.CStr(item.ID) & ";"
-        Next item
+        Dim nbrOfRecords As Long
+        If ActiveExplorer.Items.Count > m_maxNbrOfRecords Then
+            nbrOfRecords = m_maxNbrOfRecords
+        Else
+            nbrOfRecords = ActiveExplorer.Items.Count
+        End If
+        Dim i As Long
+        For i = 1 To nbrOfRecords
+            ids = ids & VBA.CStr(ActiveExplorer.Items(i).ID) & ";"
+        Next i
     End If
     
     getIdsAsString = ids
@@ -151,26 +205,6 @@ Private Function getIdsAsString() As String
     Exit Function
 ErrorHandler:
     Call UI.ShowError("App_Embrello.getIdsAsString")
-End Function
-
-
-' ##SUMMARY Called by app. Returns the local field name of the field used as a sum field.
-Public Function getSumLocalFieldName(tableName As String, sumFieldName As String) As String
-    On Error GoTo ErrorHandler
-    
-    Dim retString As String
-    retString = ""
-    If Database.Classes.Exists(tableName) Then
-        If Database.Classes(tableName).Fields.Exists(sumFieldName) Then
-            retString = Database.Classes(tableName).Fields(sumFieldName).LocalName
-        End If
-    End If
-    
-    getSumLocalFieldName = retString
-    
-    Exit Function
-ErrorHandler:
-    Call UI.ShowError("App_Embrello.getSumLocalFieldName")
 End Function
 
 
@@ -188,6 +222,50 @@ Public Function getLocale() As String
     Exit Function
 ErrorHandler:
     Call UI.ShowError("App_Embrello.getLocale")
+End Function
+
+
+' ##SUMMARY Called from Embrello to set the config value of the maximum number of records that should be fetched from the database.
+Public Sub setMaxNbrOfRecords(val As Long)
+    On Error GoTo ErrorHandler
+    
+    m_maxNbrOfRecords = val
+    
+    Exit Sub
+ErrorHandler:
+    Call UI.ShowError("App_Embrello.setMaxNbrOfRecords")
+End Sub
+
+
+' ##SUMMARY Called from Embrello. Returns true if either a fast filter or column filters are applied on the current Explorer list.
+Public Function getListFiltered() As Boolean
+    On Error GoTo ErrorHandler
+
+    ' Set default value
+    getListFiltered = False
+    
+    
+    If Not ActiveExplorer Is Nothing Then
+        ' Check if any column filter is used
+        If Not ActiveExplorer.ActiveView Is Nothing Then
+            Dim i As Long
+            For i = 1 To ActiveExplorer.ActiveView.Count
+                If ActiveExplorer.ColumnFilterIsActive(i) Then
+                    getListFiltered = True
+                    Exit For
+                End If
+            Next i
+        End If
+        
+        ' Check if a fast filter is applied
+        If Not getListFiltered Then
+            getListFiltered = (ActiveExplorer.TextFilter <> "")
+        End If
+    End If
+    Exit Function
+ErrorHandler:
+    getListFiltered = False
+    Call UI.ShowError("App_Embrello.getListFiltered")
 End Function
 
 

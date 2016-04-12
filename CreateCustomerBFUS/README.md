@@ -11,13 +11,25 @@ If BFUS already has a customer with the same organizational number or civic regi
 * The BFUS version must be 6.1 or higher.
 * In the current version, the app only says that there is information missing on the customer record if BFUS returns an error claiming that some required information is not provided. A future improvement of the app could be adding support for showing to the user which information BFUS wants.
 * BFUS does not support updates of the address on an existing customer.
-* BFUS does not accept combinations of zip code and city where either the zip code or the city is already used in another combination in BFUS. A future improvement of the BFUS side of the integration discussed is that this will generate a warning that can be overrun by the end user instead. The app is somewhat prepared for this. You would need to set the correct BFUS warning in the parameter BFUSWarnings.Address.
+* BFUS does not accept combinations of zip code and city where either the zip code or the city is already used in another combination in BFUS. A future improvement of the BFUS side of the integration that has been discussed is that this could generate a warning that can be overrun by the end user. The app is somewhat prepared for this. You would need to set the correct BFUS warning in the parameter BFUSWarnings.Address.
 
 ##Install
-1. Add the app folder to your Actionpad folder.
-2. Add the VBA module app_CreateCustomerBFUS.
-3. Run the script createLocalizeRecords.sql to add the necessary localize records.
-4. Remove the readonly setting if the customer is integrated with BFUS, done in VBA, on the fields that can be updated in BFUS by this app. Currently these are (stated by BFUS API name):
+1. Run the script `createFields.sql` to add the fields used by the CreateCustomer app. Before you run the script, edit the database name of the Customer table in the parameter `@customertablename`.
+2. Run the script `createLocalizeRecords.sql` to add the necessary localize records.
+3. Add the app folder to your Actionpad folder.
+4. Add the VBA module `App_CreateCustomerBFUS`.
+5. Add the following VBA code to the `ControlsHandlerCompany` class module (or similar) in the sub `m_controls_BeforeSave`.
+
+```vba
+If Not App_CreateCustomerBFUS.m_savingFromApp Then
+    If App_CreateCustomerBFUS.hasUpdatedBFUSFields(m_controls) Then
+        Call Lime.MessageBox(Localize.GetText("App_CreateCustomerBFUS", "e_mustSendUpdateToBFUS"), VBA.vbExclamation + VBA.vbOKOnly)
+        cancel = True
+    End If
+End If
+```
+
+6. Make sure to remove the readonly setting (this should be found in VBA) on the fields that can be updated in BFUS by this app if the customer is integrated with BFUS. Currently these are (stated by BFUS API name):
 
 * FirstName
 * LastName
@@ -111,6 +123,7 @@ The values for `StreetName`, `StreetQualifier` and `StreetNumberSuffix` will be 
 * Add support for updating phone numbers in LIME Pro. This requires that the big integration has support for PhoneId.
 * Make the button for updating in BFUS visible (or highlighted or similar) only if any information that can be updated in BFUS has been updated in LIME Pro.
 * In the current version, LIME Pro adds "19-" to all civic registration numbers for private persons before sending it to BFUS. It will be necessary to add "20-" on some customers instead in a near future. Not a trivial task though; How will 100+ year olds be treated then?
+* Improve the error messages shown to the LIME Pro user if BFUS in unreachable or if BFUS doesn't accept the data sent. Requires that CGI improves the error messages returned by the service LIME Pro calls.
 
 ##Installing in a non LIME Bootstrap environment
 It is possible, but tricky, to install and run this app in a LIME Pro solution that does not have the LIME Bootstrap framework. If you need to do this and do not currently have the localize table, a SQL script to create that table is provided under the Install folder.

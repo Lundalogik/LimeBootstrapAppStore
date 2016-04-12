@@ -1,32 +1,30 @@
 <div data-app="{app:'Embrello', config: {
-		boards : [ {
+		maxNbrOfRecords: 100,
+		boards: [ {
 			table: 'business',
-			lanes : {
+			lanes: {
 				optionField: 'businesstatus',
+				defaultValues: {
+					laneColor: 'clean-green',
+					icon: 'completion',
+					positiveSummation: true
+				},
 				individualLaneSettings: [
 					{
-						id: 14401,
-						color: 'blue',
-						cardIcon: 'completion',
-						positiveSummation: true
+						key: 'contact',
+						color: 'blue'
 					},
 					{
 						key: 'requirement',
-						color: 'turquoise',
-						cardIcon: 'completion',
-						positiveSummation: true
+						color: 'turquoise'
 					},
 					{
 						key: 'tender',
-						color: 'green',
-						cardIcon: 'completion',
-						positiveSummation: true
+						color: 'green'
 					},
 					{
 						key: 'agreement',
-						color: 'clean-green',
-						cardIcon: 'happy',
-						positiveSummation: true
+						cardIcon: 'happy'
 					},
 					{
 						key: 'rejection',
@@ -61,16 +59,13 @@
 					fieldName: 'coworker',
 					relatedTableName: 'coworker',
 					relatedTableFieldName: 'name'
+				},
+				additionalInfo: {
+					fieldName: 'company',
+					relatedTableName: 'company',
+					relatedTableFieldName: 'name'
 				}
 			}
 		}]
 	}
 }"></div>
-
-<!-- <div data-app="{app:'Embrello', config: {}}"></div> -->
-
-<!-- cardIcon can be completion, happy, sad or wait. -->
-
-
-<!-- 
- -->

@@ -5,16 +5,18 @@ This app to LIME PRO gives you instant access to information about your travel d
 
 ## Installation
 If this already exist then ignore
+
 1. Add the “DrivingInfo” folder to the apps folder.
 2. Create a VBA module by dragging the “DrivingInfo.bas”-file into VBA, or create a module and copy+paste the code
-3. Insert the following html tag in the Company-actionpad (company.html)
-```HTML
-<div data-app=”{app:’DrivingInfo’, config:{}}”></div>
-```
+3. Insert the following html tag (look below) in the Company-actionpad (company.html)
 4. Create two text-fields on the Company-card in LISA called “longitude” and “altitude”
 5. Ceate a text-field on the office card called “address” (if it exist then ignore)
 6. Create a text-field on the company card called “postaladdress1” (if it exist then ignore)
 7. Compile the VBA, save it and restart LIME.
+
+```html
+  <div data-app=”{app:’DrivingInfo’, config:{}}”></div>
+```
 
 ## How to use
 ### Requirements

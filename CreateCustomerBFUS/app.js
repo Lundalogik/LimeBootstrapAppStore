@@ -11,7 +11,6 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
                 {type: 'activeInspector', source: '', alias: 'rec'}
             ];
             this.resources = {
-                //scripts: [], // <= External libs for your apps. Must be a file
                 scripts: ['script/app.customer.js'], // <= External libs for your apps. Must be a file
                 styles: ['app.css'], // <= Load styling for the app.
                 libs: [] // <= Already included libs, but not loaded per default. Example json2xml.js
@@ -36,6 +35,8 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
     */
     self.initialize = function (node, viewModel) {
         self.Customer = new Customer(self.config.fieldMappings, viewModel.rec);
+        self.Customer.setUpdateableFields();
+        self.Customer.setFieldNameCustomerId();
         self.resourceURI = '';
         self.suppressPinCodeWarning = false;
         self.suppressAddressWarning = false;
@@ -57,6 +58,18 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
         viewModel.isEligibleForSendingToBFUS = ko.computed(function() {
             return self.Customer.eligibleForBFUSSending(self.config.eligibleForBFUSSending)
         }, this);
+
+        /**
+            Shows an error message in the GUI.
+        */
+        self.showError = function(msg) {
+            viewModel.UIErrorText(msg);
+            toggleError(true);
+            window.setTimeout(function() {
+                    toggleError(false);
+                }, 3000);
+        }
+        
         
         // Check if cookie exists that says the customer was just sent.
         if (lbs.bakery.getCookie('sentToBFUS') === 'true') {
@@ -65,6 +78,13 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
                     toggleInfo(false);
                 }, 3000);
             lbs.bakery.setCookie('sentToBFUS', 'false', 1);
+        }
+
+        // Check if cookie exists that says the sending resulted in an error.
+        if (lbs.bakery.getCookie('errorMessage') !== '') {
+            lbs.log.debug(lbs.bakery.getCookie('errorMessage'));
+            self.showError(lbs.bakery.getCookie('errorMessage'));
+            lbs.bakery.setCookie('errorMessage', '', 1);
         }
 
         //Enable cross domain calls if needed.
@@ -109,12 +129,22 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
             }
         }
 
+        
+
         /**
             Called when clicking on the create/update button.
         */
         viewModel.createOrUpdate = function() {
+            // Save record first if not currently saved. A save will cause the Actionpad to reload.
+            // Due to that we have to use a cookie to make the app call the BFUS service at next load.
             if (!self.Customer.isRecordSaved()) {
-                treatError('', viewModel.localize.app_CreateCustomerBFUS.e_recordNotSaved);
+                // Set cookie in case record will be saved which will cause the Actionpad to reload.
+                lbs.bakery.setCookie('sendingInProgress', 'true', 1);
+                if (!self.Customer.saveRecord()) {
+                    lbs.bakery.setCookie('sendingInProgress', 'false', 1);                          // Reset cookie about sending in progress
+                    treatError('', viewModel.localize.App_CreateCustomerBFUS.e_recordNotSaved, false);
+                }
+                // If record was not saved when a sending was initiated, we always want to return. Let the cookie make the app send once the Actionpad has reloaded.
                 return;
             }
             toggleLoader(true);
@@ -131,51 +161,9 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
         }
 
         sendToBFUS = function() {
-            // var json = 
-            //           "{" +
-            //             "Header: {" +
-            //               "'ExternalId':'FER_TESTAR'," +
-            //               "'SuppressPinCodeWarning':false," +
-            //               "'SuppressAdressWarning':true " +
-            //             "}," +
-            //             "Customer: {" +
-            //               "'IsProtectedIdentity':false," +
-            //               "'FirstName':'Kalle'," +
-            //               "'LastName':'Anka'," +
-            //               "'IsBusinessCustomer':false," +     // IsBusinessCustomer = false => PinCode (personal-code) must be set .
-            //               "'PinCode':'19-760619-4657'," +     // PinCode (Personal-code)
-            //               "'CompanyCode':null," +             // IsBusinessCustomer = true => CompanyCode must be set.
-            //               "EmailInformation: {" +
-            //                 "'AcceptEMail':true," +
-            //                 "'EMail1':'test@hotmail.com'," +
-            //                 "'EMail2':'test2@hotmail.com'," +
-            //                 "'EMail3':'test3@hotmail.com'" +
-            //               "},"+
-            //               "SMSInformation: {" +
-            //                   "'AcceptSMS':false" +
-            //               "}," +
-            //               "Phones: [{" +
-            //                 "'PhoneTypeId':'10980200'," +
-            //                 "'Number':'070-5566778'" +
-            //               "}]," +
-            //               "Addresses:[{" +
-            //                 "'AddressTypeId':'10090000',"+    // At least one postal adress!
-            //                 "'StreetName':'Roskildevej',"+      
-            //                 "'StreetQualifier':'38',"+       
-            //                 "'StreetNumberSuffix':'C',"+    
-            //                 "'PostOfficeCode':'2000',"+
-            //                 "'City':'Frederiksberg',"+
-            //                 "'CountryCode':'DK',"+            // If null => default will be 'SE' 
-            //                 "'ApartmentNumber':'2',"+
-            //                 "'FloorNumber':'3'" +
-            //               "}],"+
-            //             "}," +
-            //           "}";
-            
             $.ajax({
                 type: "POST",
                 url: self.config.baseURI + self.resourceURI,
-                // data: json,
                 data: JSON.stringify(viewModel.customerData),
                 contentType: "application/json",
                 headers: {
@@ -199,11 +187,11 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
                                 // Not a warning but an actual error.
                                 else {
                                     if (errorCode === self.BFUSErrors.missingData || errorCode === self.BFUSErrors.missingCompanyCode) {
-                                        treatError(msg, viewModel.localize.app_CreateCustomerBFUS.e_missingData)
+                                        treatError(msg, viewModel.localize.App_CreateCustomerBFUS.e_missingData, true)
                                     }
                                     else
                                     {
-                                        treatError(msg, viewModel.localize.app_CreateCustomerBFUS.e_couldNotSend);
+                                        treatError(msg, viewModel.localize.App_CreateCustomerBFUS.e_couldNotSend, true);
                                     }
                                 }
                             }
@@ -215,7 +203,8 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
                     }
                 },
                 error: function(errMsg) {
-                    treatError(JSON.stringify(errMsg), viewModel.localize.app_CreateCustomerBFUS.e_couldNotSend);
+                    alert('error');
+                    treatError(JSON.stringify(errMsg), viewModel.localize.App_CreateCustomerBFUS.e_couldNotSend, true);
                 }
             });
         }
@@ -242,6 +231,9 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
             toggleWarning(false);
         }
 
+        /**
+            Called whenever a successful call to the BFUS service has been made.
+        */
         treatSuccess = function(customerId, customerCode) {
             toggleLoader(false);
             lbs.bakery.setCookie('sentToBFUS', 'true', 1);
@@ -249,48 +241,51 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
             viewModel.isAlreadyInBFUS(true);
 
             var logMsg = 'Customer with record ID = ' + lbs.activeInspector.Record.ID + ' %1 in BFUS. CustomerCode = "' + customerCode + '" and CustomerId = "' + customerId + '".';
-            logMsg = logMsg.replace('%1', (isUpdate ? 'updated' : 'created'));            
+            logMsg = logMsg.replace('%1', (isUpdate ? 'updated' : 'created'));
             lbs.log.logToInfolog('info', logMsg);
-            lbs.common.executeVba('app_CreateCustomerBFUS.saveBFUSResponseData,' 
-                                    + lbs.activeInspector.ID + ',' 
-                                    + self.config.fieldMappings.CustomerId + ',' 
-                                    + customerId + ',' 
-                                    + self.config.fieldMappings.CustomerCode + ','  
-                                    + customerCode);
+            self.Customer.saveSuccessInfo(customerId, customerCode);
         }
 
+        /**
+            Called whenever a call to the BFUS service that resulted in a warning has been made.
+        */
         treatWarning = function(logMsg, errorCode) {
             lbs.log.logToInfolog('warning', logMsg);
             self.lastWarning = errorCode;
 
             if (errorCode === self.BFUSWarnings.PinCode) {
-                viewModel.warningText(viewModel.localize.app_CreateCustomerBFUS.warningTextPinCode);
+                viewModel.warningText(viewModel.localize.App_CreateCustomerBFUS.warningTextPinCode);
             }
             else if (errorCode === self.BFUSWarnings.CompanyCode) {
-                viewModel.warningText(viewModel.localize.app_CreateCustomerBFUS.warningTextCompanyCode);
+                viewModel.warningText(viewModel.localize.App_CreateCustomerBFUS.warningTextCompanyCode);
             }
             else if (errorCode === self.BFUSWarnings.Address) {
                 if (viewModel.isAlreadyInBFUS()) {
-                    viewModel.warningText(viewModel.localize.app_CreateCustomerBFUS.warningTextAddressUpdate);
+                    viewModel.warningText(viewModel.localize.App_CreateCustomerBFUS.warningTextAddressUpdate);
                 }
                 else {
-                    viewModel.warningText(viewModel.localize.app_CreateCustomerBFUS.warningTextAddressCreate);
+                    viewModel.warningText(viewModel.localize.App_CreateCustomerBFUS.warningTextAddressCreate);
                 }
             }
             toggleLoader(false);
             toggleWarning(true);
         }
 
-        treatError = function(logMsg, UIMsg) {
+        /**
+            Called whenever an error occurs.
+        */
+        treatError = function(logMsg, UIMsg, saveInfoInLIME) {
             if (logMsg !== '') {
                 lbs.log.logToInfolog('error', logMsg);
             }
-            viewModel.UIErrorText(UIMsg);
             toggleLoader(false);
-            toggleError(true);
-            window.setTimeout(function() {
-                    toggleError(false);
-                }, 3000);
+            if (saveInfoInLIME) {
+                lbs.bakery.setCookie('errorMessage', UIMsg, 1);
+                self.Customer.saveErrorInfo();
+            }
+            else {
+                self.showError(UIMsg);
+            }
         }
 
         /**
@@ -337,6 +332,12 @@ lbs.apploader.register('CreateCustomerBFUS', function () {
                     alert(JSON.stringify(errMsg));
                 }
             });
+        }
+
+        // Check if cookie exists that says that the Actionpad reloaded due to a save before a sending could be performed.
+        if (lbs.bakery.getCookie('sendingInProgress') === 'true') {
+            viewModel.createOrUpdate();
+            lbs.bakery.setCookie('sendingInProgress', 'false', 1);
         }
 
         return viewModel;

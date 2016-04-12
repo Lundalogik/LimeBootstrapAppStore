@@ -1,0 +1,20 @@
+{
+	"name": "GetAccept",
+	"author":"GetAccept",
+	"status":"Release",
+	"versions":[
+		{
+			"version":"1.0",
+			"date":"2016-03-31",
+			"comments":"Release version"
+		},
+		{
+			"version":"0.1",
+			"date":"2016-02-19s",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}
