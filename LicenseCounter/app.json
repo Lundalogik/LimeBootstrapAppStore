@@ -1,5 +1,5 @@
 {
-	"name": "License counter",
+	"name": "LicenseCounter",
 	"author":"JKA & AAS",
 	"status":"Release",
 	"shortDesc":"Counting active users in a database",
