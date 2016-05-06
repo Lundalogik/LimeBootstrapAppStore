@@ -21,8 +21,8 @@
 		"postInstallScript":"",
 		"vba":[
 			{
-				"relPath":"JsonConverter.bas",
-				"name":"JsonConverter"
+				"relPath":"JSON.bas",
+				"name":"JSON"
 			},
 			{
 				"relPath":"cStringBuilder.cls",
