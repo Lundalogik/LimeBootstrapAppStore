@@ -58,20 +58,19 @@ lbs.apploader.register('vismaadmin', function () {
                 var VismaResponse = lbs.common.executeVba('Visma.SendToVisma,' + viewModel.vismaUrl + ',' + viewModel.newCompany());
 
                 //Make a JSON from the response from VBA in order to get the vismaid (Number)
-                if (!VismaResponse || VismaResponse.status === 404) {
+                if (!VismaResponse || VismaResponse.status === 404 || VismaResponse === "") {
 
                     alert('Vi kunde för närvarande inte hämta kundinformation från Visma Administration.');
                 } else {
                     VismaResponse = JSON.parse(VismaResponse);
-                }
-
-                //Save vismaid (Number) to field-vismaid in LIME Pro
-                if (VismaResponse.Number !== "") {  
-                    lbs.limeDataConnection.ActiveInspector.Controls.SetValue('vismaid', VismaResponse.Number);
-                    lbs.limeDataConnection.ActiveInspector.Controls.SetValue('visma_turnover_yearnow', VismaResponse.AccumulateTurnoverThisYear);
-                    lbs.limeDataConnection.ActiveInspector.Controls.SetValue('visma_turnover_lastyear', VismaResponse.AccumulateTurnoverLastYear);
-                    lbs.limeDataConnection.ActiveInspector.Save();
-                    lbs.limeDataConnection.ActiveInspector.WebBar.Refresh();
+                     //Save vismaid (Number) to field-vismaid in LIME Pro
+                    if (VismaResponse.Number !== "") {  
+                        lbs.limeDataConnection.ActiveInspector.Controls.SetValue('vismaid', VismaResponse.Number);
+                        lbs.limeDataConnection.ActiveInspector.Controls.SetValue('visma_turnover_yearnow', VismaResponse.AccumulateTurnoverThisYear);
+                        lbs.limeDataConnection.ActiveInspector.Controls.SetValue('visma_turnover_lastyear', VismaResponse.AccumulateTurnoverLastYear);
+                        lbs.limeDataConnection.ActiveInspector.Save();
+                        lbs.limeDataConnection.ActiveInspector.WebBar.Refresh();
+                    }
                 }
             }
         };
