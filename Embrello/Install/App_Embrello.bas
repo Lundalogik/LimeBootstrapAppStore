@@ -1,4 +1,4 @@
-Attribute VB_Name = "App_Embrello"
+Attribute VB_Name = "app_Embrello"
 Option Explicit
 
 ' Is set in sub setMaxNbrOfRecords.
@@ -54,6 +54,8 @@ Public Function getBoardXML(boardConfigXML As String) As String
     Call addSQLParameterFromXML(oProc, "@@additionalinfofieldname", oXmlDoc, "/board/card/additionalInfo/fieldName")
     Call addSQLParameterFromXML(oProc, "@@additionalinforelatedtablename", oXmlDoc, "/board/card/additionalInfo/relatedTableName")
     Call addSQLParameterFromXML(oProc, "@@additionalinfodescriptivefieldname", oXmlDoc, "/board/card/additionalInfo/relatedTableFieldName")
+    Call addSQLParameterFromXML(oProc, "@@additionalinfodateformat", oXmlDoc, "/board/card/additionalInfo/dateFormat/sqlFormatCode")
+    Call addSQLParameterFromXML(oProc, "@@additionalinfodatelength", oXmlDoc, "/board/card/additionalInfo/dateFormat/length")
     
     oProc.Parameters("@@idrecords").InputValue = getIdsAsString()
     oProc.Parameters("@@lang").InputValue = Application.Locale

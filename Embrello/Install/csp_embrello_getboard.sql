@@ -21,6 +21,8 @@ CREATE PROCEDURE [dbo].[csp_embrello_getboard]
 	, @@additionalinfofieldname NVARCHAR(64) = N''
 	, @@additionalinforelatedtablename NVARCHAR(64) = N''
 	, @@additionalinfodescriptivefieldname NVARCHAR(64) = N''
+	, @@additionalinfodateformat INT = NULL
+	, @@additionalinfodatelength INT = NULL
 	, @@idrecords NVARCHAR(MAX)
 	, @@lang NVARCHAR(5)
 	, @@limeservername NVARCHAR(64)
@@ -167,14 +169,29 @@ BEGIN
 	
 	IF @@additionalinfofieldname <> N''
 	BEGIN
-		-- Check if additionalInfo is a field on the table itself or on a related table
-		IF @@additionalinforelatedtablename <> N''
+		-- Build conversion strings to use if a date field
+		DECLARE @dateconversionprefix NVARCHAR(32)
+		DECLARE @dateconversionsuffix NVARCHAR(32)
+		
+		IF @@additionalinfodateformat IS NOT NULL OR @@additionalinfodatelength IS NOT NULL
 		BEGIN
-			SET @sql = @sql + N'		, REPLACE(REPLACE(A3.[' + @@additionalinfodescriptivefieldname + N'], N''\'', N''\\''), N''"'', N''\"'') AS [Cards!2!additionalInfo]' + CHAR(10)
+			SET @dateconversionprefix = N'CONVERT(NVARCHAR(' + CONVERT(NVARCHAR(20), ISNULL(@@additionalinfodatelength, 64)) + N'), '
+			SET @dateconversionsuffix = ISNULL(N', ' + CONVERT(NVARCHAR(20), @@additionalinfodateformat), N'') + N')'
 		END
 		ELSE
 		BEGIN
-			SET @sql = @sql + N'		, REPLACE(REPLACE(A1.[' + @@additionalinfofieldname + N'], N''\'', N''\\''), N''"'', N''\"'') AS [Cards!2!additionalInfo]' + CHAR(10)
+			SET @dateconversionprefix = N''
+			SET @dateconversionsuffix = N''
+		END
+		
+		-- Check if additionalInfo is a field on the table itself or on a related table
+		IF @@additionalinforelatedtablename <> N''
+		BEGIN
+			SET @sql = @sql + N'		, REPLACE(REPLACE(' + @dateconversionprefix + 'A3.[' + @@additionalinfodescriptivefieldname + N']' + @dateconversionsuffix + ', N''\'', N''\\''), N''"'', N''\"'') AS [Cards!2!additionalInfo]' + CHAR(10)
+		END
+		ELSE
+		BEGIN
+			SET @sql = @sql + N'		, REPLACE(REPLACE(' + @dateconversionprefix + 'A1.[' + @@additionalinfofieldname + N']' + @dateconversionsuffix + ', N''\'', N''\\''), N''"'', N''\"'') AS [Cards!2!additionalInfo]' + CHAR(10)
 		END
 	END
 	

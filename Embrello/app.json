@@ -34,6 +34,11 @@
 			"version":"1.2.1",
 			"date":"2016-03-17",
 			"comments":"Added features: Negative sum not shown if zero. Bugfix: Board title now fetched from localize table."
+		},
+		{
+			"version":"1.2.2",
+			"date":"2016-06-10",
+			"comments":"Added features: Support for date fields as additional info."
 		}
 	],
 	"install":{
