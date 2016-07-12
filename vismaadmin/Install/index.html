@@ -1,0 +1,48 @@
+﻿<div class="header-container green">
+	<div class="header-icon"></div>       
+</div>	
+
+<!-- TESTMILJÖ? -->
+<div class="alert alert-warning fullwidth" data-bind="
+	vbaVisible: 'ActionpadTools.ShowTestEnvironment',
+    text: 'OBS! Testmiljö!', 
+    icon:'fa-exclamation'" >
+</div>
+
+<ul class="menu expandable">
+	<li class="menu-header"data-bind="text:localize.Actionpad_Index.links"></li> 
+	<li class="divider"></li>		
+	<li data-bind="openURL: 'www.lundalogik.se', text:localize.Actionpad_Index.llhomepage, icon:'fa-building'"></li>   
+</ul>
+
+<!-- VISMA APP START-->
+<ul class="menu expandable">
+    <li class="menu-header"data-bind="text:'Kommando'"></li> 
+    <li class="divider"></li>       
+    <li data-bind="
+    vba:'Visma.SyncFromVisma, http://provisma:8194/api/v1/customer/export', 
+    text:'Migrate customers from Visma', 
+    visible: ActiveUser.isAdmin,
+    icon:'fa-refresh'"></li>   
+</ul>
+<!-- VISMA APP END-->
+
+<div class="btn-group btn-group-lime" data-bind="vbaVisible:'ActionPadTools.ShowPostPoneTodo'" >
+    <button class="btn btn-lime btn-default dropdown-toggle" data-toggle="dropdown" data-bind=" text:localize.Actionpad_Todo.headermoveforward, icon: 'fa-caret-down'">
+    </button>
+    <ul class="dropdown-menu">
+        <li data-bind="vba:'ActionPadTools.PostPoneTodo, d, 1', text:localize.Actionpad_Todo.mf1d"></li>
+        <li class="divider"></li>
+        <li data-bind="vba:'ActionPadTools.PostPoneTodo, ww, 1', text:localize.Actionpad_Todo.mf1w"></li>
+        <li data-bind="vba:'ActionPadTools.PostPoneTodo, ww, 2', text:localize.Actionpad_Todo.mf2w"></li>
+        <li class="divider"></li>
+        <li data-bind="vba:'ActionPadTools.PostPoneTodo, m, 1', text:localize.Actionpad_Todo.mf1m"></li>
+        <li data-bind="vba:'ActionPadTools.PostPoneTodo, m, 6', text:localize.Actionpad_Todo.mf6m"></li>
+        <li class="divider"></li>
+        <li data-bind="vba:'ActionPadTools.PostPoneTodo, yyyy, 1', text:localize.Actionpad_Todo.mf1y"></li>
+    </ul>
+</div> 
+
+
+<div class="lime-logo-bottom"></div>
+

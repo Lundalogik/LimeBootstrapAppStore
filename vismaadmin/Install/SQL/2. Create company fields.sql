@@ -76,7 +76,7 @@ BEGIN TRY
 	@@idcategory = @idcategory OUTPUT
 				
 	UPDATE [string] SET en_us = N'Customer ID Visma', sv = N'Kundnummer Visma', [no] = N'Kundenummer Visma', fi = N'Vismaid' WHERE [idstring] = @localname
-	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'limereadonly', @@valueint = 1	--ReadOnly
+	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'limereadonly', @@valueint = 0	--ReadOnly
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'newline', @@valueint = 3	--NewLine
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'isnullable', @@valueint = 1	--nullable
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'defaultvalue', @@valueint = null	--default
@@ -103,7 +103,7 @@ BEGIN TRY
 	@@idcategory = @idcategory OUTPUT
 						
 	UPDATE [string] SET en_us = N'Turnover this year Visma', sv = N'Omsättning i år Visma', [no] = N'Omsetning i år Visma', fi = N'visma_turnover' WHERE [idstring] = @localname
-	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'limereadonly', @@valueint = 1	--ReadOnly
+	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'limereadonly', @@valueint = 0	--ReadOnly
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'isnullable', @@valueint = 1	--nullable
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'defaultvalue', @@valueint = null	--default
 
@@ -128,7 +128,7 @@ BEGIN TRY
 	@@idcategory = @idcategory OUTPUT
 						
 	UPDATE [string] SET en_us = N'Turnover last year Visma', sv = N'Omsättning fg år Visma', [no] = N'Omsetning i fjor Visma', fi = N'visma_turnover_lastyear' WHERE [idstring] = @localname
-	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'limereadonly', @@valueint = 1	--ReadOnly
+	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'limereadonly', @@valueint = 0	--ReadOnly
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'isnullable', @@valueint = 1	--nullable
 	EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'defaultvalue', @@valueint = null	--default
 
