@@ -1,0 +1,24 @@
+{
+	"name": "LipPackageBuilder",
+	"author": "PDE",
+	"status": "Development",
+	"shortDesc": "Build your own packages using this amazing tool",
+	"versions": [{
+		"version": "0.2",
+		"date": "2016-02-11",
+		"comments": "Added VBA support"
+	}],
+	"install": {
+		"tables": [],
+		"vba": [{
+			"name": "cStringBuilder",
+			"relPath": "Install\\cStringBuilder.cls"
+		}, {
+			"name": "LIPPackageBuilder",
+			"relPath": "Install\\LIPPackageBuilder.bas"
+		}, {
+			"name": "JsonConverter",
+			"relPath": "Install\\JsonConverter.bas"
+		}]
+	}
+}

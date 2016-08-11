@@ -1,0 +1,207 @@
+
+<nav class="navbar navbar-default navbar-fixed-top" style="margin-top:50px;">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">LIP Package Builder</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li role="presentation" data-bind="css: {'active' : activeTab() == 'details'}, click: function(){showTab('details')}"><a href="#">Details</a></li>
+			<li role="presentation" data-bind="css: {'active' : activeTab() == 'database'}, click: function(){showTab('database')}"><a href="#">Database objects</a></li>
+			<li role="presentation" data-bind="css: {'active' : activeTab() == 'vba'}, click: function(){showTab('vba')}"><a href="#">VBA</a></li>
+            <li role="presentation" data-bind="css: {'active' : activeTab() == 'sql'}, click: function(){showTab('sql')}"><a href="#">SQL</a></li>
+
+		</ul>
+		<button type="button" class="btn btn-default pull-right navbar-btn" data-bind="click: serializePackage">Generate package</button>
+	</div>
+
+</nav>
+<div class="package-container row col-md-12">
+	<div class="row col-md-10 col-md-offset-1" data-bind="visible: activeTab() == 'details'">
+		<form >
+		  	<div class="form-group col-md-4">
+		    	<label for="inputName">Name</label>
+		    	<input type="text" class="form-control" id="inputName" placeholder="Name" data-bind="value: name, valueUpdate: 'afterkeydown'">
+		  	</div>
+		  	<div class="form-group col-md-4">
+		    	<label for="inputAuthor">Author</label>
+		    	<input type="text" class="form-control" id="inputAuthor" placeholder="Author" data-bind="value: author, valueUpdate: 'afterkeydown'">
+		  	</div>
+		  	<div class="form-group col-md-4">
+				<label for="sel1">Status</label>
+				<select class="form-control" id="statusInput">
+					<!-- ko foreach: statusOptions -->
+					<option data-bind="text: text, click: select"></option>
+					<!-- /ko -->
+				</select>
+			</div>
+			<div class="form-group col-md-12">
+	    		<label for="inputComment">Description</label>
+		    	<textarea rows="3" type="text" class="form-control" id="inputDescription" placeholder="Description" data-bind="value: description, valueUpdate: 'afterkeydown'"></textarea>
+		  	</div>
+		  	<div class="form-group col-md-6">
+		    	<label for="inputVersion">Version number</label>
+		    	<input type="text" class="form-control" id="inputVersion" placeholder="Version number" data-bind="value: versionNumber, valueUpdate: 'afterkeydown'">
+		  	</div>
+	  		<div class="form-group col-md-6">
+	    		<label for="inputComment">Version comment</label>
+		    	<input type="text" class="form-control" id="inputVersion" placeholder="Comment" data-bind="value: comment, valueUpdate: 'afterkeydown'">
+		  	</div>
+		  	
+		</form>
+
+	</div>
+	<div class="row col-md-12 col-md-offset-1" data-bind="visible: activeTab() == 'database'">
+		<div class="row">
+			<div class="col-md-5">
+				<h4>Tables</h4>
+			</div>
+			<!-- ko if: shownTable() -->
+			<div class="col-md-7">
+				<h4>Fields</h4>
+			</div>
+			<!-- /ko -->
+		</div>
+		<div class="row">
+			<div class="col-md-5 col-margined">
+				<div class="input-group">
+			      	<div class="input-group-addon">
+			      		<span class="fa fa-search"/>
+			      	</div>
+					<input type="text" class="form-control" id="searchTableInput" placeholder="Quick filter..." data-bind="value: tableFilter, valueUpdate: 'afterkeydown'">
+			    </div>
+				<div class="list-group col-md-12">
+					<div class="list-group-item disabled">
+						<span class="col-md-1 col-sm-1 col-md-1 col-sm-1 list-header overflowed">
+							<input class="select-all" type="checkbox" data-bind="checked: selectTables, popover: 'Select all'" >
+						</span>
+
+				  		<span class="col-md-4 list-header" data-bind="text: 'Name'"/>
+				  		<span class="col-md-4 list-header" data-bind="text: 'Localname'"/>
+				  		<span class="col-md-2 list-header" data-bind="text: 'Timestamp'"/>
+				  	</div>
+					<!-- ko foreach: filteredTables() -->
+					<a class="list-group-item" data-bind="click: show, css:{'shown' : shown}, tooltip:tooltipAttributesTable()" data-html="true">
+						<span class="col-md-1 col-sm-1 col-md-1" >
+							<input type="checkbox" data-bind="checked: selected, stopBubble: true" >
+						</span>
+
+						<span class="col-md-4" data-bind="text: name"/>
+						<span class="col-md-4" data-bind="text: localname"/>
+						<span class="col-md-2" data-bind="text: timestamp()"/>
+                        
+					</a>
+					<!-- /ko -->
+				</div>
+			</div>
+			<div class="col-md-5 col-margined">
+				<!-- ko if: shownTable() -->
+				<div class="input-group">
+			      	<div class="input-group-addon">
+			      		<span class="fa fa-search"/>
+			      	</div>
+					<input type="text" class="form-control" id="searchFilterInput" placeholder="Quick filter..." data-bind="value: fieldFilter, valueUpdate: 'afterkeydown'">
+			    </div>
+				<div class="list-group col-md-13">
+					<div class="list-group-item disabled">
+						<span class="col-md-1 col-sm-1 col-md-1 col-sm-1 list-header overflowed">
+							<input class="select-all" type="checkbox" data-bind="checked: shownTable().selectFields, popover: 'Select all'" >
+						</span>
+				  		<div class="col-md-3 list-header"><span data-bind="text: 'Name'"/></div>
+				  		<span class="col-md-3 list-header" data-bind="text: 'Field type'"/>
+                        <span class="col-md-3 list-header" data-bind="text: 'Localname'"/>
+				  		<span class="col-md-2 list-header" data-bind="text: 'Timestamp'"/>
+                        
+				  	</div>
+					<!-- ko foreach: shownTable().filteredFields() -->
+					<a class="list-group-item" data-bind="click: select, tooltip:{ text:tooltipAttributes(), placement: ($index() > 5) ? 'top' : 'bottom'}" data-html="true" >
+					
+						<span class="col-md-1 col-sm-1 col-md-1" >
+							<input type="checkbox" data-bind="checked: selected, stopBubble: true" >
+						</span>
+                        
+						<div class="col-md-3 hideOverflow"><span class="hideOverflow" data-bind="text: name"/></div>
+                        <strong class="col-md-3 hideOverflow" data-bind="text: fieldTypeDisplayName" />
+						<span class="col-md-3 hideOverflow" data-bind="text: localname"/>
+						<span class="col-md-2" data-bind="text: timestamp()"/>
+                        
+					</a>
+					<!-- /ko -->
+				</div>
+				<!-- /ko -->
+			</div>
+		</div>
+	</div>
+	
+	<div class="row col-md-10 col-md-offset-1" data-bind="visible: activeTab() == 'vba'">
+		<h4>VBA</h4>
+		<!-- ko if: showComponents() -->
+		<div class="row">
+			<div class="col-md-5 col-margined">
+				<div class="input-group">
+			      	<div class="input-group-addon">
+			      		<span class="fa fa-search"/>
+			      	</div>
+					<input type="text" class="form-control" id="searchComponentInput" placeholder="Quick filter..." data-bind="value: componentFilter, valueUpdate: 'afterkeydown'">
+			    </div>
+				<div class="list-group col-md-12">
+					<div class="list-group-item disabled">
+						<span class="col-md-1 col-sm-1 col-md-1 col-sm-1 list-header overflowed">
+							<input class="select-all" type="checkbox" data-bind="checked: selectedVbaComponents, popover: 'Select all'" >
+						</span>
+
+				  		<span class="col-md-4 list-header" data-bind="text: 'Name'"/>
+				  		<span class="col-md-5 list-header" data-bind="text: 'Type'"/>
+				  	</div>
+					<!-- ko foreach: filteredComponents() -->
+					<a class="list-group-item">
+						<span class="col-md-1 col-sm-1 col-md-1" >
+							<input type="checkbox" data-bind="checked: selected, stopBubble: true" >
+						</span>
+
+						<span class="col-md-4" data-bind="text: name"/>
+						<span class="col-md-5" data-bind="text: type"/>
+						
+					</a>
+					<!-- /ko -->
+				</div>
+			</div>
+		</div>
+		<!-- /ko -->
+	</div>
+    <div class="row col-md-10 col-md-offset-1" data-bind="visible: activeTab() == 'sql'">
+		<h4>SQL</h4>
+		<!-- ko if: activeTab() == 'sql' -->
+		<div class="row">
+			<div class="col-md-5 col-margined">
+				<div class="input-group">
+			      	<div class="input-group-addon">
+			      		<span class="fa fa-search"/>
+			      	</div>
+					<input type="text" class="form-control" id="searchSqlInput" placeholder="Quick filter..." data-bind="value: sqlFilter, valueUpdate: 'afterkeydown'">
+			    </div>
+				<div class="list-group col-md-12">
+					<div class="list-group-item disabled">
+						<span class="col-md-1 col-sm-1 col-md-1 col-sm-1 list-header overflowed">
+							<input class="select-all" type="checkbox" data-bind="checked: selectedSql, popover: 'Select all'" >
+						</span>
+
+				  		<span class="col-md-4 list-header" data-bind="text: 'Name'"/>
+				  		<!--span class="col-md-5 list-header" data-bind="text: 'Type'"/-->
+				  	</div>
+					<!-- ko foreach: filteredSql() -->
+					<a class="list-group-item">
+						<span class="col-md-1 col-sm-1 col-md-1" >
+							<input type="checkbox" data-bind="checked: selected, stopBubble: true" >
+						</span>
+
+						<span class="col-md-4" data-bind="text: name"/>
+						<!--span class="col-md-5" data-bind="text: type"/-->
+						
+					</a>
+					<!-- /ko -->
+				</div>
+			</div>
+		</div>
+		<!-- /ko -->
+	</div>
+</div>
