@@ -8,8 +8,7 @@
 		"date": "2016-02-11",
 		"comments": "Added VBA support"
 	}],
-	"install": {
-		"tables": [],
+	"install": {		
 		"vba": [{
 			"name": "cStringBuilder",
 			"relPath": "Install\\cStringBuilder.cls"
