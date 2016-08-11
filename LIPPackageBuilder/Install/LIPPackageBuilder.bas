@@ -9,7 +9,7 @@ Public Sub OpenPackageBuilder()
     Dim idpersons As String
     Dim oItem As Lime.ExplorerItem
     oDialog.Type = lkDialogHTML
-    oDialog.Property("url") = Application.WebFolder & "lbs.html?ap=packagebuilder&type=tab"
+    oDialog.Property("url") = Application.WebFolder & "lbs.html?ap=apps/LIPPackageBuilder/packagebuilder&type=tab"
     oDialog.Property("height") = 900
     oDialog.Property("width") = 1600
     oDialog.show
