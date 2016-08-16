@@ -1,5 +1,5 @@
 {
-	"name": "LipPackageBuilder",
+	"name": "LIPPackageBuilder",
 	"author": "PDE",
 	"status": "Development",
 	"shortDesc": "Build your own packages using this amazing tool",
@@ -20,4 +20,6 @@
 			"relPath": "Install\\JsonConverter.bas"
 		}]
 	}
+	"localsource" : "C:\\src\\LimeBootstrapAppStore\\LIPPackageBuilder\\lippackagebuilder.zip",
+	"installpath"
 }
