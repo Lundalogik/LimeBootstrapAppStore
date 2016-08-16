@@ -19,7 +19,5 @@
 			"name": "JsonConverter",
 			"relPath": "Install\\JsonConverter.bas"
 		}]
-	}
-	"localsource" : "C:\\src\\LimeBootstrapAppStore\\LIPPackageBuilder\\lippackagebuilder.zip",
-	"installpath"
+	}	
 }
