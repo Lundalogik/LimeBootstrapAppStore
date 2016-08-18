@@ -13,6 +13,7 @@ Lastly save the entire package by clicking Generate Package.
 ##Installation:
 1. Install by using lip.InstallFromZipFile and point out this zip file.
 2. Move the file Install\packagebuilder.html to the main Actionpadfolder
+3. Add the reference "Microsoft Visual Basic for Applications Extensibility" in the VBA.
 
 Open the packagebuilder by calling the function LIPPackageBuilder.OpenPackageBuilder
 
