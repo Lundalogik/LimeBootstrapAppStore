@@ -249,7 +249,8 @@ lbs.apploader.register('LIPPackageBuilder', function () {
             localData = lbs.common.executeVba('LIPPackageBuilder.LoadDataStructure, csp_lip_getlocalnames');
             localData = localData.replace(/\r?\n|\r/g,"");
             localData = b64_to_utf8(localData);
-            
+            //Fulfix för fnuttar
+            localData = localData.replace(/\&quot;/g, "'");
             var json = xml2json($.parseXML(localData),''); 
             json = json.replace(/\\/g,"\\\\");
             
