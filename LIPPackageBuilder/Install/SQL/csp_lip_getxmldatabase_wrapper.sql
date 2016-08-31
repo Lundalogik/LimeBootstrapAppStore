@@ -9,7 +9,7 @@ GO
 
 -- Called by the LIP Package Builder. Returns relevant XML structure for the database.
 
-ALTER PROCEDURE [dbo].[csp_lip_getxmldatabase_wrapper]
+CREATE PROCEDURE [dbo].[csp_lip_getxmldatabase_wrapper]
 	@@lang NVARCHAR(5)
 	, @@idcoworker INT = NULL
 AS
