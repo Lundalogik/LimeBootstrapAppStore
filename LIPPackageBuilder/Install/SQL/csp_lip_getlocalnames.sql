@@ -11,7 +11,7 @@ GO
 
 --##TODO: Lägg tillbaka validationtexts, comments och descriptions. XML:en blir dock för stor om man har med dem.
 
-ALTER PROCEDURE [dbo].[csp_lip_getlocalnames]
+CREATE PROCEDURE [dbo].[csp_lip_getlocalnames]
 	@@lang NVARCHAR(5) = N''
 	, @@idcoworker INT = NULL
 AS
