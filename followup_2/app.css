@@ -1,0 +1,194 @@
+ /*START: Common Css */
+.followup {
+  margin: 10px;
+  margin-left: -5px;
+  height: 100%;
+}
+
+.followup .divider {
+  height: 2px;
+  background-color: white;
+}
+
+.followup .floatStopper {
+  clear:both;
+}
+
+#showPreferences-button, #datepicker-form-group, #refresh-button {
+  margin: 5px;
+  float:left;
+}
+
+#refresh-button {
+  text-align: center;
+}
+
+.followup .top-container  {
+}
+
+.followup .top-container #datepicker-form-group {
+  width: 250px;
+}
+
+
+.followup .bootstrap-datetimepicker-widget th, .followup .bootstrap-datetimepicker-widget td {
+    font-size: 16px;
+}
+
+.followup .hand-over {
+  cursor: pointer;
+}
+
+/* END: Common Css */
+
+
+/* START: Target panel */
+
+.followup #target-container-wrapper {
+  overflow-y: auto;
+  height: calc(100vh - 50px);
+}
+
+.followup #target-container-wrapper .target-container {
+  float:left;
+}
+
+.followup #target-container-wrapper .target-container .panel {
+  margin-left: 5px;
+  margin-bottom: 5px;
+  min-width: 200px;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+}
+
+
+.followup #target-container-wrapper .target-container .panel .list-group {
+  background: rgba(255, 0, 0, 0);
+  height: 270px;
+  overflow-y: auto;
+  box-shadow: none;
+  border: none;
+  overflow-x: hidden;
+}
+
+.followup #target-container-wrapper .target-container .panel .small-height {
+  height: 85px;
+}
+
+.followup #target-container-wrapper .target-container .panel .medium-height {
+  height: 175px;
+}
+
+.followup #target-container-wrapper .target-container .panel .large-height {
+  height: 350px;
+}
+
+.followup #target-container-wrapper .target-container .panel .list-group li {
+  margin-right: 10px;
+  width: 100%;
+}
+
+.followup #target-container-wrapper .target-container .panel .list-group .list-group-item {
+  
+}
+
+.followup #target-container-wrapper .target-container .panel .list-group .list-group-item .progress {
+  margin: 0px;
+}
+
+.followup .value-container .badge {
+  margin-left: 15px;
+}
+
+.followup .value-container {
+  margin-bottom: 5px;
+}
+
+
+.followup .goal-marker {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+
+.followup .goal-marker-left {
+  /*color: blue;
+  border: solid 1px blue;*/
+
+  text-align: left;
+  padding: 0px;
+  margin-left: -8px;
+}
+
+.followup .goal-marker-left .goal-icon {
+  margin-right: -10px;
+}
+
+.followup .goal-marker-right {
+  /*color: red;
+  border: solid 1px red;*/
+
+  text-align: right;
+  padding: 0px;
+  margin-right: -17px;
+}
+
+.followup .goal-marker-right .goal-value {
+  margin-right: -2px;
+}
+
+
+.followup .progress .badge {
+  background-color: rgba(100, 100, 100, 0.4);
+  margin: 2px;
+}
+
+.followup .progress {
+  height: 22px;
+  background-image: none;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: blue;
+}
+
+.followup .progress .progress-bar .progress-bar-text {
+  font-weight: bold;
+}
+
+/* END: Target panel */
+
+/* START: Choose panel (Modal window) */
+
+.followup .modal-footer .btn-group button {
+
+}
+
+.followup #coworker-choose {
+  display:inline-block;
+}
+
+.followup #targettype-choose {
+  display:inline-block;
+}
+
+.followup #coworker-choose {
+  margin-right: 10px;
+}
+
+.followup #coworker-choose ul, .followup #targettype-choose ul {
+  height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.followup #targettype-choose, .followup #coworker-choose {
+  width: 275px;
+}
+
+.followup .hover-list .hover-item:hover {
+    background-color: rgba(0, 0, 150, 0.1);
+}
+.followup .hover-list .hover-item {
+    background-color: rgb(255, 255, 255);
+}
+
+/* END: Choose panel (Right side of the screen) */

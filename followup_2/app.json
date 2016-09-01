@@ -1,0 +1,24 @@
+{
+	"name": "followup",
+	"author":"AOL",
+	"status":"Development",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2015-04-27",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		"vba": [{
+			"name": "Followup",
+			"relPath": "Install\\Followup.bas"
+		}, {
+			"name": "FollowupChildData",
+			"relPath": "Install\\FollowupChildData.cls"
+		}, {
+			"name": "FollowupParentData",
+			"relPath": "Install\\FollowupParentData.cls"
+		}]
+	}
+}

@@ -1,0 +1,48 @@
+﻿<div data-app="{
+    app:'followup', 
+    config: {
+        /* Limit the number of selected coworkers and types */
+        choiceLimits: {
+            totalMax: 999,
+            targetMax: 999,
+            coworkerMax: 999
+        },
+    	coloring: {
+    		green: 1.0,
+    		yellow: 0.6 
+    	},
+        /* Add logic for which users that will be able to admin the app, example only users in the group administrator */
+        securityLevel: lbs.limeDataConnection.ActiveUser.Administrator && 'admin' || 'user',
+        structureMapping: {
+            targetType: 'count', // 'count', 'sum'
+
+            /* Field mappings for target table */
+            targetTable: 'target',
+            targetTypeField: 'targettype',
+            targetValueField: 'targetvalue',
+            targetDateField: 'targetdate',
+
+            /* Field mappings for score table */
+            scoreTable: 'history',
+            scoreTypeField: 'type',
+            scoreValueField: '',
+            scoreDateField: 'date',
+        },
+        /* Map the keys from the optionsfield in the different tables */
+    	targetMapping: [
+    		{
+                targetTypeKey: 'customervisit',
+    			scoreTypeKey: 'customervisit'
+    		},
+            {
+                targetTypeKey: 'salescall',
+                scoreTypeKey: 'salescall' 
+            },
+            {
+                targetTypeKey: 'agreement',
+                scoreTypeKey: 'talkedto' 
+            }
+    	]
+	}
+}"/>
+

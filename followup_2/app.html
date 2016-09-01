@@ -1,0 +1,155 @@
+<div class="followup">
+	
+	<div class="top-container">
+		<button id="showPreferences-button" class="btn btn-default" data-bind="visible: securityLevel == 'admin', text:localize.Followup.settings_openbutton" onclick="$('#showPreferencesModal').modal('show')"></button>
+	    
+	    <div id="datepicker-form-group" class="form-group">
+	        <div class='input-group date' role="button" id='datetimepicker'>
+	            
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" data-bind="enable: canGetTargetData(), text: ' ', click:function(){goToNextMonth(true)}, icon:'fa-arrow-circle-left'"></button>
+				</span>
+
+	            <input type='text' class="form-control text-center" data-bind="enable: canGetTargetData(), click:function(event){$('#datetimepicker').data('DateTimePicker').show();}"/>
+	            
+	            <span class="input-group-btn">
+					<button class="btn btn-default" type="button" data-bind="enable: canGetTargetData(), text: ' ', click:function(){goToNextMonth(false)}, icon:'fa-arrow-circle-right'"></button>
+				</span>
+	        </div>
+	    </div>
+	    
+		<button id="refresh-button" class="btn btn-default" data-bind="text:' ', icon:'fa-refresh', click:getTargetData, enable: canGetTargetData()"></button>
+	</div>
+
+	<div class="floatStopper" />
+
+	<!-- ko if: errorMessage() != '' -->
+	<div class="alert alert-warning" data-bind="text: errorMessage" />
+	<!-- /ko -->
+
+	<!-- ko if: errorMessage() == '' -->
+		<div id="target-container-wrapper">
+			<!-- ko foreach: parents -->
+				<div class="target-container">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<b data-bind="text: name"/>
+							<span class="badge" data-bind="visible: ($parent.grouping.latestFetched() == 'target' && $parent.securityLevel != 'user'), text:currentValue + ' / ' + monthToDateValue + ' ( ' + targetValue + ' )'" />
+						</div>
+						<ul class="list-group" data-bind="css: $parent.listSizeClass">
+							<!-- ko if: infoMessage() != '' -->
+								<li class="list-group-item list-group-item-info" >
+									<div data-bind="text: infoMessage" />
+								</li>
+							<!-- /ko -->
+							<!-- ko if: infoMessage() == '' -->
+								<!-- ko foreach: children -->
+									<li class="divider" data-bind="visible:$index() != 0"></li>
+									<li class="list-group-item" data-bind="css: coloring">
+										<div class="value-container">
+											<span data-bind="text:name"/>
+											<!-- 
+											<span class="badge" data-bind="text:currentValue + ' / ' + monthToDateValue + ' ( ' + targetValue + ' )'" />
+											 -->
+										</div>
+
+										<div data-bind="tooltip:getQuotaText(goalNowQuota)">
+											<!-- For when percentage is 50 % or under (Text is on right side of icon) -->
+											<div class="goal-marker goal-marker-left" style="" data-bind="visible: (goalQuota <= 0.5), style: { 'padding-left': getQuotaWidth(goalQuota) }">
+												<span class="goal-icon" data-bind="icon:'fa-map-marker'"> </span>
+												<span class="goal-value" data-bind="text:monthToDateValue"></span>
+											</div>
+
+											<!-- For when percentage is over 50 % (Text is on left side of icon) -->
+											<div class="goal-marker goal-marker-right" style="" data-bind="visible: (goalQuota > 0.5), style: { 'padding-right': getQuotaWidth(1 - goalQuota) }">
+												<span class="goal-value" data-bind="text:monthToDateValue"></span>
+												<span class="goal-icon" data-bind="icon:'fa-map-marker'"> </span>
+											</div>
+										</div>
+
+										<div class="progress" data-bind="tooltip: getQuotaText(totalQuota)">
+											<span class="progress-bar" role="progressbar" data-bind="style:{'width':getQuotaWidth(totalQuota)}, css: coloringBar">
+												<span style="position:absolute; left:20px;" class="progress-bar-text" data-bind="text:currentValue" />
+												<span style="position:absolute; right:20px;" class="progress-bar-text" data-bind="text:targetValue, icon:'fa-flag-checkered'" />
+											</span>
+										</div>
+									</li>
+								<!-- /ko -->
+							<!-- /ko -->
+						</ul>
+					</div>
+				</div>
+			<!-- /ko -->
+		</div>
+	<!-- /ko -->
+
+
+	<!-- Modal window for showpreferences -->
+	<div class="modal fade" id="showPreferencesModal" tabindex="-1" role="dialog" aria-labelledby="showPreferencesClose">
+		<div class="modal-dialog large-modal" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="conatiner">
+						<div class="row">
+							<h4 class="modal-title col-md-4" id="showPreferencesClose" data-bind="text:localize.Followup.settings_title"></h4>
+							<button type="button" class="col-md-4 btn btn-primary btn-xs" data-bind="text:localize.Followup.settings_reload, click: loadChoiceData"></button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div class="text-center">
+						<div id="coworker-choose" class="text-left">
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<span data-bind="text:localize.Followup.settings_coworkers"/>
+								</div>
+								<ul class="list-group hover-list">
+									<!-- ko foreach: choices.coworkers -->
+										<li class="list-group-item hover-item" data-bind="click:coworkerClicked">
+											<span data-bind="text: ' ', icon:state() && 'fa-check-square-o' || 'fa-square-o'"></span>
+											<span data-bind="text:name"></span>
+										</li>
+									<!-- /ko -->
+								</ul>
+							</div>
+							
+						</div>
+						<div id="targettype-choose" class="text-left">
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<span data-bind="text:localize.Followup.settings_targettypes"/>
+								</div>
+								<ul class="list-group hover-list">
+									<!-- ko foreach: choices.targettypes -->
+										<li class="list-group-item hover-item" data-bind="click:targettypeClicked">
+											<span data-bind="text: ' ', icon:state() && 'fa-check-square-o' || 'fa-square-o'"></span>
+											<span data-bind="text:text"></span>
+										</li>
+									<!-- /ko -->
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<div class="text-center">
+						<h4 data-bind="text:localize.Followup.settings_grouping"/>
+						<div class="btn-group btn-group-justified">
+							<button type="button" class="btn btn-default" data-bind="text:localize.Followup.settings_coworker, click: function(){ grouping.changeGrouping('coworker'); }, css: { 'active' : grouping.selected() == 'coworker' }"></button>
+							<button type="button" class="btn btn-default" data-bind="text:localize.Followup.settings_targettype, click: function(){ grouping.changeGrouping('target'); }, css: { 'active' : grouping.selected() == 'target' }"></button>
+						</div>
+						<button id="get-data" class="btn btn-lime btn-primary" data-bind="text:localize.Followup.settings_fetchdata, click: getTargetData"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+
+
