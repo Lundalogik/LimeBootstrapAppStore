@@ -312,7 +312,7 @@ lbs.apploader.register('LIPPackageBuilder', function () {
             vm.shownTable().filterFields();
         });
         vm.tableFilter.subscribe(function(newValue){
-            vm.filterTables() = Tables();
+            vm.filterTables();
         });
         
         vm.componentFilter.subscribe(function(newValue){
