@@ -1,4 +1,4 @@
-﻿lbs.apploader.register('followup', function () {
+﻿lbs.apploader.register('followup_old', function () {
     var self = this;
 
     //config
