@@ -577,8 +577,9 @@ Private Sub Install()
         "Used for the followup app", _
         "Go to current month", _
         "Gå till nuvarande månad", _
-        " ", _
-        " " _
+        "Go to current month", _
+        "Go to current month", _
+        "Go to current month" _
     )
 
     Call AddOrCheckLocalize( _
@@ -587,8 +588,9 @@ Private Sub Install()
         "Used for the followup app", _
         "You have to at least a coworker and a goaltypes", _
         "Du måste välja minst en medarbetare och en måltyp", _
-        " ", _
-        " " _
+        "You have to at least a coworker and a goaltypes", _
+        "You have to at least a coworker and a goaltypes", _
+        "You have to at least a coworker and a goaltypes" _
     )
 
     Call AddOrCheckLocalize( _
@@ -597,8 +599,9 @@ Private Sub Install()
         "Used for the followup app", _
         "Settings", _
         "Inställningar", _
-        " ", _
-        " " _
+        "Settings", _
+        "Settings", _
+        "Settings" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -606,8 +609,9 @@ Private Sub Install()
         "Used for the followup app", _
         "Open settings", _
         "Öppna inställningar", _
-        " ", _
-        " " _
+        "Open settings", _
+        "Open settings", _
+        "Open settings" _
     )
    Call AddOrCheckLocalize( _
         sOwner, _
@@ -615,8 +619,9 @@ Private Sub Install()
         "Used for the followup app", _
         "Coworkers", _
         "Medarbetare", _
-        " ", _
-        " " _
+        "Coworkers", _
+        "Coworkers", _
+        "Coworkers" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -624,8 +629,9 @@ Private Sub Install()
         "Used for the followup app", _
         "Goal types", _
         "Måltyper", _
-        " ", _
-        " " _
+        "Goal types", _
+        "Goal types", _
+        "Goal types" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -633,8 +639,9 @@ Private Sub Install()
         "Used for the followup app", _
         "Show data", _
         "Visa data", _
-        " ", _
-        " " _
+        "Show data", _
+        "Show data", _
+        "Show data" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -642,8 +649,9 @@ Private Sub Install()
         "Used for the followup app", _
         "Grouping", _
         "Gruppering", _
-        " ", _
-        " " _
+        "Grouping", _
+        "Grouping", _
+        "Grouping" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -651,8 +659,9 @@ Private Sub Install()
         "Used for the followup app", _
         "Goal type", _
         "Måltyp", _
-        " ", _
-        " " _
+        "Goal type", _
+        "Goal type", _
+        "Goal type" _
     )
      Call AddOrCheckLocalize( _
         sOwner, _
@@ -660,8 +669,9 @@ Private Sub Install()
         "Used for the followup app", _
         "Coworker", _
         "Medarbetare", _
-        " ", _
-        " " _
+        "Coworker", _
+        "Coworker", _
+        "Coworker" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -669,8 +679,9 @@ Private Sub Install()
         "Used for the followup app", _
         "No goals is set for you!", _
         "Inga målvärden är satta för dig!", _
-        " ", _
-        " " _
+        "No goals is set for you", _
+        "No goals is set for you", _
+        "No goals is set for you" _
     )
      Call AddOrCheckLocalize( _
         sOwner, _
@@ -678,8 +689,9 @@ Private Sub Install()
         "Used for the followup app", _
         "You have reached the maximum number of selected coworkers!", _
         "Du har nått maxgränsen för valda medarbetare!", _
-        " ", _
-        " " _
+        "You have reached the maximum number of selected coworkers", _
+        "You have reached the maximum number of selected coworkers", _
+        "You have reached the maximum number of selected coworkers" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -687,8 +699,9 @@ Private Sub Install()
         "Used for the followup app", _
         "You have reached the maximum number of selected objects!", _
         "Du har nått maxgränsen för markerade objekt!", _
-        " ", _
-        " " _
+        "You have reached the maximum number of selected objects", _
+        "You have reached the maximum number of selected objects", _
+        "You have reached the maximum number of selected objects" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -696,8 +709,9 @@ Private Sub Install()
         "Used for the followup app", _
         "You have reached the maximum number of selected target types!", _
         "Du har nått maxgränsen för valda måltyper!", _
-        " ", _
-        " " _
+        "You have reached the maximum number of selected target types", _
+        "You have reached the maximum number of selected target types", _
+        "You have reached the maximum number of selected target types" _
     )
      Call AddOrCheckLocalize( _
         sOwner, _
@@ -705,8 +719,9 @@ Private Sub Install()
         "Used for the followup app", _
         "No goals set for this month", _
         "Inga målvärden denna månad", _
-        " ", _
-        " " _
+        "No goals set for this month", _
+        "No goals set for this month", _
+        "No goals set for this month" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -714,8 +729,9 @@ Private Sub Install()
         "Used for the followup app", _
         "You have no user!", _
         "Du har ingen användare!", _
-        " ", _
-        " " _
+        "You have no user", _
+        "You have no user", _
+        "You have no user" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -723,8 +739,9 @@ Private Sub Install()
         "Used for the followup app", _
         "Something went wrong with the mapping of types", _
         "Något gick fel vid mappningen av typer", _
-        " ", _
-        " " _
+        "Something went wrong with the mapping of types", _
+        "Something went wrong with the mapping of types", _
+        "Something went wrong with the mapping of types" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -732,8 +749,9 @@ Private Sub Install()
         "Used for the followup app", _
         "You have no access to the Coworker table", _
         "Du har inte access till tabellen Medarbetare", _
-        " ", _
-        " " _
+        "You have no access to the Coworker table", _
+        "You have no access to the Coworker table", _
+        "You have no access to the Coworker table" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -741,8 +759,9 @@ Private Sub Install()
         "Used for the followup app", _
         "You have no access to the '%1' table", _
         "Du har inte access till tabellen '%1'", _
-        " ", _
-        " " _
+        "You have no access to the '%1' table", _
+        "You have no access to the '%1' table", _
+        "You have no access to the '%1' table" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -750,8 +769,9 @@ Private Sub Install()
         "Used for the followup app", _
         "You have no access to the '%1' table", _
         "Du har inte access till tabellen '%1'", _
-        " ", _
-        " " _
+        "You have no access to the '%1' table", _
+        "You have no access to the '%1' table", _
+        "You have no access to the '%1' table" _
     )
     'nya
     Call AddOrCheckLocalize( _
@@ -760,8 +780,9 @@ Private Sub Install()
         "Used for the followup app", _
         "Can't find any coworkers with targets.", _
         "Hittar inga medarbetare med uppsatta mål.", _
-        " ", _
-        " " _
+        "Can't find any coworkers with targets", _
+        "Can't find any coworkers with targets", _
+        "Can't find any coworkers with targets" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -769,8 +790,9 @@ Private Sub Install()
         "Used for the followup app", _
         "There is no score types mapped", _
         "Finns inga score types mappade", _
-        " ", _
-        " " _
+        "There is no score types mapped", _
+        "There is no score types mapped", _
+        "There is no score types mapped" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -778,8 +800,9 @@ Private Sub Install()
         "Used for the followup app", _
         "There is no target types", _
         "Finns inga måltyper", _
-        " ", _
-        " " _
+        "There is no target types", _
+        "There is no target types", _
+        "There is no target types" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -787,8 +810,9 @@ Private Sub Install()
         "Used for the followup app", _
         "No match on score type %1 in table %2", _
         "Ingen match på score-typen %1 i tabellen %2", _
-        " ", _
-        " " _
+        "No match on score type %1 in table %2", _
+        "No match on score type %1 in table %2", _
+        "No match on score type %1 in table %2" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -796,8 +820,9 @@ Private Sub Install()
         "Used for the followup app", _
         "No match on target type %1 in table %2", _
         "Ingen match på måltyp %1 i tabellen %2", _
-        " ", _
-        " " _
+        "No match on target type %1 in table %2", _
+        "No match on target type %1 in table %2", _
+        "No match on target type %1 in table %2" _
     )
     Call AddOrCheckLocalize( _
         sOwner, _
@@ -805,18 +830,29 @@ Private Sub Install()
         "Used for the followup app", _
         "Reload setting data", _
         "Ladda om inställningsdata", _
-        " ", _
-        " " _
+        "Reload setting data", _
+        "Reload setting data", _
+        "Reload setting data" _
     )
     
     
 End Sub
 
 
-Private Function AddOrCheckLocalize(sOwner As String, sCode As String, sDescription As String, sEN_US As String, sSV As String, sNO As String, sFI As String) As Boolean
+Private Function AddOrCheckLocalize( _
+    sOwner As String, _
+    sCode As String, _
+    sDescription As String, _
+    sEN_US As String, _
+    sSV As String, _
+    sNO As String, _
+    sFI As String, _
+    sDA As String _
+) As Boolean
     On Error GoTo ErrorHandler:
     Dim oFilter As New LDE.Filter
     Dim oRecs As New LDE.Records
+    Dim oRec As LDE.Record
     
     Call oFilter.AddCondition("owner", lkOpEqual, sOwner)
     Call oFilter.AddCondition("code", lkOpEqual, sCode)
@@ -824,27 +860,31 @@ Private Function AddOrCheckLocalize(sOwner As String, sCode As String, sDescript
     
     If oFilter.HitCount(Database.Classes("localize")) = 0 Then
         Debug.Print ("Localization " & sOwner & "." & sCode & " not found, creating new!")
-        Dim oRec As New LDE.Record
+        Set oRec = New LDE.Record
         Call oRec.Open(Database.Classes("localize"))
         oRec.Value("owner") = sOwner
         oRec.Value("code") = sCode
         oRec.Value("context") = sDescription
-        oRec.Value("sv") = sSV
-        oRec.Value("en_us") = sEN_US
-        oRec.Value("no") = sNO
-        oRec.Value("fi") = sFI
+        Call AddLocaleToRecord(oRec, "sv", sSV)
+        Call AddLocaleToRecord(oRec, "en_us", sEN_US)
+        Call AddLocaleToRecord(oRec, "no", sNO)
+        Call AddLocaleToRecord(oRec, "fi", sFI)
+        Call AddLocaleToRecord(oRec, "da", sDA)
+        
         Call oRec.Update
     ElseIf oFilter.HitCount(Database.Classes("localize")) = 1 Then
     Debug.Print ("Updating localization " & sOwner & "." & sCode)
         Call oRecs.Open(Database.Classes("localize"), oFilter)
-        oRecs(1).Value("owner") = sOwner
-        oRecs(1).Value("code") = sCode
-        oRecs(1).Value("context") = sDescription
-        oRecs(1).Value("sv") = sSV
-        oRecs(1).Value("en_us") = sEN_US
-        oRecs(1).Value("no") = sNO
-        oRecs(1).Value("fi") = sFI
-        Call oRecs.Update
+        Set oRec = oRecs(1)
+        oRec.Value("owner") = sOwner
+        oRec.Value("code") = sCode
+        oRec.Value("context") = sDescription
+        Call AddLocaleToRecord(oRec, "sv", sSV)
+        Call AddLocaleToRecord(oRec, "en_us", sEN_US)
+        Call AddLocaleToRecord(oRec, "no", sNO)
+        Call AddLocaleToRecord(oRec, "fi", sFI)
+        Call AddLocaleToRecord(oRec, "da", sDA)
+        Call oRec.Update
         
     Else
         Call MsgBox("There are multiple copies of " & sOwner & "." & sCode & "  which is bad! Fix it", vbCritical, "To many translations makes Jack a dull boy")
@@ -858,4 +898,13 @@ ErrorHandler:
     AddOrCheckLocalize = False
 End Function
 
+Private Sub AddLocaleToRecord(ByRef oRec As LDE.Record, ByVal sLocaleCode As String, ByVal sLocaleValue As String)
+On Error GoTo ErrorHandler
+    If oRec.Fields.Exists(sLocaleCode) Then
+        oRec.Value(sLocaleCode) = sLocaleValue
+    End If
+Exit Sub
+ErrorHandler:
+    Call UI.ShowError("Followup.AddLocaleToRecord")
+End Sub
 
