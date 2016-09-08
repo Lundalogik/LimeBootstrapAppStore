@@ -13,7 +13,7 @@ On Error GoTo ErrorHandler
     Call Application.Panes.Add( _
         sPaneName, _
         Application.WebFolder & "apps\followup\Resources\followup.ico", _
-        WebFolder & "lbs.html?ap=followup&type=tab", _
+        WebFolder & "lbs.html?ap=apps\followup\followup&type=tab", _
         lkPaneStyleNoToolBar _
     )
     Application.Panes.Visible = True
@@ -395,7 +395,8 @@ Public Function GetChoices( _
     ByVal sTargetTableName As String, _
     ByVal sTargetTypeFieldName As String, _
     ByVal sScoreTableName As String, _
-    ByVal sScoreTypeFieldName As String _
+    ByVal sScoreTypeFieldName As String, _
+    ByVal sCoworkerNameFieldName As String _
 ) As String
     On Error GoTo ErrorHandler
     Dim sXml As String
@@ -405,13 +406,13 @@ Public Function GetChoices( _
     Dim oCoworkerRecords As LDE.Records
     Dim oRecord As LDE.Record
     Dim oOption As LDE.Option
-    Set oCoworkerRecords = GetCoworkersWithTargets(sTargetTableName)
+    Set oCoworkerRecords = GetCoworkersWithTargets(sTargetTableName, sCoworkerNameFieldName)
     sXml = sXml & "<coworkers>"
     If Application.Database.Classes.Exists("coworker") Then
         If VBA.Len(sErrorMessage) = 0 Then
             For Each oRecord In oCoworkerRecords
                 sXml = sXml & "<coworker>"
-                Call AddXmlElement(sXml, "name", oRecord.Value("name"))
+                Call AddXmlElement(sXml, "name", oRecord.Value(sCoworkerNameFieldName))
                 Call AddXmlElement(sXml, "idcoworker", oRecord.Value("idcoworker"))
                 sXml = sXml & "</coworker>"
             Next oRecord
@@ -482,15 +483,21 @@ ErrorHandler:
     Call UI.ShowError("Followup.GetChoices")
 End Function
 
+
 Private Function GetCoworkersWithTargets( _
-    ByVal sTargetTableName As String _
+    ByVal sTargetTableName As String, _
+    ByVal sCoworkerNameFieldName As String _
 ) As LDE.Records
 On Error GoTo ErrorHandler
     Dim oCoworkerRecords As New LDE.Records
     Dim oFilter As New LDE.Filter
+    Dim oView As New LDE.View
+    
+    Call oView.Add("idcoworker")
+    Call oView.Add(sCoworkerNameFieldName, lkSortAscending)
 
     Call oFilter.AddCondition(sTargetTableName, lkOpGreater, 0, lkConditionTypeUnspecified, lkFilterDecoratorCount)
-    Call oCoworkerRecords.Open(Application.Database.Classes("coworker"), oFilter, VBA.Array("idcoworker", "name"))
+    Call oCoworkerRecords.Open(Application.Database.Classes("coworker"), oFilter, oView)
     Set GetCoworkersWithTargets = oCoworkerRecords
 
 Exit Function

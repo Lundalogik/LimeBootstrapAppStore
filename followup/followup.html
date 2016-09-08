@@ -14,7 +14,7 @@
         /* Add logic for which users that will be able to admin the app, example only users in the group administrator */
         securityLevel: lbs.limeDataConnection.ActiveUser.Administrator && 'admin' || 'user',
         structureMapping: {
-            targetType: 'count', // 'count', 'sum'
+            targetType: 'count',
 
             /* Field mappings for target table */
             targetTable: 'target',
@@ -27,6 +27,9 @@
             scoreTypeField: 'type',
             scoreValueField: '',
             scoreDateField: 'date',
+
+            /* Field mappings for coworker table */
+            coworkerNameField: 'name',
         },
         /* Map the keys from the optionsfield in the different tables */
     	targetMapping: [

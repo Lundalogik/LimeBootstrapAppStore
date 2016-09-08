@@ -45,6 +45,8 @@
         this.structureMapping.scoreTypeField = appConfig.structureMapping.scoreTypeField || 'type';
         this.structureMapping.scoreValueField = appConfig.structureMapping.scoreValueField || '';
         this.structureMapping.scoreDateField = appConfig.structureMapping.scoreDateField || 'date';
+
+        this.structureMapping.coworkerNameField = appConfig.structureMapping.coworkerNameField || 'name';
     };
 
     //initialize

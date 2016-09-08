@@ -48,7 +48,8 @@ dataHandlingLib.loadChoiceData = function(viewModel, appConfig) {
     	appConfig.structureMapping.targetTable + ', ' +
     	appConfig.structureMapping.targetTypeField + ', ' +
     	appConfig.structureMapping.scoreTable + ', ' +
-    	appConfig.structureMapping.scoreTypeField;
+    	appConfig.structureMapping.scoreTypeField + ', ' +
+    	appConfig.structureMapping.coworkerNameField;
 
 	var choiceData = lbs.loader.loadDataSources({}, [{
 		type: 'xml',
@@ -357,6 +358,7 @@ dataHandlingLib.getTargetData = function(viewModel, appConfig) {
 
 		        	// Sort array
 		        	childArray.sort(helperLib.sortChild);
+
 
 		        	parentObj.children(childArray);
 	        	}
