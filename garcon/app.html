@@ -1,15 +1,17 @@
-<!-- ko if: garcon().length > 0 -->
-<div class="garcon">
-
+<div class="garcon" data-bind="visible: garconVisible">
 	<!-- ko foreach: garcon -->	
-	<div class="tile" data-bind="click:clicked, attr: {class: 'tile ' + color + ' ' + size}">
-		<div class="information"   >
-			<span class="icon-left" data-bind="icon:icon"> </span>
-			<span class="value" data-bind="text:value"></span>
-			<span class="name" data-bind="text:label"></span>
+		<div class="tile" data-bind="click:clicked, attr: {class: 'tile ' + color + ' ' + size}">
+			<div class="information"   >
+				<span class="icon-left" data-bind="icon:icon"> </span>
+				<span class="value" data-bind="text:value"></span>
+				<span class="name" data-bind="text:label"></span>
+			</div>
+		</div>
+	<!-- /ko -->
+	<div class="container">
+		<div class="row">
+			<span class="col-md-6 pull-left h5" data-bind="text: localize.Garcon.no_data, visible:(garcon().length == 0)" />
+			<span class="col-md-6 refresh pull-right h4" data-bind="text:' ', icon:'fa-refresh', click:refresh" />
 		</div>
 	</div>
-	<!-- /ko -->
-	<div class="tile h4 animated fadeIn pull-right" data-bind="click:refresh, visible: $root.refreshVisible()"><span data-bind="icon: 'fa-refresh'"> </span></div>
 </div>
-<!-- /ko -->

@@ -1,9 +1,18 @@
-'TO INSERT AT THE TOP!
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' TO INSERT AT THE TOP!
+'' In the same way as for example m_ControlsHandlerCompany is:
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ 
+	Private m_ControlsHandlerGarconsettings As ControlsHandlerGarconsettings
 
-    Private m_ControlsHandlerGarconsettings As ControlsHandlerGarconsettings
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 
 
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Look after the Sub m_Application_AfterActiveControlsChanged
+'' Look after the Case-statement that looks like the on under here and insert the rows marked "!! INSERT THIS ROW" (Below)
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Private Sub m_Application_AfterActiveControlsChanged()
     On Error GoTo ErrorHandler

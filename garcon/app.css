@@ -1,9 +1,5 @@
-.garcon .refresh:hover{
-  color: rgba(255,255,255,0.8);
-}
-
-
 .garcon{
+  margin-top: 5px;
   height:auto;
   position: relative;
 }
@@ -97,27 +93,24 @@
 }
 
 .garcon .refresh{
-  position: absolute;
-  right: -10px;
   cursor: pointer;
-  text-align: center;
-  line-height: 100%;
-  height: auto;
-  width: auto;
-  z-index: 100;
-  color: #fff;
-  margin-right:-10px;
-  background-color: rgba(255,255,255,0);
-  font-size: 12px;
 }
 
-.garcon .refresh.large{
-  font-size: 24px;
+.garcon .refresh:hover{
+  opacity: 0.85;
 }
 
-.garcon .tile .fa-fw {
-  font-size: 100%;
-  vertical-align:middle;
-  text-align: left;
-	padding-bottom: 4px;
+.garcon .tile {
+  animation-duration: 1s;
+  animation-name: expand;
+}
+
+@keyframes expand {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
 }
