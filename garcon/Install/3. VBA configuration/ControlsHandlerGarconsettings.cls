@@ -74,7 +74,7 @@ Private Sub m_Controls_BeforeCommand(ByVal Control As IControl, ByVal Command As
             If Command = lkControlCommandContextMenu Then
                 Call Params.Put("style", lkLinkControlStyleDropDown)
             End If
-        Case "department"
+        Case Garcon.sDepartmentFieldname
             If Command = lkControlCommandContextMenu Then
                 Call Params.Put("style", lkLinkControlStyleDropDown)
             End If
@@ -92,7 +92,7 @@ Private Sub m_Controls_BeforeCommand(ByVal Control As IControl, ByVal Command As
     Select Case Command
         Case lkControlCommandContextMenu
                 Select Case Control.field.Name
-                    Case "coworker", "department"
+                    Case "coworker", Garcon.sDepartmentFieldname
                         Call Params.Put("style", lkLinkControlStyleDropDown)
                 End Select
         Case ControlCommandEnum.lkControlCommandDropDown
@@ -312,13 +312,13 @@ Private Sub HideShowFields()
     Select Case sVisiblefor
         Case "all"
             Call m_Controls.SetVisible("coworker", False)
-            Call m_Controls.SetVisible("department", False)
+            Call m_Controls.SetVisible(Garcon.sDepartmentFieldname, False)
         Case "me"
             Call m_Controls.SetVisible("coworker", True)
-            Call m_Controls.SetVisible("department", False)
+            Call m_Controls.SetVisible(Garcon.sDepartmentFieldname, False)
         Case "department"
             Call m_Controls.SetVisible("coworker", False)
-            Call m_Controls.SetVisible("department", True)
+            Call m_Controls.SetVisible(Garcon.sDepartmentFieldname, True)
     End Select
     
     Exit Sub

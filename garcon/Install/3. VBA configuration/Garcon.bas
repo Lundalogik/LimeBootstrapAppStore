@@ -7,7 +7,7 @@ Attribute VB_Name = "Garcon"
 '       settings table. Othervise False.. ;)
 '===================== SETTINGS ============================
 Private Const bDepartmentoptionenabled As Boolean = True
-Private Const sDepartmentFieldname As String = "department" ' This must be the same on Garcon-settings and coworker
+Public Const sDepartmentFieldname As String = "department" ' This must be the same on Garcon-settings and coworker
 
 Private Const c_IndexValueLocalName = "Huvudlista"
 Private Const c_IndexValueName = "index"
