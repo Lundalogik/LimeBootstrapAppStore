@@ -64,7 +64,7 @@ DECLARE @fieldname NVARCHAR(64)
 
 -- INFOTILESSETTINGS
 
-SET @tablename = N'infotile'
+SET @tablename = N'infotiles'
 
 
 INSERT  INTO @temp_table
@@ -636,11 +636,11 @@ INSERT  INTO @temp_relation_one_to_many
 
 
 --RELATION WITH COWORKER
-        SELECT  N'infotile' ,
+        SELECT  N'infotiles' ,
                 N'coworker' ,
                 N'sv:Specifik medarbetare;en_us:Specific coworker;fi:Tietty työntekijä' ,
                 N'coworker' ,
-                N'infotile' ,
+                N'infotiles' ,
                 N'sv:InfoTiles;en_us:InfoTiles;fi:InfoTiles' 
 
 

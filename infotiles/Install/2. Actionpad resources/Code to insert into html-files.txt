@@ -3,4 +3,4 @@
 
 
 <!-- 		EXPLANATION TO CONFIG ARGUMENTS ABOVE:													-->
-<!--		showOnEmpty: if the garcon should be visible if there aren't any data to show			-->
+<!--		showOnEmpty: if the InfoTiles should be visible if there aren't any data to show			-->

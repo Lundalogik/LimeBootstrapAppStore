@@ -125,14 +125,14 @@ function getFilterData() {
 }
 
 
-function InfotilesItem(label, color, value, icon, idinfotile, size) {
+function InfotilesItem(label, color, value, icon, idinfotiles, size) {
     var me = this;
 
     me.label = label || "";
     me.color = color;
     me.value = value || "";
     me.icon = icon;
-    me.idinfotiles = idinfotile;
+    me.idinfotiles = idinfotiles;
     me.size = size;
     me.styling = color + " " + me.size;
     me.clicked = function() {

@@ -30,7 +30,7 @@
         ],
         "tables": [
             {
-                "name": "infotile",
+                "name": "infotiles",
                 "localname_singular": {
                     "sv": "InfoTiles",
                     "en_us": "InfoTiles"
