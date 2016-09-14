@@ -1,4 +1,4 @@
-﻿<div data-app="{app:'garcon', config:{showOnEmpty: true}}"></div>
+﻿<div data-app="{app:'infotiles', config:{showOnEmpty: true}}"></div>
 
 
 

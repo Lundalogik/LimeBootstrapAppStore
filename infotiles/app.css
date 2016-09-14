@@ -1,10 +1,10 @@
-.garcon{
+.infotiles{
   margin-top: 5px;
   height:auto;
   position: relative;
 }
 
-.garcon .tile{
+.infotiles .tile{
   margin-left: -10px;
   margin-right: -10px;
   border-right-color: rgba(0, 0, 0, 0);
@@ -18,11 +18,11 @@
   border-bottom-width: 1px;
 }
 
-.garcon .tile:hover{
+.infotiles .tile:hover{
   opacity: 0.85;
 }
 
-.garcon .tile .name{
+.infotiles .tile .name{
   padding-top: 0px;
   font-size: 14px;
   text-align: left;
@@ -33,15 +33,15 @@
   overflow: hidden;
 }
 
-.garcon .tile.small .name{
+.infotiles .tile.small .name{
   font-size: 12px;
 }
 
-.garcon .tile.large .name{
+.infotiles .tile.large .name{
   font-size: 22px;
 }
 
-.garcon .tile .information{
+.infotiles .tile .information{
   font-size: 18px;
   text-align: left;
   margin-left: 10px;
@@ -54,20 +54,20 @@
   overflow: hidden;
 }
 
-.garcon .tile.small .information{
+.infotiles .tile.small .information{
   padding-top: 5px;
   margin-bottom: 0;
   line-height: 26px;
 }
 
-.garcon .tile.large .information{
+.infotiles .tile.large .information{
   padding-top: 5px;
   margin-bottom: 0;
   line-height: 42px;
 }
 
 
-.garcon .tile .value{
+.infotiles .tile .value{
   font-size: 26px;
   text-align: left;
   line-height: 24px;
@@ -80,27 +80,27 @@
   
 }
 
-.garcon .tile.small .value{
+.infotiles .tile.small .value{
   font-size: 16px;
   line-height: 16px;
   vertical-align:middle;
 }
 
-.garcon .tile.large .value{
+.infotiles .tile.large .value{
   font-size: 36px;
   line-height: 36px;
   vertical-align:middle;
 }
 
-.garcon .refresh{
+.infotiles .refresh{
   cursor: pointer;
 }
 
-.garcon .refresh:hover{
+.infotiles .refresh:hover{
   opacity: 0.85;
 }
 
-.garcon .tile {
+.infotiles .tile {
   animation-duration: 1s;
   animation-name: expand;
 }

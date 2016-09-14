@@ -3,7 +3,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-create PROCEDURE [dbo].[csp_garcon_scriptfield_addtable]
+create PROCEDURE [dbo].[csp_infotiles_scriptfield_addtable]
     @@tablename NVARCHAR(64) ,
     @@localname_singular NVARCHAR(MAX) ,
     @@localname_plural NVARCHAR(MAX) ,
@@ -236,7 +236,7 @@ AS
 
 	GO
 
-	CREATE PROCEDURE [dbo].[csp_garcon_scriptfield_addfield]
+	CREATE PROCEDURE [dbo].[csp_infotiles_scriptfield_addfield]
     @@tablename NVARCHAR(64) ,
     @@fieldname NVARCHAR(64) ,
     @@type NVARCHAR(64) ,
@@ -574,7 +574,7 @@ AS
 
 	GO
 
-create PROCEDURE [dbo].[csp_garcon_scriptfield_addrelation_onetomany]
+create PROCEDURE [dbo].[csp_infotiles_scriptfield_addrelation_onetomany]
     @@field_table NVARCHAR(128) ,
     @@field_name NVARCHAR(128) ,
     @@field_localname NVARCHAR(MAX) ,
@@ -925,7 +925,7 @@ AS
 
 	GO
 
-create PROCEDURE [dbo].[csp_garcon_scriptfield_validate_optiontext]
+create PROCEDURE [dbo].[csp_infotiles_scriptfield_validate_optiontext]
     (
       @@localname NVARCHAR(MAX) ,
       @@idcategory INT, 
@@ -1021,7 +1021,7 @@ AS
 
 	GO
 
-	CREATE PROCEDURE [dbo].[csp_garcon_scriptfield_addoption]
+	CREATE PROCEDURE [dbo].[csp_infotiles_scriptfield_addoption]
     @@tablename NVARCHAR(64) ,
     @@fieldname NVARCHAR(64) ,
     @@localname NVARCHAR(MAX) , -- N'lang:text;lang2:text2'
@@ -1119,7 +1119,7 @@ AS
                 BEGIN
 			-- MAKE SURE NOT DUPLICATE IN ANY LANGUAGE
                     DECLARE @noOfHits INT
-                    EXECUTE [dbo].[csp_garcon_scriptfield_validate_optiontext] @@localname = @@localname,
+                    EXECUTE [dbo].[csp_infotiles_scriptfield_validate_optiontext] @@localname = @@localname,
                         @@idcategory = @idcategory,
                         @@noofmatches = @noOfHits OUTPUT
 					

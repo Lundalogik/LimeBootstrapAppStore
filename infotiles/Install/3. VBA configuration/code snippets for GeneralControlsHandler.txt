@@ -3,7 +3,7 @@
 '' In the same way as for example m_ControlsHandlerCompany is:
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
  
-	Private m_ControlsHandlerGarconsettings As ControlsHandlerGarconsettings
+	Private m_ControlsHandlerInfoTile As ControlsHandlerInfoTile
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -24,8 +24,8 @@ Private Sub m_Application_AfterActiveControlsChanged()
 
 '''...........THERE IS PROBABLY A LOT HERE IN YOUR SOLUTION....
 
-			Case "garconsettings"																	'!! INSERT THIS ROW
-                Set m_ControlsHandlerGarconsettings = New ControlsHandlerGarconsettings				'!! INSERT THIS ROW
+			Case "infotile"																	'!! INSERT THIS ROW
+                Set m_ControlsHandlerInfoTile = New ControlsHandlerInfoTile				'!! INSERT THIS ROW
 				
 				
 				
