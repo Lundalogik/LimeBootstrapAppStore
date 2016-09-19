@@ -1,13 +1,13 @@
-Attribute VB_Name = "Garcon"
+Attribute VB_Name = "InfoTiles"
 '===================== SETTINGS ============================
 '
 '       Change constant below to true if you have activated
 '       the "Department" option in the field "visiblefor" and thus
-'       have a department table and relation in the garcon-
+'       have a department table and relation in the InfoTiles 
 '       settings table. Othervise False.. ;)
 '===================== SETTINGS ============================
 Private Const bDepartmentoptionenabled As Boolean = True
-Public Const sDepartmentFieldname As String = "department" ' This must be the same on Garcon-settings and coworker
+Public Const sDepartmentFieldname As String = "department" ' This must be the same on InfoTiles and coworker
 
 Private Const c_IndexValueLocalName = "Huvudlista"
 Private Const c_IndexValueName = "index"
@@ -41,7 +41,7 @@ On Error GoTo ErrorHandler
             Set oField = oClass.Fields.Lookup(className, lkLookupFieldByName)
             If Not oField Is Nothing Then
                If oField.Type = lkFieldTypeMultiLink Then
-                    Set oFilters = Garcon.GetInspectorExplorerFilters(sActiveClass, oField.LinkedField.Class.Name)
+                    Set oFilters = InfoTiles.GetInspectorExplorerFilters(sActiveClass, oField.LinkedField.Class.Name)
                     If oFilters.Exists(filterName) Then
                         Set oFilter = oFilters(filterName).Clone
                     End If
@@ -70,7 +70,7 @@ On Error GoTo ErrorHandler
 Exit Function
 ErrorHandler:
     GetHitCount = -99
-    Call UI.ShowError("Garcon.GetHitCount")
+    Call UI.ShowError("InfoTiles.GetHitCount")
 End Function
 
 Public Function GetSumField(ByVal className As String, ByVal filterName As String, ByVal fieldName As String, ByVal sActiveClass As String, ByVal lngIdRecord As Long) As String
@@ -102,7 +102,7 @@ On Error GoTo ErrorHandler
             Set oField = oClass.Fields.Lookup(className, lkLookupFieldByName)
             If Not oField Is Nothing Then
                If oField.Type = lkFieldTypeMultiLink Then
-                    Set oFilters = Garcon.GetInspectorExplorerFilters(sActiveClass, oField.LinkedField.Class.Name)
+                    Set oFilters = InfoTiles.GetInspectorExplorerFilters(sActiveClass, oField.LinkedField.Class.Name)
                     If oFilters.Exists(filterName) Then
                         Set oFilter = oFilters(filterName).Clone
                     End If
@@ -135,10 +135,10 @@ On Error GoTo ErrorHandler
     GetSumField = CStr(VBA.Format(VBA.CDbl(sum), "#,0"))
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("Garcon.GetHitCount")
+    Call UI.ShowError("InfoTiles.GetHitCount")
 End Function
 
-Public Sub ShowFilter(ByVal lngidgarcon_settings As Long)
+Public Sub ShowFilter(ByVal lngidinfotiles As Long)
     On Error GoTo ErrorHandler
     Dim oRecord As New LDE.Record
     Dim sVisibleOn As String
@@ -152,9 +152,9 @@ Public Sub ShowFilter(ByVal lngidgarcon_settings As Long)
     Dim sWarning As String
     Dim sOperatorKey As String
     
-    sWarning = "Garcon served a filter not working!"
+    sWarning = "InfoTiles served a filter not working!"
     
-    Call oRecord.Open(Application.Database.Classes("garconsettings"), lngidgarcon_settings)
+    Call oRecord.Open(Application.Database.Classes("infotiles"), lngidinfotiles)
     sOperatorKey = oRecord.Fields("operator").Options.Lookup(oRecord("operator"), lkLookupOptionByValue).Key
     If sOperatorKey <> "field" Then
     
@@ -202,7 +202,7 @@ Public Sub ShowFilter(ByVal lngidgarcon_settings As Long)
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("Garcon.SetFilter")
+    Call UI.ShowError("InfoTiles.SetFilter")
 End Sub
 
 Public Function FetchFiltersXML(ByVal sActiveClass As String, ByVal lngIdRecord As Long) As String
@@ -213,7 +213,7 @@ On Error GoTo ErrorHandler
     Dim oView As New LDE.View
     Dim sValue As String
     Dim lngValue As Long
-    Dim bShowGarconItem As Boolean
+    Dim bShowInfoTilesItem As Boolean
     Dim oActiveRecord As LDE.Record
     Dim lngActiveCoworkerId As Variant ' Long
     
@@ -238,12 +238,12 @@ On Error GoTo ErrorHandler
         End If
         
         'FILTER CREATION MADNESS
-        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("garconsettings").Fields("visiblefor").Options.Lookup("all", lkLookupOptionByKey))
-        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("garconsettings").Fields("visiblefor").Options.Lookup("me", lkLookupOptionByKey))
+        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("infotile").Fields("visiblefor").Options.Lookup("all", lkLookupOptionByKey))
+        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("infotile").Fields("visiblefor").Options.Lookup("me", lkLookupOptionByKey))
         Call oFilter.AddCondition("coworker", lkOpEqual, lngActiveCoworkerId)
         Call oFilter.AddOperator(lkOpAnd)
         Call oFilter.AddOperator(lkOpOr)
-        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("garconsettings").Fields("visiblefor").Options.Lookup("department", lkLookupOptionByKey))
+        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("infotile").Fields("visiblefor").Options.Lookup("department", lkLookupOptionByKey))
         Call oFilter.AddCondition(sDepartmentFieldname, lkOpEqual, lDepartmentRecordID)
         Call oFilter.AddOperator(lkOpAnd)
         Call oFilter.AddOperator(lkOpOr)
@@ -253,12 +253,12 @@ On Error GoTo ErrorHandler
 '        Dim d As New Lime.Dialog
 '        d.Type = lkDialogFilter                                        '===== > Dessa 5 rader kan avkommenteras för att testa filtret.
 '        d.Property("filter") = oFilter                               ' <---make sure you have "Dim oFilter as New LDE.Filter"
-'        d.Property("class") = Classes("garconsettings")               '  <---change the class "offer" to your table/class in question!
+'        d.Property("class") = Classes("infotiles")               '  <---change the class "offer" to your table/class in question!
 '        Call d.show
 
     Else
-        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("garconsettings").Fields("visiblefor").Options.Lookup("all", lkLookupOptionByKey))
-        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("garconsettings").Fields("visiblefor").Options.Lookup("me", lkLookupOptionByKey))
+        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("infotiles").Fields("visiblefor").Options.Lookup("all", lkLookupOptionByKey))
+        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("infotiles").Fields("visiblefor").Options.Lookup("me", lkLookupOptionByKey))
         Call oFilter.AddCondition("coworker", lkOpEqual, lngActiveCoworkerId)
         Call oFilter.AddOperator(lkOpAnd)
         Call oFilter.AddOperator(lkOpOr)
@@ -280,7 +280,7 @@ On Error GoTo ErrorHandler
     Call oView.Add("fieldname")
     Call oView.Add("operator")
     
-    Call oRecords.Open(Application.Database.Classes("garconsettings"), oFilter, oView)
+    Call oRecords.Open(Application.Database.Classes("infotiles"), oFilter, oView)
     
     FetchFiltersXML = "<filters>"
     
@@ -319,19 +319,19 @@ On Error GoTo ErrorHandler
                     End If
             End Select
 
-            bShowGarconItem = False
+            bShowInfoTilesItem = False
             If VBA.IsNumeric(sValue) Then
                 lngValue = VBA.CLng(sValue)
                 If lngValue >= 0 Then
                     If ((lngValue = 0 And oRecord.Value("visibleonzero") = 1 Or oRecord.GetOptionKey("operator") = "link") Or (lngValue > 0)) Then
-                        bShowGarconItem = True
+                        bShowInfoTilesItem = True
                     End If
                 End If
             ElseIf oRecord.GetOptionKey("operator") = "field" Then
-                bShowGarconItem = True
+                bShowInfoTilesItem = True
             End If
 
-            If bShowGarconItem = True Then
+            If bShowInfoTilesItem = True Then
                 Dim sColor As String
                 If oRecord.GetOptionKey("operator") = "link" Then
                     sValue = ""
@@ -345,7 +345,7 @@ On Error GoTo ErrorHandler
                 End If
             
                 FetchFiltersXML = FetchFiltersXML + "<filter>" _
-                    & "<idgarconsettings><![CDATA[" & VBA.CStr(oRecord.ID) & "]]></idgarconsettings>" _
+                    & "<idinfotiles><![CDATA[" & VBA.CStr(oRecord.ID) & "]]></idinfotiles>" _
                     & "<explorer><![CDATA[" & oRecord.Text("classname") & "]]></explorer>" _
                     & "<name><![CDATA[" & oRecord.Text("filtername") & "]]></name>" _
                     & "<color><![CDATA[" & sColor & "]]></color>" _
@@ -363,17 +363,17 @@ On Error GoTo ErrorHandler
 
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("Garcon.FetchFiltersXML")
+    Call UI.ShowError("InfoTiles.FetchFiltersXML")
 End Function
 
 Public Sub SearchIcon()
     On Error GoTo ErrorHandler
     
-    Call ActiveInspector.PaneControls.SetValue("searchicon", WebFolder & "lbs.html?ap=garconsearchicon&type=inline")
+    Call ActiveInspector.PaneControls.SetValue("searchicon", WebFolder & "lbs.html?ap=infotilessearchicon&type=inline")
 
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("Garcon.SearchIcon")
+    Call UI.ShowError("InfoTiles.SearchIcon")
 End Sub
 
 Public Function GetFilterCountByType(ByVal oFilters As LDE.Filters, Optional ByVal filterType As FilterTypeEnum = lkFilterTypeDynamic) As Integer
@@ -387,7 +387,7 @@ On Error GoTo ErrorHandler
     Next
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("Garcon.GetFilterCountByType")
+    Call UI.ShowError("InfoTiles.GetFilterCountByType")
 End Function
 
 'fieldTypes as Keys will be checked
@@ -402,7 +402,7 @@ On Error GoTo ErrorHandler
     Next
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("Garcon.GetFieldCountByTypes")
+    Call UI.ShowError("InfoTiles.GetFieldCountByTypes")
 End Function
 
 Public Function FindExplorerFieldsByClass(ByVal oClass As LDE.Class) As Collection
@@ -423,7 +423,7 @@ On Error GoTo ErrorHandler
     Set FindExplorerFieldsByClass = oFields
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("Garcon.FindExplorerFieldsByClass")
+    Call UI.ShowError("InfoTiles.FindExplorerFieldsByClass")
 End Function
 
 Public Function GetInspectorExplorerFilters(ByVal InspectorClass As String, ByVal ExplorerClass As String) As LDE.Filters
@@ -435,7 +435,7 @@ On Error GoTo ErrorHandler
     Set GetInspectorExplorerFilters = oFilters
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("Garcon.GetInspectorExplorerFilters")
+    Call UI.ShowError("InfoTiles.GetInspectorExplorerFilters")
 End Function
 
 Private Function FixColorToHexString(ByVal colorNr As Long) As String
@@ -448,7 +448,7 @@ On Error GoTo ErrorHandler
     FixColorToHexString = str
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("Garcon.ReverseHexString")
+    Call UI.ShowError("InfoTiles.ReverseHexString")
 End Function
 
 '------------------------------------------
@@ -457,21 +457,21 @@ End Function
 Public Sub Install()
 On Error GoTo ErrorHandler
     Dim sOwner As String
-    sOwner = "Garcon"
+    sOwner = "InfoTiles"
 
     Call AddOrCheckLocalize( _
         sOwner, _
         "no_data", _
         "Translation for " & sOwner, _
-        "No data for Garcon", _
-        "Ingen data för Garcon", _
-        "No data for Garcon", _
-        "No data for Garcon" _
+        "No data for InfoTiles", _
+        "Ingen data för InfoTiles", _
+        "No data for InfoTiles", _
+        "No data for InfoTiles" _
     )
     
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("Garcon.Install")
+    Call UI.ShowError("InfoTiles.Install")
 End Sub
 
 

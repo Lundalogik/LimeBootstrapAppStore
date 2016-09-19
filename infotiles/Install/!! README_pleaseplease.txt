@@ -9,6 +9,6 @@ Instructions for newbies:
 3. Do things described in the folder starting with "3."
 4. Save your VBA 
 5. Publish Actionpads 
-6. Restart LIME and play around with Garcon! ^^
+6. Restart LIME and play around with InfoTiles! ^^
 
 ======================================

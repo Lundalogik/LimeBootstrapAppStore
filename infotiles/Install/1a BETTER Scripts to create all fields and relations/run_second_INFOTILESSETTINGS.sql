@@ -62,9 +62,9 @@ DECLARE @temp_relation_one_to_many TABLE
 DECLARE @tablename NVARCHAR(64)
 DECLARE @fieldname NVARCHAR(64)
 
--- GARCONSETTINGS
+-- INFOTILESSETTINGS
 
-SET @tablename = N'garconsettings'
+SET @tablename = N'infotiles'
 
 
 INSERT  INTO @temp_table
@@ -73,8 +73,8 @@ INSERT  INTO @temp_table
           [localname_plural]
         )
         SELECT  @tablename ,
-                N'sv:Garconinställning;en_us:Garcon Setting;fi:Garcon-asetus' ,
-                N'sv:Garconinställningar;en_us:Garcon Settings;fi:Garcon-asetukset'
+                N'sv:InfoTile;en_us:InfoTile;fi:InfoTile' ,
+                N'sv:InfoTiles;en_us:InfoTiles;fi:InfoTiles'
 
 
 SET @fieldname = N'active'
@@ -636,12 +636,12 @@ INSERT  INTO @temp_relation_one_to_many
 
 
 --RELATION WITH COWORKER
-        SELECT  N'garconsettings' ,
+        SELECT  N'infotiles' ,
                 N'coworker' ,
                 N'sv:Specifik medarbetare;en_us:Specific coworker;fi:Tietty työntekijä' ,
                 N'coworker' ,
-                N'garconsettings' ,
-                N'sv:Garconinställningar;en_us:Garcon Settings;fi:Garcon-asetukset' 
+                N'infotiles' ,
+                N'sv:InfoTiles;en_us:InfoTiles;fi:InfoTiles' 
 
 
 
@@ -736,7 +736,7 @@ ELSE
                             SET @idtable = NULL
                             SET @message = N''
 
-                            EXECUTE @returnvalue = [dbo].[csp_garcon_scriptfield_addtable] @@tablename = @t_table,
+                            EXECUTE @returnvalue = [dbo].[csp_infotiles_scriptfield_addtable] @@tablename = @t_table,
                                 @@localname_singular = @t_localname,
                                 @@localname_plural = @t_localnameplural,
                                 @@failexistingtable = @fail_if_table_exist,
@@ -835,7 +835,7 @@ ELSE
                             SET @idfield = NULL
                             SET @message = N''
 
-                            EXECUTE @returnvalue = [dbo].[csp_garcon_scriptfield_addfield] @@tablename = @f_table,
+                            EXECUTE @returnvalue = [dbo].[csp_infotiles_scriptfield_addfield] @@tablename = @f_table,
                                 @@fieldname = @f_field, @@type = @f_fieldtype,
                                 @@localname = @f_localname
   --,@@separator
@@ -921,7 +921,7 @@ ELSE
                             SET @idfieldtab = NULL
                             SET @message = N''
 
-                            EXECUTE @returnvalue = [dbo].[csp_garcon_scriptfield_addrelation_onetomany] @@field_table = @r_table_field,
+                            EXECUTE @returnvalue = [dbo].[csp_infotiles_scriptfield_addrelation_onetomany] @@field_table = @r_table_field,
                                 @@field_name = @r_name_field,
                                 @@field_localname = @r_localname_field,
                                 @@tab_table = @r_table_tab,
@@ -1003,7 +1003,7 @@ ELSE
                             SET @idstring = NULL
                             SET @message = N''
 
-                            EXECUTE @returnvalue = [dbo].[csp_garcon_scriptfield_addoption] @@tablename = @o_table,
+                            EXECUTE @returnvalue = [dbo].[csp_infotiles_scriptfield_addoption] @@tablename = @o_table,
                                 @@fieldname = @o_field,
                                 @@localname = @o_optiontext, @@key = @o_key,
                                 @@failexistingoption = @fail_if_option_exist,

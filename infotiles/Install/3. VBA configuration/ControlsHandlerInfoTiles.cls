@@ -2,7 +2,7 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "ControlsHandlerGarconsettings"
+Attribute VB_Name = "ControlsHandlerInfoTiles"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
@@ -33,7 +33,7 @@ Private Sub Class_Initialize()
     End If
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconsettings.Class_Initialize")
+    Call UI.ShowError("ControlsHandlerInfoTiles.Class_Initialize")
 End Sub
 
 Private Sub m_Controls_AfterCommand(ByVal Control As IControl, ByVal Command As ControlCommandEnum, ByVal Params As LDE.IProperties)
@@ -46,7 +46,7 @@ On Error GoTo ErrorHandler
                 Call SetRequiredFields
                 
                 If Control.field.Name = "operator" And Control.OptionKey = "field" Then
-                    If m_Controls.GetText("visibleon", "") = Garcon.VisibleOnIndexName Then
+                    If m_Controls.GetText("visibleon", "") = InfoTiles.VisibleOnIndexName Then
                         Call m_Controls.SetValue("visibleon", "")
                     End If
                 End If
@@ -56,7 +56,7 @@ On Error GoTo ErrorHandler
 
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconsettings.m_controls_AfterCommand")
+    Call UI.ShowError("ControlsHandlerInfoTiles.m_controls_AfterCommand")
 End Sub
 
 Private Sub m_controls_AfterRecordChanged()
@@ -64,7 +64,7 @@ Private Sub m_controls_AfterRecordChanged()
     Call Setup
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconsettings.m_controls_AfterRecordChanged")
+    Call UI.ShowError("ControlsHandlerInfoTiles.m_controls_AfterRecordChanged")
 End Sub
 
 Private Sub m_Controls_BeforeCommand(ByVal Control As IControl, ByVal Command As ControlCommandEnum, ByVal Params As LDE.IProperties, Cancel As Boolean)
@@ -74,7 +74,7 @@ Private Sub m_Controls_BeforeCommand(ByVal Control As IControl, ByVal Command As
             If Command = lkControlCommandContextMenu Then
                 Call Params.Put("style", lkLinkControlStyleDropDown)
             End If
-        Case Garcon.sDepartmentFieldname
+        Case InfoTiles.sDepartmentFieldname
             If Command = lkControlCommandContextMenu Then
                 Call Params.Put("style", lkLinkControlStyleDropDown)
             End If
@@ -92,7 +92,7 @@ Private Sub m_Controls_BeforeCommand(ByVal Control As IControl, ByVal Command As
     Select Case Command
         Case lkControlCommandContextMenu
                 Select Case Control.field.Name
-                    Case "coworker", Garcon.sDepartmentFieldname
+                    Case "coworker", InfoTiles.sDepartmentFieldname
                         Call Params.Put("style", lkLinkControlStyleDropDown)
                 End Select
         Case ControlCommandEnum.lkControlCommandDropDown
@@ -103,7 +103,7 @@ Private Sub m_Controls_BeforeCommand(ByVal Control As IControl, ByVal Command As
                     
                     If m_Controls.GetOptionKey("operator") <> "field" Then
                         ReDim tableOptions(Application.Classes.Count + 1)
-                        tableOptions(0) = Garcon.VisibleOnIndexLocalName
+                        tableOptions(0) = InfoTiles.VisibleOnIndexLocalName
                     Else
                         ReDim tableOptions(Application.Classes.Count)
                     End If
@@ -119,7 +119,7 @@ Private Sub m_Controls_BeforeCommand(ByVal Control As IControl, ByVal Command As
                     ' If visibleOn exists as a class show all MultiLink-field-classes on that class.
                     ' If visibleOn is empty or no match show NONE!
             
-                    If m_ControlVisibleOn.Text = Garcon.VisibleOnIndexName Then
+                    If m_ControlVisibleOn.Text = InfoTiles.VisibleOnIndexName Then
                         ' Lägger till alla flikar som alternativ
                         ReDim tableOptions(Application.Explorers.Count)
             
@@ -129,7 +129,7 @@ Private Sub m_Controls_BeforeCommand(ByVal Control As IControl, ByVal Command As
                     ElseIf Application.Database.Classes.Exists(m_ControlVisibleOn.Text) Then
                         Dim oFields As Collection
                         
-                        Set oFields = Garcon.FindExplorerFieldsByClass(Application.Database.Classes.Lookup(m_ControlVisibleOn.Text, lkLookupClassByName))
+                        Set oFields = InfoTiles.FindExplorerFieldsByClass(Application.Database.Classes.Lookup(m_ControlVisibleOn.Text, lkLookupClassByName))
                         
                         ' Adds all Explorer-classes into the list.
                         ReDim tableOptions(oFields.Count)
@@ -159,7 +159,7 @@ Private Sub m_Controls_BeforeCommand(ByVal Control As IControl, ByVal Command As
                     If Not oClass Is Nothing Then
                         
 
-                        iFieldCount = Garcon.GetFieldCountByTypes(oClass.Fields, oDic)
+                        iFieldCount = InfoTiles.GetFieldCountByTypes(oClass.Fields, oDic)
                         
                         If iFieldCount > 0 Then
                             ReDim fieldOptions(iFieldCount - 1)
@@ -185,12 +185,12 @@ Private Sub m_Controls_BeforeCommand(ByVal Control As IControl, ByVal Command As
                     Dim oFilters As LDE.Filters
                         
                     sExplorer = m_ControlExplorer.Text
-                    If m_ControlVisibleOn.Text = Garcon.VisibleOnIndexName Then
+                    If m_ControlVisibleOn.Text = InfoTiles.VisibleOnIndexName Then
                         If Application.Explorers.Exists(sExplorer) Then
                             ' Lägger till alla flikar som alternativ
                             
                             Set oFilters = Application.Explorers(sExplorer).Filters
-                            iFilterCount = Garcon.GetFilterCountByType(oFilters)
+                            iFilterCount = InfoTiles.GetFilterCountByType(oFilters)
                             If iFilterCount > 0 Then
                                 ReDim filterOptions(iFilterCount - 1)
                             Else
@@ -212,11 +212,11 @@ Private Sub m_Controls_BeforeCommand(ByVal Control As IControl, ByVal Command As
                             Set oField = oClass.Fields.Lookup(m_ControlExplorer.Text, lkLookupFieldByName)
                             If Not oField Is Nothing Then
                                If oField.Type = lkFieldTypeMultiLink Then
-                                    Set oFilters = Garcon.GetInspectorExplorerFilters(m_ControlVisibleOn.Text, oField.LinkedField.Class.Name)
+                                    Set oFilters = InfoTiles.GetInspectorExplorerFilters(m_ControlVisibleOn.Text, oField.LinkedField.Class.Name)
                                End If
                             End If
                             If Not oFilters Is Nothing Then
-                                iFilterCount = Garcon.GetFilterCountByType(oFilters)
+                                iFilterCount = InfoTiles.GetFilterCountByType(oFilters)
                                 If iFilterCount > 0 Then
                                     ReDim filterOptions(iFilterCount - 1)
                                 Else
@@ -244,7 +244,7 @@ Private Sub m_Controls_BeforeCommand(ByVal Control As IControl, ByVal Command As
     
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconsettings.m_Controls_BeforeCommand")
+    Call UI.ShowError("ControlsHandlerInfoTiles.m_Controls_BeforeCommand")
 End Sub
 
 
@@ -253,7 +253,7 @@ Private Sub m_Controls_Refresh()
     Call Setup
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconsettings.m_Controls_Refresh")
+    Call UI.ShowError("ControlsHandlerInfoTiles.m_Controls_Refresh")
 End Sub
 
 Private Sub Setup()
@@ -262,19 +262,19 @@ Private Sub Setup()
     If Not m_Controls.Record Is Nothing Then
         ' When new
         If (m_Controls.State And lkControlsStateNew) = lkControlsStateNew Then
-            Call m_Controls.SetValue("visibleon", Garcon.VisibleOnIndexName)
+            Call m_Controls.SetValue("visibleon", InfoTiles.VisibleOnIndexName)
         End If
     End If
     
     If Not ActiveInspector Is Nothing Then
         Call HideShowFields
         Call SetRequiredFields
-        Call Garcon.SearchIcon
+        Call InfoTiles.SearchIcon
     End If
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconsettings.Setup")
+    Call UI.ShowError("ControlsHandlerInfoTiles.Setup")
 End Sub
 
 Private Sub HideShowFields()
@@ -312,18 +312,18 @@ Private Sub HideShowFields()
     Select Case sVisiblefor
         Case "all"
             Call m_Controls.SetVisible("coworker", False)
-            Call m_Controls.SetVisible(Garcon.sDepartmentFieldname, False)
+            Call m_Controls.SetVisible(InfoTiles.sDepartmentFieldname, False)
         Case "me"
             Call m_Controls.SetVisible("coworker", True)
-            Call m_Controls.SetVisible(Garcon.sDepartmentFieldname, False)
+            Call m_Controls.SetVisible(InfoTiles.sDepartmentFieldname, False)
         Case "department"
             Call m_Controls.SetVisible("coworker", False)
-            Call m_Controls.SetVisible(Garcon.sDepartmentFieldname, True)
+            Call m_Controls.SetVisible(InfoTiles.sDepartmentFieldname, True)
     End Select
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconsettings.Setup")
+    Call UI.ShowError("ControlsHandlerInfoTiles.Setup")
 End Sub
 Private Sub SetRequiredFields()
     On Error GoTo ErrorHandler
@@ -351,7 +351,7 @@ Private Sub SetRequiredFields()
      
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconsettings.Setup")
+    Call UI.ShowError("ControlsHandlerInfoTiles.Setup")
 End Sub
 
 
@@ -370,14 +370,14 @@ On Error GoTo ErrorHandler
     End If
     If Cancel = False Then
         ' If operator is field and visibleon is "index" Then Cancel
-        Cancel = m_ControlVisibleOn.Value = Garcon.VisibleOnIndexName And m_Controls.GetOptionKey("operator") = "field"
+        Cancel = m_ControlVisibleOn.Value = InfoTiles.VisibleOnIndexName And m_Controls.GetOptionKey("operator") = "field"
         If Cancel = True Then
             Call Lime.MessageBox("VisibleOn can't be ""index"" when operator is ""field value"".")
         End If
     End If
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconSettings.m_Controls_BeforeSave")
+    Call UI.ShowError("ControlsHandlerInfoTiles.m_Controls_BeforeSave")
 End Sub
 
 Private Sub m_ControlVisibleOn_LostFocus()
@@ -385,7 +385,7 @@ On Error GoTo ErrorHandler
     Call UpdateDatabaseNameVisibleOn
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconSettings.m_ControlVisibleOn_LostFocus")
+    Call UI.ShowError("ControlsHandlerInfoTiles.m_ControlVisibleOn_LostFocus")
 End Sub
 
 Private Sub m_ControlExplorer_LostFocus()
@@ -393,7 +393,7 @@ On Error GoTo ErrorHandler
     Call UpdateDatabaseNameExplorer
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconSettings.m_ControlExplorer_LostFocus")
+    Call UI.ShowError("ControlsHandlerInfoTiles.m_ControlExplorer_LostFocus")
 End Sub
 
 Private Sub m_ControlField_LostFocus()
@@ -401,7 +401,7 @@ On Error GoTo ErrorHandler
     Call UpdateDatabaseNameField
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconSettings.m_ControlField_LostFocus")
+    Call UI.ShowError("ControlsHandlerInfoTiles.m_ControlField_LostFocus")
 End Sub
 
 Private Sub UpdateDatabaseNameVisibleOn()
@@ -409,14 +409,14 @@ On Error GoTo ErrorHandler
     Dim oClass As LDE.Class
     Set oClass = Application.Database.Classes.Lookup(m_ControlVisibleOn.Text, lkLookupClassByLocalName)
     
-    If m_ControlVisibleOn.Text = Garcon.VisibleOnIndexLocalName Then
-        m_ControlVisibleOn.Value = Garcon.VisibleOnIndexName
+    If m_ControlVisibleOn.Text = InfoTiles.VisibleOnIndexLocalName Then
+        m_ControlVisibleOn.Value = InfoTiles.VisibleOnIndexName
     ElseIf Not oClass Is Nothing Then
         m_ControlVisibleOn.Value = oClass.Name
     End If
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconSettings.UpdateDatabaseNameVisibleOn")
+    Call UI.ShowError("ControlsHandlerInfoTiles.UpdateDatabaseNameVisibleOn")
 End Sub
 
 Private Sub UpdateDatabaseNameExplorer()
@@ -424,12 +424,12 @@ On Error GoTo ErrorHandler
     Dim oFields As Collection
     Dim sExplorerName As String
     sExplorerName = ""
-    If m_ControlVisibleOn.Text = Garcon.VisibleOnIndexName Then
+    If m_ControlVisibleOn.Text = InfoTiles.VisibleOnIndexName Then
         If Application.Explorers.Exists(m_ControlExplorer.Text) Then
             sExplorerName = Application.Explorers(m_ControlExplorer.Text).Class.Name
         End If
     ElseIf Application.Classes.Exists(m_ControlVisibleOn.Text) Then
-        Set oFields = Garcon.FindExplorerFieldsByClass(Application.Classes(m_ControlVisibleOn.Text))
+        Set oFields = InfoTiles.FindExplorerFieldsByClass(Application.Classes(m_ControlVisibleOn.Text))
         Dim i As Integer
         Dim oField As LDE.field
         For i = 1 To oFields.Count
@@ -447,7 +447,7 @@ On Error GoTo ErrorHandler
 
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconSettings.UpdateDatabaseNameExplorer")
+    Call UI.ShowError("ControlsHandlerInfoTiles.UpdateDatabaseNameExplorer")
 End Sub
 
 Private Sub UpdateDatabaseNameField()
@@ -470,7 +470,7 @@ On Error GoTo ErrorHandler
     End If
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconSettings.UpdateDatabaseNameField")
+    Call UI.ShowError("ControlsHandlerInfoTiles.UpdateDatabaseNameField")
 End Sub
 
 Private Function VerifyFilterPublished(ByRef sWarningMessage As String) As Boolean
@@ -481,7 +481,7 @@ On Error GoTo ErrorHandler
     Dim oField As LDE.field
     
     VerifyFilterPublished = True
-    If m_ControlVisibleOn.Text = Garcon.VisibleOnIndexName Then
+    If m_ControlVisibleOn.Text = InfoTiles.VisibleOnIndexName Then
         If Application.Explorers.Exists(m_ControlExplorer.Text) Then
             Set oFilter = Application.Explorers(m_ControlExplorer.Text).Filters.Lookup(m_Controls("filtername").Text, lkLookupFilterByName)
         End If
@@ -491,7 +491,7 @@ On Error GoTo ErrorHandler
             Set oField = oClass.Fields.Lookup(m_ControlExplorer.Text, lkLookupFieldByName)
             If Not oField Is Nothing Then
                If oField.Type = lkFieldTypeMultiLink Then
-                    Set oFilters = Garcon.GetInspectorExplorerFilters(m_ControlVisibleOn.Text, oField.LinkedField.Class.Name)
+                    Set oFilters = InfoTiles.GetInspectorExplorerFilters(m_ControlVisibleOn.Text, oField.LinkedField.Class.Name)
                     Set oFilter = oFilters.Lookup(m_Controls("filtername").Text, lkLookupFilterByName)
                End If
             End If
@@ -511,6 +511,6 @@ On Error GoTo ErrorHandler
     End If
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerGarconSettings.VerifyFilterPublished")
+    Call UI.ShowError("ControlsHandlerInfoTiles.VerifyFilterPublished")
 End Function
 

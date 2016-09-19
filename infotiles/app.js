@@ -1,4 +1,4 @@
-lbs.apploader.register('garcon', function () {
+lbs.apploader.register('infotiles', function () {
     var self = this;
 
     //config
@@ -22,39 +22,39 @@ lbs.apploader.register('garcon', function () {
     //initialize
     self.initialize = function (node,viewmodel) {
         var self = this;
-        var garconModel = new GarconModel(self.config);
+        var infotilesModel = new infotilesModel(self.config);
 
-        garconModel.localize = viewmodel.localize;
-		return garconModel;
+        infotilesModel.localize = viewmodel.localize;
+		return infotilesModel;
     }
 
 });
 
-function GarconModel(appConfig) {
+function infotilesModel(appConfig) {
     var me = this;
 
     me.leftText = ko.observable('');
     me.height = ko.observable();
-    me.garcon = ko.observableArray();
+    me.infotiles = ko.observableArray();
 /*
     me.refreshtype = appConfig.refresh;
     me.mstimer = ko.observable(0);
     me.continueTimer = ko.observable(true);
     me.timer = appConfig.timer;
 */    
-    me.garconVisible = ko.observable(true);
+    me.infotilesVisible = ko.observable(true);
 
-    function populateGarcon(rawGarconItems){
-        // Because the XML->JSON a garcon with one item isn't parsed as an Array
-        if ($.isArray(rawGarconItems)) {
-            me.garcon.push.apply(me.garcon,
-                rawGarconItems.map(function(rawGarconItem){
-                  return createGarconItemFromRaw(rawGarconItem)  
+    function populateInfotiles(rawInfotilesItems){
+        // Because the XML->JSON a Infotiles with one item isn't parsed as an Array
+        if ($.isArray(rawInfotilesItems)) {
+            me.infotiles.push.apply(me.infotiles,
+                rawInfotilesItems.map(function(rawInfotilesItem){
+                  return createInfotilesItemFromRaw(rawInfotilesItem)  
                 }) 
             );
         }
-        else if(rawGarconItems) {
-            me.garcon.push(createGarconItemFromRaw(rawGarconItems));
+        else if(rawInfotilesItems) {
+            me.infotiles.push(createInfotilesItemFromRaw(rawInfotilesItems));
         }
     }
 
@@ -86,14 +86,14 @@ function GarconModel(appConfig) {
 */
     me.refresh = function(){
         try {
-            var rawGarconData = getFilterData();
-            me.garcon([]);
-            populateGarcon(rawGarconData);
-            if(appConfig.showOnEmpty == false && me.garcon().length == 0) {
-                me.garconVisible(false);
+            var rawInfotilesData = getFilterData();
+            me.infotiles([]);
+            populateInfotiles(rawInfotilesData);
+            if(appConfig.showOnEmpty == false && me.infotiles().length == 0) {
+                me.infotilesVisible(false);
             }
             else {
-                me.garconVisible(true);
+                me.infotilesVisible(true);
             }
 /*
             me.continueTimer(true);
@@ -113,45 +113,45 @@ function getFilterData() {
     var data = {};    
     lbs.loader.loadDataSource(
         data,
-        {type:'xml',source: 'Garcon.FetchFiltersXML, ' + lbs.activeClass + ", " + (lbs.activeInspector && lbs.activeInspector.record.id || "-1")},
+        {type:'xml',source: 'Infotiles.FetchFiltersXML, ' + lbs.activeClass + ", " + (lbs.activeInspector && lbs.activeInspector.record.id || "-1")},
         true
     );
-    var rawGarconData;
+    var rawInfotilesData;
     if(data.xmlSource.filters != null) {
-        rawGarconData = data.xmlSource.filters.filter;
+        rawInfotilesData = data.xmlSource.filters.filter;
     }
 
-    return rawGarconData;
+    return rawInfotilesData;
 }
 
 
-function garconItem(label, color, value, icon, idgarconsettings, size) {
+function InfotilesItem(label, color, value, icon, idinfotiles, size) {
     var me = this;
 
     me.label = label || "";
     me.color = color;
     me.value = value || "";
     me.icon = icon;
-    me.idgarconsettings = idgarconsettings;
+    me.idinfotiles = idinfotiles;
     me.size = size;
     me.styling = color + " " + me.size;
     me.clicked = function() {
         try {
-            lbs.common.executeVba("Garcon.ShowFilter," + me.idgarconsettings);
+            lbs.common.executeVba("infotiles.ShowFilter," + me.idinfotiles);
         } catch(e) {
             alert(e);
         }
     }
 }
 
-function createGarconItemFromRaw(rawGarconItem){
-    return new garconItem(
-        rawGarconItem.label['#cdata'], 
-        rawGarconItem.color['#cdata'],
-        rawGarconItem.value['#cdata'],
-        rawGarconItem.icon['#cdata'], 
-        rawGarconItem.idgarconsettings['#cdata'],
-        rawGarconItem.size['#cdata'] ? rawGarconItem.size['#cdata'] : "medium"
+function createInfotilesItemFromRaw(rawInfotilesItem){
+    return new InfotilesItem(
+        rawInfotilesItem.label['#cdata'], 
+        rawInfotilesItem.color['#cdata'],
+        rawInfotilesItem.value['#cdata'],
+        rawInfotilesItem.icon['#cdata'], 
+        rawInfotilesItem.idInfotiles['#cdata'],
+        rawInfotilesItem.size['#cdata'] ? rawInfotilesItem.size['#cdata'] : "medium"
     );
 }
 

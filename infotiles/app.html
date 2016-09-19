@@ -1,5 +1,5 @@
-<div class="garcon" data-bind="visible: garconVisible">
-	<!-- ko foreach: garcon -->	
+<div class="infotiles" data-bind="visible: infotilesVisible">
+	<!-- ko foreach: infotiles -->	
 		<div class="tile" data-bind="click:clicked, attr: {class: 'tile ' + color + ' ' + size}">
 			<div class="information"   >
 				<span class="icon-left" data-bind="icon:icon"> </span>
@@ -10,7 +10,7 @@
 	<!-- /ko -->
 	<div class="container">
 		<div class="row">
-			<span class="col-md-6 pull-left h5" data-bind="text: localize.Garcon.no_data, visible:(garcon().length == 0)" />
+			<span class="col-md-6 pull-left h5" data-bind="text: localize.Infotiles.no_data, visible:(infotiles().length == 0)" />
 			<span class="col-md-6 refresh pull-right h4" data-bind="text:' ', icon:'fa-refresh', click:refresh" />
 		</div>
 	</div>
