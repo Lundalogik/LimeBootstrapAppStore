@@ -22,10 +22,9 @@ lbs.apploader.register('infotiles', function () {
     //initialize
     self.initialize = function (node,viewmodel) {
         var self = this;
-        var infotilesModel = new infotilesModel(self.config);
-
-        infotilesModel.localize = viewmodel.localize;
-		return infotilesModel;
+        var myInfotilesModel = new infotilesModel(self.config);
+        myInfotilesModel.localize = viewmodel.localize;
+		return myInfotilesModel;
     }
 
 });
@@ -105,7 +104,6 @@ function infotilesModel(appConfig) {
             alert(e);
         }
     }
-
     me.refresh();
 }
 
@@ -150,7 +148,7 @@ function createInfotilesItemFromRaw(rawInfotilesItem){
         rawInfotilesItem.color['#cdata'],
         rawInfotilesItem.value['#cdata'],
         rawInfotilesItem.icon['#cdata'], 
-        rawInfotilesItem.idInfotiles['#cdata'],
+        rawInfotilesItem.idinfotiles['#cdata'],
         rawInfotilesItem.size['#cdata'] ? rawInfotilesItem.size['#cdata'] : "medium"
     );
 }

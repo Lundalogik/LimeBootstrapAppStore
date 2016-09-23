@@ -3,7 +3,7 @@ Attribute VB_Name = "InfoTiles"
 '
 '       Change constant below to true if you have activated
 '       the "Department" option in the field "visiblefor" and thus
-'       have a department table and relation in the InfoTiles 
+'       have a department table and relation in the InfoTiles
 '       settings table. Othervise False.. ;)
 '===================== SETTINGS ============================
 Private Const bDepartmentoptionenabled As Boolean = True
@@ -338,7 +338,9 @@ On Error GoTo ErrorHandler
                 End If
                 sColor = ""
                 Dim colorOption As LDE.Option
-                Set colorOption = oRecord.Options("color").Lookup(oRecord.GetOptionKey("color"), lkLookupOptionByKey)
+                If oRecord.GetOptionKey("color") <> "" Then
+                    Set colorOption = oRecord.Options("color").Lookup(oRecord.GetOptionKey("color"), lkLookupOptionByKey)
+                End If
                 If Not colorOption Is Nothing Then
                     'sColor = FixColorToHexString(colorOption.Attribute("color"))
                     sColor = colorOption.Key
@@ -363,7 +365,12 @@ On Error GoTo ErrorHandler
 
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("InfoTiles.FetchFiltersXML")
+    Select Case Err.Number
+        Case -2146233079, -2147188732: ' Error codes to "ignore"
+        Case Else
+            Call UI.ShowError("InfoTiles.FetchFiltersXML")
+    End Select
+    
 End Function
 
 Public Sub SearchIcon()
@@ -457,7 +464,7 @@ End Function
 Public Sub Install()
 On Error GoTo ErrorHandler
     Dim sOwner As String
-    sOwner = "InfoTiles"
+    sOwner = "Infotiles"
 
     Call AddOrCheckLocalize( _
         sOwner, _
