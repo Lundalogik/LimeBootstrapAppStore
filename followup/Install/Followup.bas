@@ -834,6 +834,16 @@ Private Sub Install()
         "Reload setting data", _
         "Reload setting data" _
     )
+    Call AddOrCheckLocalize( _
+        sOwner, _
+        "open_followup", _
+        "Used for the followup app", _
+        "Open followup", _
+        "Öppna followup", _
+        "Open followup", _
+        "Open followup", _
+        "Open followup" _
+    )
     
     
 End Sub

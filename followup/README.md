@@ -94,7 +94,7 @@ In the install folder you can find 4 files.
 3.FollowupChildData.cls
 4.FollowupParentData.cls
 
-***1. Code_ for_ThisApplication***
+***1. Code for thisapplication and index ***
 
 Take the code from the file and paste it in the Setup sub in ThisApplication.
 
