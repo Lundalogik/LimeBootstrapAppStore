@@ -1,0 +1,22 @@
+<!-- ko if: dataFlows().length > 0 -->
+	<div class="container-data-flow">
+		<ul class="cbp_tmtimeline">
+			<li data-bind="foreach: dataFlows()">
+				<time class="cbp_tmtime">
+					<span data-bind="text: date"></span>
+					<span data-bind="text: time"></span>
+				</time>
+				<div class="cbp_tmicon">
+					<span class="data-flow-icon" data-bind="icon:icon, click: openDataFlowPost"> </span>
+				</div>
+				<div class="cbp_tmlabel" data-bind="click: openDataFlowPost">
+					<h2>
+						<span data-bind="text: (clickableRelation != null && (title + ' - ') || title)"></span>
+						<a data-bind="text: (clickableRelation != null && clickableRelation.text || ''), click: openClickableRelationPost"></a>
+					</h2>
+					<p data-bind="text: text"></p>
+				</div>
+			</li>
+		</ul>
+	</div>
+<!-- /ko -->
