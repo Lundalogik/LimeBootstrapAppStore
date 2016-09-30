@@ -17,13 +17,13 @@ dataHandlingLib.getNewCookieObj = function(viewModel) {
 dataHandlingLib.setCookie = function(viewModel) {
 	var dataToSave = dataHandlingLib.getNewCookieObj(viewModel);
 	viewModel.cookieObj = dataToSave;
-	if(!lbs.bakery || viewModel.securityLevel == 'admin'){
+	if(viewModel.securityLevel == 'admin') {
 		lbs.bakery.setCookie(viewModel.cookieName, JSON.stringify(dataToSave),5);
 	}
 }
 
 dataHandlingLib.getCookie = function(viewModel) {
-	if(!lbs.bakery || viewModel.securityLevel == 'user') {
+	if(viewModel.securityLevel == 'user') {
 		return dataHandlingLib.getNewCookieObj(viewModel); //Return default cookieObj
 	}
 

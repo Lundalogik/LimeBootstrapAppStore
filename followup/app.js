@@ -52,11 +52,21 @@
     //initialize
     self.initialize = function (node, viewModel) {
         var appConfig = self.config;
-
-        // Initialize the app.
-        initializeLib.initialize(viewModel, appConfig);
-
+        var neededVersion = '1.12';
+        var currentVersion = helperLib.checkversion();
+        if (helperLib.compareVersions(neededVersion, currentVersion) >= 0) {
+            // Initialize the app.
+            initializeLib.initialize(viewModel, appConfig);    
+        }
+        else {
+            var errorMessage = viewModel.localize.Followup.old_lbsVersion || 'No localize found for - Followup.old_lbsVersion';
+            errorMessage = errorMessage.replace("%1", currentVersion);
+            errorMessage = errorMessage.replace("%2", neededVersion);
+            viewModel.criticalErrorMessage = ko.observable(errorMessage);
+        }
+        
         return viewModel;
+      
     };
 
 });
