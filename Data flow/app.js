@@ -20,6 +20,7 @@ lbs.apploader.register('Data flow', function () {
         this.appConfig.tableStructure.relationFieldName =  appConfig.tableStructure.relationFieldName || 'company';
         this.appConfig.tableStructure.noteFieldName =  appConfig.tableStructure.noteFieldName || 'note';
         this.appConfig.tableStructure.clickableRelationFieldName =  appConfig.tableStructure.clickableRelationFieldName || 'person';
+        this.appConfig.filterKey =  appConfig.filterKey || '';
 
         this.appConfig.defaultIcon = appConfig.defaultIcon || 'fa-comment-o';
 
@@ -80,7 +81,7 @@ lbs.apploader.register('Data flow', function () {
         xmlParam += '<clickableRelationFieldName>' + appConfig.tableStructure.clickableRelationFieldName.toString() + '</clickableRelationFieldName>';
         xmlParam += '</xmlStructure>';
 
-        var sourceString = 'DataFlow.GetInitialData, ' + xmlParam;
+        var sourceString = 'DataFlow.GetInitialData, ' + xmlParam + ', ' + appConfig.filterKey;
 
         var initialData = lbs.loader.loadDataSources({}, [{
             type: 'xml',

@@ -1,7 +1,23 @@
 Attribute VB_Name = "DataFlow"
 Option Explicit
 
-Public Function GetInitialData(ByVal sStructureXml As String) As String
+Private Function GetFilterByKey(ByVal sFilterKey As String) As LDE.Filter
+On Error GoTo ErrorHandler
+    Dim oFilter As LDE.Filter
+    Select Case sFilterKey
+        Case "exampleKey":
+            ' Create the oFilter here. Don't forget to initialize the filter first. (Set oFilter = New LDE.Filter)
+        Case Else
+            Set oFilter = Nothing
+    End Select
+    
+    Set GetFilterByKey = oFilter
+Exit Function
+ErrorHandler:
+    Call UI.ShowError("DataFlow.GetFilterByKey")
+End Function
+
+Public Function GetInitialData(ByVal sStructureXml As String, ByVal sFilterKey As String) As String
 On Error GoTo ErrorHandler
     Dim sXml As String
     Dim sErrorMessage As String
@@ -53,7 +69,13 @@ On Error GoTo ErrorHandler
                 Call oView.Add(sNoteFieldName)
                 Call oView.Add(sClickableRelationFieldName)
                 
+                Set oFilter = GetFilterByKey(sFilterKey)
+                
                 Call oFilter.AddCondition(sRelationFieldName, lkOpEqual, oInspector.Record.ID)
+                
+                If oFilter.Count > 1 Then
+                    Call oFilter.AddOperator(lkOpAnd)
+                End If
 
                 Call oRecords.Open(oClass, oFilter, oView, lngPageSize)
                 sXml = sXml & "<dataFlows>"
