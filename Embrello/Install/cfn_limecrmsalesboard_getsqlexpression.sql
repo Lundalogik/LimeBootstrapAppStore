@@ -2,7 +2,7 @@
 -- Created: 2016-03-11
 
 -- Returns the SQL expression for the specified field.
-CREATE FUNCTION [dbo].[cfn_embrello_getsqlexpression]
+CREATE FUNCTION [dbo].[cfn_limecrmsalesboard_getsqlexpression]
 (
 	@@tablename NVARCHAR(64)
 	, @@fieldname NVARCHAR(64)
@@ -30,7 +30,7 @@ BEGIN
 	
 	IF @exp <> N''
 	BEGIN
-		-- Fix expression so that it works in the Embrello query
+		-- Fix expression so that it works in the Lime CRM Sales Board query
 		SET @exp = REPLACE(@exp, N'[' + @@tablename + N'].', N'[' + @@tablealias + N'].')
 		
 		-- Replace @iduser if that tricky old thing has been used in the SQL expression

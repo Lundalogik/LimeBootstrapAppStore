@@ -1,31 +1,31 @@
-Attribute VB_Name = "app_Embrello"
+Attribute VB_Name = "App_LimeCRMSalesBoard"
 Option Explicit
 
 ' Is set in sub setMaxNbrOfRecords.
 Private m_maxNbrOfRecords As Long
 
-' ##SUMMARY Opens Embrello in a pane
-Public Sub openEmbrello()
+' ##SUMMARY Opens Lime CRM Sales Board in a pane
+Public Sub openLimeCRMSalesBoard()
     On Error GoTo ErrorHandler
     
     Dim url As String
     Dim p As Lime.Pane
     
-    url = Application.WebFolder & "lbs.html?ap=apps/Embrello/embrello&type=inline"
-    If Application.Panes.Exists("Embrello") Then
-        Set p = Application.Panes("Embrello")
+    url = Application.WebFolder & "lbs.html?ap=apps/LimeCRMSalesBoard/LimeCRMSalesBoard&type=inline"
+    If Application.Panes.Exists("Lime CRM Sales Board") Then
+        Set p = Application.Panes("Lime CRM Sales Board")
     End If
     If Not p Is Nothing Then
         p.url = url
     Else
-        Set p = Application.Panes.Add("Embrello", , url, lkPaneStyleNoToolBar + lkPaneStylePersistentURL + lkPaneStyleRestrictedBrowsing)
+        Set p = Application.Panes.Add("Lime CRM Sales Board", , url, lkPaneStyleNoToolBar + lkPaneStylePersistentURL + lkPaneStyleRestrictedBrowsing)
     End If
     Set Application.Panes.ActivePane = p
     Application.Panes.Visible = True
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("App_Embrello.openEmbrello")
+    Call UI.ShowError("App_LimeCRMSalesBoard.openLimeCRMSalesBoard")
 End Sub
 
 
@@ -39,7 +39,7 @@ Public Function getBoardXML(boardConfigXML As String) As String
     
     ' Call procedure to get board data
     Dim oProc As LDE.Procedure
-    Set oProc = Database.Procedures("csp_embrello_getboard")
+    Set oProc = Database.Procedures("csp_limecrmsalesboard_getboard")
     oProc.Parameters("@@tablename").InputValue = ActiveExplorer.Class.Name
 
     Call addSQLParameterFromXML(oProc, "@@lanefieldname", oXmlDoc, "/board/lanes/optionField")
@@ -67,7 +67,7 @@ Public Function getBoardXML(boardConfigXML As String) As String
     'Debug.Print oProc.result
     getBoardXML = oProc.result
 
-'Dim strFilename As String: strFilename = "D:\temp\embrelloexamplexml.txt"
+'Dim strFilename As String: strFilename = "D:\temp\LimeCRMSalesBoardExamplexml.txt"
 'Dim strFileContent As String
 'Dim iFile As Integer: iFile = FreeFile
 'Open strFilename For Input As #iFile
@@ -78,7 +78,7 @@ Public Function getBoardXML(boardConfigXML As String) As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_Embrello.getBoardXML")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getBoardXML")
 End Function
 
 
@@ -96,7 +96,7 @@ Private Sub addSQLParameterFromXML(ByRef oProc As LDE.Procedure, parameterName A
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("App_Embrello.addSQLParameterFromXML")
+    Call UI.ShowError("App_LimeCRMSalesBoard.addSQLParameterFromXML")
 End Sub
 
 ' ##SUMMARY Returns the name of the active explorer.
@@ -111,7 +111,7 @@ Public Function getActiveTable() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_Embrello.getActiveTable")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveTable")
 End Function
 
 
@@ -127,7 +127,7 @@ Public Function getActiveTableLocalNameSingular() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_Embrello.getActiveTableLocalNameSingular")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveTableLocalNameSingular")
 End Function
 
 
@@ -143,7 +143,7 @@ Public Function getActiveTableLocalNamePlural() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_Embrello.getActiveTableLocalNamePlural")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveTableLocalNamePlural")
 End Function
 
 
@@ -180,7 +180,7 @@ Public Function getActiveBoardName() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_Embrello.getActiveBoardName")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveBoardName")
 End Function
 
 ' ##SUMMARY Builds and returns string containing ids for all items in the active explorer.
@@ -206,11 +206,11 @@ Private Function getIdsAsString() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_Embrello.getIdsAsString")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getIdsAsString")
 End Function
 
 
-' ##SUMMARY Called from Embrello to find out which language the client is using
+' ##SUMMARY Called from Lime CRM Sales Board to find out which language the client is using
 Public Function getLocale() As String
     On Error GoTo ErrorHandler
 'getLocale = "en-us"
@@ -223,11 +223,11 @@ Public Function getLocale() As String
 
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_Embrello.getLocale")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getLocale")
 End Function
 
 
-' ##SUMMARY Called from Embrello to set the config value of the maximum number of records that should be fetched from the database.
+' ##SUMMARY Called from Lime CRM Sales Board to set the config value of the maximum number of records that should be fetched from the database.
 Public Sub setMaxNbrOfRecords(val As Long)
     On Error GoTo ErrorHandler
     
@@ -235,11 +235,11 @@ Public Sub setMaxNbrOfRecords(val As Long)
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("App_Embrello.setMaxNbrOfRecords")
+    Call UI.ShowError("App_LimeCRMSalesBoard.setMaxNbrOfRecords")
 End Sub
 
 
-' ##SUMMARY Called from Embrello. Returns true if either a fast filter or column filters are applied on the current Explorer list.
+' ##SUMMARY Called from Lime CRM Sales Board. Returns true if either a fast filter or column filters are applied on the current Explorer list.
 Public Function getListFiltered() As Boolean
     On Error GoTo ErrorHandler
 
@@ -267,7 +267,6 @@ Public Function getListFiltered() As Boolean
     Exit Function
 ErrorHandler:
     getListFiltered = False
-    Call UI.ShowError("App_Embrello.getListFiltered")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getListFiltered")
 End Function
-
 

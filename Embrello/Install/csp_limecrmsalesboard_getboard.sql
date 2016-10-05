@@ -7,7 +7,7 @@ GO
 -- Created: 2015-11-05
 
 -- Returns xml with information needed to draw a board.
-CREATE PROCEDURE [dbo].[csp_embrello_getboard]
+CREATE PROCEDURE [dbo].[csp_limecrmsalesboard_getboard]
 	@@tablename NVARCHAR(64)
 	, @@lanefieldname NVARCHAR(64)
 	, @@titlefieldname NVARCHAR(64)
@@ -121,7 +121,7 @@ BEGIN
 	IF @@completionfieldname <> N''
 	BEGIN
 		-- Check if SQL expression on field
-		SET @sqlexpression = [dbo].[cfn_embrello_getsqlexpression](@@tablename, @@completionfieldname, N'A1', @@iduser)
+		SET @sqlexpression = [dbo].[cfn_limecrmsalesboard_getsqlexpression](@@tablename, @@completionfieldname, N'A1', @@iduser)
 		IF @sqlexpression <> N''
 		BEGIN
 			SET @sql = @sql + N'		, CONVERT(NVARCHAR(32), ISNULL(' + @sqlexpression + N', 0)) AS [Cards!2!value]' + CHAR(10)
@@ -135,7 +135,7 @@ BEGIN
 	IF @@sumfieldname <> N''
 	BEGIN
 		-- Check if SQL expression on field
-		SET @sqlexpression = [dbo].[cfn_embrello_getsqlexpression](@@tablename, @@sumfieldname, N'A1', @@iduser)
+		SET @sqlexpression = [dbo].[cfn_limecrmsalesboard_getsqlexpression](@@tablename, @@sumfieldname, N'A1', @@iduser)
 		IF @sqlexpression <> N''
 		BEGIN
 			SET @sql = @sql + N'		, ISNULL(' + @sqlexpression + N', 0) AS [Cards!2!value]' + CHAR(10)
@@ -149,7 +149,7 @@ BEGIN
 	IF @@valuefieldname <> N''
 	BEGIN
 		-- Check if SQL expression on field
-		SET @sqlexpression = [dbo].[cfn_embrello_getsqlexpression](@@tablename, @@valuefieldname, N'A1', @@iduser)
+		SET @sqlexpression = [dbo].[cfn_limecrmsalesboard_getsqlexpression](@@tablename, @@valuefieldname, N'A1', @@iduser)
 		IF @sqlexpression <> N''
 		BEGIN
 			SET @sql = @sql + N'		, ISNULL(' + @sqlexpression + N', 0) AS [Cards!2!value]' + CHAR(10)
