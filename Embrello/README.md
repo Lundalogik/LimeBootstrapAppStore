@@ -35,6 +35,7 @@ An inactive option in the selected option field will not be rendered as a lane i
 You need to do the following to add Embrello to your database.
 
 * Add the SQL table valued function `cfn_gettablefromstring` using the script in the file `cfn_gettablefromstring.sql` under the Install subfolder.
+* Add the SQL scalar valued function `cfn_embrello_getsqlexpression` using the script in the file `cfn_embrello_getsqlexpression.sql` under the Install subfolder.
 * Add the SQL procedure `csp_embrello_getboard` using the script in the file `csp_embrello_getboard.sql` under the Install subfolder.
 * Add the localization records needed by running the script in the file `createLocalizeRecords.sql` under the Install folder. *Beware*: If you do not have all the language columns that exist in the LIME Pro Core Database you have to remove the ones you do not have from the SQL script before running it. Otherwise it will fail.
 * If you are running LIME Pro 10.12 or later, please restart the LDC manually (right-click on it and click "Shut down").
