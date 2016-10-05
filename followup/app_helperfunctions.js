@@ -125,3 +125,49 @@ helperLib.getNrOfMarked = function(viewModel) {
 		targets: markedTargets.length
 	}
 }
+
+
+helperLib.checkversion = function() {
+	var localVersionData = $.parseJSON(lbs.loader.loadLocalFileToString("system/version.json"));
+    var sortedVersions = localVersionData.versions.sort(function(ls, rs) {
+    	return helperLib.compareVersions(ls.version.toString(), rs.version.toString());
+    });
+
+    return sortedVersions[0].version;
+	
+}
+
+helperLib.compareVersions = function(ls, rs) {
+	var rsSplitted = rs.toString().split('.');
+	var lsSplitted = ls.toString().split('.');
+	var returnValue = null;
+
+	for (var i = 0; i < Math.min(rsSplitted.length, lsSplitted.length); i++) {
+		var rsCurrent = parseInt(rsSplitted[i]);
+		var lsCurrent = parseInt(lsSplitted[i]);
+
+		if (rsCurrent > lsCurrent) {
+			returnValue = 1; // ls is a higher version number
+			break;
+		}
+		else if (rsCurrent < lsCurrent) {
+			returnValue = -1; // rs is a higher version number
+			break;
+		}
+		else {
+			// Continute to next version part
+		}
+	};
+
+	if (returnValue == null && rsSplitted.length < lsSplitted.length) {
+		returnValue = -1; // rs is a higher version number
+	}
+	else if (returnValue == null && rsSplitted.length > lsSplitted.length) {
+		returnValue = 1; // ls is a higher version number
+	}
+	else if (returnValue == null) {
+		returnValue = 0; // The same versions
+	}
+
+	return returnValue;
+}
