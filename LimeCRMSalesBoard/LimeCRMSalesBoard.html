@@ -1,9 +1,9 @@
-<div data-app="{app:'Embrello', config: {
-		maxNbrOfRecords: 10,
+<div data-app="{app:'LimeCRMSalesBoard', config: {
+		maxNbrOfRecords: 1000,
 		boards: [ {
-			table: 'business',
+			table: 'deal',
 			lanes: {
-				optionField: 'businesstatus',
+				optionField: 'dealstatus',
 				defaultValues: {
 					laneColor: 'clean-green',
 					icon: 'completion',
@@ -41,13 +41,13 @@
 				]
 			},
 			summation: {
-				field: 'businessvalue',
+				field: 'value',
 				unit: 'SEK'
 			},
 			card: {
 				titleField: 'name',
 				value: {
-					field: 'businessvalue',
+					field: 'value',
 					unit: 'SEK'
 				},
 				percentField: 'probability',

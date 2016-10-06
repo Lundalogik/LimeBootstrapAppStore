@@ -1,4 +1,4 @@
-var embrelloColors = function() {
+var limeCRMSalesBoardColors = function() {
 	var self = this;
 	self.colors = [
 		{
