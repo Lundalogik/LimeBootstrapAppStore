@@ -31,6 +31,7 @@ On Error GoTo ErrorHandler
     Dim oInspector As Lime.Inspector
     
     Dim lngPageSize As Long
+    Dim eSortOrder As LDE.SortOrderEnum
     Dim sTableName As String
     Dim sTitleFieldName As String
     Dim sTypeFieldName As String
@@ -42,6 +43,12 @@ On Error GoTo ErrorHandler
     Dim oXml As New MSXML2.DOMDocument60
     
     If oXml.loadXML(sStructureXml) Then
+        If VBA.LCase(oXml.firstChild.selectSingleNode("pageSize").Text) = "ascending" Then
+            eSortOrder = lkSortAscending
+        Else
+            eSortOrder = lkSortDescending
+        End If
+        
         lngPageSize = VBA.CLng(oXml.firstChild.selectSingleNode("pageSize").Text)
         sTableName = oXml.firstChild.selectSingleNode("tableName").Text
         sTitleFieldName = oXml.firstChild.selectSingleNode("titleFieldName").Text
@@ -64,7 +71,7 @@ On Error GoTo ErrorHandler
             If Globals.VerifyInspector(sRelatedClass, oInspector, True) Then
                 Call oView.Add(sTitleFieldName)
                 Call oView.Add(sTypeFieldName)
-                Call oView.Add(sDateFieldName, lkSortDescending)
+                Call oView.Add(sDateFieldName, eSortOrder)
                 Call oView.Add(sRelationFieldName)
                 Call oView.Add(sNoteFieldName)
                 Call oView.Add(sClickableRelationFieldName)

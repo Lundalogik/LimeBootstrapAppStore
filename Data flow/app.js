@@ -21,6 +21,7 @@ lbs.apploader.register('Data flow', function () {
         this.appConfig.tableStructure.noteFieldName =  appConfig.tableStructure.noteFieldName || 'note';
         this.appConfig.tableStructure.clickableRelationFieldName =  appConfig.tableStructure.clickableRelationFieldName || 'person';
         this.appConfig.filterKey =  appConfig.filterKey || '';
+        this.appConfig.dateSortOrder = appConfig.dateSortOrder || 'descending';
 
         this.appConfig.defaultIcon = appConfig.defaultIcon || 'fa-comment-o';
 
@@ -71,6 +72,7 @@ lbs.apploader.register('Data flow', function () {
         viewModel.dataFlows = ko.observableArray();
 
         var xmlParam = '<xmlStructure>';
+        xmlParam += '<dateSortOrder>' + appConfig.dateSortOrder.toString() + '</dateSortOrder>';
         xmlParam += '<pageSize>' + appConfig.tableStructure.pageSize.toString() + '</pageSize>';
         xmlParam += '<tableName>' + appConfig.tableStructure.tableName.toString() + '</tableName>';
         xmlParam += '<titleFieldName>' + appConfig.tableStructure.titleFieldName.toString() + '</titleFieldName>';
