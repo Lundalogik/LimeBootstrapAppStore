@@ -27,11 +27,13 @@ In the Target table each coworker gets a goal per activity and month. Only cowor
 It shows all strings in local language.
 
 ###How to set it up
+Users need to have acceess to the target table.
+
 Copy the followup folder and place it in the apps folder under the actionpad folder.
 
 ***followup.html***
 
-In the followup.html file you add a div tag for each activity type you want to see, like this.
+Open the followup.html file (in the rootfolder of the app) and configure it as you want, it nows contain an example
 ```html
 <div data-app="{
     app:'followup', 
@@ -89,7 +91,7 @@ See followup.html for example.
 
 In the install folder you can find 4 files.
 
-1. Code_ for_ThisApplication
+1. Code_ for_ThisApplication and index
 2. Followup.bas
 3.FollowupChildData.cls
 4.FollowupParentData.cls
