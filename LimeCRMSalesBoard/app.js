@@ -1,4 +1,4 @@
-lbs.apploader.register('Embrello', function () {
+lbs.apploader.register('LimeCRMSalesBoard', function () {
     var self = this;
 
     /*Config (version 2.0)
@@ -12,7 +12,7 @@ lbs.apploader.register('Embrello', function () {
             this.dataSources = [];
             this.resources = {
                 scripts: ['script/numeraljs/numeral.min.js',
-                    'script/embrello.colors.js'
+                    'script/limecrmsalesboard.colors.js'
                 ], // <= External libs for your apps. Must be a file
                 styles: ['app.css'], // <= Load styling for the app.
                 libs: ['json2xml.js'] // <= Already included libs, put not loaded per default. Example json2xml.js
@@ -32,24 +32,24 @@ lbs.apploader.register('Embrello', function () {
     self.initialize = function (node, viewModel) {
 
         // Get colors object
-        self.embrelloColors = new embrelloColors();
+        self.limeCRMSalesBoardColors = new limeCRMSalesBoardColors();
 
         // Get current LIME Pro client language
-        self.lang = lbs.common.executeVba('App_Embrello.getLocale');
+        self.lang = lbs.common.executeVba('App_LimeCRMSalesBoard.getLocale');
 
         // Set the data retrieval method
         lbs.common.executeVba('App_Embrello.setDataSource,' + self.config.dataSource);
         
         // Set the maximum number of records in VBA
-        lbs.common.executeVba('App_Embrello.setMaxNbrOfRecords,' + self.config.maxNbrOfRecords);
+        lbs.common.executeVba('App_LimeCRMSalesBoard.setMaxNbrOfRecords,' + self.config.maxNbrOfRecords)
         
         // Set up board variable to be filled later if table is activated.
         self.b = {};
         self.b.lanes = ko.observableArray();
         
         // Set up refresh buttons
-        var refreshButtons = $('.embrello-refresh');
-        refreshButtons.append(viewModel.localize.App_Embrello.btnRefresh);
+        var refreshButtons = $('.limecrmsalesboard-refresh');
+        refreshButtons.append(viewModel.localize.App_LimeCRMSalesBoard.btnRefresh);
 
         refreshButtons.hover(function() {
                 $(this).children('i').addClass('fa-spin');
@@ -66,7 +66,7 @@ lbs.apploader.register('Embrello', function () {
         /* Sets dynamic css property to use the current window size as board height (otherwise no scrollbar will appear). */
         resizeBoardHeight = function() {
             var bodyHeight = parseInt($('body').css('height').replace(/\D+/g, ''));     // replace all non-digits with nothing
-            $('.embrello-board').css('height', bodyHeight - 20);
+            $('.limecrmsalesboard-board').css('height', bodyHeight - 20);
         }
 
         // Make sure that the board is resized whenever the window size is changed.
@@ -79,14 +79,14 @@ lbs.apploader.register('Embrello', function () {
                 var options = ko.unwrap(valueAccessor());
                 var degree = options.value;
 
-                $(element).children('.embrello-donut-slice').children('.embrello-donut-inner').css({
+                $(element).children('.limecrmsalesboard-donut-slice').children('.limecrmsalesboard-donut-inner').css({
                     '-webkit-transform': 'rotate(' + degree + 'deg)',
                     '-moz-transform': 'rotate(' + degree + 'deg)',
                     '-o-transform': 'rotate(' + degree + 'deg)',
                     'transform': 'rotate(' + degree + 'deg)',
                 });
 
-                $(element).children('.embrello-donut-endmarker').css({
+                $(element).children('.limecrmsalesboard-donut-endmarker').css({
                     '-webkit-transform': 'rotate(' + degree + 'deg)',
                     '-moz-transform': 'rotate(' + degree + 'deg)',
                     '-o-transform': 'rotate(' + degree + 'deg)',
@@ -94,13 +94,13 @@ lbs.apploader.register('Embrello', function () {
                 });
 
                 if (degree > 180) {
-                    $(element).children('.embrello-donut-slice').css({
+                    $(element).children('.limecrmsalesboard-donut-slice').css({
                         'clip': 'rect(0px, 15px, 30px, 0px)'
-                    }).addClass('embrello-color-lessimportant-background');
+                    }).addClass('limecrmsalesboard-color-lessimportant-background');
 
-                    $(element).children('.embrello-donut-master')
-                        .removeClass('embrello-color-lessimportant-background')
-                        .addClass('embrello-color-positive-background');
+                    $(element).children('.limecrmsalesboard-donut-master')
+                        .removeClass('limecrmsalesboard-color-lessimportant-background')
+                        .addClass('limecrmsalesboard-color-positive-background');
                 }
             }
         };
@@ -149,33 +149,33 @@ lbs.apploader.register('Embrello', function () {
             self.b.sumUnit = '';
 
             // Get config for active table
-            self.activeTable = lbs.common.executeVba('App_Embrello.getActiveTable');
+            self.activeTable = lbs.common.executeVba('App_LimeCRMSalesBoard.getActiveTable');
             var boardConfig = $.grep(self.config.boards, function(obj, i) {
                 return obj.table === self.activeTable;
             });
 
             // Check if valid active table
             if (boardConfig.length !== 1) {
-                $('.embrello-board').hide();
-                $('.embrello-notactivated-container').show();
+                $('.limecrmsalesboard-board').hide();
+                $('.limecrmsalesboard-notactivated-container').show();
                 return self.b;
             }
             else {
-                $('.embrello-notactivated-container').hide();
-                $('.embrello-board').show();
+                $('.limecrmsalesboard-notactivated-container').hide();
+                $('.limecrmsalesboard-board').show();
             }
 
             // Check if filter is applied
-            self.b.filterApplied = lbs.common.executeVba('App_Embrello.getListFiltered');
+            self.b.filterApplied = lbs.common.executeVba('App_LimeCRMSalesBoard.getListFiltered');
 
             // Get JSON data and fill board variable
             var data = {};
             var boardForVBA = { board: boardConfig[0] };
-            var vbaCommand = 'App_Embrello.getBoardXML, ' + json2xml(boardForVBA);
+            var vbaCommand = 'App_LimeCRMSalesBoard.getBoardXML, ' + json2xml(boardForVBA);
             lbs.loader.loadDataSource(data, { type: 'xml', source: vbaCommand, alias: 'board' }, false);
-            self.b.name = lbs.common.executeVba('App_Embrello.getActiveBoardName') + ', ' + viewModel.localize.App_Embrello.boardtitleSumLabel + ':';
-            self.b.localNameSingular = lbs.common.executeVba('App_Embrello.getActiveTableLocalNameSingular');
-            self.b.localNamePlural = lbs.common.executeVba('App_Embrello.getActiveTableLocalNamePlural');
+            self.b.name = lbs.common.executeVba('App_LimeCRMSalesBoard.getActiveBoardName') + ', ' + viewModel.localize.App_LimeCRMSalesBoard.boardtitleSumLabel + ':';
+            self.b.localNameSingular = lbs.common.executeVba('App_LimeCRMSalesBoard.getActiveTableLocalNameSingular');
+            self.b.localNamePlural = lbs.common.executeVba('App_LimeCRMSalesBoard.getActiveTableLocalNamePlural');
             self.b.sumUnit = boardConfig[0].summation.unit;
             self.b.cardValueUnit = boardConfig[0].card.value.unit;
             
@@ -235,7 +235,7 @@ lbs.apploader.register('Embrello', function () {
                 // Add lane to board object.
                 self.b.lanes.push({ name: laneObj.name,
                         color: laneSettings.color,
-                        colorHex: self.embrelloColors.getColorHex(laneSettings.color),
+                        colorHex: self.limeCRMSalesBoardColors.getColorHex(laneSettings.color),
                         cards: cardsArray,
                         sum: numericStringMakePretty(laneSum.toString()),
                         positiveSummation: laneSettings.positiveSummation,
@@ -255,10 +255,10 @@ lbs.apploader.register('Embrello', function () {
             self.b.sumNegative = numericStringMakePretty(boardSumNegative.toString());
 
             // Set dynamic css property to make room for all lanes in width.
-            var laneWidth = parseInt($('.embrello-lane-container').css('width').replace(/\D+/g, ''));     // replace all non-digits with nothing
-            var laneMargins =  parseInt($('.embrello-lane-container').css('margin-left').replace(/\D+/g, ''))
-                                + parseInt($('.embrello-lane-container').css('margin-right').replace(/\D+/g, ''));     // replace all non-digits with nothing
-            $('.embrello-lanes-container').css('width', self.b.lanes().length * (laneWidth + laneMargins));
+            var laneWidth = parseInt($('.limecrmsalesboard-lane-container').css('width').replace(/\D+/g, ''));     // replace all non-digits with nothing
+            var laneMargins =  parseInt($('.limecrmsalesboard-lane-container').css('margin-left').replace(/\D+/g, ''))
+                                + parseInt($('.limecrmsalesboard-lane-container').css('margin-right').replace(/\D+/g, ''));     // replace all non-digits with nothing
+            $('.limecrmsalesboard-lanes-container').css('width', self.b.lanes().length * (laneWidth + laneMargins));
             
             resizeBoardHeight();
 
@@ -333,7 +333,7 @@ lbs.apploader.register('Embrello', function () {
             if (individualLaneSettings.length === 1) {
 
                 // Check if selected color is a valid color, otherwise use default color.
-                if ($.grep(self.embrelloColors.colors, function(obj) {
+                if ($.grep(self.limeCRMSalesBoardColors.colors, function(obj) {
                         return obj.name === individualLaneSettings[0].color;
                     })[0] === undefined) {
                     

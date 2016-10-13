@@ -1,0 +1,67 @@
+.list-group-item.disabled {
+	cursor: default !important;
+}
+.list-group-item.shown{
+	background-color: rgba(105, 133, 183, 0.4) ;
+}
+
+.list-group-item{
+	min-height: 35px;
+
+}
+
+.list-group-item span{
+	height: 20px;
+	line-height: 14px;
+	font-size: 14px;
+	margin-right: 0px;
+}
+
+.list-group{
+	padding-right: 0px;
+}
+
+.list-group-item.shown{
+	background-color: rgba(105, 133, 183, 0.4) ;
+}
+
+.list-group-item.shown:hover{
+	background-color: rgba(105, 133, 183, 0.25)
+}
+
+body{
+	background-color: #FFF;
+	color: #454545;
+	overflow-y: auto;
+}
+
+
+
+.nav > li > a{
+	color: #454545;
+}
+
+.nav > li.active >a {
+	font-weight: bold;
+}
+
+.col-margined{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.package-container{
+	background-color: #FFF;
+	margin-top: 10vh;
+}
+
+.navbar-btn.pull-right{
+	margin-right: 20px;
+} 
+
+.hideOverflow
+{
+    overflow:hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

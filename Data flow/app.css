@@ -1,0 +1,21 @@
+.container-data-flow{
+	max-height: 400px;	
+	overflow-y: scroll;
+	padding: 20px;
+}
+.cbp_tmtimeline{
+	font-size: 10px;
+}
+.cbp_tmicon{
+	cursor: pointer;
+	text-align: center;
+	line-height: 20px;
+}
+.data-flow-icon{
+	margin-left: 5px;
+	font-size: 20px;
+}
+.cbp_tmlabel{	
+	cursor: pointer;
+	white-space: normal;
+}

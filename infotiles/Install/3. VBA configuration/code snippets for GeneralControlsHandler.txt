@@ -1,0 +1,33 @@
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' TO INSERT AT THE TOP!
+'' In the same way as for example m_ControlsHandlerCompany is:
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ 
+	Private m_ControlsHandlerInfoTiles As ControlsHandlerInfoTiles
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Look after the Sub m_Application_AfterActiveControlsChanged
+'' Look after the Case-statement that looks like the on under here and insert the rows marked "!! INSERT THIS ROW" (Below)
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Private Sub m_Application_AfterActiveControlsChanged()
+    On Error GoTo ErrorHandler
+    
+    If Not m_Application.ActiveControls Is Nothing Then
+        Select Case m_Application.ActiveControls.Class.Name
+'            Case "template":
+'                Set m_ControlsHandlerTemplate = New ControlsHandlerTemplate
+
+'''...........THERE IS PROBABLY A LOT HERE IN YOUR SOLUTION....
+
+			Case "infotiles"																	'!! INSERT THIS ROW
+                Set m_ControlsHandlerInfoTiles = New ControlsHandlerInfoTiles				'!! INSERT THIS ROW
+				
+				
+				
+				
+				

@@ -1,13 +1,17 @@
 {
 	"name": "followup",
-	"author":"AOL",
+	"author":"AOL, TLN",
 	"status":"Release",
 	"shortDesc":"Allows you to track your montly activity goals.", 
-	"license":true,
 	"versions":[
 		{
-			"version":"0.1",
-			"date":"2015-04-27",
+			"version":"1.1",
+			"date":"2016-09-30",
+			"comments":"Added version handling, only lbs version over 1.9"
+		},
+		{
+			"version":"1.0",
+			"date":"2016-09-08",
 			"comments":"Creation"
 		}
 	],

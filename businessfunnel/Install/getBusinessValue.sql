@@ -1,10 +1,8 @@
 USE [limedemo_v2]
 GO
-
-/****** Object:  StoredProcedure [dbo].[csp_getBusinessValue]    Script Date: 11/23/2013 14:44:30 ******/
+/****** Object:  StoredProcedure [dbo].[csp_getBusinessValue]    Script Date: 2016-08-31 10:32:42 ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
@@ -14,7 +12,7 @@ GO
 -- Create date: <2013-10-16>
 -- Description:	<Used to return busniessvaluesw>
 -- =============================================
-CREATE PROCEDURE [dbo].[csp_getBusinessValue]
+ALTER PROCEDURE [dbo].[csp_getBusinessValue]
 		@@lang nvarchar(5),
 		@@idcoworker INT
 AS
@@ -28,21 +26,21 @@ BEGIN
 		SET @lang = N'en_us'
 		
 	SELECT   
-		(Select s.stringorder as stringorder ,s.[key] as [key] , dbo.lfn_getstring2(b.businesstatus,@lang) as [businesstatus], CAST(sum(businessvalue) as bigint) as [businessvalue] 
-		from [business] b 
-		inner join string s on s.idstring=b.businesstatus 
+		(Select s.stringorder as stringorder ,s.[key] as [key] , dbo.lfn_getstring2(b.dealstatus,@lang) as [dealstatus], CAST(sum(value) as bigint) as [value] 
+		from [deal] b 
+		inner join string s on s.idstring=b.dealstatus 
 		WHERE b.[status]=0
-		group by [businesstatus], s.[stringorder], s.[key] 
+		group by [dealstatus], s.[stringorder], s.[key] 
 		order by s.[stringorder] asc 
 		FOR XML RAW ('value'), TYPE, ROOT ('all')
     ),
            
     (
-		Select  s.stringorder as [stringorder],s.[key] as [key], dbo.lfn_getstring2(b.businesstatus,@lang) as [businesstatus], CAST(sum(businessvalue) as bigint) as [businessvalue] 
-		from [business] b
-		inner join string s on s.idstring=b.businesstatus 
+		Select  s.stringorder as [stringorder],s.[key] as [key], dbo.lfn_getstring2(b.dealstatus,@lang) as [dealstatus], CAST(sum(value) as bigint) as [value] 
+		from [deal] b
+		inner join string s on s.idstring=b.dealstatus 
 		where b.coworker =@@idcoworker and b.[status]=0
-		group by [businesstatus], s.[stringorder], s.[key] 
+		group by [dealstatus], s.[stringorder], s.[key] 
 		order by s.[stringorder] asc 
 		FOR XML RAW ('value'), TYPE, ROOT ('coworker')
     )
@@ -50,5 +48,3 @@ BEGIN
 	
 	
 END
-GO
-

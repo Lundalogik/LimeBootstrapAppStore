@@ -1,0 +1,16 @@
+{
+	"name": "Data flow",
+	"author":"Tommy",
+	"status":"Release",
+	"shortDesc" : "This fantastic app allows you to view your latest data.",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2016-09-29",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}

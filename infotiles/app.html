@@ -1,0 +1,17 @@
+<div class="infotiles" data-bind="visible: infotilesVisible">
+	<!-- ko foreach: infotiles -->	
+		<div class="tile" data-bind="click:clicked, attr: {class: 'tile ' + color + ' ' + size}">
+			<div class="information"   >
+				<span class="icon-left" data-bind="icon:icon"> </span>
+				<span class="value" data-bind="text:value"></span>
+				<span class="name" data-bind="text:label"></span>
+			</div>
+		</div>
+	<!-- /ko -->
+	<div class="container">
+		<div class="row">
+			<span class="col-md-6 pull-left h5" data-bind="text: localize.Infotiles.no_data, visible:(infotiles().length == 0)" />
+			<span class="col-md-6 refresh pull-right h4" data-bind="text:' ', icon:'fa-refresh', click:refresh" />
+		</div>
+	</div>
+</div>

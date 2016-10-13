@@ -1,8 +1,8 @@
 {
-	"name": "Embrello",
+	"name": "LimeCRMSalesBoard",
 	"author":"Fredrik Eriksson, Lundalogik AB",
 	"license": true,
-	"description": "Embrello provides a kanban type of overview of the LIME Pro records in your current list.",
+	"description": "Lime CRM Sales Board provides a kanban type of overview of the Lime CRM records in your current list.",
 	"status":"Beta",
 	"versions":[
 		{
@@ -39,6 +39,11 @@
 			"version":"1.2.2",
 			"date":"2016-06-10",
 			"comments":"Added features: Support for date fields as additional info."
+		},
+		{
+			"version":"1.3.0",
+			"date":"2016-10-05",
+			"comments":"Changed name of app to LimeCRMSalesBoard."
 		}
 	],
 	"install":{

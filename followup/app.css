@@ -1,85 +1,194 @@
-#app {
-    display: inline-block;  
-}
-.followup{
-  padding-right: 15px;
-  width:100%;
-  min-width:200px;
+ /*START: Common Css */
+.followup {
+  margin: 10px;
+  margin-left: -5px;
+  height: 100%;
 }
 
-.tile{  
-  position: relative;
-  height: 70px;  
-  color: #FFF;
-  border-radius: 0px;
+.followup .divider {
+  height: 2px;
+  background-color: white;
 }
 
-.tile .name{  
-  font-size: 14px;
+.followup .floatStopper {
+  clear:both;
+}
+
+#showPreferences-button, #datepicker-form-group, #refresh-button {
+  margin: 5px;
+  float:left;
+}
+
+#refresh-button {
   text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  color: #FFF;
-
 }
 
-.tile .time{
-  color: #777;
-  font-size: 10px;
-  right: 0px
+.followup .top-container  {
 }
 
-.tile .value{
-  color: #FFF;
-  font-size: 20px;
-  text-align: center; 
-  padding-top: 16px;  
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  margin: 0 20px 0 20px;
+.followup .top-container #datepicker-form-group {
+  width: 250px;
+}
+
+
+.followup .bootstrap-datetimepicker-widget th, .followup .bootstrap-datetimepicker-widget td {
+    font-size: 16px;
+}
+
+.followup .hand-over {
+  cursor: pointer;
+}
+
+/* END: Common Css */
+
+
+/* START: Target panel */
+
+.followup #target-container-wrapper {
+  overflow-y: auto;
+  height: calc(100vh - 50px);
+}
+
+.followup #target-container-wrapper .target-container {
+  float:left;
+}
+
+.followup #target-container-wrapper .target-container .panel {
+  margin-left: 5px;
+  margin-bottom: 5px;
+  min-width: 200px;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+}
+
+
+.followup #target-container-wrapper .target-container .panel .list-group {
+  background: rgba(255, 0, 0, 0);
+  height: 270px;
+  overflow-y: auto;
+  box-shadow: none;
+  border: none;
+  overflow-x: hidden;
+}
+
+.followup #target-container-wrapper .target-container .panel .small-height {
+  height: 85px;
+}
+
+.followup #target-container-wrapper .target-container .panel .medium-height {
+  height: 175px;
+}
+
+.followup #target-container-wrapper .target-container .panel .large-height {
+  height: 350px;
+}
+
+.followup #target-container-wrapper .target-container .panel .list-group li {
+  margin-right: 10px;
+  width: 100%;
+}
+
+.followup #target-container-wrapper .target-container .panel .list-group .list-group-item {
   
 }
 
-.tile .refresh{
-  position: absolute;
-  right: 0px;
-  bottom: 3px;
-  cursor: pointer;
+.followup #target-container-wrapper .target-container .panel .list-group .list-group-item .progress {
+  margin: 0px;
 }
 
-.tile .refresh a{
-  color: rgba(0,0,0,0.4);
+.followup .value-container .badge {
+  margin-left: 15px;
 }
 
-.tile .refresh a:hover{
-  color: rgba(0,0,0,0.8);
+.followup .value-container {
+  margin-bottom: 5px;
 }
 
-.tab-container{
-  width:100%;
-  min-width:200px;
-  margin-top: 5px;
+
+.followup .goal-marker {
+  margin-left: -5px;
+  margin-right: -5px;
 }
 
-.nav-tabs>li>a {
-  margin-right: 2px;
-  line-height: 1.42857143;
-  border-radius: 4px 4px 0 0;
-  cursor: pointer;
-  color: rgba(66,139,202,0.6)
+.followup .goal-marker-left {
+  /*color: blue;
+  border: solid 1px blue;*/
+
+  text-align: left;
+  padding: 0px;
+  margin-left: -8px;
 }
 
-.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
-  color: #428BCA;
-  font-size: 15px;
-  background-color: transparent;
-  border: 0px; 
-  border-radius: 0px;
+.followup .goal-marker-left .goal-icon {
+  margin-right: -10px;
 }
 
-.nav-tabs>li>a:hover{
-  background-color: #D0E5FF;
-  color: #555;
+.followup .goal-marker-right {
+  /*color: red;
+  border: solid 1px red;*/
+
+  text-align: right;
+  padding: 0px;
+  margin-right: -17px;
 }
+
+.followup .goal-marker-right .goal-value {
+  margin-right: -2px;
+}
+
+
+.followup .progress .badge {
+  background-color: rgba(100, 100, 100, 0.4);
+  margin: 2px;
+}
+
+.followup .progress {
+  height: 22px;
+  background-image: none;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: blue;
+}
+
+.followup .progress .progress-bar .progress-bar-text {
+  font-weight: bold;
+}
+
+/* END: Target panel */
+
+/* START: Choose panel (Modal window) */
+
+.followup .modal-footer .btn-group button {
+
+}
+
+.followup #coworker-choose {
+  display:inline-block;
+}
+
+.followup #targettype-choose {
+  display:inline-block;
+}
+
+.followup #coworker-choose {
+  margin-right: 10px;
+}
+
+.followup #coworker-choose ul, .followup #targettype-choose ul {
+  height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.followup #targettype-choose, .followup #coworker-choose {
+  width: 275px;
+}
+
+.followup .hover-list .hover-item:hover {
+    background-color: rgba(0, 0, 150, 0.1);
+}
+.followup .hover-list .hover-item {
+    background-color: rgb(255, 255, 255);
+}
+
+/* END: Choose panel (Right side of the screen) */

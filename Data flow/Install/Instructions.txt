@@ -1,0 +1,5 @@
+1) Copy the whole "Data flow" folder to the apps folder.
+2) Add the DataFlow.bas file to VBA.
+3) Add the html code fomr app_installation.html
+4) Configure the code you just copied as you want it. See comments for more details on what can be configured
+5) Optional: If you want a static filter for the records to show in the app use the filterKey in the configuration of the app and then implement the filter in the VBA function: "DataFlow.GetFilterByKey"

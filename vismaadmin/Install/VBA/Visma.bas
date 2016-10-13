@@ -1,6 +1,6 @@
 Attribute VB_Name = "Visma"
 Public Function CheckValidate() As Boolean
-On Error GoTo Errorhandler
+On Error GoTo ErrorHandler
     Dim oInspector As Lime.Inspector
     Dim companyName As String
     
@@ -36,13 +36,13 @@ On Error GoTo Errorhandler
     End If
     
 Exit Function
-Errorhandler:
+ErrorHandler:
     UI.ShowError ("Visma.SendToVisma")
 End Function
 
 
 Public Function SendToVisma(url As String, newCompany As Boolean) As String
-    On Error GoTo Errorhandler
+    On Error GoTo ErrorHandler
     Dim oXHTTP As MSXML2.XMLHTTP60
     Dim str1 As String
     Dim str2 As String
@@ -152,8 +152,35 @@ Public Function SendToVisma(url As String, newCompany As Boolean) As String
 
     
 Exit Function
-Errorhandler:
+ErrorHandler:
     UI.ShowError ("Visma.SendToVisma")
 End Function
 
+Public Function SyncFromVisma(url As String) As String
+    On Error GoTo ErrorHandler
+        Dim oXHTTP As MSXML2.XMLHTTP60
+        Dim VISMA_SYNC_URL As String
+        Dim JSON As String
+         
+        VISMA_SYNC_URL = url
+        
+        Set oXHTTP = New MSXML2.XMLHTTP60
+        
+        ' POST, used to start sync
+        Call oXHTTP.Open("POST", VISMA_SYNC_URL, False)
+        
+        ' Content-Type
+        Call oXHTTP.setRequestHeader("Content-Type", "application/json")
+        Call oXHTTP.setRequestHeader("Accept", "application/json")
+                  
+        Call oXHTTP.Send(JSON)
+        
+        Call Application.MessageBox("Migration started...", VBA.vbInformation)
+        
+        SyncFromVisma = oXHTTP.responseText
+    
+Exit Function
+ErrorHandler:
+    UI.ShowError ("Visma.SyncFromVisma")
+End Function
 
