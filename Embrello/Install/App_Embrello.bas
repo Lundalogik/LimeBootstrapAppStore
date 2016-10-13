@@ -7,6 +7,9 @@ Private m_dataSource As String
 ' Is set in sub setMaxNbrOfRecords.
 Private m_maxNbrOfRecords As Long
 
+' Is set in function getActiveTable.
+Private m_explorer As Lime.Explorer
+
 ' Used in field mappings dictionary to keep track of field names
 Private Enum m_InformationTypeEnum
     sbBoardSummation = 1
@@ -44,7 +47,7 @@ ErrorHandler:
 End Sub
 
 
-' Ska även sätta en global m_explorer variabel o lite sånt gött. Byt sedan ut alla ActiveExplorers och lokala oExplorers till denna.
+' ##SUMMARY Called from the app. Returns an xml with data for the board.
 Public Function getBoardXML(boardConfigXML As String) As String
     On Error GoTo ErrorHandler
     
@@ -75,7 +78,7 @@ Private Function getBoardXMLUsingSQL(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     ' Call procedure to get board data
     Dim oProc As LDE.Procedure
     Set oProc = Database.Procedures("csp_embrello_getboard")
-    oProc.Parameters("@@tablename").InputValue = ActiveExplorer.Class.Name
+    oProc.Parameters("@@tablename").InputValue = m_explorer.Class.Name
 
     Call addSQLParameterFromXML(oProc, "@@lanefieldname", oBoardXmlDoc, "/board/lanes/optionField")
     Call addSQLParameterFromXML(oProc, "@@titlefieldname", oBoardXmlDoc, "/board/card/titleField")
@@ -141,13 +144,6 @@ Private Function getBoardXMLUsingVBA(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     
     Debug.Print "vba"
     
-    ' Cache ActiveExplorer
-    Dim oExplorer As Lime.Explorer
-    Set oExplorer = Application.ActiveExplorer
-    If oExplorer Is Nothing Then
-        Exit Function
-    End If
-    
     ' Set up field mappings
     Dim fieldMappings As Scripting.Dictionary
     Set fieldMappings = getFieldMappings(oBoardXmlDoc)
@@ -160,7 +156,7 @@ Private Function getBoardXMLUsingVBA(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     ' Loop options to create Lanes elements
     Dim oOption As LDE.Option
     Dim oLaneElement As MSXML2.IXMLDOMElement
-    For Each oOption In Database.Classes(oExplorer.Class.Name).Fields(fieldMappings(m_InformationTypeEnum.sbLaneTitle)).Options
+    For Each oOption In Database.Classes(m_explorer.Class.Name).Fields(fieldMappings(m_InformationTypeEnum.sbLaneTitle)).Options
         Set oLaneElement = oDataXml.createElement("Lanes")
         Call oLaneElement.SetAttribute("id", oOption.Value)
         Call oLaneElement.SetAttribute("key", oOption.key)
@@ -171,7 +167,7 @@ Private Function getBoardXMLUsingVBA(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     
     ' Get records
     Dim oRecords As New LDE.Records
-    Call oRecords.Open(Database.Classes(oExplorer.Class.Name), createFilter(oExplorer, fieldMappings(m_InformationTypeEnum.sbLaneTitle)), createView(fieldMappings), m_maxNbrOfRecords)
+    Call oRecords.Open(Database.Classes(m_explorer.Class.Name), createFilter(fieldMappings(m_InformationTypeEnum.sbLaneTitle)), createView(fieldMappings), m_maxNbrOfRecords)
     
     ' Loop records and add to xml
     Dim oRecord As LDE.Record
@@ -345,17 +341,17 @@ End Function
 
 
 ' ##SUMMARY Creates a filter that will receive the correct records for the app.
-Public Function createFilter(ByRef oExplorer As Lime.Explorer, optionFieldName As String) As LDE.Filter
+Public Function createFilter(optionFieldName As String) As LDE.Filter
     On Error GoTo ErrorHandler
     
     Dim oFilter As New LDE.Filter
     
-    Call oFilter.AddCondition("", lkOpIn, oExplorer.Records.Pool, lkConditionTypePool)
+    Call oFilter.AddCondition("", lkOpIn, m_explorer.Records.Pool, lkConditionTypePool)
     
     ' Loop over options to make sure no inactive records are included
     Dim oOption As LDE.Option
     Dim oOptions As LDE.Options
-    Set oOptions = Database.Classes(oExplorer.Class.Name).Fields(optionFieldName).Options
+    Set oOptions = Database.Classes(m_explorer.Class.Name).Fields(optionFieldName).Options
     
     Dim counter As Long
     counter = 0
@@ -386,8 +382,11 @@ End Function
 Public Function getActiveTable() As String
     On Error GoTo ErrorHandler
     
-    If Not ActiveExplorer Is Nothing Then
-        getActiveTable = ActiveExplorer.Class.Name
+    ' Cache the ActiveExplorer
+    Set m_explorer = ActiveExplorer
+    
+    If Not m_explorer Is Nothing Then
+        getActiveTable = m_explorer.Class.Name
     Else
         getActiveTable = "Error!"
     End If
@@ -402,8 +401,8 @@ End Function
 Public Function getActiveTableLocalNameSingular() As String
     On Error GoTo ErrorHandler
     
-    If Not ActiveExplorer Is Nothing Then
-        getActiveTableLocalNameSingular = ActiveExplorer.Class.LocalName
+    If Not m_explorer Is Nothing Then
+        getActiveTableLocalNameSingular = m_explorer.Class.LocalName
     Else
         getActiveTableLocalNameSingular = "Error!"
     End If
@@ -418,8 +417,8 @@ End Function
 Public Function getActiveTableLocalNamePlural() As String
     On Error GoTo ErrorHandler
     
-    If Not ActiveExplorer Is Nothing Then
-        getActiveTableLocalNamePlural = ActiveExplorer.Class.Attributes("localnameplural")
+    If Not m_explorer Is Nothing Then
+        getActiveTableLocalNamePlural = m_explorer.Class.Attributes("localnameplural")
     Else
         getActiveTableLocalNamePlural = "Error!"
     End If
@@ -442,15 +441,13 @@ Public Function getActiveBoardName() As String
     ' Set a nice default value
     boardName = "My board"
     
-    Dim oExplorer As Lime.Explorer
-    Set oExplorer = ActiveExplorer
-    If Not oExplorer Is Nothing Then
+    If Not m_explorer Is Nothing Then
         ' Set board name to the tab name as a starter
-        boardName = oExplorer.Class.Attributes("localnameplural")
+        boardName = m_explorer.Class.Attributes("localnameplural")
         
         ' Try to get name from filter if possible and relevant
         Dim f As LDE.Filter
-        Set f = oExplorer.ActiveFilter
+        Set f = m_explorer.ActiveFilter
         If Not f Is Nothing Then
             If f.Type <> lkFilterTypeMyFilter _
                     And f.Type <> lkFilterTypeUnspecified Then
@@ -474,16 +471,16 @@ Private Function getIdsAsString() As String
     
     Dim ids As String
     
-    If Not ActiveExplorer Is Nothing Then
+    If Not m_explorer Is Nothing Then
         Dim nbrOfRecords As Long
-        If ActiveExplorer.Items.Count > m_maxNbrOfRecords Then
+        If m_explorer.Items.Count > m_maxNbrOfRecords Then
             nbrOfRecords = m_maxNbrOfRecords
         Else
-            nbrOfRecords = ActiveExplorer.Items.Count
+            nbrOfRecords = m_explorer.Items.Count
         End If
         Dim i As Long
         For i = 1 To nbrOfRecords
-            ids = ids & VBA.CStr(ActiveExplorer.Items(i).ID) & ";"
+            ids = ids & VBA.CStr(m_explorer.Items(i).ID) & ";"
         Next i
     End If
     
@@ -548,12 +545,12 @@ Public Function getListFiltered() As Boolean
     getListFiltered = False
     
     
-    If Not ActiveExplorer Is Nothing Then
+    If Not m_explorer Is Nothing Then
         ' Check if any column filter is used
-        If Not ActiveExplorer.ActiveView Is Nothing Then
+        If Not m_explorer.ActiveView Is Nothing Then
             Dim i As Long
-            For i = 1 To ActiveExplorer.ActiveView.Count
-                If ActiveExplorer.ColumnFilterIsActive(i) Then
+            For i = 1 To m_explorer.ActiveView.Count
+                If m_explorer.ColumnFilterIsActive(i) Then
                     getListFiltered = True
                     Exit For
                 End If
@@ -562,7 +559,7 @@ Public Function getListFiltered() As Boolean
         
         ' Check if a fast filter is applied
         If Not getListFiltered Then
-            getListFiltered = (ActiveExplorer.TextFilter <> "")
+            getListFiltered = (m_explorer.TextFilter <> "")
         End If
     End If
     Exit Function
