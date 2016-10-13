@@ -38,7 +38,7 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
         self.lang = lbs.common.executeVba('App_LimeCRMSalesBoard.getLocale');
 
         // Set the data retrieval method
-        lbs.common.executeVba('App_Embrello.setDataSource,' + self.config.dataSource);
+        lbs.common.executeVba('App_LimeCRMSalesBoard.setDataSource,' + self.config.dataSource);
         
         // Set the maximum number of records in VBA
         lbs.common.executeVba('App_LimeCRMSalesBoard.setMaxNbrOfRecords,' + self.config.maxNbrOfRecords)

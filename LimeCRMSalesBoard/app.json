@@ -44,6 +44,11 @@
 			"version":"1.3.0",
 			"date":"2016-10-05",
 			"comments":"Changed name of app to LimeCRMSalesBoard."
+		},
+		{
+			"version":"2.0.0",
+			"date":"2016-10-13",
+			"comments":"Added support for the hosting environment. Data can now be fetched using VBA instead of SQL (configurable)."
 		}
 	],
 	"install":{
