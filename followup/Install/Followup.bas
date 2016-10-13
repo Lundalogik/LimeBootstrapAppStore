@@ -836,6 +836,16 @@ Private Sub Install()
     )
     Call AddOrCheckLocalize( _
         sOwner, _
+        "old_lbsVersion", _
+        "Used for the followup app", _
+        "Your LBS version is too old (%1), you'll need at least version %2", _
+        "Din LBS-version är för gammal (%1), Du behöver åtminstone version %2", _
+        "Your LBS version is too old (%1), you'll need at least version %2", _
+        "Your LBS version is too old (%1), you'll need at least version %2", _
+        "Your LBS version is too old (%1), you'll need at least version %2" _
+    )
+    Call AddOrCheckLocalize( _
+        sOwner, _
         "open_followup", _
         "Used for the followup app", _
         "Open followup", _
@@ -844,6 +854,8 @@ Private Sub Install()
         "Open followup", _
         "Open followup" _
     )
+    
+    
     
     
 End Sub
