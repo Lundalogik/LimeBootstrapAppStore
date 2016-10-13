@@ -56,6 +56,7 @@ The file `embrello.html` contains the app config object. An example is shown bel
 
 ```html
 <div data-app="{app:'Embrello', config: {
+		dataSource: 'vba',
 		maxNbrOfRecords: 1000,
 		boards: [ {
 			table: 'business',
@@ -128,6 +129,8 @@ The file `embrello.html` contains the app config object. An example is shown bel
 }"></div>
 ```
 
+**dataSource**: Can be either 'vba' or 'sql'. Important: Should always be 'vba' in the hosting environment.
+
 **maxNbrOfRecords**: The maximum number of records fetched from the database, no matter how many records that are currently shown in the list.
 
 **boards**: An array containing board objects. Each board object represent a LIME Pro tab and each tab can only be represented once.
@@ -198,7 +201,7 @@ The file `embrello.html` contains the app config object. An example is shown bel
 
 **boards.card.additionalInfo.relatedTableFieldName**: If the field is a relation field, then this parameter should be set to the database name of the field on the related table that should be shown on the card in Embrello. If not a relation field, then just leave this parameter empty or remove it.
 
-**boards.card.additionalInfo.dateFormat**: Include this object in the configuration if the chosen field is a Time field and you want to specify the format of the date and/or time shown. Not mandatory. Example:
+**boards.card.additionalInfo.dateFormat**: Important: Only works when dataSource = 'sql'. Include this object in the configuration if the chosen field is a Time field and you want to specify the format of the date and/or time shown. Not mandatory. Example:
 ```javascript
 dateFormat: {
 	sqlFormatCode: 120,

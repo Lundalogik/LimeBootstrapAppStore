@@ -37,8 +37,11 @@ lbs.apploader.register('Embrello', function () {
         // Get current LIME Pro client language
         self.lang = lbs.common.executeVba('App_Embrello.getLocale');
 
+        // Set the data retrieval method
+        lbs.common.executeVba('App_Embrello.setDataSource,' + self.config.dataSource);
+        
         // Set the maximum number of records in VBA
-        lbs.common.executeVba('App_Embrello.setMaxNbrOfRecords,' + self.config.maxNbrOfRecords)
+        lbs.common.executeVba('App_Embrello.setMaxNbrOfRecords,' + self.config.maxNbrOfRecords);
         
         // Set up board variable to be filled later if table is activated.
         self.b = {};
