@@ -35,21 +35,21 @@ An inactive option in the selected option field will not be rendered as a lane i
 You need to do the following to add Lime CRM Sales Board to your database.
 
 * Add the SQL table valued function `cfn_gettablefromstring` using the script in the file `cfn_gettablefromstring.sql` under the Install subfolder.
-* Add the SQL scalar valued function `cfn_Lime CRM Sales Board_getsqlexpression` using the script in the file `cfn_Lime CRM Sales Board_getsqlexpression.sql` under the Install subfolder.
-* Add the SQL procedure `csp_Lime CRM Sales Board_getboard` using the script in the file `csp_Lime CRM Sales Board_getboard.sql` under the Install subfolder.
+* Add the SQL scalar valued function `cfn_limecrmsalesboard_getsqlexpression` using the script in the file `cfn_limecrmsalesboard_getsqlexpression.sql` under the Install subfolder.
+* Add the SQL procedure `csp_limecrmsalesboard_getboard` using the script in the file `csp_limecrmsalesboard_getboard.sql` under the Install subfolder.
 * Add the localization records needed by running the script in the file `createLocalizeRecords.sql` under the Install folder. *Beware*: If you do not have all the language columns that exist in the Lime CRM Core Database you have to remove the ones you do not have from the SQL script before running it. Otherwise it will fail.
 * If you are running Lime CRM 10.12 or later, please restart the LDC manually (right-click on it and click "Shut down").
-* Restart the Lime CRM client and add the VBA module `App_Lime CRM Sales Board` located in the Install subfolder.
-* Add the folder Lime CRM Sales Board under apps in your Actionpad folder.
-* Configure the Lime CRM Sales Board.html file to make Lime CRM Sales Board work the way you want to. Out of the box, Lime CRM Sales Board is configured to work for the Deals tab in the Lime CRM Core Database.
+* Restart the Lime CRM client and add the VBA module `App_LimeCRMSalesBoard` located in the Install subfolder.
+* Add the folder LimeCRMSalesBoard under apps in your Actionpad folder.
+* Configure the LimeCRMSalesBoard.html file to make Lime CRM Sales Board work the way you want to. Out of the box, Lime CRM Sales Board is configured to work for the Deals tab in the Lime CRM Core Database.
 * Add a link in your main Actionpad, for example like this:
 ```html
-<li data-bind="vba:'App_Lime CRM Sales Board.openLime CRM Sales Board', text:localize.App_Lime CRM Sales Board.openLime CRM Sales Board, icon:'fa-align-left fa-rotate-90'"></li>
+<li data-bind="vba:'App_LimeCRMSalesBoard.openLimeCRMSalesBoard', text:localize.App_LimeCRMSalesBoard.openLimeCRMSalesBoard, icon:'fa-align-left fa-rotate-90'"></li>
 ```
 * Add a customization record in Lundalogik's Lime CRM under the customer. Note the version installed (can be found in the app.json file).
 
 ### Update ###
-**Important**: If you update your version of Lime CRM Sales Board, remember to first make a copy of the file `Lime CRM Sales Board.html` so you don't lose your app configuration.
+**Important**: If you update your version of Lime CRM Sales Board, remember to first make a copy of the file `LimeCRMSalesBoard.html` so you don't lose your app configuration.
 
 
 ## Setup ##
