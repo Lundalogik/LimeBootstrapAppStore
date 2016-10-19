@@ -89,6 +89,7 @@ initializeLib.initializeViewModel = function(viewModel, appConfig) {
 
     viewModel.parents = ko.observableArray();
     viewModel.errorMessage = ko.observable('');
+    viewModel.criticalErrorMessage = ko.observable('');
 
 	viewModel.listSizeClass = ko.observable('');
 

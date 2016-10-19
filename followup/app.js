@@ -27,6 +27,8 @@
 		
 		this.securityLevel = appConfig.securityLevel || 'user';
 
+        this.showEmptyValues = appConfig.showEmptyValues == undefined && true || appConfig.showEmptyValues;
+
         this.coloring = appConfig.coloring || {};
         this.coloring.green = this.coloring.green || 1.0;
         this.coloring.yellow = this.coloring.yellow || 0.7;

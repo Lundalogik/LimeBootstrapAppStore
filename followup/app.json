@@ -3,7 +3,13 @@
 	"author":"AOL, TLN",
 	"status":"Release",
 	"shortDesc":"Allows you to track your montly activity goals.", 
+	"displayName": "FollowUp",
 	"versions":[
+		{
+			"version":"1.2",
+			"date":"2016-10-19",
+			"comments":"Changed required version to 1.12. Added possibility to hide empty values in app."
+		},
 		{
 			"version":"1.1",
 			"date":"2016-09-30",

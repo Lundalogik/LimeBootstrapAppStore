@@ -367,7 +367,9 @@ dataHandlingLib.getTargetData = function(viewModel, appConfig) {
 					
 	        		parentObj.infoMessage(viewModel.localize.Followup.no_goals_month || 'No localize found for - Followup.no_goals_month');
 	        	}
-	        	parentArray.push(parentObj);
+	        	if (appConfig.showEmptyValues == true || parentObj.children().length > 0) {
+	        		parentArray.push(parentObj);
+	        	}
 	        };
 
 		    // Sort array
