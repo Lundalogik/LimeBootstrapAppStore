@@ -6,7 +6,7 @@ Attribute VB_Name = "InfoTiles"
 '       have a department table and relation in the InfoTiles
 '       settings table. Othervise False.. ;)
 '===================== SETTINGS ============================
-Private Const bDepartmentoptionenabled As Boolean = True
+Private Const bDepartmentoptionenabled As Boolean = False
 Public Const sDepartmentFieldname As String = "department" ' This must be the same on InfoTiles and coworker
 
 Private Const c_IndexValueLocalName = "Huvudlista"
@@ -41,7 +41,7 @@ On Error GoTo ErrorHandler
             Set oField = oClass.Fields.Lookup(className, lkLookupFieldByName)
             If Not oField Is Nothing Then
                If oField.Type = lkFieldTypeMultiLink Then
-                    Set oFilters = InfoTiles.GetInspectorExplorerFilters(sActiveClass, oField.LinkedField.Class.Name)
+                    Set oFilters = InfoTiles.GetInspectorExplorerFilters(sActiveClass, oField.LinkedField.Class.name)
                     If oFilters.Exists(filterName) Then
                         Set oFilter = oFilters(filterName).Clone
                     End If
@@ -54,12 +54,12 @@ On Error GoTo ErrorHandler
                 If Application.Database.Classes(sActiveClass).Fields.Exists(className) Then
                     Set oField = Application.Database.Classes(sActiveClass).Fields(className)
                     If oField.Type = lkFieldTypeMultiLink Then
-                        Call oFilter.AddCondition(oField.LinkedField.Name, lkOpEqual, lngIdRecord)
+                        Call oFilter.AddCondition(oField.LinkedField.name, lkOpEqual, lngIdRecord)
                         If oFilter.Count > 1 Then
                             Call oFilter.AddOperator(lkOpAnd)
                         End If
                         
-                        GetHitCount = oFilter.HitCount(Database.Classes(oField.Name))
+                        GetHitCount = oFilter.HitCount(Database.Classes(oField.name))
                         Exit Function
                     End If
                 End If
@@ -90,8 +90,8 @@ On Error GoTo ErrorHandler
                 Set oFilter = Application.Explorers(className).Filters(filterName).Clone
                 Call oRecords.Open(Database.Classes(className), oFilter)
                 For Each oRecord In oRecords
-                    If Not VBA.IsNull(oRecord.Value(fieldName)) Then
-                        sum = sum + oRecord.Value(fieldName)
+                    If Not VBA.IsNull(oRecord.value(fieldName)) Then
+                        sum = sum + oRecord.value(fieldName)
                     End If
                 Next oRecord
             End If
@@ -102,7 +102,7 @@ On Error GoTo ErrorHandler
             Set oField = oClass.Fields.Lookup(className, lkLookupFieldByName)
             If Not oField Is Nothing Then
                If oField.Type = lkFieldTypeMultiLink Then
-                    Set oFilters = InfoTiles.GetInspectorExplorerFilters(sActiveClass, oField.LinkedField.Class.Name)
+                    Set oFilters = InfoTiles.GetInspectorExplorerFilters(sActiveClass, oField.LinkedField.Class.name)
                     If oFilters.Exists(filterName) Then
                         Set oFilter = oFilters(filterName).Clone
                     End If
@@ -116,15 +116,15 @@ On Error GoTo ErrorHandler
                 If Application.Database.Classes(sActiveClass).Fields.Exists(className) Then
                     Set oField = Application.Database.Classes(sActiveClass).Fields(className)
                     If oField.Type = lkFieldTypeMultiLink Then
-                        Call oFilter.AddCondition(oField.LinkedField.Name, lkOpEqual, lngIdRecord)
+                        Call oFilter.AddCondition(oField.LinkedField.name, lkOpEqual, lngIdRecord)
                         If oFilter.Count > 1 Then
                             Call oFilter.AddOperator(lkOpAnd)
                         End If
                         
-                        Call oRecords.Open(Database.Classes(oField.Name), oFilter)
+                        Call oRecords.Open(Database.Classes(oField.name), oFilter)
                         For Each oRecord In oRecords
-                            If Not VBA.IsNull(oRecord.Value(fieldName)) Then
-                                sum = sum + oRecord.Value(fieldName)
+                            If Not VBA.IsNull(oRecord.value(fieldName)) Then
+                                sum = sum + oRecord.value(fieldName)
                             End If
                         Next oRecord
                     End If
@@ -170,7 +170,7 @@ Public Sub ShowFilter(ByVal lngidinfotiles As Long)
             End If
         Else
             If Not Application.ActiveInspector Is Nothing Then
-                If Application.ActiveInspector.Class.Name = sVisibleOn Then
+                If Application.ActiveInspector.Class.name = sVisibleOn Then
                     If Application.ActiveInspector.Explorers.Exists(sExplorer) Then
                         Set oExplorers = Application.ActiveInspector.Explorers
                         Set oExplorer = oExplorers(sExplorer)
@@ -181,8 +181,8 @@ Public Sub ShowFilter(ByVal lngidinfotiles As Long)
         
         If Not oExplorers Is Nothing Then
             If Not oExplorer Is Nothing Then
-                If Not oExplorers.GetVisible(oExplorer.Name) Then
-                    Call oExplorers.SetVisible(oExplorer.Name, True)
+                If Not oExplorers.GetVisible(oExplorer.name) Then
+                    Call oExplorers.SetVisible(oExplorer.name, True)
                 End If
                 Set oExplorers.ActiveExplorer = oExplorer
                 If oExplorer.Filters.Exists(sFilterName) Then
@@ -218,7 +218,7 @@ On Error GoTo ErrorHandler
     Dim lngActiveCoworkerId As Variant ' Long
     
     If Not ActiveUser.Record Is Nothing Then
-        lngActiveCoworkerId = ActiveUser.Record.ID
+        lngActiveCoworkerId = ActiveUser.Record.id
     Else
         lngActiveCoworkerId = Null
     End If
@@ -232,18 +232,18 @@ On Error GoTo ErrorHandler
         If VBA.IsNull(lngActiveCoworkerId) = False Then
             Call oActiveUserView.Add(sDepartmentFieldname)
             Call oRecordActiveUser.Open(Application.Database.Classes("coworker"), lngActiveCoworkerId, oActiveUserView)
-            lDepartmentRecordID = oRecordActiveUser.Value(sDepartmentFieldname)
+            lDepartmentRecordID = oRecordActiveUser.value(sDepartmentFieldname)
         Else
             lDepartmentRecordID = Null
         End If
         
         'FILTER CREATION MADNESS
-        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("infotile").Fields("visiblefor").Options.Lookup("all", lkLookupOptionByKey))
-        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("infotile").Fields("visiblefor").Options.Lookup("me", lkLookupOptionByKey))
+        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("infotiles").Fields("visiblefor").Options.Lookup("all", lkLookupOptionByKey))
+        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("infotiles").Fields("visiblefor").Options.Lookup("me", lkLookupOptionByKey))
         Call oFilter.AddCondition("coworker", lkOpEqual, lngActiveCoworkerId)
         Call oFilter.AddOperator(lkOpAnd)
         Call oFilter.AddOperator(lkOpOr)
-        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("infotile").Fields("visiblefor").Options.Lookup("department", lkLookupOptionByKey))
+        Call oFilter.AddCondition("visiblefor", lkOpEqual, Database.Classes("infotiles").Fields("visiblefor").Options.Lookup("department", lkLookupOptionByKey))
         Call oFilter.AddCondition(sDepartmentFieldname, lkOpEqual, lDepartmentRecordID)
         Call oFilter.AddOperator(lkOpAnd)
         Call oFilter.AddOperator(lkOpOr)
@@ -307,7 +307,7 @@ On Error GoTo ErrorHandler
                         End If
 
                         If Not oActiveRecord Is Nothing Then
-                            If oActiveRecord.Class.Name = sActiveClass And oActiveRecord.ID = lngIdRecord Then
+                            If oActiveRecord.Class.name = sActiveClass And oActiveRecord.id = lngIdRecord Then
                                 If oActiveRecord.Fields.Exists(oRecord.Text("fieldname")) Then
                                     sValue = oActiveRecord.Text(oRecord.Text("fieldname"))
                                 Else
@@ -323,7 +323,7 @@ On Error GoTo ErrorHandler
             If VBA.IsNumeric(sValue) Then
                 lngValue = VBA.CLng(sValue)
                 If lngValue >= 0 Then
-                    If ((lngValue = 0 And oRecord.Value("visibleonzero") = 1 Or oRecord.GetOptionKey("operator") = "link") Or (lngValue > 0)) Then
+                    If ((lngValue = 0 And oRecord.value("visibleonzero") = 1 Or oRecord.GetOptionKey("operator") = "link") Or (lngValue > 0)) Then
                         bShowInfoTilesItem = True
                     End If
                 End If
@@ -347,7 +347,7 @@ On Error GoTo ErrorHandler
                 End If
             
                 FetchFiltersXML = FetchFiltersXML + "<filter>" _
-                    & "<idinfotiles><![CDATA[" & VBA.CStr(oRecord.ID) & "]]></idinfotiles>" _
+                    & "<idinfotiles><![CDATA[" & VBA.CStr(oRecord.id) & "]]></idinfotiles>" _
                     & "<explorer><![CDATA[" & oRecord.Text("classname") & "]]></explorer>" _
                     & "<name><![CDATA[" & oRecord.Text("filtername") & "]]></name>" _
                     & "<color><![CDATA[" & sColor & "]]></color>" _
@@ -437,7 +437,7 @@ Public Function GetInspectorExplorerFilters(ByVal InspectorClass As String, ByVa
 On Error GoTo ErrorHandler
     Dim oFilters As New LDE.Filters
     Set oFilters.Database = Application.Database
-    oFilters.Folder = "Filters\" & VBA.Right("00000000" & VBA.Hex(Application.Database.Classes(InspectorClass).ID), 8) & "." & VBA.Right("00000000" & VBA.Hex(Application.Database.Classes(ExplorerClass).ID), 8)
+    oFilters.Folder = "Filters\" & VBA.Right("00000000" & VBA.Hex(Application.Database.Classes(InspectorClass).id), 8) & "." & VBA.Right("00000000" & VBA.Hex(Application.Database.Classes(ExplorerClass).id), 8)
     Call oFilters.Refresh
     Set GetInspectorExplorerFilters = oFilters
 Exit Function
@@ -495,24 +495,24 @@ Private Function AddOrCheckLocalize(sOwner As String, sCode As String, sDescript
         Debug.Print ("Localization " & sOwner & "." & sCode & " not found, creating new!")
         Dim oRec As New LDE.Record
         Call oRec.Open(Database.Classes("localize"))
-        oRec.Value("owner") = sOwner
-        oRec.Value("code") = sCode
-        oRec.Value("context") = sDescription
-        oRec.Value("sv") = sSV
-        oRec.Value("en_us") = sEN_US
-        oRec.Value("no") = sNO
-        oRec.Value("fi") = sFI
+        oRec.value("owner") = sOwner
+        oRec.value("code") = sCode
+        oRec.value("context") = sDescription
+        oRec.value("sv") = sSV
+        oRec.value("en_us") = sEN_US
+        oRec.value("no") = sNO
+        oRec.value("fi") = sFI
         Call oRec.Update
     ElseIf oFilter.HitCount(Database.Classes("localize")) = 1 Then
     Debug.Print ("Updating localization " & sOwner & "." & sCode)
         Call oRecs.Open(Database.Classes("localize"), oFilter)
-        oRecs(1).Value("owner") = sOwner
-        oRecs(1).Value("code") = sCode
-        oRecs(1).Value("context") = sDescription
-        oRecs(1).Value("sv") = sSV
-        oRecs(1).Value("en_us") = sEN_US
-        oRecs(1).Value("no") = sNO
-        oRecs(1).Value("fi") = sFI
+        oRecs(1).value("owner") = sOwner
+        oRecs(1).value("code") = sCode
+        oRecs(1).value("context") = sDescription
+        oRecs(1).value("sv") = sSV
+        oRecs(1).value("en_us") = sEN_US
+        oRecs(1).value("no") = sNO
+        oRecs(1).value("fi") = sFI
         Call oRecs.Update
         
     Else
