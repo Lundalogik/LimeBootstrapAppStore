@@ -11,6 +11,9 @@ Some of the features are:
 Lastly save the entire package by clicking Generate Package.
 
 ##Installation:
+
+Prerequisite: LIP needs to be installed on your Lime CRM Database.
+
 1. Install by using lip.Install("LIPPackageBuilder").
 2. Add the SQL procedures to the database.
 3. Add the reference "Microsoft Visual Basic for Applications Extensibility" in the VBA.
@@ -30,7 +33,7 @@ These are some of the future features of LIP Package Builder
 - Dependencies and modifying existing packages.
 
 # What works then?
-You can create a package with the following objects from a LIME Pro Application:
+You can create a package with the following objects from a LIME CRM Application:
 - Tables and fields
 - VBA modules
 - SQL functions and procedures
