@@ -77,15 +77,16 @@ lbs.apploader.register('LIPPackageBuilder', function () {
         }
         
 
+        var checkIfVbaLoaded = false;
         // Navbar function to change tab
         vm.showTab = function(t){
-            try{
-                if (t == 'vba'){
-                    vm.getVbaComponents();
-                }
-                vm.activeTab(t);
-                
+        try{
+            if (t == 'vba' && checkIfVbaLoaded == false){
+                vm.getVbaComponents();
+                checkIfVbaLoaded = true;
             }
+          vm.activeTab(t);
+        }
             catch(e){alert(e);}
         }
         
