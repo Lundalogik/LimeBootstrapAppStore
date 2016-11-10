@@ -176,7 +176,7 @@ var Field = function(f, tablename){
         //Set option as default value and remove unnecessary attribute idstring
         if(self.options){
             for(var i = 0; i < self.options.length;i++){
-                if(self.options[i]["idstring"] == self.attributes["defaultvalue"]){
+                if(self.options[i]["idstring"] == self.attributes["defaultvalue"] && self.attributes["defaultvalue"] != null){
                     self.options[i]["default"] = "true";
                     delete self.options[i]["idstring"];
                 }
