@@ -208,7 +208,7 @@ enums = {
             "yesno" : "Yes/No",
             "link" : "Link",
             "option" : "Option",
-            "relation" : "Realtion",
+            "relation" : "Relation",
             "time" : "Time",
             "integer" : "Integer",
             "decimal" : "Decimal",
