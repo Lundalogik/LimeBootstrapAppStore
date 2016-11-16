@@ -930,3 +930,49 @@ ErrorHandler:
     Call UI.ShowError("Followup.AddLocaleToRecord")
 End Sub
 
+Public Function FollowupMemberOfGroup(ByVal sSepareatedGroups As String, Optional ByVal bMustBeMemberOfAll As Boolean = False) As Boolean
+On Error GoTo ErrorHandler
+    Dim sGroupNames() As String
+    Dim sGroupName As String
+    Dim i As Long
+    Dim lngGroupCount As Long
+    Dim bReturnValue As Boolean
+   
+    sGroupNames = VBA.Split(sSepareatedGroups, ";")
+   
+    If bMustBeMemberOfAll = True Then
+        bReturnValue = True
+    Else
+        bReturnValue = False
+    End If
+   
+    lngGroupCount = 0
+   
+    For i = LBound(sGroupNames) To UBound(sGroupNames)
+        sGroupName = sGroupNames(i)
+        If VBA.Len(sGroupName) > 0 Then
+            lngGroupCount = lngGroupCount + 1
+            If Not ActiveUser.MemberOfGroups.Lookup(sGroupName, lkLookupGroupByName) Is Nothing Then
+                ' Is member of group
+                If bMustBeMemberOfAll = False Then
+                    bReturnValue = True
+                    Exit For
+                End If
+            Else
+                ' Is NOT member of group
+                If bMustBeMemberOfAll = True Then
+                    bReturnValue = False
+                    Exit For
+                End If
+            End If
+        End If
+    Next i
+    If lngGroupCount = 0 Then
+        bReturnValue = True
+    End If
+   
+    FollowupMemberOfGroup = bReturnValue
+Exit Function
+ErrorHandler:
+    Call UI.ShowError("Followup.FollowupMemberOfGroup")
+End Function

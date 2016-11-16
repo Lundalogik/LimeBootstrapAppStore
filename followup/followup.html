@@ -14,8 +14,8 @@
     		green: 1.0,
     		yellow: 0.6 
     	},
-        /* Add logic for which users that will be able to admin the app, example only users in the group administrator */
-        securityLevel: lbs.limeDataConnection.ActiveUser.Administrator && 'admin' || 'user',
+        /* Add logic for which users that will be able to admin the app, example only users in the group administrator and superusers */
+          securityLevel: lbs.common.executeVba('Followup.FollowupMemberOfGroup',';Administrators;Superusers;') && 'admin' || 'user',
         structureMapping: {
             targetType: 'count',
 
@@ -43,10 +43,6 @@
             {
                 targetTypeKey: 'salescall',
                 scoreTypeKey: 'salescall' 
-            },
-            {
-                targetTypeKey: 'agreement',
-                scoreTypeKey: 'talkedto' 
             }
     	]
 	}
