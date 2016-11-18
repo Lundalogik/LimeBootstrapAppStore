@@ -69,22 +69,27 @@ Use the below JSON configuration to instantiate the app.
 						'AcceptSMS': 'accepts_sms',
 						'Phones': [
 							{
+								'PhoneId': 'phonenumerid_phone2',
 								'PhoneTypeId': 10980000,
 								'Number': 'phone2'
 							},
 							{
+								'PhoneId': 'phonenumerid_fax',
 								'PhoneTypeId': 10980100,
 								'Number': 'telefax'
 							},
 							{
+								'PhoneId': 'phonenumerid_phonemisc',
 								'PhoneTypeId': 10980200,
 								'Number': 'phonemisc'
 							},
 							{
+								'PhoneId': 'phonenumerid_phone1',
 								'PhoneTypeId': 10980300,
 								'Number': 'phone1'
 							},
 							{
+								'PhoneId': 'phonenumerid_mobile',
 								'PhoneTypeId': 10980500,
 								'Number': 'mobile'
 							}

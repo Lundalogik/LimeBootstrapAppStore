@@ -192,20 +192,31 @@ var Customer = function(fieldMappings, rec) {
 
 	    c.Customer.SMSInformation = {};
 	    exp = exp + 'c.Customer.SMSInformation.AcceptSMS = (self.rec.' + self.fieldMappings.AcceptSMS + '.value === 1);\n';
+	    
 	    c.Customer.Phones = [];
 
-	    // The below can be used when support for updating phone numbers have been added by BFUS. You need to fix the code that sets PhoneId and DeleteObject though.
-	    // c.Customer.Phones = [];
-	    // $.each(self.fieldMappings.Phones, function (index, obj) {
-	    //     exp = exp + 'c.Customer.Phones.push({'
-	    //     	//##TODO: Set PhoneId!
-	    //     exp = exp + 'PhoneTypeId : ' + obj.PhoneTypeId + ','
-	    //     exp = exp + 'Number : self.rec.' + obj.Number + '.text'
-	    //     	//##TODO: Set DeleteObject!
-	    //     exp = exp + '});\n'
-	    // });
+		$.each(self.fieldMappings.Phones, function (index, obj) {
+			//If number is not empty, update number or insert new number
+			exp = exp + 'if (self.rec.' + obj.Number + '.text.length > 0){';
+			exp = exp + 'c.Customer.Phones.push({';
+			exp = exp + 'PhoneId : self.rec.' + obj.PhoneId + '.text,';
+			exp = exp + 'PhoneTypeId : ' + obj.PhoneTypeId + ',';
+			exp = exp + 'Number : self.rec.' + obj.Number + '.text,';
+			exp = exp + 'DeleteObject : false ';
+			exp = exp + '});';
+			exp = exp + '}';
+			//If number empty and phone id not empty update number to ''. BFUS won't let us delete a number.
+			exp = exp + 'else if (self.rec.' + obj.PhoneId + '.text.length > 0){';
+			exp = exp + 'c.Customer.Phones.push({';
+			exp = exp + 'PhoneId : self.rec.' + obj.PhoneId + '.text,';
+			exp = exp + 'PhoneTypeId : ' + obj.PhoneTypeId + ',';
+			exp = exp + 'Number : self.rec.' + obj.Number + '.text,';
+			exp = exp + 'DeleteObject : false ';
+			exp = exp + '});';
+			exp = exp + '}';
+		});
 
-	    // Add all properties
+		// Add all properties
 	    eval(exp);
 
 	    return c;

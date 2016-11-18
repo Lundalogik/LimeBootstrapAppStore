@@ -19,6 +19,11 @@
 			"version":"0.3",
 			"date":"2016-02-18",
 			"comments":"Added support for warning when saving an already integrated customer without having sent the update to BFUS."
+		},
+		{
+			"version":"0.4",
+			"date":"2016-11-18",
+			"comments":"Added support for update phone number with lookup on phoneid. No support for delete phone numbers, since not allowed by BFUS. If deleted in Lime phone number updates to empty in BFUS./JAS"
 		}
 	],
 	"install":{
