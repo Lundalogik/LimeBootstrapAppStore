@@ -39,6 +39,7 @@ End If
 * EMail3
 * AcceptSMS
 
+7. Make sure that none of the Lime fields that should be used have the setting "Invisible = Everywhere" in LISA. Solution: Change to "Invisible = On forms". (Tip: Maybe this change makes it necessary to set them to "Readonly = True" if they weren't before).
 
 
 ##Setup
