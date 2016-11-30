@@ -49,6 +49,7 @@
         this.structureMapping.scoreDateField = appConfig.structureMapping.scoreDateField || 'date';
 
         this.structureMapping.coworkerNameField = appConfig.structureMapping.coworkerNameField || 'name';
+
     };
 
     //initialize
@@ -70,5 +71,6 @@
         return viewModel;
       
     };
+
 
 });
