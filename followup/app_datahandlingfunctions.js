@@ -224,6 +224,7 @@ dataHandlingLib.loadChoiceData = function(viewModel, appConfig) {
 }
 
 
+
 dataHandlingLib.getTargetData = function(viewModel, appConfig) {
 	viewModel.parents([]);
 	

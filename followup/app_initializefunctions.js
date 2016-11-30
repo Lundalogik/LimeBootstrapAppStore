@@ -92,6 +92,14 @@ initializeLib.initializeViewModel = function(viewModel, appConfig) {
     viewModel.criticalErrorMessage = ko.observable('');
 
 	viewModel.listSizeClass = ko.observable('');
+    
+    viewModel.allCoworkers = ko.computed(function(){
+         return helperLib.allChoicesComputed(viewModel.choices.coworkers());
+     });
+
+    viewModel.allTargetTypes = ko.computed(function(){
+         return helperLib.allChoicesComputed(viewModel.choices.targettypes());
+     });
 
     viewModel.goToNextMonth = helperLib.goToNextMonth;
     viewModel.getTargetData = function() {
@@ -105,4 +113,11 @@ initializeLib.initializeViewModel = function(viewModel, appConfig) {
     viewModel.canGetTargetData = ko.computed(function() {
         return helperLib.canGetTargetData(viewModel);
     });
+
+    viewModel.allCoworkerClicked = function(){
+        return helperLib.allChoicesClicked(viewModel.choices.coworkers());
+    }
+    viewModel.allTargetTypesClicked = function(){
+        return helperLib.allChoicesClicked(viewModel.choices.targettypes());
+    }
 }
