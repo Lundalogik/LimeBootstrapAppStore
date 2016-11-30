@@ -106,8 +106,7 @@
 							<div id="coworker-choose" class="text-left">
 								<div class="panel panel-info">
 									<div class="panel-heading">
-										<span style="float:left" data-bind="text: ' ', icon:allCoworkers() && 'fa-check-square-o' || 'fa-square-o', click:allCoworkerClicked"/>
-										<span data-bind="text:localize.Followup.settings_coworkers, click:allCoworkerClicked"/>
+										<span data-bind="text:localize.Followup.settings_coworkers"/>
 									</div>
 									<ul class="list-group hover-list">
 										<!-- ko foreach: choices.coworkers -->
@@ -123,8 +122,7 @@
 							<div id="targettype-choose" class="text-left">
 								<div class="panel panel-info">
 									<div class="panel-heading">
-										<span style="float:left" data-bind="text: ' ', icon:allTargetTypes() && 'fa-check-square-o' || 'fa-square-o',click:allTargetTypesClicked"/>
-										<span data-bind="text:localize.Followup.settings_targettypes,click:allTargetTypesClicked"/>
+										<span data-bind="text:localize.Followup.settings_targettypes"/>
 									</div>
 									<ul class="list-group hover-list">
 										<!-- ko foreach: choices.targettypes -->
@@ -135,7 +133,6 @@
 										<!-- /ko -->
 									</ul>
 								</div>
-									
 							</div>
 						</div>
 					</div>
