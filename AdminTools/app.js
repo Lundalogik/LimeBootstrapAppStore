@@ -39,6 +39,7 @@ lbs.apploader.register('AdminTools', function () {
             self.sqlJobs = ko.observableArray();
             self.indices = ko.observableArray();
             self.dbInfo = ko.observableArray();
+            self.test = ko.observable('denna gör inget...');
 
             self.selectedRecords = ko.observableArray();
             self.selectedProgrammabilityFrame = ko.observable("list");
