@@ -171,3 +171,18 @@ helperLib.compareVersions = function(ls, rs) {
 
 	return returnValue;
 }
+
+helperLib.allChoicesClicked = function(choices){
+	var prevAllChoices = helperLib.allChoicesComputed(choices);
+	$.each(choices,function(i,choice){
+		choice.state(!prevAllChoices);
+	});
+}
+
+helperLib.allChoicesComputed = function(choices){
+	
+	var unchecked = $.grep(choices,function(choice,i){
+		return choice.state() == false;
+	});
+	return unchecked.length == 0;
+}
