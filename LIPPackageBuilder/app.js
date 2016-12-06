@@ -53,6 +53,14 @@ lbs.apploader.register('LIPPackageBuilder', function () {
             });
         });
         
+        //Checkbox to select all SQL procedures and functions
+        vm.selectAllLocalizations = ko.observable(false);
+        
+        vm.selectAllLocalizations.subscribe(function(newValue){
+            ko.utils.arrayForEach(vm.filteredLocalizations(),function(l){
+                l.checked(newValue);
+            });
+        });
         
         
         vm.getVbaComponents = function(){
@@ -75,19 +83,45 @@ lbs.apploader.register('LIPPackageBuilder', function () {
             vm.filteredComponents(vm.vbaComponents());
             vm.showComponents(true);
         }
+
+        vm.getLocalizations = function(){
+            try{
+                var xmlData = {};
+                lbs.loader.loadDataSource(
+                    xmlData,
+                    {type: 'records', source: 'LIPPackageBuilder.GetLocalizations, ' },
+                    true
+                );
+
+                vm.localizations(ko.utils.arrayMap(xmlData.localize.records, function(l){
+                    return new Localize(l);
+                }));
+            }
+            catch(e){
+                alert(e);
+            }
+            vm.localizationFilter("");
+            vm.filteredLocalizations(vm.localizations());
+            vm.showLocalizations(true);
+        }
         
 
         var checkIfVbaLoaded = false;
+        var checkIfLocalizationsLoaded = false;
         // Navbar function to change tab
         vm.showTab = function(t){
-        try{
-            if (t == 'vba' && checkIfVbaLoaded == false){
-                vm.getVbaComponents();
-                checkIfVbaLoaded = true;
+            try{
+                if (t == 'vba' && checkIfVbaLoaded == false){
+                    vm.getVbaComponents();
+                    checkIfVbaLoaded = true;
+                }else if (t == 'localize' && !checkIfLocalizationsLoaded){
+                    vm.getLocalizations();
+                    checkIfLocalizationsLoaded = true;
+                }
+
+                vm.activeTab(t);
             }
-          vm.activeTab(t);
-        }
-            catch(e){alert(e);}
+                catch(e){alert(e);}
         }
         
         // Set default tab to details
@@ -108,7 +142,9 @@ lbs.apploader.register('LIPPackageBuilder', function () {
         
         
         vm.sql = ko.observableArray();
-        
+
+        vm.localizations = ko.observableArray();
+        vm.showLocalizations = ko.observable();
         
         vm.filterComponents = function(){
             if(vm.componentFilter() != ""){
@@ -126,6 +162,40 @@ lbs.apploader.register('LIPPackageBuilder', function () {
                 }));
             }else{  
                 vm.filteredComponents(vm.vbaComponents().slice());
+            }
+        }
+
+        vm.filterLocalizations = function(){
+            if(vm.localizationFilter() != ""){
+                
+
+                // Filter on the three visible columns (name, localname, timestamp)
+                vm.filteredLocalizations(ko.utils.arrayFilter(vm.localizations(), function(item) {
+                    if(item.owner.toLowerCase().indexOf(vm.localizationFilter().toLowerCase()) != -1){
+                        return true;
+                    }
+                    if(item.code.toLowerCase().indexOf(vm.localizationFilter().toLowerCase()) != -1){
+                        return true;
+                    }
+                    if(item.sv.toLowerCase().indexOf(vm.localizationFilter().toLowerCase()) != -1){
+                        return true;
+                    }
+                    if(item.en_us.toLowerCase().indexOf(vm.localizationFilter().toLowerCase()) != -1){
+                        return true;
+                    }
+                    if(item.da.toLowerCase().indexOf(vm.localizationFilter().toLowerCase()) != -1){
+                        return true;
+                    }
+                    if(item.no.toLowerCase().indexOf(vm.localizationFilter().toLowerCase()) != -1){
+                        return true;
+                    }
+                    if(item.fi.toLowerCase().indexOf(vm.localizationFilter().toLowerCase()) != -1){
+                        return true;
+                    }
+                    return false;
+                }));
+            }else{  
+                vm.filteredLocalizations(vm.localizations().slice());
             }
         }
     
@@ -177,6 +247,7 @@ lbs.apploader.register('LIPPackageBuilder', function () {
         vm.tableFilter = ko.observable("");
         vm.fieldFilter = ko.observable("");
         vm.componentFilter = ko.observable("");
+        vm.localizationFilter = ko.observable("");
         vm.sqlFilter = ko.observable("");
         
         function b64_to_utf8(str) {
@@ -270,6 +341,9 @@ lbs.apploader.register('LIPPackageBuilder', function () {
         
         // Filtered Components
         vm.filteredComponents = ko.observableArray();
+
+        // Filtered Components
+        vm.filteredLocalizations = ko.observableArray();
         
         // Filtered SQL
         vm.filteredSql = ko.observableArray();
@@ -287,6 +361,15 @@ lbs.apploader.register('LIPPackageBuilder', function () {
             if(vm.vbaComponents()){
                 return ko.utils.arrayFilter(vm.vbaComponents(),function(c){
                     return c.selected() | false;
+                });
+            }
+        });
+
+        // Computed with all selected localizations
+        vm.selectedLocalizations = ko.computed(function(){
+            if(vm.localizations()){
+                return ko.utils.arrayFilter(vm.localizations(),function(l){
+                    return l.checked() | false;
                 });
             }
         });
@@ -308,6 +391,8 @@ lbs.apploader.register('LIPPackageBuilder', function () {
             });
         });
 
+        vm.selectedLocale = ko.observable(null);
+
         // Subscribe to changes in filters
         vm.fieldFilter.subscribe(function(newValue){ 
             vm.shownTable().filterFields();
@@ -319,6 +404,10 @@ lbs.apploader.register('LIPPackageBuilder', function () {
         vm.componentFilter.subscribe(function(newValue){
             vm.filterComponents();
         });
+
+        vm.localizationFilter.subscribe(function(newValue){
+            vm.filterLocalizations();
+        });
         
         vm.sqlFilter.subscribe(function(newValue){
             vm.filterSql();
@@ -328,7 +417,10 @@ lbs.apploader.register('LIPPackageBuilder', function () {
         vm.filterTables();
         vm.filterSql();
         vm.filterComponents();
-        
+        vm.filterLocalizations();
+        $(window).scroll(function(){
+            $("#localeInfo").stop().animate({"marginTop": ($(window).scrollTop()) + "px", "marginLeft":($(window).scrollLeft()) + "px"}, "slow" );
+        });
         return vm;
     };
 
