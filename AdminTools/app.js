@@ -39,7 +39,8 @@ lbs.apploader.register('AdminTools', function () {
             self.sqlJobs = ko.observableArray();
             self.indices = ko.observableArray();
             self.dbInfo = ko.observableArray();
-
+            self.testInfo = ko.observable('Detta är för att visa git');
+            
             self.selectedRecords = ko.observableArray();
             self.selectedProgrammabilityFrame = ko.observable("list");
             self.selectedTimeFrame = ko.observable("daily");
