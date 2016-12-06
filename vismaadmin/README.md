@@ -13,24 +13,25 @@ Every night, invoicing information is transferred from Visma Administration to L
 2. Copy "vismaadmin" folder to the “apps” folder in the Actionpad-folder.
 3. Run the SQL-scripts for creating the tables, fields and localization-records needed ("..\Install\SQL") in the right order according to the README-file in the folder and put the icons ("..\Install\ICONS") on the tables.
 4. Add separators according to the images in the ..\Install\SQL folder.
-5. Create a security policy named "tbl_visma" with only read rights for all groups except administrators. Add the policy to the tables "invoice" and "invoicerow" ass well as for the fields "vismaid", "visma_turnover_yearnow" & "visma_turnover_lastyear".
-6. Import the file Visma.bas ("..\Install\VBA").
-7. In company.html add the following row (change the vismaUrl, where it says "provisma", to the computername-specific address): 
+5. Create a security policy named "tbl_visma" with only read rights for all groups except administrators. Add the policy to the tables "invoice" and "invoicerow".
+6. Add the property "Read only (only in Lime Pro Desktop CLient" for the fields "visma_turnover_yearnow" & "visma_turnover_lastyear".
+7. Import the file Visma.bas ("..\Install\VBA").
+8. In company.html add the following row (change the vismaUrl, where it says "visma_server_name", to the computername-specific address): 
 ``` html
 <div data-app="{app:'vismaadmin',config:{
-	vismaUrl:'http://provisma:8194/api/v1/customer'
+	vismaUrl:'http://visma_server_name:8194/api/v1/customer'
 	}}">
 </div>
 ```
-8. Create a user in LIME Pro that is a member of the Administrators group. Make sure that the user has default login set to "Lime" and not "Windows".
-9. Run the Visma service in order to fully create all invoices and invoicerows in LIME Pro.
-10. If you need to do an initial migration of customers from Visma to Lime CRM, add the following in index.html (only available for administrators). Change the vismaUrl, where it says "provisma", to the computername-specific address:
+9. Create a user in LIME Pro that is a member of the Administrators group. Make sure that the user has default login set to "Lime" and not "Windows".
+10. Run the Visma service in order to fully create all invoices and invoicerows in LIME Pro.
+11. If you need to do an initial migration of customers from Visma to Lime CRM, add the following in index.html (only available for administrators). Change the vismaUrl, where it says "visma_server_name", to the computername-specific address:
 ``` html
 <ul class="menu expandable">
     <li class="menu-header"data-bind="text:'Kommando'"></li> 
     <li class="divider"></li>       
     <li data-bind="
-    vba:'Visma.SyncFromVisma, http://provisma:8194/api/v1/customer/export', 
+    vba:'Visma.SyncFromVisma, http://visma_server_name:8194/api/v1/customer/export', 
     text:'Migrate customers from Visma', 
     visible: ActiveUser.isAdmin,
     icon:'fa-refresh'"></li>   
