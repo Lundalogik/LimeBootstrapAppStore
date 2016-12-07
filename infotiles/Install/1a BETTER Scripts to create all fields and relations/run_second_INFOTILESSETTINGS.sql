@@ -115,7 +115,7 @@ INSERT  INTO @temp_field
         )
         SELECT  @tablename ,
                 @fieldname ,
-                N'sv:Synlig för;en_us:Visible for;fi:Näkyvillä' ,
+                N'sv:Synlig fÃ¶r;en_us:Visible for;fi:NÃ¤kyvillÃ¤' ,
                 N'option' ,
                 NULL ,
                 NULL ,
@@ -138,7 +138,7 @@ INSERT  INTO @temp_option
         UNION ALL
         SELECT  @tablename ,
                 @fieldname ,
-                 N'sv:Specifik medarbetare;en_us:Specific coworker;fi:Tietty työntekijä' ,
+                 N'sv:Specifik medarbetare;en_us:Specific coworker;fi:Tietty tyÃ¶ntekijÃ¤' ,
                 N'me',
 				0
 		UNION ALL
@@ -181,7 +181,7 @@ INSERT  INTO @temp_option
         )
         SELECT  @tablename ,
                 @fieldname ,
-                N'sv:Länk;en_us:Link;fi:Linkki' ,
+                N'sv:LÃ¤nk;en_us:Link;fi:Linkki' ,
                 N'link',
 				0
         UNION ALL
@@ -193,13 +193,13 @@ INSERT  INTO @temp_option
 		UNION ALL
         SELECT  @tablename ,
                 @fieldname ,
-                 N'sv:Antal träffar;en_us:Hitcount;fi:Osumat' ,
+                 N'sv:Antal trÃ¤ffar;en_us:Hitcount;fi:Osumat' ,
                 N'count',
 				1
 		UNION ALL
         SELECT  @tablename ,
                 @fieldname ,
-                 N'sv:Fältvärde;en_us:Field value;fi:Field value' ,
+                 N'sv:FÃ¤ltvÃ¤rde;en_us:Field value;fi:Field value' ,
                 N'field',
 				0
      
@@ -219,9 +219,9 @@ INSERT  INTO @temp_field
         )
         SELECT  @tablename ,
                 @fieldname ,
-                N'sv:Synlig på;en_us:Visble on;fi:Näkyvissä kortilla' ,
+                N'sv:Synlig pÃ¥;en_us:Visble on;fi:NÃ¤kyvissÃ¤ kortilla' ,
                 N'string' ,
-                32 ,
+                128 ,
                 NULL ,
                 0 ,
                 NULL ,
@@ -256,11 +256,11 @@ INSERT  INTO @temp_field
         )
         SELECT  @tablename ,
                 @fieldname ,
-                N'sv:Flik;en_us:Tab;fi:Välilehti' ,
+                N'sv:Flik;en_us:Tab;fi:VÃ¤lilehti' ,
                 N'string' ,
-                32 ,
+                128 ,
                 NULL ,
-                1 ,
+                0 ,
                 NULL ,
                 NULL ,
 				1 
@@ -295,9 +295,9 @@ INSERT  INTO @temp_field
         )
         SELECT  @tablename ,
                 @fieldname ,
-                N'sv:Fält;en_us:Field;fi:Kenttä' ,
+                N'sv:FÃ¤lt;en_us:Field;fi:KenttÃ¤' ,
                 N'string' ,
-                32 ,
+                128 ,
                 NULL ,
                 0 ,
                 NULL ,
@@ -334,7 +334,7 @@ INSERT  INTO @temp_field
                 @fieldname ,
                 N'sv:Urval;en_us:Filter;fi:Suodatin' ,
                 N'string' ,
-                32 ,
+                128 ,
                 NULL ,
                 0 ,
                 NULL ,
@@ -370,7 +370,7 @@ INSERT  INTO @temp_field
                 @fieldname ,
                 N'sv:Ikon;en_us:Icon;fi:Kuvake' ,
                 N'string' ,
-                32 ,
+                128 ,
                 NULL ,
                 0 ,
                 NULL ,
@@ -391,9 +391,9 @@ INSERT  INTO @temp_field
         )
         SELECT  @tablename ,
                 @fieldname ,
-                N'sv:Benämning i actionpad;en_us:Label;fi:Kuvaus' ,
+                N'sv:BenÃ¤mning i actionpad;en_us:Label;fi:Kuvaus' ,
                 N'string' ,
-                32 ,
+                128 ,
                 NULL ,
                 0 ,
                 NULL ,
@@ -414,7 +414,7 @@ INSERT  INTO @temp_field
         )
         SELECT  @tablename ,
                 @fieldname ,
-                N'sv:Sortering;en_us:Sort order;fi:Järjestys' ,
+                N'sv:Sortering;en_us:Sort order;fi:JÃ¤rjestys' ,
                 N'string' ,
                 32 ,
                 NULL ,
@@ -487,7 +487,7 @@ INSERT  INTO @temp_field
         )
         SELECT  @tablename ,
                 @fieldname ,
-                N'sv:Färg;en_us:Color;fi:Väri' ,
+                N'sv:FÃ¤rg;en_us:Color;fi:VÃ¤ri' ,
                 N'option' ,
                 NULL ,
                 NULL ,
@@ -505,14 +505,14 @@ INSERT  INTO @temp_option
         )
         SELECT  @tablename ,
                 @fieldname ,	
-				N'sv:Blekgrön;en_us:Clean-green;fi:Puhdas vihreä',
+				N'sv:BlekgrÃ¶n;en_us:Clean-green;fi:Puhdas vihreÃ¤',
 				N'clean-green',
 				0,
 				6008832
 		UNION ALL
 		SELECT  @tablename ,
 				@fieldname ,
-				N'sv:Blå;en_us:Blue;fi:Sininen',
+				N'sv:BlÃ¥;en_us:Blue;fi:Sininen',
 				N'blue',
 				0,
 				16749350
@@ -533,7 +533,7 @@ INSERT  INTO @temp_option
 		UNION ALL
 		SELECT  @tablename ,
 				@fieldname ,
-				N'sv:Grön;en_us:Green;fi:Vihreä',
+				N'sv:GrÃ¶n;en_us:Green;fi:VihreÃ¤',
 				N'green',
 				0,
 				2079363
@@ -547,14 +547,14 @@ INSERT  INTO @temp_option
 		UNION ALL
 		SELECT  @tablename ,
 				@fieldname ,
-				N'sv:Djupröd;en_us:Deep-red;fi:Syvänpunainen',
+				N'sv:DjuprÃ¶d;en_us:Deep-red;fi:SyvÃ¤npunainen',
 				N'deep-red',
 				0,
 				1842376
 		UNION ALL
 		SELECT  @tablename ,
 				@fieldname ,
-				N'sv:Ljusgrå;en_us:Light-grey;fi:Vaaleanharmaa',
+				N'sv:LjusgrÃ¥;en_us:Light-grey;fi:Vaaleanharmaa',
 				N'light-grey',
 				0,
 				9145227
@@ -568,14 +568,14 @@ INSERT  INTO @temp_option
 		UNION ALL
 		SELECT  @tablename ,
 				@fieldname ,
-				N'sv:Mörkgrå;en_us:Dark-grey;fi:Tummanharmaa',
+				N'sv:MÃ¶rkgrÃ¥;en_us:Dark-grey;fi:Tummanharmaa',
 				N'dark-grey',
 				0,
 				4605510
 		UNION ALL
 		SELECT  @tablename ,
 				@fieldname ,
-				N'sv:Mörklila;en_us:Purple-rain;fi:Tummanlila',
+				N'sv:MÃ¶rklila;en_us:Purple-rain;fi:Tummanlila',
 				N'purple-rain',
 				0,
 				9973850
@@ -589,7 +589,7 @@ INSERT  INTO @temp_option
 		UNION ALL
 		SELECT  @tablename ,
 				@fieldname ,
-				N'sv:Röd;en_us:Red;fi:Punainen',
+				N'sv:RÃ¶d;en_us:Red;fi:Punainen',
 				N'red',
 				0,
 				2505663
@@ -616,7 +616,7 @@ INSERT  INTO @temp_field
         )
         SELECT  @tablename ,
                 @fieldname ,
-                N'sv:Synlig om noll;en_us:Visable on Zero;fi:Näkyvissä nolla-arvolla' ,
+                N'sv:Synlig om noll;en_us:Visable on Zero;fi:NÃ¤kyvissÃ¤ nolla-arvolla' ,
                 N'yesno' ,
                 NULL ,
                 NULL ,
@@ -638,7 +638,7 @@ INSERT  INTO @temp_relation_one_to_many
 --RELATION WITH COWORKER
         SELECT  N'infotiles' ,
                 N'coworker' ,
-                N'sv:Specifik medarbetare;en_us:Specific coworker;fi:Tietty työntekijä' ,
+                N'sv:Specifik medarbetare;en_us:Specific coworker;fi:Tietty tyÃ¶ntekijÃ¤' ,
                 N'coworker' ,
                 N'infotiles' ,
                 N'sv:InfoTiles;en_us:InfoTiles;fi:InfoTiles' 
@@ -1041,14 +1041,14 @@ ELSE
 
             PRINT REPLICATE(N'#', 15)
             PRINT N'ANTAL TABELLER: ' + CAST(@totaltables AS NVARCHAR(32)) 
-            PRINT N'ANTAL FÄLT: ' + CAST(@totalfields AS NVARCHAR(32)) 
+            PRINT N'ANTAL FÃ„LT: ' + CAST(@totalfields AS NVARCHAR(32)) 
             PRINT N'ANTAL RELATIONER: '
                 + CAST(@totalrelations AS NVARCHAR(32)) 
             PRINT N'ANTAL ALTERNATIV: ' + CAST(@totaloptions AS NVARCHAR(32)) 
             PRINT REPLICATE(N'-', 15)
             PRINT N'ANTAL NYA TABELLER: '
                 + CAST(@noofaddedtables AS NVARCHAR(32)) 
-            PRINT N'ANTAL NYA FÄLT: ' + CAST(@noofaddedfields AS NVARCHAR(32)) 
+            PRINT N'ANTAL NYA FÃ„LT: ' + CAST(@noofaddedfields AS NVARCHAR(32)) 
             PRINT N'ANTAL NYA RELATIONER: '
                 + CAST(@noofaddedrelations AS NVARCHAR(32)) 
             PRINT N'ANTAL NYA ALTERNATIV: '
@@ -1056,7 +1056,7 @@ ELSE
             PRINT REPLICATE(N'-', 15)
             PRINT N'ANTAL EJ SKAPADE TABELLER: '
                 + CAST(@notaddedtables AS NVARCHAR(32)) 
-            PRINT N'ANTAL EJ SKAPADE FÄLT: '
+            PRINT N'ANTAL EJ SKAPADE FÃ„LT: '
                 + CAST(@notaddedfields AS NVARCHAR(32)) 
             PRINT N'ANTAL EJ SKAPADE RELATIONER: '
                 + CAST(@notaddedrelations AS NVARCHAR(32)) 
