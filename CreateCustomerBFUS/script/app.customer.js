@@ -115,13 +115,13 @@ var Customer = function(fieldMappings, rec) {
 	    
 	    c.Customer.EmailInformation = {};
 	    exp = exp + 'c.Customer.EmailInformation.AcceptEMail = (self.rec.' + self.fieldMappings.AcceptEMail + '.value === 1);\n';
-	    if (self.fieldMappings.Email1 !== '') {
+	    if (self.fieldMappings.EMail1 !== '') {
 	        exp = exp + 'c.Customer.EmailInformation.EMail1 = self.rec.' + self.fieldMappings.EMail1 + '.text;\n';
 	    }
-	    if (self.fieldMappings.Email2 !== '') {
+	    if (self.fieldMappings.EMail2 !== '') {
 	        exp = exp + 'c.Customer.EmailInformation.EMail2 = self.rec.' + self.fieldMappings.EMail2 + '.text;\n';
 	    }
-	    if (self.fieldMappings.Email3 !== '') {
+	    if (self.fieldMappings.EMail3 !== '') {
 	        exp = exp + 'c.Customer.EmailInformation.EMail3 = self.rec.' + self.fieldMappings.EMail3 + '.text;\n';
 	    }
 	    
@@ -180,13 +180,13 @@ var Customer = function(fieldMappings, rec) {
 	    
 	    c.Customer.EmailInformation = {};
 	    exp = exp + 'c.Customer.EmailInformation.AcceptEMail = (self.rec.' + self.fieldMappings.AcceptEMail + '.value === 1);\n';
-	    if (self.fieldMappings.Email1 !== '') {
+	    if (self.fieldMappings.EMail1 !== '') {
 	        exp = exp + 'c.Customer.EmailInformation.EMail1 = self.rec.' + self.fieldMappings.EMail1 + '.text;\n';
 	    }
-	    if (self.fieldMappings.Email2 !== '') {
+	    if (self.fieldMappings.EMail2 !== '') {
 	        exp = exp + 'c.Customer.EmailInformation.EMail2 = self.rec.' + self.fieldMappings.EMail2 + '.text;\n';
 	    }
-	    if (self.fieldMappings.Email3 !== '') {
+	    if (self.fieldMappings.EMail3 !== '') {
 	        exp = exp + 'c.Customer.EmailInformation.EMail3 = self.rec.' + self.fieldMappings.EMail3 + '.text;\n';
 	    }
 
