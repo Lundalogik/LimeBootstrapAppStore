@@ -22,6 +22,14 @@ initializeLib.initializeDatepicker = function(viewModel, appConfig) {
 	// Initialize datepicker
 	if (!initializeLib.pickerLoaded) {
         initializeLib.pickerLoaded = true;
+        
+        var localeKey = lbs.limeDataConnection.Database.Locale || 'en-us';
+        switch(localeKey)
+        {
+            case 'no':
+                localeKey = 'nb';
+        }
+
         $('#datetimepicker').datetimepicker({
             inline: false,
         	showTodayButton: true,
@@ -29,7 +37,7 @@ initializeLib.initializeDatepicker = function(viewModel, appConfig) {
             format: 'YYYY - MMMM',
             toolbarPlacement: 'top',
             defaultDate: moment().format('YYYY-MM-DD'),
-            locale: lbs.limeDataConnection.Database.Locale || 'en-us',
+            locale: localeKey,
             icons: {
                 time: 'fa fa-clock-o',
                 date: 'fa fa-calendar',
