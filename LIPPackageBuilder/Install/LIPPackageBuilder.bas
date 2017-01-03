@@ -287,7 +287,7 @@ On Error GoTo ErrorHandler
                     Dim oField As Object
                     For Each oField In oTable.Item("fields")
                         
-                        If oField.Item("attributes").Item("optionquery") <> "" Then
+                        If oField.Item("attributes").Item("optionquery") <> "" And oField.Item("attributes").Item("optionquery") <> "''" Then
                             bResult = SaveTextToDisk(oField.Item("attributes").Item("optionquery"), strOptionQueryFolder, oTable.Item("name") & "." & oField.Item("name") & ".txt")
                             If bResult = False Then allOK = False
                             
@@ -324,7 +324,7 @@ On Error GoTo ErrorHandler
                     Dim oField As Object
                     For Each oField In oTable.Item("fields")
                         
-                        If oField.Item("attributes").Item("onsqlupdate") <> "" Or oField.Item("attributes").Item("onsqlupdate") <> "''" Then
+                        If oField.Item("attributes").Item("onsqlupdate") <> "" And oField.Item("attributes").Item("onsqlupdate") <> "''" Then
                             bResult = SaveTextToDisk(oField.Item("attributes").Item("onsqlupdate"), strSqlOnUpdateFolder, oTable.Item("name") & "." & oField.Item("name") & ".txt")
                             If bResult = False Then allOK = False
                             
@@ -361,7 +361,7 @@ On Error GoTo ErrorHandler
                     Dim oField As Object
                     For Each oField In oTable.Item("fields")
                         
-                        If oField.Item("attributes").Item("onsqlinsert") <> "" Or oField.Item("attributes").Item("onsqlinsert") <> "''" Then
+                        If oField.Item("attributes").Item("onsqlinsert") <> "" And oField.Item("attributes").Item("onsqlinsert") <> "''" Then
                             bResult = SaveTextToDisk(oField.Item("attributes").Item("onsqlinsert"), strSqlForNewFolder, oTable.Item("name") & "." & oField.Item("name") & ".txt")
                             If bResult = False Then allOK = False
                             
@@ -398,7 +398,7 @@ On Error GoTo ErrorHandler
                     Dim oField As Object
                     For Each oField In oTable.Item("fields")
                         
-                        If oField.Item("attributes").Item("sql") <> "" Or oField.Item("attributes").Item("sql") <> "''" Then
+                        If oField.Item("attributes").Item("sql") <> "" And oField.Item("attributes").Item("sql") <> "''" Then
                             bResult = SaveTextToDisk(oField.Item("attributes").Item("sql"), strSqlExpressionsFolder, oTable.Item("name") & "." & oField.Item("name") & ".txt")
                             If bResult = False Then allOK = False
                             
@@ -429,7 +429,7 @@ On Error GoTo ErrorHandler
             strSqlDescriptiveFolder = strTempFolder & "\" & "descriptive_expressions"
             
             For Each oTable In oPackage.Item("install").Item("tables")
-                If oTable.Item("attributes").Item("descriptive") <> "" Or oTable.Item("attributes").Item("descriptive") <> "''" Then
+                If oTable.Item("attributes").Item("descriptive") <> "" And oTable.Item("attributes").Item("descriptive") <> "''" Then
                     bResult = SaveTextToDisk(oTable.Item("attributes").Item("descriptive"), strSqlDescriptiveFolder, oTable.Item("name") & ".txt")
                     If bResult = False Then allOK = False
                             
@@ -456,8 +456,7 @@ On Error GoTo ErrorHandler
     strFilename = strFolderPath & "\" & strFilename
     
     If strText = "" Or strText = "''" Then
-        SaveTextToDisk = True
-        Exit Function
+        Call Err.Raise(1, , "Empty text was supplied to the stream")
     End If
     
     oStream.Type = adTypeText
