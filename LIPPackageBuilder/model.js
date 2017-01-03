@@ -7,7 +7,7 @@ initModel = function(viewModel){
 }
 
 // Table object
-var Table = function(t){
+var Table = function(t, descriptive){
 
     var self = this;
     // Load database name
@@ -20,16 +20,17 @@ var Table = function(t){
     self.invisible = t.invisible;
     // Initiate fields visible in gui
     self.guiFields = ko.observableArray();
-	
-    
-	// Load attributes 
+
+
+
+	// Load attributes
     self.attributes = {};
     $.each(vm.tableAttributes, function(i, a){
         self.attributes[a] = t[a];
     });
-	
+
     var tooltipAttributesTable;
-    
+
 	//Tooltip for the table´s
 	$.each(self.attributes, function(attributeName,attributeValue){
 			if(attributeName == 'label'){
@@ -40,11 +41,15 @@ var Table = function(t){
 				tooltipAttributesTable += '<b>' + attributeName + '</b>: ' + attributeValue + '<br>';
 			}
 	 });
-    
+
+     if(descriptive && descriptive.expression){
+         self.attributes['descriptive'] = descriptive.expression;   
+     }
+
     self.tooltipAttributesTable = function(){
         return tooltipAttributesTable;
     }
-    
+
     // Load gui fields
     self.guiFields(ko.utils.arrayMap(ko.utils.arrayFilter(t.field,function(f){ return f.fieldtype != 255;}), function(f){
         return new Field(f, self.name);
@@ -55,7 +60,7 @@ var Table = function(t){
 
     // If fields of table are shown in column to the right
     self.shown = ko.computed(function(){
-        return vm.shownTable() ? (vm.shownTable().name == self.name) : false; 
+        return vm.shownTable() ? (vm.shownTable().name == self.name) : false;
     });
 
     // Click function to select table
@@ -81,7 +86,7 @@ var Table = function(t){
     // Filter function for fields
     self.filterFields = function(){
         if(vm.fieldFilter() != ""){
-            self.filteredFields.removeAll(); 
+            self.filteredFields.removeAll();
             self.filteredFields(ko.utils.arrayFilter(self.guiFields(), function(item) {
 
                 if(item.name.toLowerCase().indexOf(vm.fieldFilter().toLowerCase()) != -1){
@@ -95,7 +100,7 @@ var Table = function(t){
                 }
                 return false;
             }));
-        }else{  
+        }else{
             self.filteredFields(self.guiFields().slice());
         }
     }
@@ -123,8 +128,8 @@ var Field = function(f, tablename){
     self.name = f.name;
     self.timestamp = ko.observable(moment(f.timestamp).format("YYYY-MM-DD"));
     self.localname = f.localname;
-   
-    
+
+
     self.attributes = {};
 	self.tooltipAttributes = "";
     $.each(vm.fieldAttributes, function(index, attributeName){
@@ -142,13 +147,13 @@ var Field = function(f, tablename){
                         self.options = [f[attributeName]];
                     else
                         self.options = f[attributeName];
-                    
+
                     //Delete invalid LIP-properties (idcategory, idstring, etc...)
                     for(var i = 0;i < self.options.length;i++){
                         $.each(vm.excludedOptionAttributes, function(j, optionAttributeName){
                             delete self.options[i][optionAttributeName];
                         });
-                        
+
                     }
                 }
             }
@@ -160,9 +165,9 @@ var Field = function(f, tablename){
                         var ownerField = o.owner.substring(o.owner.indexOf(".") + 1);
                         return ownerTable == self.table && ownerField == self.name;
                     })[0]["text"];
-                
+
                 }
-                
+
             }
             else{
                 if(f[attributeName]){
@@ -176,9 +181,12 @@ var Field = function(f, tablename){
         //Set option as default value and remove unnecessary attribute idstring
         if(self.options){
             for(var i = 0; i < self.options.length;i++){
-                if(self.options[i]["idstring"] == self.attributes["defaultvalue"] && self.attributes["defaultvalue"] != null){
+                if(self.options[i]["idstring"] == self.attributes["defaultvalue"] && self.attributes["defaultvalue"] != null){    
+              
+                   
                     self.options[i]["default"] = "true";
                     delete self.options[i]["idstring"];
+                     
                 }
                 else{
                     delete self.options[i]["idstring"];
@@ -205,16 +213,16 @@ var Field = function(f, tablename){
 			tooltipAttributes += '<b>' + attributeName + '</b>: ' + attributeValue + '<br>';
 		}
 	});
-    
+
     self.tooltipAttributes = function(){
         return tooltipAttributes;
     }
-    
+
     var getFieldTypeDisplayName = function(fieldtypeName, length){
-        
+
         var fieldtypeDisplayName = vm.FieldtTypeDisplayNames[fieldtypeName];
-        
-        
+
+
         var lengthString = '';
         //Handle string fields
         if(fieldtypeName == "string"){
@@ -225,15 +233,15 @@ var Field = function(f, tablename){
                 lengthString = '(MAX)';
             }
         }
-        
+
         return fieldtypeDisplayName + ' ' + lengthString;
-        
+
     };
-    
+
     self.fieldTypeDisplayName = ko.computed(function(){
         return getFieldTypeDisplayName(self.attributes.fieldtype , self.attributes.length)
     });
-    
+
     // Observable for selecting field
     self.selected = ko.observable(false);
 
@@ -293,16 +301,16 @@ var Relation = function(idrelation, tablename, fieldname){
     self.field1 =  fieldname;
     self.table2 =  "";
     self.field2 = "";
-    
+
     self.serialize = function(){
             return {    "table1": self.table1,
                         "field1": self.field1,
                         "table2": self.table2,
                         "field2": self.field2
                     };
-    
+
     }
-    
+
 }
 
 var SqlComponent = function(sql){
@@ -321,4 +329,11 @@ var OptionQuery = function(o){
     var self = this;
     self.owner = o.owner;
     self.text = o.text;
+}
+
+var Descriptive = function(d){
+    var self = this;
+    self.table = d.table;
+    self.expression = d.expression;
+    
 }

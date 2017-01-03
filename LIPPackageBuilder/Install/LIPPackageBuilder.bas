@@ -139,7 +139,7 @@ On Error GoTo ErrorHandler
     strTempFolder = CreateTemporaryFolder()
     'Used for later
     strOldTempFolder2 = strTempFolder
-    Set oPackage = JsonConverter.parseJSON(strPackageJson)
+    Set oPackage = JsonConverter.ParseJson(strPackageJson)
     
     'Export VBA modules
     If bResult And oPackage("install").Exists("vba") Then
@@ -177,6 +177,43 @@ On Error GoTo ErrorHandler
         Call Application.MessageBox("Couldn't export the optionqueries, will continue anyway...", vbInformation)
         bResult = True
     End If
+    
+    ' Save SQL on update
+     If bResult Then
+        bResult = SaveSqlOnUpdate(oPackage, strTempFolder)
+    End If
+    If bResult = False Then
+        Call Application.MessageBox("Couldn't export the sql on update, will continue anyway...", vbInformation)
+        bResult = True
+    End If
+    
+    ' Save SQL for new
+     If bResult Then
+        bResult = SaveSqlForNew(oPackage, strTempFolder)
+    End If
+    If bResult = False Then
+        Call Application.MessageBox("Couldn't export the sql for new, will continue anyway...", vbInformation)
+        bResult = True
+    End If
+    
+    ' Save SQL Expressions
+    If bResult Then
+        bResult = SaveSqlExpressions(oPackage, strTempFolder)
+    End If
+    If bResult = False Then
+        Call Application.MessageBox("Couldn't export the sql expressions, will continue anyway...", vbInformation)
+        bResult = True
+    End If
+    
+    ' Save SQL Descriptive
+    If bResult Then
+        bResult = SaveSqlDescriptive(oPackage, strTempFolder)
+    End If
+    If bResult = False Then
+        Call Application.MessageBox("Couldn't export the sql descriptive expressions, will continue anyway...", vbInformation)
+        bResult = True
+    End If
+    
     
     
     'Save Package.json
@@ -267,6 +304,145 @@ ErrorHandler:
     SaveOptionQueries = False
 End Function
 
+Private Function SaveSqlOnUpdate(oPackage As Object, strTempFolder As String) As Boolean
+On Error GoTo ErrorHandler
+    Dim bResult As Boolean
+    Dim allOK As Boolean
+    bResult = True
+    allOK = True
+    If oPackage.Exists("install") Then
+        If oPackage("install").Exists("tables") Then
+            Dim oTable As Object
+            Dim strSqlOnUpdateFolder As String
+            Dim strFilePath As String
+            strSqlOnUpdateFolder = strTempFolder & "\" & "sql_on_update"
+    
+            
+            
+            For Each oTable In oPackage.Item("install").Item("tables")
+                If oTable.Exists("fields") Then
+                    Dim oField As Object
+                    For Each oField In oTable.Item("fields")
+                        
+                        If oField.Item("attributes").Item("onsqlupdate") <> "" Or oField.Item("attributes").Item("onsqlupdate") <> "''" Then
+                            bResult = SaveTextToDisk(oField.Item("attributes").Item("onsqlupdate"), strSqlOnUpdateFolder, oTable.Item("name") & "." & oField.Item("name") & ".txt")
+                            If bResult = False Then allOK = False
+                            
+                        End If
+                    Next
+                End If
+            Next
+        End If
+    End If
+    SaveSqlOnUpdate = allOK
+Exit Function
+ErrorHandler:
+    Debug.Print Err.Description
+    SaveSqlOnUpdate = False
+End Function
+
+Private Function SaveSqlForNew(oPackage As Object, strTempFolder As String) As Boolean
+On Error GoTo ErrorHandler
+    Dim bResult As Boolean
+    Dim allOK As Boolean
+    bResult = True
+    allOK = True
+    If oPackage.Exists("install") Then
+        If oPackage("install").Exists("tables") Then
+            Dim oTable As Object
+            Dim strSqlForNewFolder As String
+            Dim strFilePath As String
+            strSqlForNewFolder = strTempFolder & "\" & "sql_for_new"
+    
+            
+            
+            For Each oTable In oPackage.Item("install").Item("tables")
+                If oTable.Exists("fields") Then
+                    Dim oField As Object
+                    For Each oField In oTable.Item("fields")
+                        
+                        If oField.Item("attributes").Item("onsqlinsert") <> "" Or oField.Item("attributes").Item("onsqlinsert") <> "''" Then
+                            bResult = SaveTextToDisk(oField.Item("attributes").Item("onsqlinsert"), strSqlForNewFolder, oTable.Item("name") & "." & oField.Item("name") & ".txt")
+                            If bResult = False Then allOK = False
+                            
+                        End If
+                    Next
+                End If
+            Next
+        End If
+    End If
+    SaveSqlForNew = allOK
+Exit Function
+ErrorHandler:
+    Debug.Print Err.Description
+    SaveSqlForNew = False
+End Function
+
+Private Function SaveSqlExpressions(oPackage As Object, strTempFolder As String) As Boolean
+On Error GoTo ErrorHandler
+    Dim bResult As Boolean
+    Dim allOK As Boolean
+    bResult = True
+    allOK = True
+    If oPackage.Exists("install") Then
+        If oPackage("install").Exists("tables") Then
+            Dim oTable As Object
+            Dim strSqlExpressionsFolder As String
+            Dim strFilePath As String
+            strSqlExpressionsFolder = strTempFolder & "\" & "sql_expressions"
+    
+            
+            
+            For Each oTable In oPackage.Item("install").Item("tables")
+                If oTable.Exists("fields") Then
+                    Dim oField As Object
+                    For Each oField In oTable.Item("fields")
+                        
+                        If oField.Item("attributes").Item("sql") <> "" Or oField.Item("attributes").Item("sql") <> "''" Then
+                            bResult = SaveTextToDisk(oField.Item("attributes").Item("sql"), strSqlExpressionsFolder, oTable.Item("name") & "." & oField.Item("name") & ".txt")
+                            If bResult = False Then allOK = False
+                            
+                        End If
+                    Next
+                End If
+            Next
+        End If
+    End If
+    SaveSqlExpressions = allOK
+Exit Function
+ErrorHandler:
+    Debug.Print Err.Description
+    SaveSqlExpressions = False
+End Function
+
+Private Function SaveSqlDescriptive(oPackage As Object, strTempFolder As String) As Boolean
+On Error GoTo ErrorHandler
+    Dim bResult As Boolean
+    Dim allOK As Boolean
+    bResult = True
+    allOK = True
+    If oPackage.Exists("install") Then
+        If oPackage("install").Exists("tables") Then
+            Dim oTable As Object
+            Dim strSqlDescriptiveFolder As String
+            Dim strFilePath As String
+            strSqlDescriptiveFolder = strTempFolder & "\" & "descriptive_expressions"
+            
+            For Each oTable In oPackage.Item("install").Item("tables")
+                If oTable.Item("attributes").Item("descriptive") <> "" Or oTable.Item("attributes").Item("descriptive") <> "''" Then
+                    bResult = SaveTextToDisk(oTable.Item("attributes").Item("descriptive"), strSqlDescriptiveFolder, oTable.Item("name") & ".txt")
+                    If bResult = False Then allOK = False
+                            
+                End If
+            Next
+        End If
+    End If
+    SaveSqlDescriptive = allOK
+Exit Function
+ErrorHandler:
+    Debug.Print Err.Description
+    SaveSqlDescriptive = False
+End Function
 Private Function SaveTextToDisk(strText As String, strFolderPath As String, strFilename As String)
 On Error GoTo ErrorHandler
     Dim oStream
@@ -279,8 +455,9 @@ On Error GoTo ErrorHandler
     
     strFilename = strFolderPath & "\" & strFilename
     
-    If strText = "" Then
-        Call Err.Raise(1, , "Empty text was supplied to the stream")
+    If strText = "" Or strText = "''" Then
+        SaveTextToDisk = True
+        Exit Function
     End If
     
     oStream.Type = adTypeText

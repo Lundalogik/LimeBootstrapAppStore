@@ -29,12 +29,16 @@ lbs.apploader.register('LIPPackageBuilder', function () {
         // Checkbox to select all tables
         vm.selectTables = ko.observable(false);
         
+
+
         vm.selectTables.subscribe(function(newValue){
             ko.utils.arrayForEach(vm.filteredTables(),function(item){
                 item.selected(newValue);
             });
         });        
         
+
+
         //Checkbox to select all VBA Modules
         vm.selectAllVbaComponents = ko.observable(false);
         
@@ -76,20 +80,18 @@ lbs.apploader.register('LIPPackageBuilder', function () {
             vm.showComponents(true);
         }
         
-
-        var checkIfVbaLoaded = false;
+		var checkLoad = false;
         // Navbar function to change tab
         vm.showTab = function(t){
-        try{
-            if (t == 'vba' && checkIfVbaLoaded == false){
-                vm.getVbaComponents();
-                checkIfVbaLoaded = true;
+            try{
+                if (t == 'vba' && checkLoad == false){
+                      vm.getVbaComponents();
+                      checkLoad = true;
+                }
+                vm.activeTab(t);
             }
-          vm.activeTab(t);
-        }
             catch(e){alert(e);}
         }
-        
         // Set default tab to details
         vm.activeTab = ko.observable("details");
         
@@ -106,7 +108,10 @@ lbs.apploader.register('LIPPackageBuilder', function () {
         //Relation container
         vm.relations = ko.observableArray();
         
-        
+        // Descriptive expressions
+        vm.descriptives = ko.observableArray();
+
+        //SQL Procedures and functions
         vm.sql = ko.observableArray();
         
         
@@ -213,6 +218,13 @@ lbs.apploader.register('LIPPackageBuilder', function () {
                 return new SqlComponent(t);
             }));
             
+
+            vm.descriptives(ko.utils.arrayMap(json.data.database.descriptives.descriptive, function(d){
+                return new Descriptive(d);
+            }));
+
+
+            
             
             var sqlDefinitions =  {};
             var def;
@@ -250,8 +262,7 @@ lbs.apploader.register('LIPPackageBuilder', function () {
             localData = lbs.common.executeVba('LIPPackageBuilder.LoadDataStructure, csp_lip_getlocalnames');
             localData = localData.replace(/\r?\n|\r/g,"");
             localData = b64_to_utf8(localData);
-            //Fulfix för fnuttar
-            localData = localData.replace(/\&quot;/g, "'");
+            
             var json = xml2json($.parseXML(localData),''); 
             json = json.replace(/\\/g,"\\\\");
             
@@ -268,6 +279,8 @@ lbs.apploader.register('LIPPackageBuilder', function () {
         // Filtered tables. These are the ones loaded into the view
         vm.filteredTables = ko.observableArray();
         
+        
+
         // Filtered Components
         vm.filteredComponents = ko.observableArray();
         
@@ -276,12 +289,22 @@ lbs.apploader.register('LIPPackageBuilder', function () {
         
         // Load model objects
         initModel(vm);
-
+        
+        try{
         // Populate table objects
         vm.tables(ko.utils.arrayMap(vm.datastructure.table,function(t){
-            return new Table(t);
+            return new Table(t, vm.descriptives().filter(function(d){
+                    return d.table == t.name;
+            })[0]);
         }));
+        }
+        catch(e){
+            alert(e);
+        }        
         
+
+
+
         // Computed with all selected vba components
         vm.selectedVbaComponents = ko.computed(function(){
             if(vm.vbaComponents()){
@@ -313,7 +336,7 @@ lbs.apploader.register('LIPPackageBuilder', function () {
             vm.shownTable().filterFields();
         });
         vm.tableFilter.subscribe(function(newValue){
-            vm.filterTables();
+            vm.filterTables() = Tables();
         });
         
         vm.componentFilter.subscribe(function(newValue){
