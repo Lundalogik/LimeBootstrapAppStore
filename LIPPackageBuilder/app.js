@@ -31,7 +31,7 @@ lbs.apploader.register('LIPPackageBuilder', function () {
         
         vm.selectTables.subscribe(function(newValue){
             ko.utils.arrayForEach(vm.filteredTables(),function(item){
-                item.selected(newValue);
+                item.select();
             });
         });        
         
@@ -53,7 +53,7 @@ lbs.apploader.register('LIPPackageBuilder', function () {
             });
         });
         
-        //Checkbox to select all SQL procedures and functions
+        //Checkbox to select all Localizations and functions
         vm.selectAllLocalizations = ko.observable(false);
         
         vm.selectAllLocalizations.subscribe(function(newValue){
@@ -387,7 +387,7 @@ lbs.apploader.register('LIPPackageBuilder', function () {
         // Computed with all selected tables
         vm.selectedTables = ko.computed(function(){
             return ko.utils.arrayFilter(vm.tables(), function(t){
-                return t.selected();
+                return t.indeterminate() == indeterminateStatus.Selected || t.indeterminate() == indeterminateStatus.PartiallySelected;
             });
         });
 
@@ -437,5 +437,38 @@ ko.bindingHandlers.stopBubble = {
             event.stopPropagation(); 
          }
     });
+  }
+};
+
+// Bindinghandler for checkboxes
+ko.bindingHandlers.indeterminateOrChecked = {
+  init: function(element) {
+      try{
+        $(element).prop('indeterminate',false);
+        $(element).checked = false;
+      }
+      catch(e){alert(e);}
+  },
+  update:function(element,val){
+      // Unchecked and undeterminate
+      
+      var valueAccessor = ko.unwrap(val());
+      if(valueAccessor == indeterminateStatus.NotSelected){
+          $(element).prop('indeterminate',false);
+          $(element).prop('checked', false);
+          // alert("unselected")
+      }
+      // Indeterminate
+      else if(valueAccessor == indeterminateStatus.PartiallySelected){
+          $(element).prop('indeterminate', true);
+          $(element).prop('checked', false);
+      }
+      else {
+        
+        $(element).prop('indeterminate',false);
+        $(element).prop('checked', true);
+        
+      }
+      
   }
 };

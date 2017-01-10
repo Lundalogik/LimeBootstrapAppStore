@@ -83,7 +83,7 @@
 					<!-- ko foreach: filteredTables() -->
 					<a class="list-group-item" data-bind="click: show, css:{'active' : shown}, tooltip:tooltipAttributesTable()" data-html="true">
 						<span class="col-md-1 col-sm-1 col-md-1" >
-							<input type="checkbox" data-bind="checked: selected, stopBubble: true" >
+							<input type="checkbox" data-bind="stopBubble: true, indeterminateOrChecked:indeterminate, click:select" >
 						</span>
 
 						<span class="col-md-4" data-bind="text: name"/>
