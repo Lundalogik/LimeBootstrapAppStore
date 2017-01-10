@@ -18,7 +18,7 @@ packagebuilder = {
             }
             try{
                 // For each selected table
-                
+
                 $.each(vm.selectedTables(),function(i,table){
                     var packageTable = {};
                     //Clone the table object
@@ -32,16 +32,16 @@ packagebuilder = {
                     packageTable.localname_singular = localNameTable.localname_singular;
                     packageTable.localname_plural = localNameTable.localname_plural;
                     var icon = vm.tableIcons().filter(function(ti){
-                       return ti.table == table.name; 
+                       return ti.table == table.name;
                     })[0];
-                    
+
                     if(icon != null){
                             packageTable.attributes.icon = icon.binarydata;
                     }
                     // For each selected field in current table
                     var fields = [];
                     var packageFields = [];
-                    
+
                     var selectedFields = jQuery.extend(true,{},table.selectedFields());
                     $.each(selectedFields,function(j,field){
                         // Fetch local names from field with same name from the other data source
@@ -50,21 +50,21 @@ packagebuilder = {
                         })[0];
                         //Clone the field
                         var packageField = jQuery.extend(true,{},field);
-                        
+
                         // Set local names for current field
                         packageField.localname = jQuery.extend(true,{},localNameField);
-                        
+
                         //create relations
                         try{
                             if(field.attributes.fieldtype == "relation"){
                                 //Lookup if relation already added
                                 var existingRelation = relations[field.attributes.idrelation];
-                                
+
                                 if(existingRelation == null || existingRelation == undefined){
                                     var packageRelation = new Relation(field.attributes.idrelation,table.name, field.name);
                                     relations[field.attributes.idrelation] = packageRelation;
-                                    
-                                    
+
+
                                 }
                                 else{
                                     existingRelation.table2 = table.name;
@@ -75,7 +75,7 @@ packagebuilder = {
                         catch(e){
                             alert(e);
                         }
-                        
+
                         if(packageField.localname && packageField.localname.name){
                             delete packageField.localname.name;
                         }
@@ -83,37 +83,37 @@ packagebuilder = {
                         if(packageField.localname && packageField.localname.order){
                             delete packageField.localname.order;
                         }
-                        
+
                         //The separator is added correctly as a property on a field, instead of localname.
                         if(packageField.localname && packageField.localname.separator){
                             packageField.separator = packageField.localname.separator;
-                            
+
                             delete packageField.localname.separator;
-                                
+
                         }
-                        
+
                         if(packageField.separator && packageField.separator.order){
-                            delete packageField.separator.order;   
+                            delete packageField.separator.order;
                         }
-                        
+
                         if(packageField.localname && packageField.localname.option){
                             delete packageField.localname.option;
                         }
 
                         // Push field to fields
                         fields.push(packageField);
-                        
-                        
+
+
                     });
-                    
+
                     // Set fields to the current table
                     packageTable.fields = fields;
-                    
+
                     // Push table to tables
                     packageTables.push(packageTable);
                 });
-                
-                 
+
+
                 //Add relations as the package expects
                 for(idrelation in relations){
                     if(relations[idrelation].table2 != ""){
@@ -123,9 +123,9 @@ packagebuilder = {
                                                 "field2": relations[idrelation].field2
                                                 })
                     }
-                    
+
                 }
-                
+
                 var packageRelationFields = [];
                 //Fetch all relationfields in package
                 var index;
@@ -134,11 +134,11 @@ packagebuilder = {
                     for (j = 0;j <  packageTables[index].fields.length; j++){
                       var f = packageTables[index].fields[j];
                       if (f.attributes.fieldtype == "relation"){
-                        packageRelationFields.push({ "name":packageTables[index].name + '.' + f.name, "remove": 1});   
+                        packageRelationFields.push({ "name":packageTables[index].name + '.' + f.name, "remove": 1});
                       }
                     }
                 }
-                
+
                 //Check if field is existing in an relation
                 for (index = 0;index < packageRelationFields.length; index++){
                     var rf = packageRelationFields[index];
@@ -150,8 +150,8 @@ packagebuilder = {
                         }
                     }
                 }
-                
-                //remove unpaired relationfields 
+
+                //remove unpaired relationfields
                 $.each(packageRelationFields,function(i,relField){
                     if(relField.remove == 1){
                         $.each(packageTables, function(j,packageTable){
@@ -168,28 +168,29 @@ packagebuilder = {
                                     packageTable.fields.splice(indexOfObjectToRemove,1);
                                 }
                             }
-                        
-                        
+
+
                     });
                 }
                 });
-                
+
                 $.each(vm.selectedSql(),function(i, sql){
                     sqlObjects.push({"name": sql.name, "definition": vm.sqlDefinitions()[sql.name]})
                 });
-                
-                
-                
+
+
+
             }
             catch(e){
                 alert(e);
             }
-            
+
             try {
                 var arrComponents = [];
                 $.each(vm.selectedVbaComponents(), function(i, component){
                     arrComponents.push({"name": component.name, "relPath": "Install\\" + component.name + component.extension() })
                 });
+
 
                 var arrLocalizations = [];
                 $.each(vm.selectedLocalizations(), function(i, locale){
@@ -204,6 +205,7 @@ packagebuilder = {
                     });
                 });
                 
+
                 // Build package json from details and database structure
                 data = {
                     "name": vm.name(),
@@ -217,10 +219,10 @@ packagebuilder = {
                         "comments": vm.comment()
                     }],
                     "install" : {
-                        
+
                     }
                 }
-                
+
                 var bSomethingToInstall = false;
 
                 if(packageTables.length > 0){
@@ -231,16 +233,18 @@ packagebuilder = {
                     data.install.relations = packageRelations;
                     bSomethingToInstall = true;
                 }
-                
+
                 if(sqlObjects.length > 0){
                     data.install.sql = sqlObjects
                     bSomethingToInstall = true;
                 }
+
                 
                 if(arrLocalizations.length > 0){
                     data.install.localize = arrLocalizations;
                     bSomethingToInstall = true;
                 }
+
 
                 if(arrComponents.length > 0){
                     data.install.vba = arrComponents;
@@ -248,19 +252,19 @@ packagebuilder = {
                 }
                 //lbs.log.debug(JSON.stringify(data));
             }catch(e) {alert("Error serializing LIP Package:\n\n" + e);}
-            
+
             if(bSomethingToInstall){
                 // Save using VBA Method
                 try{
-                    
+
                     //Base64 encode the entire string, commas don't do well in VBA calls.
                     lbs.common.executeVba('LIPPackageBuilder.CreatePackage', window.btoa(JSON.stringify(data)));
-                    
+
                 }catch(e){alert(e);}
             }
             else{
                 alert("You haven't selected anything for your new package...");
             }
-        
+
     }
 }
