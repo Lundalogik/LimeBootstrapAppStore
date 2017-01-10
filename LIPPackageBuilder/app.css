@@ -1,9 +1,6 @@
 .list-group-item.disabled {
 	cursor: default !important;
 }
-.list-group-item.shown{
-	background-color: rgba(105, 133, 183, 0.4) ;
-}
 
 .list-group-item{
 	min-height: 35px;

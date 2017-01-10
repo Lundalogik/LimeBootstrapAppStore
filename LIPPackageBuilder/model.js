@@ -6,6 +6,13 @@ initModel = function(viewModel){
     vm = viewModel;
 }
 
+//For checkboxes
+var indeterminateStatus = {
+    NotSelected : 0,
+    PartiallySelected: 1,
+    Selected : 2
+};
+
 // Table object
 var Table = function(t, descriptive){
 
@@ -21,9 +28,10 @@ var Table = function(t, descriptive){
     // Initiate fields visible in gui
     self.guiFields = ko.observableArray();
 
-
-
-	// Load attributes
+	
+    self.indeterminate = ko.observable(indeterminateStatus.NotSelected);
+    
+	// Load attributes 
     self.attributes = {};
     $.each(vm.tableAttributes, function(i, a){
         self.attributes[a] = t[a];
@@ -55,23 +63,35 @@ var Table = function(t, descriptive){
         return new Field(f, self.name);
     }));
 
-    // If table is selected
-    self.selected = ko.observable(false);
+    
 
     // If fields of table are shown in column to the right
     self.shown = ko.computed(function(){
         return vm.shownTable() ? (vm.shownTable().name == self.name) : false;
     });
 
-    // Click function to select table
+     // Click function to select table including all fields
     self.select = function(){
-        self.selected(!self.selected());
+        self.show();
+        var currentIndeterminate = self.indeterminate();
+        try{
+            if(currentIndeterminate == indeterminateStatus.NotSelected || currentIndeterminate == indeterminateStatus.PartiallySelected){
+                self.selectFields(true);
+            }
+            else{
+                self.selectFields(false);
+            }
+            
+        }
+        catch(e){alert(e);}
+        return true;
     };
 
     // Click function to show fields
     self.show = function(){
-        vm.shownTable(vm.shownTable() ? (vm.shownTable().name == self.name ? null: self) : self);
+        vm.shownTable(self);
     };
+    
 
     // Computed for keeping track of selected fields
     self.selectedFields = ko.computed(function(){
@@ -108,12 +128,25 @@ var Table = function(t, descriptive){
     // Select all fields
     self.selectFields = ko.observable(false);
 
-    // Subscribe to select all event
+   // Subscribe to select all event
     self.selectFields.subscribe(function(newValue){
-        ko.utils.arrayForEach(self.filteredFields(),function(item){
-            item.selected(newValue);
-        });
-        self.selected(newValue);
+        try{
+            ko.utils.arrayForEach(self.filteredFields(),function(item){
+                item.selected(newValue);
+            });
+            var indeterminate = indeterminateStatus.NotSelected;
+            
+            if (newValue == true){
+                indeterminate = indeterminateStatus.Selected;
+            }
+            else {
+                indeterminate = indeterminateStatus.NotSelected;
+            }
+            
+        }
+        catch(e){alert("hej:" + e);}
+
+        self.indeterminate(indeterminate);
     });
 
     // Set default empty filter
@@ -245,20 +278,30 @@ var Field = function(f, tablename){
     // Observable for selecting field
     self.selected = ko.observable(false);
 
-    // Subscribe to select event to see if table should be selected or deselected
+    // Subscribe to select event to see if table should be selected or deselected, or partially selected
     self.selected.subscribe(function(newValue){
-        if(newValue){
-            vm.shownTable().selected(newValue);
-        }
-        else{
-            var checked = false;
-
-            ko.utils.arrayForEach(vm.shownTable().guiFields(), function(item){
-                checked = item.selected() ? true : checked;
-            });
-            vm.shownTable().selected(checked);
-        }
-    })
+        var fieldCount = vm.shownTable().guiFields().length;
+        var selectedFields = 0;
+        
+        ko.utils.arrayForEach(vm.shownTable().guiFields(), function(field){
+            if(field.selected()){
+                selectedFields++;
+            }
+        });
+        try{
+            if(selectedFields == 0){
+                vm.shownTable().indeterminate(indeterminateStatus.NotSelected);
+            }
+            else if(selectedFields != fieldCount){
+                vm.shownTable().indeterminate(indeterminateStatus.PartiallySelected);
+            }
+            else {
+                vm.shownTable().indeterminate(indeterminateStatus.Selected);
+            }
+        }catch(e){alert(e);}
+        
+    });
+    
     // Click function for select
     self.select = function(){
         self.selected(!self.selected());
@@ -331,9 +374,28 @@ var OptionQuery = function(o){
     self.text = o.text;
 }
 
+
 var Descriptive = function(d){
     var self = this;
     self.table = d.table;
     self.expression = d.expression;
     
+}
+
+var Localize = function(l){
+    var self = this;
+    self.owner = l.owner.text;
+    self.code = l.code.text;
+    self.sv = l.sv.text;
+    self.en_us = l.en_us.text;
+    self.fi = l.fi.text;
+    self.no = l.no.text;
+    self.da = l.da.text;
+    self.checked = ko.observable(false);
+    self.selected = ko.computed(function(){
+        return vm.selectedLocale() === self;
+    })
+    self.select = function(){
+        vm.selectedLocale(vm.selectedLocale() === self ? null : self);
+    };
 }

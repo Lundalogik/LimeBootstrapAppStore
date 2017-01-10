@@ -905,3 +905,26 @@ Exit Function
 ErrorHandler:
     Call UI.ShowError("LIPPackageBuilder.CreateTemporaryFolder")
 End Function
+
+Public Function GetLocalizations(ByVal sOwner As String) As Records
+    On Error GoTo ErrorHandler
+    Dim oRecords As New LDE.Records
+    Dim oFilter As New LDE.Filter
+    Dim oView As New LDE.View
+    
+    Call oView.Add("owner", lkSortAscending)
+    Call oView.Add("code")
+    Call oView.Add("sv")
+    Call oView.Add("en_us")
+    Call oView.Add("no")
+    Call oView.Add("fi")
+    Call oView.Add("da")
+    If sOwner <> "" Then
+        Call oFilter.AddCondition("owner", lkOpEqual, sOwner)
+    End If
+    Call oRecords.Open(Database.Classes("localize"), oFilter, oView)
+    Set GetLocalizations = oRecords
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError("LIPPackageBuilder.GetLocalizations")
+End Function

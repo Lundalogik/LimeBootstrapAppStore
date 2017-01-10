@@ -11,6 +11,7 @@ packagebuilder = {
             var packageRelations = [];
             var relations = {};
             var sqlObjects = [];
+            var localizations = [];
             if (vm.name() == ""){
                 alert("Package name is required");
                 return;
@@ -185,10 +186,25 @@ packagebuilder = {
             }
 
             try {
-                arrComponents = [];
+                var arrComponents = [];
                 $.each(vm.selectedVbaComponents(), function(i, component){
                     arrComponents.push({"name": component.name, "relPath": "Install\\" + component.name + component.extension() })
                 });
+
+
+                var arrLocalizations = [];
+                $.each(vm.selectedLocalizations(), function(i, locale){
+                    arrLocalizations.push({
+                        'owner' : locale.owner,
+                        'code' : locale.code,
+                        'sv': locale.sv,
+                        'en_us' : locale.en_us,
+                        'fi' : locale.fi,
+                        'no' : locale.no,
+                        'da' : locale.da
+                    });
+                });
+                
 
                 // Build package json from details and database structure
                 data = {
@@ -208,6 +224,7 @@ packagebuilder = {
                 }
 
                 var bSomethingToInstall = false;
+
                 if(packageTables.length > 0){
                     data.install.tables = packageTables;
                     bSomethingToInstall = true;
@@ -221,6 +238,13 @@ packagebuilder = {
                     data.install.sql = sqlObjects
                     bSomethingToInstall = true;
                 }
+
+                
+                if(arrLocalizations.length > 0){
+                    data.install.localize = arrLocalizations;
+                    bSomethingToInstall = true;
+                }
+
 
                 if(arrComponents.length > 0){
                     data.install.vba = arrComponents;
