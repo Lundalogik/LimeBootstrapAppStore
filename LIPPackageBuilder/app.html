@@ -1,5 +1,5 @@
 
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top" >
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="#">LIP Package Builder</a>
@@ -9,7 +9,6 @@
 			<li role="presentation" data-bind="css: {'active' : activeTab() == 'database'}, click: function(){showTab('database')}"><a href="#">Database objects</a></li>
 			<li role="presentation" data-bind="css: {'active' : activeTab() == 'vba'}, click: function(){showTab('vba')}"><a href="#">VBA</a></li>
             <li role="presentation" data-bind="css: {'active' : activeTab() == 'sql'}, click: function(){showTab('sql')}"><a href="#">SQL</a></li>
-            <li role="presentation" data-bind="css: {'active' : activeTab() == 'localize'}, click: function(){showTab('localize')}"><a href="#">Localizations</a></li>
 
 		</ul>
 		<button type="button" class="btn btn-default pull-right navbar-btn" data-bind="click: serializePackage">Generate package</button>
@@ -57,11 +56,13 @@
 				<h4>Tables</h4>
 			</div>
 			<!-- ko if: shownTable() -->
-			<div class="col-md-7">
+            <div class="col-md-7">
 				<h4>Fields</h4>
 			</div>
 			<!-- /ko -->
 		</div>
+        
+        
 		<div class="row">
 			<div class="col-md-5 col-margined">
 				<div class="input-group">
@@ -81,9 +82,9 @@
 				  		<span class="col-md-2 list-header" data-bind="text: 'Timestamp'"/>
 				  	</div>
 					<!-- ko foreach: filteredTables() -->
-					<a class="list-group-item" data-bind="click: show, css:{'active' : shown}, tooltip:tooltipAttributesTable()" data-html="true">
+					<a class="list-group-item" data-bind="click: show, css:{'shown' : shown}, tooltip:tooltipAttributesTable()" data-html="true">
 						<span class="col-md-1 col-sm-1 col-md-1" >
-							<input type="checkbox" data-bind="checked: selected, stopBubble: true" >
+							<input type="checkbox" data-bind="stopBubble: true, indeterminateOrChecked: indeterminate, click:select" >
 						</span>
 
 						<span class="col-md-4" data-bind="text: name"/>
@@ -147,7 +148,7 @@
 				<div class="list-group col-md-12">
 					<div class="list-group-item disabled">
 						<span class="col-md-1 col-sm-1 col-md-1 col-sm-1 list-header overflowed">
-							<input class="select-all" type="checkbox" data-bind="checked: selectAllVbaComponents, popover: 'Select all'" >
+							<input class="select-all" type="checkbox" data-bind="checked: selectedVbaComponents, popover: 'Select all'" >
 						</span>
 
 				  		<span class="col-md-4 list-header" data-bind="text: 'Name'"/>
@@ -183,7 +184,7 @@
 				<div class="list-group col-md-12">
 					<div class="list-group-item disabled">
 						<span class="col-md-1 col-sm-1 col-md-1 col-sm-1 list-header overflowed">
-							<input class="select-all" type="checkbox" data-bind="checked: selectAllSql, popover: 'Select all'" >
+							<input class="select-all" type="checkbox" data-bind="checked: selectedSql, popover: 'Select all'" >
 						</span>
 
 				  		<span class="col-md-4 list-header" data-bind="text: 'Name'"/>
@@ -201,72 +202,6 @@
 					</a>
 					<!-- /ko -->
 				</div>
-			</div>
-		</div>
-		<!-- /ko -->
-	</div>
-	<div class="row col-md-10 col-md-offset-1" data-bind="visible: activeTab() == 'localize'">
-		<h4>Localizations</h4>
-		<!-- ko if: showLocalizations() -->
-		<div class="row">
-			<div class="col-md-7 col-margined">
-				<div class="input-group">
-			      	<div class="input-group-addon">
-			      		<span class="fa fa-search"/>
-			      	</div>
-					<input type="text" class="form-control" id="searchComponentInput" placeholder="Quick filter..." data-bind="value: localizationFilter, valueUpdate: 'afterkeydown'">
-			    </div>
-				<div class="list-group col-md-12">
-					<div class="list-group-item disabled">
-						<span class="col-md-1 col-sm-1 col-md-1 col-sm-1 list-header overflowed">
-							<input class="select-all" type="checkbox" data-bind="checked: selectAllLocalizations, popover: 'Select all'" >
-						</span>
-
-				  		<span class="col-md-4 list-header" data-bind="text: 'Owner'"/>
-				  		<span class="col-md-5 list-header" data-bind="text: 'Code'"/>
-				  	</div>
-					<!-- ko foreach: filteredLocalizations() -->
-					<a class="list-group-item" data-bind="click: select, css:{'active' : selected}">
-						<span class="col-md-1 col-sm-1 col-md-1" >
-							<input type="checkbox" data-bind="checked: checked, stopBubble: true" >
-						</span>
-
-						<span class="col-md-4" data-bind="text: owner"/>
-						<span class="col-md-5" data-bind="text: code"/>
-						
-					</a>
-					<!-- /ko -->
-				</div>
-			</div>
-			<div class="col-md-5 col-margined" id="localeInfo">
-			<!-- ko if: selectedLocale -->
-				<div class="list-group col-md-12">
-					<div class="list-group-item disabled">
-				  		<span class="col-md-4 list-header" data-bind="text: 'Language'"/>
-				  		<span class="col-md-8 list-header" data-bind="text: 'Text'"/>
-				  	</div>
-				  	<div class="list-group-item">
-				  		<span class="col-md-4" data-bind="text: 'Swedish'"/>
-				  		<span class="col-md-8 hideOverflow" data-bind="text: selectedLocale().sv"/>
-				  	</div>
-				  	<div class="list-group-item">
-				  		<span class="col-md-4" data-bind="text: 'English'"/>
-				  		<span class="col-md-8 hideOverflow" data-bind="text: selectedLocale().en_us"/>
-				  	</div>
-				  	<div class="list-group-item">
-				  		<span class="col-md-4" data-bind="text: 'Finnish'"/>
-				  		<span class="col-md-8 hideOverflow" data-bind="text: selectedLocale().fi"/>
-				  	</div>
-				  	<div class="list-group-item">
-				  		<span class="col-md-4" data-bind="text: 'Norwegian'"/>
-				  		<span class="col-md-8 hideOverflow" data-bind="text: selectedLocale().no"/>
-				  	</div>
-				  	<div class="list-group-item">
-				  		<span class="col-md-4" data-bind="text: 'Danish'"/>
-				  		<span class="col-md-8 hideOverflow" data-bind="text: selectedLocale().da"/>
-				  	</div>
-				</div>
-			<!-- /ko -->
 			</div>
 		</div>
 		<!-- /ko -->
