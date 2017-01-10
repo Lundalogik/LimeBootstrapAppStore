@@ -37,6 +37,7 @@ You can create a package with the following objects from a LIME CRM Application:
 - Tables and fields
 - VBA modules
 - SQL functions and procedures
+- Localizations
 
 
 # How to use
