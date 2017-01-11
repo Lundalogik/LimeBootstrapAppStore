@@ -1,5 +1,3 @@
-
-GO
 /****** Object:  StoredProcedure [dbo].[csp_lip_getxmldatabase_wrapper]    Script Date: 2017-01-03 10:26:55 ******/
 SET ANSI_NULLS ON
 GO
@@ -11,7 +9,7 @@ GO
 
 -- Called by the LIP Package Builder. Returns relevant XML structure for the database.
 
-ALTER PROCEDURE [dbo].[csp_lip_getxmldatabase_wrapper]
+CREATE PROCEDURE [dbo].[csp_lip_getxmldatabase_wrapper]
 	@@lang NVARCHAR(5)
 	, @@idcoworker INT = NULL
 AS
