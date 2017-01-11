@@ -1,0 +1,13 @@
+/*
+PUT SOME FANCY CSS STUFF HERE PLEASE!
+*/
+
+body{
+	background-color: #FFF;
+	padding: 0;
+	padding-top: 25px;
+}
+
+.breadCrumbListItem{
+	color: #555;
+}
