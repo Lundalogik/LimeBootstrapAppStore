@@ -3,6 +3,7 @@
 	"displayName" : "Relation map",
 	"author":"Karl Fogelström",
 	"status":"Beta",
+	"shortDesc": "Get a good overview of your hierarchical data, and pop up the details for any record that looks interesting or suspicious.",
 	"versions":[
 		{
 			"version":"0.1",
