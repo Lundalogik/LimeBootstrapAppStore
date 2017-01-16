@@ -80,6 +80,7 @@ BEGIN
 	(
 		SELECT t.c.value('../@name','nvarchar(512)') AS [table], t.c.value('@sql','nvarchar(512)') AS expression
 		FROM @xml.nodes('/database/table/field[@name="descriptive" and @sql!="''''"]') AS t(c)
+		WHERE t.c.value('@sql','nvarchar(512)') NOT LIKE 'Record-ID%' -- Remove autocreated descriptive expressions.
 		FOR XML PATH('descriptive'), ROOT('descriptives')
 	)
 	
