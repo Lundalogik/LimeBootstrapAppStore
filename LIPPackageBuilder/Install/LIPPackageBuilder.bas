@@ -219,7 +219,7 @@ On Error GoTo ErrorHandler
     End If
     If bResult = False Then
         Call Application.MessageBox("Couldn't cleanup the package file, aborting...", vbError)
-        bResult = True
+        bResult = False
     End If
     
     'Save Package.json
