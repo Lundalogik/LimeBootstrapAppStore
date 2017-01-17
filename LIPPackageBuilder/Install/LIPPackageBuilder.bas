@@ -12,7 +12,7 @@ Public Sub OpenPackageBuilder()
     oDialog.Property("url") = Application.WebFolder & "lbs.html?ap=apps/LIPPackageBuilder/packagebuilder&type=tab"
     oDialog.Property("height") = 900
     oDialog.Property("width") = 1600
-    oDialog.show
+    oDialog.Show
 
     Exit Sub
 ErrorHandler:
@@ -292,6 +292,11 @@ On Error GoTo ErrorHandler
                             If bResult = False Then allOK = False
                             
                         End If
+                        
+                        'Remove property from JSON object
+                        If oField.Item("attributes").Exists("optionquery") Then
+                            Call oField.Item("attributes").Remove("optionquery")
+                        End If
                     Next
                 End If
             Next
@@ -328,6 +333,10 @@ On Error GoTo ErrorHandler
                             bResult = SaveTextToDisk(oField.Item("attributes").Item("onsqlupdate"), strSqlOnUpdateFolder, oTable.Item("name") & "." & oField.Item("name") & ".txt")
                             If bResult = False Then allOK = False
                             
+                        End If
+                        'Remove property in JSON object
+                        If oField.Item("attributes").Exists("onsqlupdate") Then
+                            Call oField.Item("attributes").Remove("onsqlupdate")
                         End If
                     Next
                 End If
@@ -366,6 +375,11 @@ On Error GoTo ErrorHandler
                             If bResult = False Then allOK = False
                             
                         End If
+                        
+                        'Remove property in JSON object
+                        If oField.Item("attributes").Exists("onsqlinsert") Then
+                            Call oField.Item("attributes").Remove("onsqlinsert")
+                        End If
                     Next
                 End If
             Next
@@ -403,6 +417,11 @@ On Error GoTo ErrorHandler
                             If bResult = False Then allOK = False
                             
                         End If
+                        
+                        'Remove property in JSON object
+                        If oField.Item("attributes").Exists("sql") Then
+                            Call oField.Item("attributes").Remove("sql")
+                        End If
                     Next
                 End If
             Next
@@ -433,6 +452,11 @@ On Error GoTo ErrorHandler
                     bResult = SaveTextToDisk(oTable.Item("attributes").Item("descriptive"), strSqlDescriptiveFolder, oTable.Item("name") & ".txt")
                     If bResult = False Then allOK = False
                             
+                End If
+                 
+                 'Remove property from JSON object
+                If oTable.Item("attributes").Exists("descriptive") Then
+                    Call oTable.Item("attributes").Remove("descriptive")
                 End If
             Next
         End If
@@ -636,10 +660,12 @@ On Error GoTo ErrorHandler
     GetFolder = ""
         
     fldr.text = "Select a Folder to save the package file."
-    If fldr.show = vbOK Then
+    If fldr.Show = vbOK Then
         GetFolder = fldr.Folder
     End If
+    Set fldr = Nothing
     Exit Function
+    
 ErrorHandler:
     GetFolder = ""
     Set fldr = Nothing
@@ -674,6 +700,7 @@ On Error GoTo ErrorHandler
     Dim oPackageFolder As Object
     Set oApp = CreateObject("Shell.Application")
     'Create folder object for the zip file
+    Close
     Set oZipFile = oApp.Namespace(FileNameZip)
     
     If Not oZipFile Is Nothing Then
@@ -749,10 +776,13 @@ End Function
 Sub NewZip(sPath)
 'Create empty Zip File
 'Changed by keepITcool Dec-12-2005
+    Dim fNum As Integer
+    fNum = FreeFile
+    
     If Len(Dir(sPath)) > 0 Then Kill sPath
-    Open sPath For Output As #1
-    Print #1, Chr$(80) & Chr$(75) & Chr$(5) & Chr$(6) & String(18, 0)
-    Close #1
+    Open sPath For Output As #fNum
+    Print #fNum, Chr$(80) & Chr$(75) & Chr$(5) & Chr$(6) & String(18, 0)
+    Close #fNum
 End Sub
 
 Public Function DeleteTemporaryFolder(strTempFolder As String) As Boolean
@@ -927,4 +957,106 @@ Public Function GetLocalizations(ByVal sOwner As String) As Records
     Exit Function
 ErrorHandler:
     Call UI.ShowError("LIPPackageBuilder.GetLocalizations")
+End Function
+
+Public Function OpenExistingPackage() As String
+On Error GoTo ErrorHandler
+    Dim o As New LCO.FileOpenDialog
+    Dim strFilePath As String
+    o.AllowMultiSelect = False
+    o.Caption = "Select Package file"
+    o.Filter = "Zipped Package files (*.zip) | *.zip"
+    
+    o.DefaultFolder = LCO.GetDesktopPath
+    If o.Show = vbOK Then
+        strFilePath = o.FileName
+    Else
+        Exit Function
+    End If
+    
+    If LCO.ExtractFileExtension(strFilePath) = "zip" Then
+        Dim strTempFolderPath As String
+        strTempFolderPath = Application.TemporaryFolder & "\" & VBA.Replace(VBA.Replace(LCO.GenerateGUID, "{", ""), "}", "")
+        Dim FSO As New Scripting.FileSystemObject
+        If Not FSO.FolderExists(strTempFolderPath) Then
+            Call FSO.CreateFolder(strTempFolderPath)
+        End If
+        
+        
+        On Error GoTo UnzipError
+        Call UnZip(strTempFolderPath, strFilePath)
+        
+        On Error GoTo ErrorHandler
+        Dim strJson As String
+        If LCO.FileExists(strTempFolderPath & "\" & "app.json") Then
+            strJson = ReadAllTextFromFile(strTempFolderPath & "\" & "app.json")
+        ElseIf LCO.FileExists(strTempFolderPath & "\" & "package.json") Then
+            strJson = ReadAllTextFromFile(strTempFolderPath & "\" & "package.json")
+        Else
+            Call Application.MessageBox("Could not find an app.json or a package.json in the extracted folder")
+            Exit Function
+        End If
+        
+        Dim b64Json As String
+        b64Json = XMLEncodeBase64(strJson)
+        
+        OpenExistingPackage = b64Json
+        
+    End If
+    
+    
+Exit Function
+ErrorHandler:
+    Call UI.ShowError("LIPPackageBuilder.OpenExistingPackage")
+    Exit Function
+UnzipError:
+    Call Application.MessageBox("There was an error unzipping the zipped package file")
+End Function
+
+
+Sub UnZip(strTargetPath As String, Fname As Variant)
+    Dim oApp As Object, FSOobj As Object
+    Dim FileNameFolder As Variant
+
+    If Right(strTargetPath, 1) <> "\" Then
+        strTargetPath = strTargetPath & "\"
+    End If
+    
+    FileNameFolder = strTargetPath
+    
+    'create destination folder if it does not exist
+    Set FSOobj = CreateObject("Scripting.FilesystemObject")
+    If FSOobj.FolderExists(FileNameFolder) = False Then
+        FSOobj.CreateFolder FileNameFolder
+    End If
+    
+    Set oApp = CreateObject("Shell.Application")
+    oApp.Namespace(FileNameFolder).CopyHere oApp.Namespace(CVar(Fname)).Items
+    
+    Set oApp = Nothing
+    Set FSOobj = Nothing
+    Set FileNameFolder = Nothing
+    
+End Sub
+
+Private Function ReadAllTextFromFile(strFilePath As String) As String
+On Error GoTo ErrorHandler
+    Dim strText As String, Filenum As Integer, s As String
+    
+    Filenum = FreeFile
+    
+    Open strFilePath For Input As #Filenum
+
+    While Not EOF(Filenum)
+        Line Input #Filenum, s    ' read in data 1 line at a time
+
+        strText = strText + s
+    Wend
+    
+    Close #Filenum
+    
+    ReadAllTextFromFile = strText
+Exit Function
+ErrorHandler:
+    Call UI.ShowError("LIPPackageBuilder.ReadAllTextFromFile")
 End Function
