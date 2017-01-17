@@ -27,8 +27,10 @@ var Table = function(t, descriptive){
     self.invisible = t.invisible;
     // Initiate fields visible in gui
     self.guiFields = ko.observableArray();
-
-	
+    
+    //Checks if any of the fields is included in an existing package.
+	self.inExistingPackage = ko.observable(false);
+    
     self.indeterminate = ko.observable(indeterminateStatus.NotSelected);
     
 	// Load attributes 
@@ -36,18 +38,45 @@ var Table = function(t, descriptive){
     $.each(vm.tableAttributes, function(i, a){
         self.attributes[a] = t[a];
     });
-
-    var tooltipAttributesTable;
+    
+    //helper function for indeterminate
+    self.getIndeterminate = function(){
+        var fieldCount = self.guiFields().length;
+        var selectedFields = 0;
+        
+        ko.utils.arrayForEach(self.guiFields(), function(field){
+            if(field.selected()){
+                selectedFields++;
+            }
+        });
+        var indeterminate = indeterminateStatus.NotSelected;
+        try{
+            if(selectedFields == 0){
+                indeterminate = indeterminateStatus.NotSelected;
+            }
+            else if(selectedFields != fieldCount){
+                indeterminate = indeterminateStatus.PartiallySelected;
+            }
+            else {
+                indeterminate = indeterminateStatus.Selected;
+            }
+        }catch(e){alert(e);}
+        return indeterminate;
+    }
+    
+    var tooltipAttributesTable = "";
 
 	//Tooltip for the table´s
 	$.each(self.attributes, function(attributeName,attributeValue){
-			if(attributeName == 'label'){
-				tooltipAttributesTable += '<b>' + attributeName + '</b>: ' + vm.tableLabel[attributeValue] + '<br>';
-			}else if(attributeName == 'invisible'){
-				tooltipAttributesTable += '<b>' + attributeName + '</b>: ' + vm.tableinvisible[attributeValue] + '<br>';
-			}else{
-				tooltipAttributesTable += '<b>' + attributeName + '</b>: ' + attributeValue + '<br>';
-			}
+			if (attributeValue){
+                if(attributeName == 'label'){
+                    tooltipAttributesTable += '<b>' + attributeName + '</b>: ' + vm.tableLabel[attributeValue] + '<br>';
+                }else if(attributeName == 'invisible'){
+                    tooltipAttributesTable += '<b>' + attributeName + '</b>: ' + vm.tableinvisible[attributeValue] + '<br>';
+                }else{
+                    tooltipAttributesTable += '<b>' + attributeName + '</b>: ' + attributeValue + '<br>';
+                }
+            }
 	 });
 
      if(descriptive && descriptive.expression){
@@ -74,14 +103,19 @@ var Table = function(t, descriptive){
     self.select = function(){
         self.show();
         var currentIndeterminate = self.indeterminate();
+        
         try{
             if(currentIndeterminate == indeterminateStatus.NotSelected || currentIndeterminate == indeterminateStatus.PartiallySelected){
-                self.selectFields(true);
+                ko.utils.arrayForEach(self.guiFields(),function(field){
+                    field.selected(true);
+                });
             }
             else{
-                self.selectFields(false);
+                ko.utils.arrayForEach(self.guiFields(),function(field){
+                    field.selected(false);
+                });
             }
-            
+            self.indeterminate(self.getIndeterminate());
         }
         catch(e){alert(e);}
         return true;
@@ -131,6 +165,7 @@ var Table = function(t, descriptive){
    // Subscribe to select all event
     self.selectFields.subscribe(function(newValue){
         try{
+            
             ko.utils.arrayForEach(self.filteredFields(),function(item){
                 item.selected(newValue);
             });
@@ -151,6 +186,7 @@ var Table = function(t, descriptive){
 
     // Set default empty filter
     self.filterFields();
+    
 }
 
 var Field = function(f, tablename){
@@ -163,15 +199,24 @@ var Field = function(f, tablename){
     self.localname = f.localname;
 
 
+    self.inExistingPackage = ko.observable(false);
+
     self.attributes = {};
 	self.tooltipAttributes = "";
+    
+    self.attributes["relationtab"] = '0';
+    
     $.each(vm.fieldAttributes, function(index, attributeName){
+        
         try{
             if(attributeName == 'fieldtype'){
                 self.attributes[attributeName] = vm.fieldTypes[f[attributeName]];
             }
-            else if(attributeName == 'relationsingle'){
-                self.attributes["relationtab"] = f[attributeName] == '0' ? '1':'0';
+            else if(attributeName == 'relationmaxcount'){
+                if(f[attributeName]){
+                    self.attributes["relationtab"] = f[attributeName];
+                    
+                }
             }
             //Create LIP compatible options property
             else if(attributeName == 'string'){
@@ -227,7 +272,7 @@ var Field = function(f, tablename){
             }
         }
     });
-	var tooltipAttributes;
+	var tooltipAttributes = "";
     //Tooltip for the field´s
 	$.each(self.attributes, function(attributeName,attributeValue){
 		if(attributeName == 'label'){
@@ -254,8 +299,7 @@ var Field = function(f, tablename){
     var getFieldTypeDisplayName = function(fieldtypeName, length){
 
         var fieldtypeDisplayName = vm.FieldtTypeDisplayNames[fieldtypeName];
-
-
+        
         var lengthString = '';
         //Handle string fields
         if(fieldtypeName == "string"){
@@ -288,6 +332,27 @@ var Field = function(f, tablename){
                 selectedFields++;
             }
         });
+        
+        //Autoselect other side of the relation
+        if(self.attributes["fieldtype"] == "relation"){
+            //Find other field in tables using idrelation and relatedtable attribute
+            var idrelation = self.attributes["idrelation"];
+            var relatedTableName = self.attributes["relatedtable"];
+            
+            ko.utils.arrayForEach(vm.tables(),function(t){
+                if(t.name == relatedTableName){
+                    ko.utils.arrayForEach(t.guiFields(), function(f){
+                        if(f.attributes["fieldtype"] == "relation" && f.attributes["idrelation"] == idrelation){
+                            
+                            f.selected(newValue);
+                            t.indeterminate(t.getIndeterminate());
+                        }
+                    });
+                }
+            });
+            
+        }
+        
         try{
             if(selectedFields == 0){
                 vm.shownTable().indeterminate(indeterminateStatus.NotSelected);

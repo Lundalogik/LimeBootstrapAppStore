@@ -12,13 +12,17 @@
             <li role="presentation" data-bind="css: {'active' : activeTab() == 'localize'}, click: function(){showTab('localize')}"><a href="#">Localizations</a></li>
 
 		</ul>
-		<button type="button" class="btn btn-default pull-right navbar-btn" data-bind="click: serializePackage">Generate package</button>
+		<button type="button" class="btn btn-default pull-right navbar-btn" data-bind="click: serializePackage, icon: 'fa-floppy-o'">Generate Package</button>
 	</div>
 
 </nav>
 <div class="package-container row col-md-12">
 	<div class="row col-md-10 col-md-offset-1" data-bind="visible: activeTab() == 'details'">
-		<form >
+		<!--div class="row">
+            <button class="row col-md-1" type="button" id="open-existing-package-button" class="btn btn-default" data-bind="click: openExistingPackage, icon: 'fa-folder-open-o fa-2x', tooltip:{text:'Open existing package'}"> </button>
+            <button class="row col-md-1 col-md-offset-1" type="button" id="download-appstore-package-button" class="btn btn-default" data-bind="click: downloadExistingPackage, icon: 'fa-cloud-download fa-2x', tooltip:{text:'Download package from appstore'}"> </button>
+        </div-->
+        <form >
 		  	<div class="form-group col-md-4">
 		    	<label for="inputName">Name</label>
 		    	<input type="text" class="form-control" id="inputName" placeholder="Name" data-bind="value: name, valueUpdate: 'afterkeydown'">
@@ -29,10 +33,8 @@
 		  	</div>
 		  	<div class="form-group col-md-4">
 				<label for="sel1">Status</label>
-				<select class="form-control" id="statusInput">
-					<!-- ko foreach: statusOptions -->
-					<option data-bind="text: text, click: select"></option>
-					<!-- /ko -->
+				<select class="form-control" id="statusInput" data-bind="options: statusOptions, optionsValue: 'text',value: status">
+					
 				</select>
 			</div>
 			<div class="form-group col-md-12">
@@ -49,7 +51,7 @@
 		  	</div>
 		  	
 		</form>
-
+        
 	</div>
 	<div class="row col-md-12 col-md-offset-1" data-bind="visible: activeTab() == 'database'">
 		<div class="row">
@@ -75,20 +77,22 @@
 						<span class="col-md-1 col-sm-1 col-md-1 col-sm-1 list-header overflowed">
 							<input class="select-all" type="checkbox" data-bind="checked: selectTables, popover: 'Select all'" >
 						</span>
-
+                        
 				  		<span class="col-md-4 list-header" data-bind="text: 'Name'"/>
 				  		<span class="col-md-4 list-header" data-bind="text: 'Localname'"/>
 				  		<span class="col-md-2 list-header" data-bind="text: 'Timestamp'"/>
+                        <span class="col-md-1 list-header" >&nbsp;</span>
 				  	</div>
 					<!-- ko foreach: filteredTables() -->
 					<a class="list-group-item" data-bind="click: show, css:{'active' : shown}, tooltip:tooltipAttributesTable()" data-html="true">
 						<span class="col-md-1 col-sm-1 col-md-1" >
 							<input type="checkbox" data-bind="stopBubble: true, indeterminateOrChecked:indeterminate, click:select" >
 						</span>
-
+                        
 						<span class="col-md-4" data-bind="text: name"/>
 						<span class="col-md-4" data-bind="text: localname"/>
 						<span class="col-md-2" data-bind="text: timestamp()"/>
+                        <span class="col-md-1" data-bind="icon:'fa-asterisk', tooltip:{text: 'Is included in loaded package'}, visible:inExistingPackage" > </span>
                         
 					</a>
 					<!-- /ko -->
@@ -102,15 +106,16 @@
 			      	</div>
 					<input type="text" class="form-control" id="searchFilterInput" placeholder="Quick filter..." data-bind="value: fieldFilter, valueUpdate: 'afterkeydown'">
 			    </div>
-				<div class="list-group col-md-13">
+				<div class="list-group col-md-12">
 					<div class="list-group-item disabled">
 						<span class="col-md-1 col-sm-1 col-md-1 col-sm-1 list-header overflowed">
-							<input class="select-all" type="checkbox" data-bind="checked: shownTable().selectFields, popover: 'Select all'" >
+							<!--input class="select-all" type="checkbox" data-bind="popover: 'Select all', click:shownTable().select" >-->
 						</span>
 				  		<div class="col-md-3 list-header"><span data-bind="text: 'Name'"/></div>
-				  		<span class="col-md-3 list-header" data-bind="text: 'Field type'"/>
+				  		<span class="col-md-2 list-header" data-bind="text: 'Field type'"/>
                         <span class="col-md-3 list-header" data-bind="text: 'Localname'"/>
 				  		<span class="col-md-2 list-header" data-bind="text: 'Timestamp'"/>
+                        <span class="col-md-1 list-header" " >&nbsp;</span>
                         
 				  	</div>
 					<!-- ko foreach: shownTable().filteredFields() -->
@@ -121,9 +126,10 @@
 						</span>
                         
 						<div class="col-md-3 hideOverflow"><span class="hideOverflow" data-bind="text: name"/></div>
-                        <strong class="col-md-3 hideOverflow" data-bind="text: fieldTypeDisplayName" />
+                        <strong class="col-md-2 hideOverflow" data-bind="text: fieldTypeDisplayName" />
 						<span class="col-md-3 hideOverflow" data-bind="text: localname"/>
 						<span class="col-md-2" data-bind="text: timestamp()"/>
+                        <span class="col-md-1" data-bind="icon:'fa-asterisk', tooltip:{text: 'Is included in loaded package'}, visible:inExistingPackage"> </span>
                         
 					</a>
 					<!-- /ko -->
