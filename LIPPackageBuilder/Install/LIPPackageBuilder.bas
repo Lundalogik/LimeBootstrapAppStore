@@ -12,7 +12,7 @@ Public Sub OpenPackageBuilder()
     oDialog.Property("url") = Application.WebFolder & "lbs.html?ap=apps/LIPPackageBuilder/packagebuilder&type=tab"
     oDialog.Property("height") = 900
     oDialog.Property("width") = 1600
-    oDialog.Show
+    oDialog.show
 
     Exit Sub
 ErrorHandler:
@@ -49,9 +49,9 @@ On Error GoTo ErrorHandler
     strComponents = "["
     For Each oComp In Application.VBE.ActiveVBProject.VBComponents
         'Only include modules, class modules and forms
-        If oComp.Type <> vbext_ct_ActiveXDesigner And oComp.Type <> vbext_ct_Document Then
+        If oComp.Type <> 11 And oComp.Type <> 100 Then
             strComponents = strComponents & "{"
-            strComponents = strComponents & """name"": """ & oComp.Name & ""","
+            strComponents = strComponents & """name"": """ & oComp.name & ""","
             strComponents = strComponents & """type"": """ & GetModuleTypeName(oComp.Type) & """},"
         End If
     Next
@@ -214,13 +214,14 @@ On Error GoTo ErrorHandler
         bResult = True
     End If
     
-    If bResult Then
-        bResult = CleanupPackageFile(oPackage)
-    End If
-    If bResult = False Then
-        Call Application.MessageBox("Couldn't cleanup the package file, aborting...", vbError)
-        bResult = False
-    End If
+    'LJE This is not yet implemented
+    'If bResult Then
+    '    bResult = CleanupPackageFile(oPackage)
+    'End If
+    'If bResult = False Then
+    '    Call Application.MessageBox("Couldn't cleanup the package file, aborting...", vbError)
+    '    bResult = False
+    'End If
     
     'Save Package.json
     If bResult Then
@@ -668,7 +669,7 @@ On Error GoTo ErrorHandler
     GetFolder = ""
         
     fldr.text = "Select a Folder to save the package file."
-    If fldr.Show = vbOK Then
+    If fldr.show = vbOK Then
         GetFolder = fldr.Folder
     End If
     Set fldr = Nothing
@@ -893,7 +894,7 @@ On Error GoTo ErrorHandler
     Dim strFilename As String
     
     If Not Component Is Nothing Then
-        strFilename = Component.Name
+        strFilename = Component.name
         Select Case Component.Type
             Case 1
                 strFilename = strFilename & ".bas"
@@ -966,60 +967,60 @@ Public Function GetLocalizations(ByVal sOwner As String) As Records
 ErrorHandler:
     Call UI.ShowError("LIPPackageBuilder.GetLocalizations")
 End Function
-
-Public Function OpenExistingPackage() As String
-On Error GoTo ErrorHandler
-    Dim o As New LCO.FileOpenDialog
-    Dim strFilePath As String
-    o.AllowMultiSelect = False
-    o.Caption = "Select Package file"
-    o.Filter = "Zipped Package files (*.zip) | *.zip"
-    
-    o.DefaultFolder = LCO.GetDesktopPath
-    If o.Show = vbOK Then
-        strFilePath = o.FileName
-    Else
-        Exit Function
-    End If
-    
-    If LCO.ExtractFileExtension(strFilePath) = "zip" Then
-        Dim strTempFolderPath As String
-        strTempFolderPath = Application.TemporaryFolder & "\" & VBA.Replace(VBA.Replace(LCO.GenerateGUID, "{", ""), "}", "")
-        Dim FSO As New Scripting.FileSystemObject
-        If Not FSO.FolderExists(strTempFolderPath) Then
-            Call FSO.CreateFolder(strTempFolderPath)
-        End If
-        
-        
-        On Error GoTo UnzipError
-        Call UnZip(strTempFolderPath, strFilePath)
-        
-        On Error GoTo ErrorHandler
-        Dim strJson As String
-        If LCO.FileExists(strTempFolderPath & "\" & "app.json") Then
-            strJson = ReadAllTextFromFile(strTempFolderPath & "\" & "app.json")
-        ElseIf LCO.FileExists(strTempFolderPath & "\" & "package.json") Then
-            strJson = ReadAllTextFromFile(strTempFolderPath & "\" & "package.json")
-        Else
-            Call Application.MessageBox("Could not find an app.json or a package.json in the extracted folder")
-            Exit Function
-        End If
-        
-        Dim b64Json As String
-        b64Json = XMLEncodeBase64(strJson)
-        
-        OpenExistingPackage = b64Json
-        
-    End If
-    
-    
-Exit Function
-ErrorHandler:
-    Call UI.ShowError("LIPPackageBuilder.OpenExistingPackage")
-    Exit Function
-UnzipError:
-    Call Application.MessageBox("There was an error unzipping the zipped package file")
-End Function
+'LJE This is not yet implemented
+'Public Function OpenExistingPackage() As String
+'On Error GoTo ErrorHandler
+'    Dim o As New LCO.FileOpenDialog
+'    Dim strFilePath As String
+'    o.AllowMultiSelect = False
+'    o.Caption = "Select Package file"
+'    o.Filter = "Zipped Package files (*.zip) | *.zip"
+'
+'    o.DefaultFolder = LCO.GetDesktopPath
+'    If o.show = vbOK Then
+'        strFilePath = o.Filename
+'    Else
+'        Exit Function
+'    End If
+'
+'    If LCO.ExtractFileExtension(strFilePath) = "zip" Then
+'        Dim strTempFolderPath As String
+'        strTempFolderPath = Application.TemporaryFolder & "\" & VBA.Replace(VBA.Replace(LCO.GenerateGUID, "{", ""), "}", "")
+'        Dim FSO As New Scripting.FileSystemObject
+'        If Not FSO.FolderExists(strTempFolderPath) Then
+'            Call FSO.CreateFolder(strTempFolderPath)
+'        End If
+'
+'
+'        On Error GoTo UnzipError
+'        Call UnZip(strTempFolderPath, strFilePath)
+'
+'        On Error GoTo ErrorHandler
+'        Dim strJson As String
+'        If LCO.FileExists(strTempFolderPath & "\" & "app.json") Then
+'            strJson = ReadAllTextFromFile(strTempFolderPath & "\" & "app.json")
+'        ElseIf LCO.FileExists(strTempFolderPath & "\" & "package.json") Then
+'            strJson = ReadAllTextFromFile(strTempFolderPath & "\" & "package.json")
+'        Else
+'            Call Application.MessageBox("Could not find an app.json or a package.json in the extracted folder")
+'            Exit Function
+'        End If
+'
+'        Dim b64Json As String
+'        b64Json = XMLEncodeBase64(strJson)
+'
+'        OpenExistingPackage = b64Json
+'
+'    End If
+'
+'
+'Exit Function
+'ErrorHandler:
+'    Call UI.ShowError("LIPPackageBuilder.OpenExistingPackage")
+'    Exit Function
+'UnzipError:
+'    Call Application.MessageBox("There was an error unzipping the zipped package file")
+'End Function
 
 
 Sub UnZip(strTargetPath As String, Fname As Variant)
@@ -1089,6 +1090,7 @@ On Error GoTo ErrorHandler
             Next
         End If
     End If
+    CleanupPackageFile = True
 Exit Function
 ErrorHandler:
     CleanupPackageFile = False

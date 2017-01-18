@@ -197,11 +197,11 @@ enums = {
             "limevalidationrule",
             "label",
             "adlabel",
-            "idrelation",
-            "relationsingle",
+            "idrelation",            
             "string",
             "optionquery",
-            "relatedtable"
+            "relatedtable",
+            "relationmaxcount"
         ];
         vm.FieldtTypeDisplayNames = {
             "string" : "Text",
