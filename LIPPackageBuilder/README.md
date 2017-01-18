@@ -16,7 +16,8 @@ Prerequisite: LIP needs to be installed on your Lime CRM Database.
 
 1. Install by using lip.Install("LIPPackageBuilder").
 2. Add the SQL procedures to the database.
-3. Add the reference "Microsoft Visual Basic for Applications Extensibility" in the VBA.
+3. Execute lsp_setdatabasetimestamp for the database. 
+4. Restart LDC on the Lime server.
 
 Open the packagebuilder by calling the function LIPPackageBuilder.OpenPackageBuilder
 
