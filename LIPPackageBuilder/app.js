@@ -128,6 +128,79 @@ lbs.apploader.register('LIPPackageBuilder', function () {
                 catch(e){alert(e);}
 
         };
+        
+        vm.existingPackage = null;
+        
+        function clearExistingPackage(){
+            $.each(vm.tables(),function(index,table){
+                $.each(table.guiFields(), function(index,field){
+                    field.inExistingPackage(false);
+                });
+            });
+        }
+        //Select all tables that exist in the opened package
+        function parseExistingPackage(){
+            try{
+                vm.author(vm.existingPackage.author)
+                vm.comment(vm.existingPackage.comment);
+                vm.description(vm.existingPackage.description);
+                vm.versionNumber(vm.existingPackage.versionNumber);
+                vm.name(vm.existingPackage.name);
+                vm.status(vm.existingPackage.status);
+                
+               
+            }
+            catch(e){alert("Error parsing package: " + e);}
+            try{
+                var existingPackageTables = vm.existingPackage.install.tables;
+                //find all mutual tables
+                $.each(existingPackageTables, function(i,et){
+                   ko.utils.arrayForEach(vm.tables(), function(table){
+                       if(!table.guiFields()){
+                           alert(ko.toJSON(table));
+                       }
+                       else{
+                       ko.utils.arrayForEach(table.guiFields(),function(field){
+                           
+                           $.each(et.fields,function(l,ef){
+                               if(ef.name == field.name && et.name == table.name){
+                                   field.inExistingPackage(true);
+                                   field.selected(true);
+                                   table.inExistingPackage(true);
+                               }
+                           });
+                       });
+                       }
+                    //set selected or partially selected
+                    table.indeterminate(table.getIndeterminate());
+                   });
+                   
+                });
+            }
+            catch(e){alert("Error parsing package: " + e);}
+        }
+        
+        vm.openExistingPackage = function(){
+            
+            try
+            {
+                var b64Json = window.external.run('LIPPackageBuilder.OpenExistingPackage');
+                b64Json = b64Json.replace(/\r?\n|\r/g,"");
+                b64Json = b64_to_utf8(b64Json);
+            
+                vm.existingPackage =  JSON.parse(b64Json);
+                
+            }
+            catch(e){alert("Error opening existing package:\n" + e);}
+            if (vm.existingPackage){
+                parseExistingPackage();
+            }
+            
+        }
+      
+        vm.downloadExistingPackage = function(){
+            alert("Not implemented");
+        }
       
         // Set default tab to details
         vm.activeTab = ko.observable("details");
@@ -380,7 +453,7 @@ lbs.apploader.register('LIPPackageBuilder', function () {
         }        
         
 
-
+        vm.shownTable(vm.tables()[0]);
 
         // Computed with all selected vba components
         vm.selectedVbaComponents = ko.computed(function(){
@@ -423,6 +496,7 @@ lbs.apploader.register('LIPPackageBuilder', function () {
         vm.fieldFilter.subscribe(function(newValue){ 
             vm.shownTable().filterFields();
         });
+        
         vm.tableFilter.subscribe(function(newValue){
             vm.filterTables();
         });
@@ -480,6 +554,7 @@ ko.bindingHandlers.indeterminateOrChecked = {
       // Unchecked and undeterminate
       
       var valueAccessor = ko.unwrap(val());
+      
       if(valueAccessor == indeterminateStatus.NotSelected){
           $(element).prop('indeterminate',false);
           $(element).prop('checked', false);

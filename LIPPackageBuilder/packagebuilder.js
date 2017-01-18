@@ -112,7 +112,7 @@ packagebuilder = {
                     // Push table to tables
                     packageTables.push(packageTable);
                 });
-
+ 
 
                 //Add relations as the package expects
                 for(idrelation in relations){
