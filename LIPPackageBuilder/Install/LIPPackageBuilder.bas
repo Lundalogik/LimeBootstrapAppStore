@@ -12,7 +12,7 @@ Public Sub OpenPackageBuilder()
     oDialog.Property("url") = Application.WebFolder & "lbs.html?ap=apps/LIPPackageBuilder/packagebuilder&type=tab"
     oDialog.Property("height") = 900
     oDialog.Property("width") = 1600
-    oDialog.show
+    oDialog.Show
 
     Exit Sub
 ErrorHandler:
@@ -292,6 +292,11 @@ On Error GoTo ErrorHandler
                             If bResult = False Then allOK = False
                             
                         End If
+                        
+                        'Remove property from JSON object
+                        If oField.Item("attributes").Exists("optionquery") Then
+                            Call oField.Item("attributes").Remove("optionquery")
+                        End If
                     Next
                 End If
             Next
@@ -328,6 +333,10 @@ On Error GoTo ErrorHandler
                             bResult = SaveTextToDisk(oField.Item("attributes").Item("onsqlupdate"), strSqlOnUpdateFolder, oTable.Item("name") & "." & oField.Item("name") & ".txt")
                             If bResult = False Then allOK = False
                             
+                        End If
+                        'Remove property in JSON object
+                        If oField.Item("attributes").Exists("onsqlupdate") Then
+                            Call oField.Item("attributes").Remove("onsqlupdate")
                         End If
                     Next
                 End If
@@ -366,6 +375,11 @@ On Error GoTo ErrorHandler
                             If bResult = False Then allOK = False
                             
                         End If
+                        
+                        'Remove property in JSON object
+                        If oField.Item("attributes").Exists("onsqlinsert") Then
+                            Call oField.Item("attributes").Remove("onsqlinsert")
+                        End If
                     Next
                 End If
             Next
@@ -403,6 +417,11 @@ On Error GoTo ErrorHandler
                             If bResult = False Then allOK = False
                             
                         End If
+                        
+                        'Remove property in JSON object
+                        If oField.Item("attributes").Exists("sql") Then
+                            Call oField.Item("attributes").Remove("sql")
+                        End If
                     Next
                 End If
             Next
@@ -433,6 +452,11 @@ On Error GoTo ErrorHandler
                     bResult = SaveTextToDisk(oTable.Item("attributes").Item("descriptive"), strSqlDescriptiveFolder, oTable.Item("name") & ".txt")
                     If bResult = False Then allOK = False
                             
+                End If
+                 
+                 'Remove property from JSON object
+                If oTable.Item("attributes").Exists("descriptive") Then
+                    Call oTable.Item("attributes").Remove("descriptive")
                 End If
             Next
         End If
@@ -636,10 +660,12 @@ On Error GoTo ErrorHandler
     GetFolder = ""
         
     fldr.text = "Select a Folder to save the package file."
-    If fldr.show = vbOK Then
+    If fldr.Show = vbOK Then
         GetFolder = fldr.Folder
     End If
+    Set fldr = Nothing
     Exit Function
+    
 ErrorHandler:
     GetFolder = ""
     Set fldr = Nothing
@@ -674,6 +700,7 @@ On Error GoTo ErrorHandler
     Dim oPackageFolder As Object
     Set oApp = CreateObject("Shell.Application")
     'Create folder object for the zip file
+    Close
     Set oZipFile = oApp.Namespace(FileNameZip)
     
     If Not oZipFile Is Nothing Then
@@ -749,10 +776,13 @@ End Function
 Sub NewZip(sPath)
 'Create empty Zip File
 'Changed by keepITcool Dec-12-2005
+    Dim fNum As Integer
+    fNum = FreeFile
+    
     If Len(Dir(sPath)) > 0 Then Kill sPath
-    Open sPath For Output As #1
-    Print #1, Chr$(80) & Chr$(75) & Chr$(5) & Chr$(6) & String(18, 0)
-    Close #1
+    Open sPath For Output As #fNum
+    Print #fNum, Chr$(80) & Chr$(75) & Chr$(5) & Chr$(6) & String(18, 0)
+    Close #fNum
 End Sub
 
 Public Function DeleteTemporaryFolder(strTempFolder As String) As Boolean
