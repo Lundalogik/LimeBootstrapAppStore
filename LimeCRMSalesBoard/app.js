@@ -185,6 +185,10 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
             $.each(data.board.data.Lanes, function(i, laneObj) {
                 var cardsArray = ko.observableArray();
                 var laneSum = 0;
+
+                // Get the individual lane settings from the config.
+                var laneSettings = getLaneSettings(boardConfig[0].lanes, laneObj);
+
                 if (laneObj.Cards !== undefined) {
                     if ($.isArray(laneObj.Cards)) {
                         $.each(laneObj.Cards, function(j, cardObj) {
@@ -194,6 +198,7 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
                                     angle: ko.observable(fixCompletionRate(cardObj.completionRate) * 3.6),
                                     sumValue: cardObj.sumValue,
                                     value: numericStringMakePretty(cardObj.value),
+                                    icon: chooseCardIcon(laneSettings.cardIcon, cardObj.icon),
                                     sortValue: cardObj.sortValue,
                                     owner: strMakePretty(cardObj.owner),
                                     link: cardObj.link
@@ -221,6 +226,7 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
                                 angle: ko.observable(fixCompletionRate(laneObj.Cards.completionRate) * 3.6),
                                 sumValue: laneObj.Cards.sumValue,
                                 value: numericStringMakePretty(laneObj.Cards.value),
+                                icon: chooseCardIcon(laneSettings.cardIcon, laneObj.Cards.icon),
                                 sortValue: laneObj.Cards.sortValue,
                                 owner: strMakePretty(laneObj.Cards.owner),
                                 link: laneObj.Cards.link
@@ -229,17 +235,13 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
                     }
                 }
 
-                // Get the individual lane settings from the config.
-                var laneSettings = getLaneSettings(boardConfig[0].lanes, laneObj);
-
                 // Add lane to board object.
                 self.b.lanes.push({ name: laneObj.name,
                         color: laneSettings.color,
                         colorHex: self.limeCRMSalesBoardColors.getColorHex(laneSettings.color),
                         cards: cardsArray,
                         sum: numericStringMakePretty(laneSum.toString()),
-                        positiveSummation: laneSettings.positiveSummation,
-                        cardIcon: laneSettings.cardIcon
+                        positiveSummation: laneSettings.positiveSummation
                 });
 
                 // Add to board summation properties
@@ -340,8 +342,9 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
                     individualLaneSettings[0].color = lanesConfig.defaultValues.laneColor;
                 }
 
-                // Check if a cardIcon was specified for the lane, otherwise use the default
-                individualLaneSettings[0].cardIcon = getConfigLaneIcon(individualLaneSettings[0].cardIcon, lanesConfig.defaultValues.icon);
+                // Determine the cardIcon settings for the lane.
+                individualLaneSettings[0].cardIcon = chooseCardIcon(individualLaneSettings[0].cardIcon, lanesConfig.defaultValues.cardIcon);
+                // individualLaneSettings[0].cardIconField = getConfigLaneIconField(individualLaneSettings[0].cardIcon, lanesConfig.defaultValues.cardIcon, lanesConfig.defaultValues.cardIconField);
                 
                 // Check if summation boolean was specified for the lane, otherwise use the default
                 if (individualLaneSettings[0].positiveSummation === undefined) {
@@ -350,27 +353,60 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
 
                 // Set return values
                 laneSettings.color = individualLaneSettings[0].color;
-                laneSettings.cardIcon = individualLaneSettings[0].cardIcon;
                 laneSettings.positiveSummation = individualLaneSettings[0].positiveSummation;
+                laneSettings.cardIcon = individualLaneSettings[0].cardIcon;
+                laneSettings.cardIconField = individualLaneSettings[0].cardIconField;
             }
             else {
                 // Use defaults
                 laneSettings.color = lanesConfig.defaultValues.laneColor;
-                laneSettings.cardIcon = lanesConfig.defaultValues.icon;
                 laneSettings.positiveSummation = lanesConfig.defaultValues.positiveSummation;
+                laneSettings.cardIcon = lanesConfig.defaultValues.icon;
+                laneSettings.cardIconField = lanesConfig.defaultValues.cardIconField;
             }
 
             return laneSettings;
         }
 
-        /*  Checks if the specified icon is a valid icon. If not it returns the default icon from the app config. */
-        getConfigLaneIcon = function(chosenIcon, defaultIcon) {
-            if (chosenIcon === undefined
-                    || (chosenIcon !== 'completion' && chosenIcon !== 'happy' && chosenIcon !== 'sad' && chosenIcon !== 'wait') ) {
-                return defaultIcon;
+        /*  Returns the first valid icon name provided. If both are invalid undefined is returned. */
+        chooseCardIcon = function(i1, i2) {
+            if (isValidCardIcon(i1)) {
+                return i1;                
             }
             else {
-                return chosenIcon;
+                if (isValidCardIcon(i2)) {
+                    return i2;
+                }
+                else {
+                    return undefined;
+                }
+            }
+        }
+
+        // /*  Determines if the icon should be set individually for cards in the same lane based on config parameters. Takes both cardIcon and cardIconField config parameters into consideration.
+        //     Returns undefined if a dynamic icon should not be used. */
+        // getConfigLaneIconField = function(individualIcon, defaultIcon, defaultIconField) {
+        //     if (isValidCardIcon(individualIcon)) {
+        //         return undefined;
+        //     }
+        //     else {
+        //         if (isValidCardIcon(defaultIcon)) {
+        //             return undefined;
+        //         }
+        //         else {
+        //             return defaultIconField;
+        //         }
+        //     }
+        // }
+
+        /*  Returns true if the specified iconName is a valid name for a card icon and otherwise false. */
+        isValidCardIcon = function(iconName) {
+            if (iconName === undefined
+                    || (iconName !== 'completion' && iconName !== 'happy' && iconName !== 'sad' && iconName !== 'wait') ) {
+                return false;
+            }
+            else {
+                return true;
             }
         }
 

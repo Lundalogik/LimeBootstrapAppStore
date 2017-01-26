@@ -17,9 +17,10 @@ Private Enum m_InformationTypeEnum
     sbCardTitle = 3
     sbCardPercent = 4
     sbCardValue = 5
-    sbCardSorting = 6
-    sbCardOwner = 7
-    sbCardAdditionalInfo = 8
+    sbCardIcon = 6
+    sbCardSorting = 7
+    sbCardOwner = 8
+    sbCardAdditionalInfo = 9
 End Enum
 
 ' ##SUMMARY Opens LimeCRMSalesBoard in a pane
@@ -85,6 +86,7 @@ Private Function getBoardXMLUsingSQL(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     Call addSQLParameterFromXML(oProc, "@@completionfieldname", oBoardXmlDoc, "/board/card/percentField")
     Call addSQLParameterFromXML(oProc, "@@sumfieldname", oBoardXmlDoc, "/board/summation/field")
     Call addSQLParameterFromXML(oProc, "@@valuefieldname", oBoardXmlDoc, "/board/card/value/field")
+    Call addSQLParameterFromXML(oProc, "@@iconfieldname", oBoardXmlDoc, "/board/lanes/defaultValues/cardIconField")
     Call addSQLParameterFromXML(oProc, "@@sortfieldname", oBoardXmlDoc, "/board/card/sorting/field")
     Call addSQLParameterFromXML(oProc, "@@ownerfieldname", oBoardXmlDoc, "/board/card/owner/fieldName")
     Call addSQLParameterFromXML(oProc, "@@ownerrelatedtablename", oBoardXmlDoc, "/board/card/owner/relatedTableName")
@@ -214,6 +216,7 @@ Private Function createCard(ByRef oDataXml As MSXML2.DOMDocument60, ByRef oRecor
     Call setCardAttribute(oCardElement, "sumValue", oRecord, fm(m_InformationTypeEnum.sbBoardSummation))
     Call setCardAttribute(oCardElement, "title", oRecord, fm(m_InformationTypeEnum.sbCardTitle))
     Call setCardAttribute(oCardElement, "value", oRecord, fm(m_InformationTypeEnum.sbCardValue))
+    Call setCardAttribute(oCardElement, "icon", oRecord, fm(m_InformationTypeEnum.sbCardIcon))
     
     Set createCard = oCardElement
     
@@ -227,14 +230,16 @@ End Function
 Private Sub setCardAttribute(ByRef oCardElement As MSXML2.IXMLDOMElement, attributeName As String, ByRef oRecord As LDE.Record, fieldName As String)
     On Error GoTo ErrorHandler
 
-    If Not VBA.IsNull(oRecord(fieldName)) Then
-        If isFieldTypeDate(oRecord.field(fieldName).Type) Then
-            Call oCardElement.SetAttribute(attributeName, CStr(oRecord(fieldName)))
-        Else
-            Call oCardElement.SetAttribute(attributeName, oRecord(fieldName))
+    If fieldName <> "" Then
+        If Not VBA.IsNull(oRecord(fieldName)) Then
+            If isFieldTypeDate(oRecord.field(fieldName).Type) Then
+                Call oCardElement.SetAttribute(attributeName, CStr(oRecord(fieldName)))
+            Else
+                Call oCardElement.SetAttribute(attributeName, oRecord(fieldName))
+            End If
         End If
     End If
-
+    
     Exit Sub
 ErrorHandler:
     Call UI.ShowError("App_LimeCRMSalesBoard.setCardAttribute")
@@ -277,6 +282,7 @@ Private Function getFieldMappings(ByRef oBoardXmlDoc As MSXML2.DOMDocument60) As
     Call addFieldMapping(fieldMappings, oBoardXmlDoc, m_InformationTypeEnum.sbCardPercent, "/board/card/percentField")
     Call addFieldMapping(fieldMappings, oBoardXmlDoc, m_InformationTypeEnum.sbBoardSummation, "/board/summation/field")
     Call addFieldMapping(fieldMappings, oBoardXmlDoc, m_InformationTypeEnum.sbCardValue, "/board/card/value/field")
+    Call addFieldMapping(fieldMappings, oBoardXmlDoc, m_InformationTypeEnum.sbCardIcon, "/board/lanes/defaultValues/cardIconField")
     Call addFieldMapping(fieldMappings, oBoardXmlDoc, m_InformationTypeEnum.sbCardSorting, "/board/card/sorting/field")
     Call addFieldMapping(fieldMappings, oBoardXmlDoc, m_InformationTypeEnum.sbCardOwner, "/board/card/owner/fieldName", "/board/card/owner/relatedTableFieldName")
     Call addFieldMapping(fieldMappings, oBoardXmlDoc, m_InformationTypeEnum.sbCardAdditionalInfo, "/board/card/additionalInfo/fieldName", "/board/card/additionalInfo/relatedTableFieldName")
@@ -328,6 +334,7 @@ Private Function createView(ByRef fm As Scripting.Dictionary) As LDE.View
     Call oView.Add(fm(m_InformationTypeEnum.sbCardPercent))
     Call oView.Add(fm(m_InformationTypeEnum.sbBoardSummation))
     Call oView.Add(fm(m_InformationTypeEnum.sbCardValue))
+    Call oView.Add(fm(m_InformationTypeEnum.sbCardIcon))
     Call oView.Add(fm(m_InformationTypeEnum.sbCardSorting))
     Call oView.Add(fm(m_InformationTypeEnum.sbCardOwner))
     Call oView.Add(fm(m_InformationTypeEnum.sbCardAdditionalInfo))

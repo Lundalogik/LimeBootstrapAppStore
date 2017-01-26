@@ -41,7 +41,7 @@
 					<div class="limecrmsalesboard-card" data-bind="click: function() { $root.openLIMERecord(link) }">
 						<div class="limecrmsalesboard-card-leftside">
 					    	<div class="limecrmsalesboard-card-icon">
-					    		<div class="limecrmsalesboard-donut" data-bind="donut: { value : angle() }, visible: $parent.cardIcon === 'completion' && completionRate >= 0">
+					    		<div class="limecrmsalesboard-donut" data-bind="donut: { value : angle() }, visible: icon === 'completion' && completionRate >= 0">
 									<div class="limecrmsalesboard-donut-master limecrmsalesboard-color-lessimportant-background"></div>
 									<div class="limecrmsalesboard-donut-slice">
 										<div class="limecrmsalesboard-donut-inner limecrmsalesboard-color-positive-background"></div>
@@ -55,11 +55,11 @@
 									<div class="limecrmsalesboard-donut-startmarker"></div>
 								</div>
 					    		<img class="svg limecrmsalesboard-card-icon-image" src="apps/LimeCRMSalesBoard/resources/happy.svg"
-					    				data-bind="style: { fill: $parent.colorHex}, visible: $parent.cardIcon === 'happy'"/>
+					    				data-bind="style: { fill: $parent.colorHex}, visible: icon === 'happy'"/>
 					    		<img class="svg limecrmsalesboard-card-icon-image" src="apps/LimeCRMSalesBoard/resources/wait.svg"
-					    				data-bind="style: { fill: $parent.colorHex}, visible: $parent.cardIcon === 'wait'"/>
+					    				data-bind="style: { fill: $parent.colorHex}, visible: icon === 'wait'"/>
 					    		<img class="svg limecrmsalesboard-card-icon-image" src="apps/LimeCRMSalesBoard/resources/sad.svg"
-					    				data-bind="style: { fill: $parent.colorHex}, visible: $parent.cardIcon === 'sad'"/>
+					    				data-bind="style: { fill: $parent.colorHex}, visible: icon === 'sad'"/>
 					    	</div>
 					    </div>
 						<div class="limecrmsalesboard-card-rightside">
