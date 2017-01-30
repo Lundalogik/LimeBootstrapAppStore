@@ -55,6 +55,11 @@
 			"version":"2.0.1",
 			"date":"2016-10-13",
 			"comments":"Fixed names of VBA module and SQL code in README. Removed spaces and also changed to lowercase for SQL procedures and functions."
+		},
+		{
+			"version":"2.1.0",
+			"date":"2017-01-26",
+			"comments":"Added feature: dynamic card icons. Now possible to have different card icons within the same lane."
 		}
 	],
 	"install":{

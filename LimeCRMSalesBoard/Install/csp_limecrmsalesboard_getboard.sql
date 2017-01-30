@@ -14,6 +14,7 @@ CREATE PROCEDURE [dbo].[csp_limecrmsalesboard_getboard]
 	, @@completionfieldname NVARCHAR(64) = N''
 	, @@sumfieldname NVARCHAR(64) = N''
 	, @@valuefieldname NVARCHAR(64) = N''
+	, @@iconfieldname NVARCHAR(64) = N''
 	, @@sortfieldname NVARCHAR(64) = N''
 	, @@ownerfieldname NVARCHAR(64)
 	, @@ownerrelatedtablename NVARCHAR(64)
@@ -84,6 +85,11 @@ BEGIN
 	IF @@valuefieldname <> N''
 	BEGIN
 		SET @sql = @sql + N'		, NULL AS [Cards!2!value]' + CHAR(10)
+	END
+
+	IF @@iconfieldname <> N''
+	BEGIN
+		SET @sql = @sql + N'		, NULL AS [Cards!2!icon]' + CHAR(10)
 	END
 	
 	IF @@sortfieldname <> N''
@@ -159,6 +165,20 @@ BEGIN
 			SET @sql = @sql + N'		, ISNULL(A1.[' + @@valuefieldname + N'], 0) AS [Cards!2!value]' + CHAR(10)
 		END
 	END
+
+	IF @@iconfieldname <> N''
+	BEGIN
+		-- Check if SQL expression on field
+		SET @sqlexpression = [dbo].[cfn_limecrmsalesboard_getsqlexpression](@@tablename, @@iconfieldname, N'A1', @@iduser)
+		IF @sqlexpression <> N''
+		BEGIN
+			SET @sql = @sql + N'		, ISNULL(' + @sqlexpression + N', 0) AS [Cards!2!icon]' + CHAR(10)
+		END
+		ELSE
+		BEGIN
+			SET @sql = @sql + N'		, ISNULL(A1.[' + @@iconfieldname + N'], 0) AS [Cards!2!icon]' + CHAR(10)
+		END
+	END
 	
 	IF @@sortfieldname <> N''
 	BEGIN
@@ -227,6 +247,7 @@ BEGIN
 		, N'@@idrecords NVARCHAR(MAX)'
 		, @@idrecords
 END
+
 
 GO
 

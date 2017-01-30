@@ -1,5 +1,5 @@
 <div data-app="{app:'LimeCRMSalesBoard', config: {
-		dataSource: 'vba',
+		dataSource: 'sql',
 		maxNbrOfRecords: 1000,
 		boards: [ {
 			table: 'deal',
@@ -7,7 +7,7 @@
 				optionField: 'dealstatus',
 				defaultValues: {
 					laneColor: 'clean-green',
-					icon: 'completion',
+					cardIconField: 'salesboardcardicon',
 					positiveSummation: true
 				},
 				individualLaneSettings: [
