@@ -353,7 +353,7 @@ Public Function createFilter(optionFieldName As String) As LDE.Filter
     
     Dim oFilter As New LDE.Filter
     
-    Call oFilter.AddCondition("", lkOpIn, m_explorer.Records.Pool, lkConditionTypePool)
+    Call oFilter.AddCondition("", lkOpIn, m_explorer.Items.Pool, lkConditionTypePool)
     
     ' Loop over options to make sure no inactive records are included
     Dim oOption As LDE.Option
