@@ -60,6 +60,11 @@
 			"version":"2.1.0",
 			"date":"2017-01-26",
 			"comments":"Added feature: dynamic card icons. Now possible to have different card icons within the same lane."
+		},
+		{
+			"version":"2.1.1",
+			"date":"2017-02-01",
+			"comments":"Bug fixes: Cards are now filtered again when using a filter in the Lime explorer. Using dynamic card icons does no longer result in an empty board when refreshing."
 		}
 	],
 	"install":{

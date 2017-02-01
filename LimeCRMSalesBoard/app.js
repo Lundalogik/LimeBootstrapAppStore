@@ -188,7 +188,7 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
 
                 // Get the individual lane settings from the config.
                 var laneSettings = getLaneSettings(boardConfig[0].lanes, laneObj);
-
+                
                 if (laneObj.Cards !== undefined) {
                     if ($.isArray(laneObj.Cards)) {
                         $.each(laneObj.Cards, function(j, cardObj) {
@@ -320,7 +320,7 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
 
             // Create return object.
             var laneSettings = {};
-            
+
             // Get the individual lane settings from the config.
             var individualLaneSettings = $.grep(lanesConfig.individualLaneSettings, function(obj, i) {
                 if (obj.key !== undefined) {
@@ -334,28 +334,27 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
             // Check if a laneSetting was found
             if (individualLaneSettings.length === 1) {
 
-                // Check if selected color is a valid color, otherwise use default color.
+                // If no specified color, then use default color.
                 if ($.grep(self.limeCRMSalesBoardColors.colors, function(obj) {
                         return obj.name === individualLaneSettings[0].color;
-                    })[0] === undefined) {
+                    })[0] !== undefined) {
                     
-                    individualLaneSettings[0].color = lanesConfig.defaultValues.laneColor;
+                    laneSettings.color = individualLaneSettings[0].color;
+                }
+                else {
+                    laneSettings.color = lanesConfig.defaultValues.laneColor;
                 }
 
                 // Determine the cardIcon settings for the lane.
-                individualLaneSettings[0].cardIcon = chooseCardIcon(individualLaneSettings[0].cardIcon, lanesConfig.defaultValues.cardIcon);
-                // individualLaneSettings[0].cardIconField = getConfigLaneIconField(individualLaneSettings[0].cardIcon, lanesConfig.defaultValues.cardIcon, lanesConfig.defaultValues.cardIconField);
+                laneSettings.cardIcon = chooseCardIcon(individualLaneSettings[0].cardIcon, lanesConfig.defaultValues.cardIcon);
                 
                 // Check if summation boolean was specified for the lane, otherwise use the default
-                if (individualLaneSettings[0].positiveSummation === undefined) {
-                    individualLaneSettings[0].positiveSummation = lanesConfig.defaultValues.positiveSummation;
+                if (individualLaneSettings[0].positiveSummation !== undefined) {
+                    laneSettings.positiveSummation = individualLaneSettings[0].positiveSummation;
                 }
-
-                // Set return values
-                laneSettings.color = individualLaneSettings[0].color;
-                laneSettings.positiveSummation = individualLaneSettings[0].positiveSummation;
-                laneSettings.cardIcon = individualLaneSettings[0].cardIcon;
-                laneSettings.cardIconField = individualLaneSettings[0].cardIconField;
+                else {
+                    laneSettings.positiveSummation = lanesConfig.defaultValues.positiveSummation;
+                }
             }
             else {
                 // Use defaults
@@ -382,22 +381,6 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
                 }
             }
         }
-
-        // /*  Determines if the icon should be set individually for cards in the same lane based on config parameters. Takes both cardIcon and cardIconField config parameters into consideration.
-        //     Returns undefined if a dynamic icon should not be used. */
-        // getConfigLaneIconField = function(individualIcon, defaultIcon, defaultIconField) {
-        //     if (isValidCardIcon(individualIcon)) {
-        //         return undefined;
-        //     }
-        //     else {
-        //         if (isValidCardIcon(defaultIcon)) {
-        //             return undefined;
-        //         }
-        //         else {
-        //             return defaultIconField;
-        //         }
-        //     }
-        // }
 
         /*  Returns true if the specified iconName is a valid name for a card icon and otherwise false. */
         isValidCardIcon = function(iconName) {
