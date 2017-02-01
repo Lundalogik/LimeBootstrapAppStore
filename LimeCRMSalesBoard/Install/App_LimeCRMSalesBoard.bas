@@ -74,7 +74,7 @@ End Function
 Private Function getBoardXMLUsingSQL(ByRef oBoardXmlDoc As MSXML2.DOMDocument60) As String
     On Error GoTo ErrorHandler
     
-    Debug.Print "sql"
+    'Debug.Print "sql"
     
     ' Call procedure to get board data
     Dim oProc As LDE.Procedure
@@ -144,7 +144,7 @@ End Sub
 Private Function getBoardXMLUsingVBA(ByRef oBoardXmlDoc As MSXML2.DOMDocument60) As String
     On Error GoTo ErrorHandler
     
-    Debug.Print "vba"
+    'Debug.Print "vba"
     
     ' Set up field mappings
     Dim fieldMappings As Scripting.Dictionary
@@ -189,7 +189,7 @@ Private Function getBoardXMLUsingVBA(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
         prevLaneId = thisLaneId
     Next oRecord
     
-    Debug.Print oDataXml.XML
+    'Debug.Print oDataXml.XML
     getBoardXMLUsingVBA = oDataXml.XML
 
     Exit Function
@@ -246,7 +246,7 @@ ErrorHandler:
 End Sub
 
 
-' ##SUMMARY Sets the specified attribute on the card if not null
+' ##SUMMARY Returns true if it is any kind of field containing a date or time.
 Private Function isFieldTypeDate(ft As LDE.FieldTypeEnum)
     On Error GoTo ErrorHandler
 
@@ -258,7 +258,9 @@ Private Function isFieldTypeDate(ft As LDE.FieldTypeEnum)
             Or ft = lkFieldTypeDateTime _
             Or ft = lkFieldTypeDateTimeSeconds _
             Or ft = lkFieldTypeDateWeek _
-            Or ft = lkFieldTypeDateYear Then
+            Or ft = lkFieldTypeDateYear _
+            Or ft = lkFieldTypeTime _
+            Or ft = lkFieldTypeTimeStamp Then
         isFieldTypeDate = True
     Else
         isFieldTypeDate = False
@@ -542,6 +544,31 @@ Public Sub setMaxNbrOfRecords(val As Long)
 ErrorHandler:
     Call UI.ShowError("App_LimeCRMSalesBoard.setMaxNbrOfRecords")
 End Sub
+
+
+' ##SUMMARY Called from LimeCRMSalesBoard. Returns a string describing which type of value the sorting algorithm should treat the sorting values as.
+Public Function getSortFieldType(tableName As String, fieldName As String) As String
+    On Error GoTo ErrorHandler
+
+    If Database.Classes(tableName).Fields.Exists(fieldName) Then
+        If isFieldTypeDate(Database.Classes(tableName).Fields(fieldName).Type) Then
+            getSortFieldType = "string"
+        Else
+            Select Case Database.Classes(tableName).Fields(fieldName).Type
+                Case lkFieldTypeDecimal, lkFieldTypeInteger, lkFieldTypeYesNo:
+                    getSortFieldType = "float"
+                Case Else:
+                    getSortFieldType = "string"
+            End Select
+        End If
+    Else
+        getSortFieldType = "string"
+    End If
+
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError("App_LimeCRMSalesBoard.getSortFieldType")
+End Function
 
 
 ' ##SUMMARY Called from LimeCRMSalesBoard. Returns true if either a fast filter or column filters are applied on the current Explorer list.

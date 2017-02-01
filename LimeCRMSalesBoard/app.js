@@ -8,6 +8,7 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
     */
     self.config =  function(appConfig){
             this.maxNbrOfRecords = appConfig.maxNbrOfRecords;
+            this.dataSource = appConfig.dataSource;
             this.boards = appConfig.boards;
             this.dataSources = [];
             this.resources = {
@@ -42,7 +43,7 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
         
         // Set the maximum number of records in VBA
         lbs.common.executeVba('App_LimeCRMSalesBoard.setMaxNbrOfRecords,' + self.config.maxNbrOfRecords)
-        
+
         // Set up board variable to be filled later if table is activated.
         self.b = {};
         self.b.lanes = ko.observableArray();
@@ -147,6 +148,7 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
             self.b.sumPositive = 0;
             self.b.sumNegative = 0;
             self.b.sumUnit = '';
+            self.b.sortFieldType = 'string';
 
             // Get config for active table
             self.activeTable = lbs.common.executeVba('App_LimeCRMSalesBoard.getActiveTable');
@@ -165,6 +167,11 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
                 $('.limecrmsalesboard-board').show();
             }
 
+            // Get the type of the sort values. Needed to be able to sort cards correctly.
+            if (boardConfig[0].card.sorting) {
+                self.b.sortFieldType = lbs.common.executeVba('App_LimeCRMSalesBoard.getSortFieldType,' + self.activeTable + ',' + boardConfig[0].card.sorting.field);
+            }
+        
             // Check if filter is applied
             self.b.filterApplied = lbs.common.executeVba('App_LimeCRMSalesBoard.getListFiltered');
 
@@ -209,11 +216,20 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
                         // Sort the cards
                         if (boardConfig[0].card.sorting) {
                             cardsArray.sort(function (left, right) {
-                                if (boardConfig[0].card.sorting.descending) {
-                                    return left.sortValue === right.sortValue ? 0 : (left.sortValue < right.sortValue ? 1 : -1);
+                                if (self.b.sortFieldType === 'float') {
+                                    var lsv = parseFloat(left.sortValue);
+                                    var rsv = parseFloat(right.sortValue);
                                 }
                                 else {
-                                    return left.sortValue === right.sortValue ? 0 : (left.sortValue < right.sortValue ? -1 : 1);
+                                    var lsv = left.sortValue;
+                                    var rsv = right.sortValue;
+                                }
+                                
+                                if (boardConfig[0].card.sorting.descending) {
+                                    return lsv === rsv ? 0 : (lsv < rsv ? 1 : -1);
+                                }
+                                else {
+                                    return lsv === rsv ? 0 : (lsv < rsv ? -1 : 1);
                                 }
                             });
                         }
