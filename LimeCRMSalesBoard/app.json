@@ -65,6 +65,11 @@
 			"version":"2.1.1",
 			"date":"2017-02-01",
 			"comments":"Bug fixes: Cards are now filtered again when using a filter in the Lime explorer. Using dynamic card icons does no longer result in an empty board when refreshing."
+		},
+		{
+			"version":"2.1.2",
+			"date":"2017-02-01",
+			"comments":"Bug fix: Sorting of cards have been fixed."
 		}
 	],
 	"install":{
