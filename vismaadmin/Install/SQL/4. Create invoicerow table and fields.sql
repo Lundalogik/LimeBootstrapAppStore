@@ -101,7 +101,7 @@ BEGIN TRY
 		@@table = @tablename,
 		@@name = @fieldname,
 		@@fieldtype = 1,					--Text field
-		@@length = 128,						--Behˆvs endast om textf‰lt
+		@@length = 128,						--Beh√∂vs endast om textf√§lt
 		@@defaultvalue = @defaultvalue OUTPUT,
 		@@idfield = @idfield OUTPUT,
 		@@localname = @localname OUTPUT,
@@ -124,7 +124,7 @@ BEGIN TRY
 		@@table = @tablename,
 		@@name = @fieldname,
 		@@fieldtype = 1,					--Text field
-		@@length = 128,						--Behˆvs endast om textf‰lt
+		@@length = 128,						--Beh√∂vs endast om textf√§lt
 		@@defaultvalue = @defaultvalue OUTPUT,
 		@@idfield = @idfield OUTPUT,
 		@@localname = @localname OUTPUT,
@@ -152,7 +152,7 @@ BEGIN TRY
 		@@localname = @localname OUTPUT,
 		@@idcategory = @idcategory OUTPUT
 						
-		UPDATE [string] SET en_us = N'Units', sv = N'Antal', [no] = N'Antall', fi = N'M‰‰r‰' WHERE [idstring] = @localname
+		UPDATE [string] SET en_us = N'Units', sv = N'Antal', [no] = N'Antall', fi = N'M√§√§r√§' WHERE [idstring] = @localname
 
 		--CREATE DECIMAL FIELD row_value
 		SET @tablename = N'invoicerow'
@@ -175,6 +175,28 @@ BEGIN TRY
 		@@idcategory = @idcategory OUTPUT
 						
 		UPDATE [string] SET en_us = N'Amount', sv = N'Summa', [no] = N'Sum', fi = N'Koko' WHERE [idstring] = @localname
+		
+		--CREATE DECIMAL FIELD row_margin
+		SET @tablename = N'invoicerow'
+		SET @fieldname = N'row_margin'
+		PRINT N'CREATE FIELD: ' + @tablename + '.' + @fieldname
+		SET @return_value = null
+		SET @defaultvalue = null
+		SET @idfield = null
+		SET @localname = null
+		SET @idcategory = null
+		SET @idstring = null
+
+		EXEC @return_value = [dbo].[lsp_addfield]
+		@@table = @tablename,
+		@@name = @fieldname,
+		@@fieldtype = 4,					--decimal field
+		@@defaultvalue = @defaultvalue OUTPUT,
+		@@idfield = @idfield OUTPUT,
+		@@localname = @localname OUTPUT,
+		@@idcategory = @idcategory OUTPUT
+						
+		UPDATE [string] SET en_us = N'Contribution margin', sv = N'T√§ckningsbidrag', [no] = N'Dekningsbidrag', fi = N'Katetuotto' WHERE [idstring] = @localname
 
 		--CREATE TEXT FIELD rowid
 		SET @tablename = N'invoicerow'
@@ -191,14 +213,14 @@ BEGIN TRY
 		@@table = @tablename,
 		@@name = @fieldname,
 		@@fieldtype = 1,					--Text field
-		@@length = 32,						--Behˆvs endast om textf‰lt
+		@@length = 32,						--Beh√∂vs endast om textf√§lt
 		@@defaultvalue = @defaultvalue OUTPUT,
 		@@idfield = @idfield OUTPUT,
 		@@localname = @localname OUTPUT,
 		@@idcategory = @idcategory OUTPUT
 						
 		UPDATE [string] SET en_us = N'Row ID', sv = N'Rad ID', [no] = N'Rad ID', fi = N'Row ID' WHERE [idstring] = @localname
-		EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'invisible', @@valueint = 1	--Osynligt pÂ kort
+		EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'invisible', @@valueint = 1	--Osynligt p√• kort
 
 	END
 	ELSE
