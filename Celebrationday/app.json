@@ -1,0 +1,23 @@
+{
+	"name": "Celebrationday",
+	"displayName": "Celebrationday",
+	"author":"Sofie Sundåker, Lundalogik AB",
+	"license": true,
+	"description": "Never forget your customers and employees birthday or employmentday ever again!",
+	"status": "Beta",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2016-09-22",
+			"comments":"Creation"
+		},
+		{
+			"version":"0.2",
+			"date":"2017-01-04",
+			"comments":"Ready for Beta"
+		}
+	],
+	"install":{
+		
+	}
+}
