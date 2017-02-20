@@ -3,7 +3,8 @@
 	"displayName": "Celebrationday",
 	"author":"Sofie Sundåker, Lundalogik AB",
 	"license": true,
-	"description": "Never forget your customers and employees birthday or employmentday ever again!",
+	"description": "Never forget your customers and employees birthdays and employmentdays ever again!",
+	"shortDesc": "Never forget your customers and employees birthdays and employmentdays ever again!",
 	"status": "Beta",
 	"versions":[
 		{
