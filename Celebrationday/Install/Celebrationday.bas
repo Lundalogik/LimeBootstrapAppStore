@@ -71,10 +71,10 @@ On Error GoTo Errorhandler
     'If there is none, create a new
     'If there is, update the name to "Celebrationday" + todays date + choosen enddate
     'Parse the XML
-'    If Not oXML.loadXML(sXml) Then
-'        UI.ShowError ("Celebrationday.OpenSelection")
-'        Exit Sub
-'    End If
+    If Not oXML.loadXML(sXml) Then
+        UI.ShowError ("Celebrationday.OpenSelection")
+        Exit Sub
+    End If
     
     Set oRoot = oXML.firstChild
     iCount = 0
