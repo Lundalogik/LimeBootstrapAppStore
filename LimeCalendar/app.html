@@ -1,0 +1,139 @@
+<nav class="navbar navbar-fixed-top">
+  	<div class="container">
+    	<div class="col-xs-4">
+    		<a class="navbar-brand">
+    			<img src="../Actionpads/apps/LimeCalendar/Resources/logo.png"/>
+			</a>
+    	</div>
+    	<div class="navbar-header col-xs-4">
+    		<h4 data-bind="text: title " />
+    	</div>
+		<div class="input-group col-xs-4">
+			<button data-bind="text: localize.LimeCalendar.save, 
+				icon: 'fa-save', 
+				css: {disabled : changedEvents().length === 0}, 
+				click: save" type="button" class="btn btn-plain pull-right"/>
+			<div class="btn-group pull-right">
+				<button type="button" class="btn btn-plain dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span data-bind="text: localize.LimeCalendar.filter"></span>
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li data-bind="click: function() { pickFilter('mine'); }">
+						<a href="#" data-bind="text: localize.LimeCalendar.mine"></a>
+					</li>
+					<li data-bind="click: function() { pickFilter('all'); }">
+						<a href="#" data-bind="text: localize.LimeCalendar.all"></a>
+					</li>
+					<li class="divider"></li>
+					<li data-toggle="modal" data-target="#coworkerModal">
+						<a href="#" data-bind="text: localize.LimeCalendar.chooseCoworker"></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+  	</div>
+</nav>
+
+<div class="calendar-container row col-xs-12">
+	<div class="row">
+		<div class="col-xs-8">
+			<div data-bind="fullCalendar: calendarViewModel"> </div>
+		</div>
+		<div class="col-xs-4 event-info">
+			<!-- ko if: selectedDate() -->
+
+			<!-- /ko -->
+			<!-- ko if: selectedEvent() -->
+			<div data-bind="style: { 'border-color': selectedEvent().borderColor }" class="panel panel-lime">
+				<div data-bind="style: { 
+						'background-color': selectedEvent().backgroundColor, 
+						'border-color': selectedEvent().borderColor, 
+						'color': selectedEvent().color }" class="panel-heading">
+					<div class="row">
+						<div class="col-xs-8">
+							<h4 data-bind="text: selectedEvent().title" />
+						</div>
+						<div class="col-xs-4">
+							<button data-bind="style: { 
+									'background-color': selectedEvent().backgroundColor, 
+									'border-color': selectedEvent().borderColor, 
+									'color': selectedEvent().color 
+								}, click: openRecord," type="button" class="btn btn-plain pull-right">
+								<span class="fa fa-external-link fa-lg" />
+							</button>
+						</div>
+					</div>
+				</div>
+			  	<div class="panel-body">
+		  			<div class="row">
+			    		<div data-bind="text: localize.LimeCalendar.start" class="col-xs-4"/>
+			    		<div data-bind="text: selectedEvent().start ? moment(selectedEvent().start).format(selectedEvent().dateFormat) : ''" class="col-xs-8" />
+			    	</div>
+			    	<div class="row">
+			    		<div data-bind="text: localize.LimeCalendar.end" class="col-xs-4"/>
+			    		<div data-bind="text: selectedEvent().end ? moment(selectedEvent().end).format(selectedEvent().dateFormat) : ''" class="col-xs-8"/>
+			    	</div>
+			  		<!-- ko foreach: selectedEvent().fields -->
+			  			<div class="row">
+				    		<div data-bind="text: name" class="col-xs-4"/>
+				    		<div data-bind="text: text" class="col-xs-8"/>
+				    	</div>
+			  		<!-- /ko -->
+			  	</div>
+<!-- 			  	<div class="panel-footer">
+				Finns det något bra att ha här i footern?	
+				</div> -->
+			</div>
+			<!-- /ko -->
+		</div>
+	</div>
+	<div class="row col-xs-12 legend-container">
+		<!-- ko foreach: tables() -->
+			<span class="legend" data-bind="style: { 
+					'border-color': options.borderColor, 
+					'backgroundColor': backgroundColor(), 
+					'color': textColor() 
+				}, text: name, 
+				click: exclude, 
+				icon: (excluded() ? 'fa-plus' : 'fa-minus')"></span>
+		<!-- /ko -->
+	</div>
+</div>
+
+<div class="modal fade" id="coworkerModal" tabindex="-1" role="dialog" aria-labelledby="coworkerModalTitle">
+  	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+      		<div class="modal-header">
+      			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 data-bind="text: localize.LimeCalendar.chooseCoworker" class="modal-title" id="coworkerModalTitle"></h4>
+      		</div>
+      		<div class="modal-body">
+        		<div class="input-group">
+					<input data-bind="value: coworkerFilter, 
+						valueUpdate: 'afterkeydown', 
+						attr: {'placeholder': localize.LimeCalendar.searchCoworkers}" type="text" class="form-control">
+					<span class="input-group-btn">
+				        <button data-bind="text: localize.LimeCalendar.search" class="btn btn-default" type="button"></button>
+			      	</span>
+				</div>
+				<div class="modal-body-header">
+					<h5 data-bind="text: localize.LimeCalendar.searchHits"></h5>
+					<h5 data-bind="text: 'Visar: ' + filteredCoworkers().length + ' av ' + coworkers().length" class="pull-right">
+					</h5>
+				</div>
+				<div class="list-group">
+					<!-- ko foreach: filteredCoworkers() -->
+					<a data-bind="text: name, click: select, css: {'list-group-item-selected': selected()}" href="#" class="list-group-item"></a>
+					<!-- /ko -->
+				</div>
+      		</div>
+      		<div class="modal-footer">
+      			<button data-bind="text: localize.LimeCalendar.chooseCoworker, 
+      				icon: 'fa-check', 
+      				click: function() { pickFilter('other'); }, 
+      				css: {disabled : !selectedCoworker()}" class="btn btn-plain pull-right"/>
+      		</div>
+		</div>
+  	</div>
+</div>
