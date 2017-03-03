@@ -3,7 +3,7 @@
 	"displayName": "Lime Calendar",
 	"author": "JKA",
 	"status": "Beta",
-	"shortDesc": "Enables for tracking of Lime records with a start (and enddate) in a simple calendar view. It's possible to filter based on everyone's, my own and specific coworker's tasks.",
+	"shortDesc": "Simple and configurable calendar for Lime CRM.",
 	"versions": [{
 		"version": "0.1",
 		"date": "2017-02-28",

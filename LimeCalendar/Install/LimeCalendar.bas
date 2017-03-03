@@ -8,8 +8,8 @@ Public Sub OpenCalendar()
     Dim oItem As Lime.ExplorerItem
     oDialog.Type = lkDialogHTML
     oDialog.Property("url") = Application.WebFolder & "lbs.html?ap=/apps/LimeCalendar/Views/view&type=tab"
-    oDialog.Property("height") = 780
-    oDialog.Property("width") = 1150
+    oDialog.Property("height") = 860
+    oDialog.Property("width") = 1040
     oDialog.show
     
     Exit Sub
@@ -55,8 +55,8 @@ Public Function GetCoworkers() As LDE.Records
     On Error GoTo ErrorHandler
     Dim oRecords As New LDE.Records
     Dim oView As New LDE.view
-    oView.Add ("name")
-    oView.Add ("idcoworker")
+    Call oView.Add("name", lkSortAscending)
+    Call oView.Add("idcoworker")
     Call oRecords.Open(Database.Classes("coworker"), , oView)
     Set GetCoworkers = oRecords
     Exit Function
