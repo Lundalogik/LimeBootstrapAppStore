@@ -3,7 +3,7 @@ lbs.apploader.register('RelationMap', function () {
 
     self.config = function (appConfig) {
             this.getJsonFunction = appConfig.getJsonFunction || "GetJsonCoworker";
-            this.selectedRecordId = appConfig.buildSelected ? lbs.common.executeVba("RelationMap.GetSelectedRecordId," + appConfig.recordType) : "";
+            this.selectedRecordId = lbs.common.executeVba("RelationMap.GetSelectedRecordId," + appConfig.recordType);
             this.title = appConfig.title || "Organizational schema";
             this.depth = appConfig.depth || 2;
             this.animationDuration = appConfig.animationDuration || 1000;
@@ -44,7 +44,7 @@ lbs.apploader.register('RelationMap', function () {
             toolTipTextColor = self.config.toolTipTextColor ? self.config.toolTipTextColor : helperFunctions.calculateTransparentColor(green, '#FFFFFF', 0.4),
             toolTipBackgroundColor = self.config.toolTipBackgroundColor ? self.config.toolTipBackgroundColor : "#000",
             depth = self.config.depth,
-            duration = self.config.animationDuration,
+            animationDuration = self.config.animationDuration,
             stringJson = lbs.common.executeVba("RelationMap." + self.config.getJsonFunction),
             font = "Segoe UI",
             screenHeight = screen.height,
@@ -102,7 +102,7 @@ lbs.apploader.register('RelationMap', function () {
             if (d) {
                 viewModel.root(d);
                 tree.expand(viewModel.root(), 0, depth);
-                updateTree(viewModel.root());
+                updateTree(viewModel.root(), animationDuration);
             }
         }
         
@@ -113,14 +113,18 @@ lbs.apploader.register('RelationMap', function () {
 
         // Sets title and renders tree.
         $('title').html(self.config.title);
-        if (self.config.selectedRecordId !== "") {
-            tree.selectNodeById(viewModel.root(), self.config.selectedRecordId, viewModel);
+        if (self.config.selectedRecordId) {
+            tree.expand(viewModel.root(), 0, Number.MAX_VALUE);
+            updateTree(viewModel.root(), 0);
+            viewModel.selectNode(tree.selectNodeById(viewModel.root(), self.config.selectedRecordId, viewModel));
         }
-        tree.expand(viewModel.root(), 0, depth);
-        updateTree(viewModel.root());
+        else {
+            tree.expand(viewModel.root(), 0, depth);
+            updateTree(viewModel.root(), animationDuration);            
+        }
         return viewModel;
 
-        function updateTree(source) {
+        function updateTree(source, duration) {
 
             // Compute the new tree layout.
             var nodes = treeLayout.nodes(source),
