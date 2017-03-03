@@ -1,15 +1,109 @@
 {
 	"name": "LimeCalendar",
-	"author":"jka",
-	"status":"Development",
-	"versions":[
-		{
-			"version":"0.1",
-			"date":"2017-02-10",
-			"comments":"Creation"
-		}
-	],
-	"install":{
-		
+	"displayName": "Lime Calendar",
+	"author": "JKA",
+	"status": "Beta",
+	"shortDesc": "Enables for tracking of Lime records with a start (and enddate) in a simple calendar view. It's possible to filter based on everyone's, my own and specific coworker's tasks.",
+	"versions": [{
+		"version": "0.1",
+		"date": "2017-02-28",
+		"comments": "First beta release"
+	}],
+	"install": {
+		"localize": [{
+			"owner": "LimeCalendar",
+			"code": "todoSubject",
+			"sv": "Titel",
+			"en_us": "Title"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "start",
+			"sv": "Start",
+			"en_us": "Start"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "end",
+			"sv": "Slut",
+			"en_us": "End"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "todoCoworker",
+			"sv": "Medarbetare",
+			"en_us": "Coworker"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "todoPerson",
+			"sv": "Kontaktperson",
+			"en_us": "Contact"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "todoNote",
+			"sv": "Anteckning",
+			"en_us": "Note"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "todoDone",
+			"sv": "Klar",
+			"en_us": "Done"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "todoTable",
+			"sv": "Att g\u00F6ra",
+			"en_us": "Todo"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "mine",
+			"sv": "Mina",
+			"en_us": "Mine"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "all",
+			"sv": "Alla",
+			"en_us": "All"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "chooseCoworker",
+			"sv": "V\u00E4lj medarbetare",
+			"en_us": "Choose coworker"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "filter",
+			"sv": "Filtrera",
+			"en_us": "Filter"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "save",
+			"sv": "Spara",
+			"en_us": "Save"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "search",
+			"sv": "S\u00F6k",
+			"en_us": "Search"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "searchCoworkers",
+			"sv": "S\u00F6k efter anv\u00E4ndare",
+			"en_us": "Search for coworkers"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "searchHits",
+			"sv": "S\u00F6kresultat",
+			"en_us": "Search result"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "todoPerson",
+			"sv": "Kontaktperson",
+			"en_us": "Contact person"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "todoNote",
+			"sv": "Anteckningar",
+			"en_us": "Notes"
+		}],
+		"vba": [{
+			"name": "LimeCalendar",
+			"relPath": "Install\\LimeCalendar.bas"
+		}]
 	}
 }
