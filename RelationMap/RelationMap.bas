@@ -128,7 +128,7 @@ Private Function GenerateJsonCoworker(ByRef sJson As String, _
         "Office: " & oRecord.Text(OFFICE_NAME) '& "<br/>"
 '        "Coworker group: " & oRecord.Text(COWORKER_GROUP_NAME) & "<br/>" & _
 '        "Employment date: " & oRecord.Text(EMPLOYMENT_DATE) & "<br/>"
-'    If oRecord.Text("employmentdate") <> "" Then
+'    If oRecord.Text(EMPLOYMENT_DATE) <> "" Then
 '        sJson = sJson & "Days employed: " & YearsMonthsDays(oRecord.Value(EMPLOYMENT_DATE), VBA.Date)
 '    Else
 '        sJson = sJson & "Days employed:"
@@ -261,7 +261,7 @@ Private Function GenerateJsonCompany(ByRef sJson As String, _
         Chr(34) & "secondaryText" & Chr(34) & ": " & Chr(34) & oRecord.Text(COUNTRY) & Chr(34) & "," & _
         Chr(34) & "recordId" & Chr(34) & ": " & Chr(34) & CStr(oRecord.ID) & Chr(34) & "," & _
         Chr(34) & "tooltip" & Chr(34) & ": " & Chr(34) & _
-        "Name: " & oRecord.Text("name") & "<br/>" & _
+        "Name: " & oRecord.Text(COMPANY_NAME) & "<br/>" & _
         "Registration number: " & oRecord.Text(REGISTRATION_NO) & "<br/>" & _
         "Parent company: " & oRecord.Text(PARENT_COMPANY) & "<br/>" & _
         "Country: " & oRecord.Text(COUNTRY) & "<br/>" & _
