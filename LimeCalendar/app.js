@@ -9,7 +9,7 @@ lbs.apploader.register('LimeCalendar', function () {
     self.config =  function(appConfig){
             this.locale = lbs.common.executeVba('LimeCalendar.GetLocale');
             this.tables = appConfig.tables || [
-                 {
+                {
                     table: 'todo',
                     tableLocale: lbs.common.executeVba('LimeCalendar.GetTableLocale, todo'),
                     fields: 'subject;starttime;endtime;coworker;person;note;done',
@@ -19,6 +19,7 @@ lbs.apploader.register('LimeCalendar', function () {
                     start: 'starttime',
                     end: 'endtime',
                     options: {
+                        initialField: 'coworker',
                         dateformat: 'YYYY-MM-DD HH:mm',
                         color: '#fff',
                         backgroundColor: '#00A8CC',
@@ -35,6 +36,8 @@ lbs.apploader.register('LimeCalendar', function () {
                     start: 'startdate',
                     end: 'enddate',
                     options: {
+                        filterField: 'campaignstatus',
+                        initialField: 'coworker',
                         dateformat: 'YYYY-MM-DD',
                         color: '#fff',
                         backgroundColor: '#FF3296',
@@ -42,8 +45,8 @@ lbs.apploader.register('LimeCalendar', function () {
                     }
                 }
             ],
-            this.nbrMonthsBack = appConfig.nbrMonthsBack || 2,
             this.defaultFilter = appConfig.defaultFilter || 'mine';
+            this.groupFilter = appConfig.groupFilter || 'office';
             this.dataSources = [];
             this.resources = {
                 scripts: [
@@ -234,7 +237,7 @@ lbs.apploader.register('LimeCalendar', function () {
                 header: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
+                    right: 'month,agendaWeek,agendaDay,listWeek'
                 },
                 locale: self.config.locale,
                 editable: true,

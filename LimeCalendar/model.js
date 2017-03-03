@@ -5,7 +5,11 @@ var model = {
 		self.locales = ko.observableArray(locales.split(';'));
 		self.table = table;
 		self.id = item['id' + table.table].value;
-		self.title = item[title].text;
+		self.initials = ko.utils.arrayMap(item[options.initialField].text.split(' '), function(name) {
+			return name.substring(0,1);
+		}).join('').toUpperCase();
+		self.title = item[title].text + ' (' + self.initials + ')';
+		self.detailsTitle = item[title].text;
 		self.startfield = start;
 		self.endfield = end;
 		self.start = moment(item[start].text).format(options.dateformat);

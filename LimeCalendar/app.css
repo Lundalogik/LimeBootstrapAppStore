@@ -9,14 +9,15 @@ body{
 
 .calendar-container{
 	margin-top: 70px;
-	padding: 20px;
+	padding-right: 50px;
+	padding-left: 50px;
 }
 
 .panel.panel-lime {
 	border: 1px solid ;
 }
 
-.panel-body > div.row > div {
+div.row > div {
 	text-overflow: default;
 	word-break: normal;
 	white-space: normal;
@@ -99,7 +100,7 @@ ul.dropdown-menu{
 }
 
 .legend-container{
-	margin-top: 24px;
+	margin-top: 12px;
 }
 
 span.caret{
@@ -114,4 +115,12 @@ a.list-group-item.list-group-item-selected:hover {
 	background-color: #00A8CC;
 	border-color: #00A8CC;
 	color: #FFF;
+}
+
+.modal-header{
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+}
+.modal-dialog.modal-event {
+	margin-top: 150px !important;
 }

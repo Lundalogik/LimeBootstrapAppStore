@@ -28,22 +28,12 @@
                 editable: viewModel.editable,
                 locale: viewModel.locale,
                 dayClick: function(date, jsEvent, view) {
-                    // $(element).fullCalendar('gotoDate', date);
                     appViewModel.selectedDate(date);
                 },
                 eventClick: function(event) {
-                    if(appViewModel.selectedEvent()){
-                        if(appViewModel.selectedEvent().id === event.id)
-                            appViewModel.selectedEvent(null);
-                        else{
-                            appViewModel.selectedEvent(event);
-                            $(element).fullCalendar('gotoDate', event.start);
-                        }
-                    }
-                    else{
-                        appViewModel.selectedEvent(event);    
-                        $(element).fullCalendar('gotoDate', event.start);
-                    }
+                    appViewModel.selectedEvent(event);    
+                    $('#eventModal').modal('show');
+                    $(element).fullCalendar('gotoDate', event.start);
                     
                 },
                 eventDrop: function(event) {
