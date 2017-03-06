@@ -1,19 +1,17 @@
 {
 	"name": "RelationMap",
-	"displayName" : "Relation map",
 	"author":"Karl Fogelström",
 	"status":"Beta",
-	"shortDesc": "Get a good overview of your hierarchical data, and pop up the details for any record that looks interesting or suspicious.",
 	"versions":[
+		{
+			"version":"0.2",
+			"date":"2017-03-03",
+			"comments":"Perfomance optimizations, added functionality, and refactoring."
+		},
 		{
 			"version":"0.1",
 			"date":"2016-12-29",
 			"comments":"Creation"
-		},
-		{
-			"version":"0.2",
-			"date":"2017-01-11",
-			"comments":"First beta release"
 		}
 	],
 	"install":{
