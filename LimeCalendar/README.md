@@ -67,12 +67,12 @@ A table object in the configuration can, and should hold the following informati
 * start: Field in the field-attribute above which should be used as the start time.
 * end: Field in the field-attribute above which should be used as the end time.
 * options:
-..* statusFilter [optional]: Field in the field-attribute above with which the user should be able to filter the result. This must be an option field or a text field with categories.
-..* initialField: Field in the field-attribute above which is used to extract initials for the responsible coworker.
-..* dateformat: Specifies the date format to be used.
-..* color: Text color used for the tasks in the calendar.
-..* backgroundColor: Background color used for the tasks in the calendar.
-..* borderColor: Border color used for the tasks in the calendar. Preferably the same as the background color.
+ * statusFilter [optional]: Field in the field-attribute above with which the user should be able to filter the result. This must be an option field or a text field with categories.
+ * initialField: Field in the field-attribute above which is used to extract initials for the responsible coworker.
+ * dateformat: Specifies the date format to be used.
+ * color: Text color used for the tasks in the calendar.
+ * backgroundColor: Background color used for the tasks in the calendar.
+ * borderColor: Border color used for the tasks in the calendar. Preferably the same as the background color.
 
 ### Important note
 By default no tasks older than two months will be loaded. This can be changed by altering the VBA constant ` NBR_OF_MONTHS ` in the module LimeCalendar.
