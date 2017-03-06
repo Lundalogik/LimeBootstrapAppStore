@@ -2,20 +2,22 @@
 	"name": "LimeCalendar",
 	"displayName": "Lime Calendar",
 	"author": "JKA",
-	"status": "Beta",
+	"status": "Release",
 	"shortDesc": "Simple and configurable calendar for Lime CRM.",
-	"versions": [{
-		"version": "0.1",
-		"date": "2017-02-28",
-		"comments": "First beta release"
-	}],
+	"versions": [
+		{
+			"version": "1.0",
+			"date": "2017-03-06",
+			"comments": "First release. Added more complex filter configuration and more."
+		},
+		{
+			"version": "0.1",
+			"date": "2017-02-28",
+			"comments": "First beta release"
+		}
+	],
 	"install": {
 		"localize": [{
-			"owner": "LimeCalendar",
-			"code": "todoSubject",
-			"sv": "Titel",
-			"en_us": "Title"
-		}, {
 			"owner": "LimeCalendar",
 			"code": "start",
 			"sv": "Start",
@@ -47,9 +49,14 @@
 			"en_us": "Done"
 		}, {
 			"owner": "LimeCalendar",
-			"code": "todoTable",
-			"sv": "Att g\u00F6ra",
-			"en_us": "Todo"
+			"code": "campaignStatus",
+			"sv": "Status",
+			"en_us": "Status"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "campaignPurpose",
+			"sv": "Syfte",
+			"en_us": "Purpose"
 		}, {
 			"owner": "LimeCalendar",
 			"code": "mine",
@@ -92,14 +99,19 @@
 			"en_us": "Search result"
 		}, {
 			"owner": "LimeCalendar",
-			"code": "todoPerson",
-			"sv": "Kontaktperson",
-			"en_us": "Contact person"
+			"code": "searchGroup",
+			"sv": "S\u00F6k efter grupp",
+			"en_us": "Search for a group"
 		}, {
 			"owner": "LimeCalendar",
-			"code": "todoNote",
-			"sv": "Anteckningar",
-			"en_us": "Notes"
+			"code": "chooseGroup",
+			"sv": "V\u00E4lj grupp",
+			"en_us": "Choose group"
+		, {
+			"owner": "LimeCalendar",
+			"code": "openCalendar",
+			"sv": "\u00D6ppna kalender",
+			"en_us": "Open calendar"
 		}],
 		"vba": [{
 			"name": "LimeCalendar",

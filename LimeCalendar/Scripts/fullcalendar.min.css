@@ -31,11 +31,11 @@ body .fc { /* extra precedence to overcome jqui */
 .fc-unthemed .fc-popover,
 .fc-unthemed .fc-list-view,
 .fc-unthemed .fc-list-heading td {
-	border-color: #00A8CC;
+	border-color: #00C8AA;
 }
 
 .fc-unthemed thead, .fc-unthemed thead > tr {
-	border-color: #00A8CC;
+	border-color: #00C8AA;
 }
 
 .fc-unthemed .fc-popover {
@@ -245,7 +245,7 @@ NOTE: use percentage font sizes or else old IE chokes
 
 .fc-state-down,
 .fc-state-active {
-	background-color: #00A8CC;
+	background-color: #00C8AA;
 	color: #FFF;
 	text-decoration: none;
 	/*background-image: none;
@@ -380,13 +380,14 @@ hr.fc-divider {
 	border-collapse: collapse;
 	border-spacing: 0;
 	font-size: 1em; /* normalize cross-browser */
+
 }
 
 .fc th {
 	text-align: center;
-	background-color: #00A8CC;
+	background-color: #00C8AA;
 	border: 1px solid;
-	border-color: #00A8CC;
+	border-color: #00C8AA;
 	color: #FFF;
 }
 
@@ -396,6 +397,10 @@ hr.fc-divider {
 	border-width: 1px;
 	padding: 0;
 	vertical-align: top;
+}
+
+.fc td {
+	background-color: #FFF;
 }
 /*
 .fc-day:hover{

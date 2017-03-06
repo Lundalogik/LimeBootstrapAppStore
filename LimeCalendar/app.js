@@ -11,24 +11,23 @@ lbs.apploader.register('LimeCalendar', function () {
             this.tables = appConfig.tables || [
                 {
                     table: 'todo',
-                    tableLocale: lbs.common.executeVba('LimeCalendar.GetTableLocale, todo'),
                     fields: 'subject;starttime;endtime;coworker;person;note;done',
-                    view: 'coworker;person;note',
-                    viewLocalizations: 'todoCoworker;todoPerson;todoNote',
+                    view: 'coworker;person;note;done',
+                    viewLocalizations: 'todoCoworker;todoPerson;todoNote;todoDone',
                     title: 'subject',
                     start: 'starttime',
                     end: 'endtime',
                     options: {
+                        statusFilter: 'subject',
                         initialField: 'coworker',
                         dateformat: 'YYYY-MM-DD HH:mm',
                         color: '#fff',
-                        backgroundColor: '#00A8CC',
-                        borderColor: '#00A8CC'
+                        backgroundColor: '#00BEFF',
+                        borderColor: '#00BEFF'
                     }
                 },
                 {
                     table: 'campaign',
-                    tableLocale: lbs.common.executeVba('LimeCalendar.GetTableLocale, campaign'),
                     fields: 'name;startdate;enddate;coworker;campaignstatus;purpose',
                     view: 'coworker;campaignstatus;purpose',
                     viewLocalizations: 'todoCoworker;campaignStatus;campaignPurpose',
@@ -36,7 +35,7 @@ lbs.apploader.register('LimeCalendar', function () {
                     start: 'startdate',
                     end: 'enddate',
                     options: {
-                        filterField: 'campaignstatus',
+                        statusFilter: 'campaignstatus',
                         initialField: 'coworker',
                         dateformat: 'YYYY-MM-DD',
                         color: '#fff',
@@ -44,9 +43,13 @@ lbs.apploader.register('LimeCalendar', function () {
                         borderColor: '#FF3296'
                     }
                 }
-            ],
+            ];
             this.defaultFilter = appConfig.defaultFilter || 'mine';
-            this.groupFilter = appConfig.groupFilter || 'office';
+            this.groupFilter = {
+                table: 'office',
+                title: 'name'
+            };
+            this.view = appConfig.view || 'windowed';
             this.dataSources = [];
             this.resources = {
                 scripts: [
@@ -74,18 +77,26 @@ lbs.apploader.register('LimeCalendar', function () {
         but, well, here you have it.
     */
     self.initialize = function (node, viewModel) {
-        viewModel.selectedCoworker = ko.observable();
         viewModel.selectedDate = ko.observable();
         viewModel.personFilter = ko.observable();
         viewModel.selectedEvent = ko.observable();
         viewModel.changedEvents = ko.observableArray();
         viewModel.title = ko.observable('');
         viewModel.filter = ko.observable('');
+
         viewModel.coworkerFilter = ko.observable('');
         viewModel.coworkers = ko.observableArray();
         viewModel.filteredCoworkers = ko.observableArray();
+        viewModel.selectedCoworker = ko.observable();
+
+        viewModel.selectedGroup = ko.observable();
+        viewModel.groups = ko.observableArray();
+        viewModel.filteredGroups = ko.observableArray();
+        viewModel.groupFilter = ko.observable('');
+
         viewModel.tables = ko.observableArray();
         viewModel.events = ko.observableArray();
+        viewModel.view = ko.observable(self.config.view);
 
         viewModel.filter.subscribe(function(newValue){
             switch(newValue) {
@@ -99,9 +110,14 @@ lbs.apploader.register('LimeCalendar', function () {
                     viewModel.title(viewModel.localize.LimeCalendar.all);
                     viewModel.getItems();
                     break;
-                case "other":
+                case "coworker":
                     $('#coworkerModal').modal('hide');
                     viewModel.title(viewModel.selectedCoworker().name);
+                    viewModel.getItems();
+                    break;
+                case "group":
+                    $('#groupModal').modal('hide');
+                    viewModel.title(viewModel.selectedGroup().name);
                     viewModel.getItems();
                     break;
             }
@@ -111,16 +127,35 @@ lbs.apploader.register('LimeCalendar', function () {
         });
 
         viewModel.filterCoworkers = function() {
+
             if(vm.coworkerFilter() !== ''){
                 vm.filteredCoworkers(ko.utils.arrayFilter(vm.coworkers(), function(item){
                     if(item.name.toLowerCase().indexOf(vm.coworkerFilter().toLowerCase()) != -1){
                         return true;
                     }
                     return false;
-                }).splice(0,5));
+                }).slice(0,5));
             }
             else{
-                vm.filteredCoworkers(vm.coworkers().splice(0,5));
+                vm.filteredCoworkers(vm.coworkers().slice(0,5));
+            }
+        }
+
+        viewModel.groupFilter.subscribe(function(newValue){
+            viewModel.filterGroups();
+        });
+
+        viewModel.filterGroups = function() {
+            if(vm.groupFilter() !== ''){
+                vm.filteredGroups(ko.utils.arrayFilter(vm.groups(), function(item){
+                    if(item.name.toLowerCase().indexOf(vm.groupFilter().toLowerCase()) != -1){
+                        return true;
+                    }
+                    return false;
+                }).slice(0,5));
+            }
+            else{
+                vm.filteredGroups(vm.groups().slice(0,5));
             }
         }
         
@@ -129,7 +164,7 @@ lbs.apploader.register('LimeCalendar', function () {
         viewModel.pickFilter = function(newValue) {
             var oldValue = viewModel.filter();
             viewModel.filter(newValue);
-            if(newValue === oldValue && newValue === 'other'){
+            if(newValue === oldValue && (newValue === 'coworker' || newValue === 'group')){
                 viewModel.filter.valueHasMutated();
             }
             
@@ -167,14 +202,29 @@ lbs.apploader.register('LimeCalendar', function () {
             
             $.each(self.config.tables, function(index, table) {
                 jsonData = {};
-                params = table.start + ', ' +
-                         viewModel.filter() + ', ' + 
-                         table.table + ', ' + 
-                         table.fields + 
-                         ((viewModel.selectedCoworker() && viewModel.filter() === 'other') ? ', ' + viewModel.selectedCoworker().id : '');
+                var options = {
+                    startfield: table.start,
+                    filter: viewModel.filter(),
+                    groupFilter: self.config.groupFilter.table,
+                    table: table.table,
+                    fields: table.fields,
+                    statusFilter: table.statusFilter
+                }
+
+                if(viewModel.selectedCoworker()){
+                    options['idcoworker'] = viewModel.selectedCoworker().id;
+                }
+
+                if(viewModel.selectedGroup()) {
+                    options['idgroup'] = viewModel.selectedGroup().id;
+                }
+
+                params = JSON.stringify(options) +
+                         ((viewModel.selectedCoworker() && viewModel.filter() === 'coworker') ? ', ' + viewModel.selectedCoworker().id : '');
+
                 lbs.loader.loadDataSource(
                     jsonData,
-                    {type: 'records', source: 'LimeCalendar.GetItems, ' + params},
+                    {type: 'records', source: 'LimeCalendar.GetItems, ' + btoa(params)},
                     true
                 );
 
@@ -200,7 +250,7 @@ lbs.apploader.register('LimeCalendar', function () {
 
         viewModel.setItems = function() {
             var items = ko.utils.arrayFilter(viewModel.events(), function(event, index) {
-                return !event.table.excluded();
+                return !event.table.excluded() && (event.table.filterOption() ? (event.statusFilter === event.table.filterOption().name) : true);
             });
             viewModel.calendarModel.items(items);
         }
@@ -217,12 +267,31 @@ lbs.apploader.register('LimeCalendar', function () {
                 return new model.Coworker(viewModel, item);
             }));
             
-            viewModel.filteredCoworkers(viewModel.coworkers.splice(0,5));
+            viewModel.filteredCoworkers(viewModel.coworkers.slice(0,5));
+        }
+
+        viewModel.getGroups = function() {
+            var jsonData = {};
+            
+            lbs.loader.loadDataSource(
+                jsonData,
+                {type: 'records', source: 'LimeCalendar.GetGroups, ' + btoa(JSON.stringify(self.config.groupFilter))},
+                true
+            );
+            viewModel.groups(ko.utils.arrayMap(jsonData[self.config.groupFilter.table].records, function(item) {
+                return new model.Group(viewModel, item, self.config.groupFilter);
+            }));
+
+            
+            viewModel.filteredGroups(viewModel.groups.slice(0,5));
         }
 
         viewModel.setup = function() {
             // Title of the page
             $('title').html('Lime Calendar');
+            if(viewModel.view() === 'overview'){
+                $('body').addClass('overview');
+            }
             viewModel.calendarModel = {
                 'items': ko.observableArray(),
                 'viewDate': ko.observable(moment())
@@ -231,6 +300,7 @@ lbs.apploader.register('LimeCalendar', function () {
                 return new model.Table(viewModel, table);
             }));
             viewModel.getCoworkers();
+            viewModel.getGroups();
             viewModel.pickFilter(self.config.defaultFilter);
             viewModel.calendarViewModel = new ko.fullCalendar.viewModel({
                 events: viewModel.calendarModel.items,

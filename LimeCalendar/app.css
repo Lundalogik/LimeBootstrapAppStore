@@ -3,14 +3,23 @@ PUT SOME FANCY CSS STUFF HERE PLEASE!
 */
 
 body{
-	background-color: white;
+	background-color: #FFF;
 	color: #454545;
+}
+
+body.overview {
+	background-color: #F1F6FF;
 }
 
 .calendar-container{
 	margin-top: 70px;
 	padding-right: 50px;
 	padding-left: 50px;
+}
+
+.calendar-container.overview{
+	margin-left: 10%;
+	width: 80%;
 }
 
 .panel.panel-lime {
@@ -27,9 +36,14 @@ div.row > div {
 }
 
 .navbar{
-	background-color: #00A8CC;
+	background-color: #00C8AA;
 	color: white;
 	height: 60px;
+}
+
+.navbar.overview {
+	background-color: #F1F6FF;
+	color: #6985B7;
 }
 
 .navbar > div.container{
@@ -48,14 +62,13 @@ div.row > div {
 	margin-right: 12px;
 }
 
-
 .btn.btn-plain{
-	background-color: #00A8CC;
+	background-color: #00C8AA;
 	color: #fff;
 }
 
 .btn.btn-plain:hover{
-	background-color: #11B6DC;
+	background-color: #11D8BB;
 	color: #fff;
 }
 
@@ -72,35 +85,23 @@ ul.dropdown-menu{
 .btn.btn-plain:active{
 	box-shadow: none;
 }
-
+/*Blue: 00A8CC*/
 .btn-group.open > .btn.btn-plain{
 	box-shadow: none;
-	background-color: #22C6EC;
+	background-color: #18DFBF;
 }
 
 .modal-body-header{
 	margin-top: 24px;
 }
 
-.legend {
-	border: 2px solid;
-	border-radius: 4px;
-	padding: 4px 8px 4px 8px;
-	margin-right: 4px;
-	color: #FFF;
-}
-
-.legend:hover {
+.btn.legend:hover {
 	opacity: 0.7;
 	cursor: pointer;
 }
 
-.legend.exclude {
-	background-color: #FFF !important;
-}
-
 .legend-container{
-	margin-top: 12px;
+	margin-top: 8px;
 }
 
 span.caret{
@@ -112,8 +113,8 @@ a.list-group-item.list-group-item-selected:active,
 a.list-group-item.list-group-item-selected:hover {
 	background: none;
 	background-image: none;
-	background-color: #00A8CC;
-	border-color: #00A8CC;
+	background-color: #00C8AA;
+	border-color: #00C8AA;
 	color: #FFF;
 }
 
@@ -123,4 +124,26 @@ a.list-group-item.list-group-item-selected:hover {
 }
 .modal-dialog.modal-event {
 	margin-top: 150px !important;
+}
+
+li.selected {
+	background-color: #00C8AA;
+}
+
+li.selected > a {
+	color: #FFF;
+}
+
+li:hover > a {
+	background-image: none !important;
+	background: none !important;
+	background-color: rgba(0,0,0,0);
+	color: #FFF !important;
+}
+li:hover {
+	background-image: none !important;
+	background: none !important;
+	background-color: rgba(0,200,170,0.7) !important;
+	color: #FFF !important;
+	opacity: 1;
 }
