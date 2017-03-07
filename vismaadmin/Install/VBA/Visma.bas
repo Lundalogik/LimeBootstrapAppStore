@@ -87,7 +87,7 @@ Public Function SendToVisma(url As String, newCompany As Boolean) As String
                         & """Country"":""" & oControls.GetText("country") & """," _
                         & """Fax"":""" & oControls.GetText("telefax") & """," _
                         & """Telephone"":""" & oControls.GetText("phone") & """," _
-                        & """Reference"":""" & oControls.GetText("coworker") & """," _
+                        & """Reference"":""""," _
                         & """DeliveryName"":""" & oControls.GetText("name") & """," _
                         & """DeliveryAddress"":""" & oControls.GetText("visitingaddress1") & """," _
                         & """DeliveryAddress2"":""" & oControls.GetText("visitingaddress2") & """," _
@@ -127,7 +127,7 @@ Public Function SendToVisma(url As String, newCompany As Boolean) As String
                         & """Country"":""" & oControls.GetText("country") & """," _
                         & """Fax"":""" & oControls.GetText("telefax") & """," _
                         & """Telephone"":""" & oControls.GetText("phone") & """," _
-                        & """Reference"":""" & oControls.GetText("coworker") & """," _
+                        & """Reference"":""""," _
                         & """DeliveryName"":""" & oControls.GetText("name") & """," _
                         & """DeliveryAddress"":""" & oControls.GetText("visitingaddress1") & """," _
                         & """DeliveryAddress2"":""" & oControls.GetText("visitingaddress2") & """," _
