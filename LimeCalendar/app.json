@@ -6,6 +6,11 @@
 	"shortDesc": "Simple and configurable calendar for Lime CRM.",
 	"versions": [
 		{
+			"version": "1.1",
+			"date": "2017-03-16",
+			"comments": "Added selection filter."
+		},
+		{
 			"version": "1.0",
 			"date": "2017-03-06",
 			"comments": "First release. Added more complex filter configuration and more."
@@ -18,6 +23,11 @@
 	],
 	"install": {
 		"localize": [{
+			"owner": "LimeCalendar",
+			"code": "selection",
+			"sv": "Markerade rader",
+			"en_us": "Selected rows"
+		},{
 			"owner": "LimeCalendar",
 			"code": "start",
 			"sv": "Start",

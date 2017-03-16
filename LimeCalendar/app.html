@@ -19,6 +19,11 @@
 					<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu dropdown-menu-right">
+					<!-- ko if: selection() -->
+					<li data-bind="click: function() { pickFilter('selection'); }">
+						<a href="#" data-bind="text: localize.LimeCalendar.selection"></a>
+					</li>
+					<!-- /ko -->
 					<li data-bind="click: function() { pickFilter('mine'); }">
 						<a href="#" data-bind="text: localize.LimeCalendar.mine"></a>
 					</li>

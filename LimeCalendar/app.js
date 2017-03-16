@@ -83,6 +83,7 @@ lbs.apploader.register('LimeCalendar', function () {
         viewModel.changedEvents = ko.observableArray();
         viewModel.title = ko.observable('');
         viewModel.filter = ko.observable('');
+        viewModel.selection = ko.observable(false);
 
         viewModel.coworkerFilter = ko.observable('');
         viewModel.coworkers = ko.observableArray();
@@ -99,24 +100,35 @@ lbs.apploader.register('LimeCalendar', function () {
         viewModel.view = ko.observable(self.config.view);
 
         viewModel.filter.subscribe(function(newValue){
+
             switch(newValue) {
+                case "selection":
+                    viewModel.selectedCoworker(null);
+                    viewModel.selectedGroup(null);
+                    viewModel.title(viewModel.localize.LimeCalendar.selection);
+                    viewModel.getItems();
+                    break;
                 case "mine":
                     viewModel.selectedCoworker(null);
+                    viewModel.selectedGroup(null);
                     viewModel.title(viewModel.localize.LimeCalendar.mine);
                     viewModel.getItems();
                     break;
                 case "all":
                     viewModel.selectedCoworker(null);
+                    viewModel.selectedGroup(null);
                     viewModel.title(viewModel.localize.LimeCalendar.all);
                     viewModel.getItems();
                     break;
                 case "coworker":
                     $('#coworkerModal').modal('hide');
+                    viewModel.selectedGroup(null);
                     viewModel.title(viewModel.selectedCoworker().name);
                     viewModel.getItems();
                     break;
                 case "group":
                     $('#groupModal').modal('hide');
+                    viewModel.selectedCoworker(null);
                     viewModel.title(viewModel.selectedGroup().name);
                     viewModel.getItems();
                     break;
@@ -128,16 +140,16 @@ lbs.apploader.register('LimeCalendar', function () {
 
         viewModel.filterCoworkers = function() {
 
-            if(vm.coworkerFilter() !== ''){
-                vm.filteredCoworkers(ko.utils.arrayFilter(vm.coworkers(), function(item){
-                    if(item.name.toLowerCase().indexOf(vm.coworkerFilter().toLowerCase()) != -1){
+            if(viewModel.coworkerFilter() !== ''){
+                viewModel.filteredCoworkers(ko.utils.arrayFilter(viewModel.coworkers(), function(item){
+                    if(item.name.toLowerCase().indexOf(viewModel.coworkerFilter().toLowerCase()) != -1){
                         return true;
                     }
                     return false;
                 }).slice(0,5));
             }
             else{
-                vm.filteredCoworkers(vm.coworkers().slice(0,5));
+                viewModel.filteredCoworkers(viewModel.coworkers().slice(0,5));
             }
         }
 
@@ -146,16 +158,16 @@ lbs.apploader.register('LimeCalendar', function () {
         });
 
         viewModel.filterGroups = function() {
-            if(vm.groupFilter() !== ''){
-                vm.filteredGroups(ko.utils.arrayFilter(vm.groups(), function(item){
-                    if(item.name.toLowerCase().indexOf(vm.groupFilter().toLowerCase()) != -1){
+            if(viewModel.groupFilter() !== ''){
+                viewModel.filteredGroups(ko.utils.arrayFilter(viewModel.groups(), function(item){
+                    if(item.name.toLowerCase().indexOf(viewModel.groupFilter().toLowerCase()) != -1){
                         return true;
                     }
                     return false;
                 }).slice(0,5));
             }
             else{
-                vm.filteredGroups(vm.groups().slice(0,5));
+                viewModel.filteredGroups(viewModel.groups().slice(0,5));
             }
         }
         
@@ -286,9 +298,19 @@ lbs.apploader.register('LimeCalendar', function () {
             viewModel.filteredGroups(viewModel.groups.slice(0,5));
         }
 
+        viewModel.getSelection = function() {
+            var jsonData = {};
+            var tables = ko.utils.arrayMap(viewModel.tables(), function(table) {
+                return {table: table.table};
+            });
+            
+            viewModel.selection(lbs.common.executeVba('LimeCalendar.GetSelection, ' + btoa(JSON.stringify(tables))));
+        }
+
         viewModel.setup = function() {
             // Title of the page
             $('title').html('Lime Calendar');
+
             if(viewModel.view() === 'overview'){
                 $('body').addClass('overview');
             }
@@ -299,9 +321,11 @@ lbs.apploader.register('LimeCalendar', function () {
             viewModel.tables(ko.utils.arrayMap(self.config.tables, function(table) {
                 return new model.Table(viewModel, table);
             }));
+            viewModel.getSelection();
             viewModel.getCoworkers();
             viewModel.getGroups();
-            viewModel.pickFilter(self.config.defaultFilter);
+            viewModel.pickFilter(viewModel.selection() ? 'selection' : self.config.defaultFilter);
+
             viewModel.calendarViewModel = new ko.fullCalendar.viewModel({
                 events: viewModel.calendarModel.items,
                 header: {

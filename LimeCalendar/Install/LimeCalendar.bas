@@ -40,7 +40,15 @@ Public Function GetItems(ByVal sOptions As String) As LDE.Records
     oView.Add ("id" + oJSON.Item("table"))
     
     Call oFilter.AddCondition(oJSON.Item("startfield"), lkOpGreater, VBA.DateAdd("m", -NBR_OF_MONTHS, VBA.Now))
-    If oJSON.Item("filter") = "mine" Then
+    If oJSON.Item("filter") = "selection" Then
+        If oJSON.Item("table") = ActiveExplorer.Class.name Then
+            Call oFilter.AddCondition("id" + ActiveExplorer.Class.name, lkOpIn, ActiveExplorer.Selection.Pool)
+            Call oFilter.AddOperator(lkOpAnd)
+        Else
+            Call oFilter.AddCondition("id" + oJSON.Item("table"), lkOpEqual, 0)
+            Call oFilter.AddOperator(lkOpAnd)
+        End If
+    ElseIf oJSON.Item("filter") = "mine" Then
         Call oFilter.AddCondition("coworker", lkOpEqual, ActiveUser.record.id)
         Call oFilter.AddOperator(lkOpAnd)
     ElseIf oJSON.Item("filter") = "coworker" Then
@@ -108,6 +116,26 @@ Public Function GetGroups(ByVal sGroup As String) As LDE.Records
     Exit Function
 ErrorHandler:
     Call UI.ShowError("LimeCalendar.GetGroups")
+End Function
+
+Public Function GetSelection(ByVal sB64Tables As String) As Boolean
+    On Error GoTo ErrorHandler
+    Dim oJSON As Object
+    Dim oItem As Object
+
+    Set oJSON = JSON.parse(DecodeBase64(sB64Tables))
+    
+    For Each oItem In oJSON
+        If ActiveExplorer.Class.name = oItem("table") Then
+            GetSelection = ActiveExplorer.Selection.count > 0
+            Exit Function
+        End If
+    Next oItem
+    
+    GetSelection = False
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError("LimeCalendar.GetSelection")
 End Function
 
 Public Sub Save(ByVal sB64JSON As String)
