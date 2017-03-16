@@ -7,6 +7,7 @@ For more information please contact Lundalogik AB.
 ### Filter your hits
 With Lime Calendar it is also possible to filter your hits by the following:
 
+* 'Selection' - See only the tasks selected in the active explorer.
 * 'Mine' - See only tasks where you are responsible.
 * 'All' - See everyone's tasks.
 * 'Coworker' - See a specifik coworker's tasks.
