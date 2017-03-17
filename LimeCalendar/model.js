@@ -26,7 +26,6 @@ var model = {
 		self.backgroundColor = options.backgroundColor;
 		self.color = options.color;
 		self.borderColor = options.borderColor;
-
 	},
 
 	Coworker: function(viewModel, item){
@@ -80,6 +79,8 @@ var model = {
 		self.table = item.table;
         self.name = lbs.common.executeVba('LimeCalendar.GetTableLocale, ' + item.table);
         self.excluded = ko.observable(false);
+        self.hitcount = ko.observable(0);
+        self.showOnZero = ko.observable(item.options.showOnZero);
         var options = item.options.statusFilter ? lbs.common.executeVba('LimeCalendar.GetFilterOptions, ' + item.table + ', ' + item.options.statusFilter) : null;
         if(options) {
         	options = xml2json($.parseXML(options),'');

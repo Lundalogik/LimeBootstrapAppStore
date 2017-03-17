@@ -23,7 +23,8 @@ lbs.apploader.register('LimeCalendar', function () {
                         dateformat: 'YYYY-MM-DD HH:mm',
                         color: '#fff',
                         backgroundColor: '#00BEFF',
-                        borderColor: '#00BEFF'
+                        borderColor: '#00BEFF',
+                        showOnZero: false
                     }
                 },
                 {
@@ -40,7 +41,8 @@ lbs.apploader.register('LimeCalendar', function () {
                         dateformat: 'YYYY-MM-DD',
                         color: '#fff',
                         backgroundColor: '#FF3296',
-                        borderColor: '#FF3296'
+                        borderColor: '#FF3296',
+                        showOnZero: false
                     }
                 }
             ];
@@ -253,7 +255,7 @@ lbs.apploader.register('LimeCalendar', function () {
                         table.options
                     );
                 });
-
+                viewModel.tables()[index].hitcount(items.length);
                 allItems = allItems.concat(items);
             });
             viewModel.events(allItems);
@@ -324,6 +326,7 @@ lbs.apploader.register('LimeCalendar', function () {
             viewModel.getSelection();
             viewModel.getCoworkers();
             viewModel.getGroups();
+            
             viewModel.pickFilter(viewModel.selection() ? 'selection' : self.config.defaultFilter);
 
             viewModel.calendarViewModel = new ko.fullCalendar.viewModel({
@@ -339,8 +342,6 @@ lbs.apploader.register('LimeCalendar', function () {
                 viewDate: viewModel.calendarModel.viewDate
             });
         }
-        
-        
         
         viewModel.setup();
         return viewModel;

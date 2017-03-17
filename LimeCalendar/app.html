@@ -52,6 +52,7 @@
 	<div class="legend-container row col-xs-12">
 		<div class="col-xs-12">
 		<!-- ko foreach: tables() -->
+			<!-- ko if: hitcount() > 0 || showOnZero() -->
 			<!-- ko if: filterOptions().length > 0 -->
 			<div class="btn-group dropup">
 				<button data-bind="style: { 
@@ -90,6 +91,7 @@
 					icon: (excluded() ? 'fa-plus' : 'fa-minus')" 
 					type="button" class="btn legend"></button>
 			<!-- /ko -->
+			<!-- /ko -->
 		<!-- /ko -->
 		</div>
 	</div>
@@ -108,24 +110,32 @@
         		<h4 data-bind="text: selectedEvent().detailsTitle" class="modal-title" id="coworkerModalTitle"></h4>
       		</div>
       		<div class="modal-body">
-        		
-				
 	  			<div class="row">
-		    		<div data-bind="text: localize.LimeCalendar.start" class="col-xs-4"/>
-		    		<div data-bind="text: selectedEvent().start ? moment(selectedEvent().start).format(selectedEvent().dateFormat) : ''" class="col-xs-8" />
+		    		<div data-bind="text: localize.LimeCalendar.start" class="col-xs-4"></div>
+		    		<div data-bind="text: selectedEvent().start ? moment(selectedEvent().start).format(selectedEvent().dateFormat) : ''" class="col-xs-8" ></div>
 		    	</div>
 		    	<div class="row">
-		    		<div data-bind="text: localize.LimeCalendar.end" class="col-xs-4"/>
-		    		<div data-bind="text: selectedEvent().end ? moment(selectedEvent().end).format(selectedEvent().dateFormat) : ''" class="col-xs-8"/>
+		    		<div data-bind="text: localize.LimeCalendar.end" class="col-xs-4"></div>
+		    		<div data-bind="text: selectedEvent().end ? moment(selectedEvent().end).format(selectedEvent().dateFormat) : ''" class="col-xs-8"></div>
 		    	</div>
 		  		<!-- ko foreach: selectedEvent().fields -->
 	  			<div class="row">
-		    		<div data-bind="text: name" class="col-xs-4"/>
-		    		<div data-bind="text: text" class="col-xs-8"/>
+		    		<div data-bind="text: name" class="col-xs-4"></div>
+		    		<div data-bind="text: text" class="col-xs-8"></div>
 		    	</div>
 		  		<!-- /ko -->
-
-				</div>
+      		</div>
+      		<div class="modal-footer">
+      			<div class="col-xs-12">
+      				<button data-bind="text: localize.LimeCalendar.open, 
+      					icon: 'fa-external-link',
+      					style: { 
+							'background-color': selectedEvent().backgroundColor, 
+							'border-color': selectedEvent().borderColor, 
+							'color': selectedEvent().color 
+						},
+      					click: openRecord" class="btn btn-plain"></button>
+      			</div>
       		</div>
 		</div>
   	</div>

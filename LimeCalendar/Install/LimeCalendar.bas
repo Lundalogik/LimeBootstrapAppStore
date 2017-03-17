@@ -1,17 +1,29 @@
 Attribute VB_Name = "LimeCalendar"
 Const NBR_OF_MONTHS As Integer = 2
 
-Public Sub OpenCalendar()
+Public Sub OpenCalendar(ByVal sView As String)
     On Error GoTo ErrorHandler
     Dim oDialog As New Lime.Dialog
     Dim idpersons As String
     Dim oItem As Lime.ExplorerItem
-    oDialog.Type = lkDialogHTML
-    oDialog.Property("url") = Application.WebFolder & "lbs.html?ap=/apps/LimeCalendar/Views/view&type=tab"
-    oDialog.Property("height") = 860
-    oDialog.Property("width") = 1040
-    oDialog.show
-    
+    Dim sUrl As String
+    sUrl = Application.WebFolder & "lbs.html?ap=/apps/LimeCalendar/Views/view_" & sView & "&type=tab"
+    If sView = "modal" Then
+        oDialog.Type = lkDialogHTML
+        oDialog.Property("url") = Application.WebFolder & "lbs.html?ap=/apps/LimeCalendar/Views/view_" & sView & "&type=tab"
+        oDialog.Property("height") = 860
+        oDialog.Property("width") = 1040
+        oDialog.show
+    ElseIf sView = "overview" Then
+        
+        Application.Overview.url = sUrl
+        If Not Application.Overview.Visible Then
+            Application.Overview.Visible = True
+        End If
+        Call Application.Overview.Activate
+        Call Application.Overview.Refresh
+    End If
+
     Exit Sub
 ErrorHandler:
     Call UI.ShowError("LimeCalendar.OpenCalendar")
@@ -28,7 +40,7 @@ Public Function GetItems(ByVal sOptions As String) As LDE.Records
     Dim sJSON As String
     Dim oJSON As Object
     Dim oItem As Object
-    
+    Lime.MousePointer = 11
     sJSON = DecodeBase64(sOptions)
     Set oJSON = JSON.parse(sJSON)
     
@@ -62,7 +74,7 @@ Public Function GetItems(ByVal sOptions As String) As LDE.Records
     
     Call oRecords.Open(Database.Classes(oJSON.Item("table")), oFilter, oView)
     Set GetItems = oRecords
-    
+    Lime.MousePointer = 0
     Exit Function
 ErrorHandler:
     Call UI.ShowError("LimeCalendar.GetItems")
@@ -126,9 +138,11 @@ Public Function GetSelection(ByVal sB64Tables As String) As Boolean
     Set oJSON = JSON.parse(DecodeBase64(sB64Tables))
     
     For Each oItem In oJSON
-        If ActiveExplorer.Class.name = oItem("table") Then
-            GetSelection = ActiveExplorer.Selection.count > 0
-            Exit Function
+        If Not ActiveExplorer Is Nothing Then
+            If ActiveExplorer.Class.name = oItem("table") Then
+                GetSelection = ActiveExplorer.Selection.count > 0
+                Exit Function
+            End If
         End If
     Next oItem
     
@@ -161,6 +175,8 @@ Public Sub Save(ByVal sB64JSON As String)
     Next oItem
     
     Call oBatch.Execute
+    
+    Call Lime.MessageBox(Localize.GetText("LimeCalendar", "saved"), vbInformation)
     Exit Sub
 ErrorHandler:
     Call UI.ShowError("LimeCalendar.Save")

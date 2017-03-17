@@ -6,6 +6,11 @@
 	"shortDesc": "Simple and configurable calendar for Lime CRM.",
 	"versions": [
 		{
+			"version": "1.2",
+			"date": "2017-03-17",
+			"comments": "UX changes, added possibility to open in overview and added functionality to open records from the calendar."
+		},
+		{
 			"version": "1.1",
 			"date": "2017-03-16",
 			"comments": "Added selection filter."
@@ -27,6 +32,16 @@
 			"code": "selection",
 			"sv": "Markerade rader",
 			"en_us": "Selected rows"
+		},{
+			"owner": "LimeCalendar",
+			"code": "saved",
+			"sv": "Ändringarna sparade!",
+			"en_us": "Saved successfully!"
+		},{
+			"owner": "LimeCalendar",
+			"code": "open",
+			"sv": "Öppna",
+			"en_us": "Open"
 		},{
 			"owner": "LimeCalendar",
 			"code": "start",
@@ -117,11 +132,16 @@
 			"code": "chooseGroup",
 			"sv": "V\u00E4lj grupp",
 			"en_us": "Choose group"
-		}, {
+		, {
 			"owner": "LimeCalendar",
 			"code": "openCalendar",
 			"sv": "\u00D6ppna kalender",
 			"en_us": "Open calendar"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "openCalendarOverview",
+			"sv": "\u00D6ppna kalender i \u00F6versiktsfliken",
+			"en_us": "Open calendar in the overview"
 		}],
 		"vba": [{
 			"name": "LimeCalendar",
