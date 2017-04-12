@@ -27,3 +27,4 @@ It looks better vertically than horizontally
 ![previewpicture](http://i.imgur.com/nIgl5vC.png)
 
 CREATED BY: ATH
+Ps. It's my first app so code is messy and bad
