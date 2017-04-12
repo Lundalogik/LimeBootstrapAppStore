@@ -1,8 +1,8 @@
 {
-	"name": "rating",
+	"name": "Rating",
 	"author":"ATH",
 	"status":"Beta",
-	"shortDesc":"[Display ratings on a company in a nice way]",
+	"shortDesc":"Display ratings on a company in a nice way",
 	"versions":[
 		{
 			"version":"0.1",
