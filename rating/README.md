@@ -7,6 +7,7 @@ Example use of this app:
 Rating will sum up different ratings and average rating from a specific customer. Maybe next time you contact this customer you can in before hand see if they're satisfied with earlier contact or not.
 
 ## Installation ##
+0. Put the rating folder in Actionpad/apps
 1. Create a new table with database name "rating"
 2. Create a field of type "Grade" and enter database name "score"
 3. Relate one to many from company to rating
