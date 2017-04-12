@@ -16,7 +16,10 @@ Rating will sum up different ratings and average rating from a specific customer
 6. Run exec lsp_setdatabasetimestamp and restart LDC
 7. Restart Lime CRM
 
-Note. As of now there's no handling for locale. Just edit directly in app.html. In the future it'll be better with an installation package for fields, table and lingo.
+Note to self:
+1. As of now there's no handling for locale. Just edit directly in app.html. In the future it'll be better with an installation package for fields, table and lingo.
+2. Clean up app.html, put css in app.css
+3. Consider dropping a div to show the star on progress bar and use data-bind instead. But icon will show before score. 
 
 ## Preview ##
 It looks better vertically than horizontally
