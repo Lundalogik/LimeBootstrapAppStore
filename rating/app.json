@@ -1,0 +1,15 @@
+{
+	"name": "rating",
+	"author":"ATH",
+	"status":"Beta",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"11.04.2017",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}

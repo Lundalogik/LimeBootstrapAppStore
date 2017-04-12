@@ -1,0 +1,98 @@
+<div class="container">
+	<div class="row">
+			<!-- Rating average -->
+			<div class="col-sm-3">
+				<div class="rating-block">
+					<h4>Average user rating</h4>
+					<h2 class="bold padding-bottom-7"><span data-bind="text: average"></span> <small data-bind="text: '/ 5'">/ </small></h2>
+
+					<!-- Rating stars average -->
+
+					<!-- ko if: averagearray.indexOf('200') > -1 -->
+					<!-- ko foreach: averagearray -->
+					<button type="button" class="btn btn-warning btn-sm">
+					  <span data-bind="icon: 'fa-star', text: ' '"></span>
+					</button>
+					<!-- /ko -->
+					<!-- /ko -->
+					
+					<!-- ko foreach: averagenegativearray -->
+					<button type="button" class="btn btn-default btn-grey btn-sm">
+					  <span data-bind="icon: 'fa-star', text: ' '"></span>
+					</button>
+					<!-- /ko -->
+					
+				</div>
+			</div>
+
+			<!-- Rating breakdown -->
+			<div class="col-sm-3">
+				<h4>Rating breakdown</h4>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">5 <span data-bind="icon: 'fa-star', text: ' '"></span></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-success" role="progressbar" data-bind="style: {width: $data.fivebar}">
+							
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;" data-bind="text: fiverating"></div>
+				</div>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">4 <span data-bind="icon: 'fa-star', text: ' '"></span></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-primary" role="progressbar" data-bind="style: {width: $data.fourbar}">
+							
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;" data-bind="text: fourrating"></div>
+				</div>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">3 <span data-bind="icon: 'fa-star', text: ' '"></span></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-info" role="progressbar" data-bind="style: {width: $data.threebar}">
+							
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;" data-bind="text: threerating"></div>
+				</div>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">2 <span data-bind="icon: 'fa-star', text: ' '"></span></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-warning" role="progressbar" data-bind="style: {width: $data.twobar}">
+							
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;" data-bind="text: tworating"></div>
+				</div>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">1 <span data-bind="icon: 'fa-star', text: ' '"></span></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-danger" role="progressbar" data-bind="style: {width: $data.onebar}">
+							
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;" data-bind="text: onerating"></div>
+				</div>
+			</div>	
+	</div>
+</div>
