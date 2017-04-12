@@ -10,16 +10,12 @@
 
 					<!-- ko if: averagearray.indexOf('200') > -1 -->
 						<!-- ko foreach: averagearray -->
-						<button type="button" class="btn btn-warning btn-sm">
-						  <span data-bind="icon: 'fa-star', text: ' '"></span>
-						</button>
+						<button type="button" style="width:37px;" class="btn btn-warning btn-sm" data-bind="icon: 'fa-star', text: ' '"></button>
 						<!-- /ko -->
 					<!-- /ko -->
 					
 					<!-- ko foreach: averagenegativearray -->
-					<button type="button" class="btn btn-default btn-grey btn-sm">
-					  <span data-bind="icon: 'fa-star', text: ' '"></span>
-					</button>
+					<button type="button" style="width:37px;" class="btn btn-default btn-grey btn-sm" data-bind="icon: 'fa-star', text: ' '"></button>
 					<!-- /ko -->
 					
 				</div>
@@ -35,7 +31,7 @@
 					<div class="pull-left" style="width:180px;">
 						<div class="progress" style="height:9px; margin:8px 0;">
 						  <div class="progress-bar progress-bar-success" role="progressbar" data-bind="style: {width: $data.fivebar}">
-							
+						  	
 						  </div>
 						</div>
 					</div>
