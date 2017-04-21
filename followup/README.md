@@ -11,7 +11,7 @@ You can see current value, total month goal and month to date goal.
 
 Read the Followup_sales.docx in the instructions folder for more detailed info
 
-The tile are represented in tree colors, red, yellow and green. You set the percentage representing the colors by specifying the limit for the yellow color.
+The tile are represented in tree colors, red, yellow and green. You set the percentage representing the colors by specifying the limit for the yellow color. 
 
 Example: yellow on 75% will end up in 
 
