@@ -63,18 +63,21 @@ helperLib.getTargetNameFromKey = function(viewModel, targettypeKey) {
 	return '';
 }
 
-helperLib.getListSizeByChildCount = function(childCount) {
-	var listSizeClass;
+helperLib.getListSizeByChildCount = function(appConfig,childCount) {
+	var listSizeHeight;
 	if (childCount >= 3) {
-		listSizeClass = 'large-height';
+		//listSizeClass = 'large-height';
+		listSizeHeight = (87.5 * appConfig.nroftiles) + 'px';
 	}
 	else if(childCount >= 2) {
-		listSizeClass = 'medium-height';
+		//listSizeClass = 'medium-height';
+		listSizeHeight = '175px';
 	}
 	else {
-		listSizeClass = 'small-height';
+		//listSizeClass = 'small-height';
+		listSizeHeight = '85px';
 	}
-	return listSizeClass;
+	return listSizeHeight;
 }
 
 helperLib.getColoringByTargetObj = function(appConfig, targetObj) {

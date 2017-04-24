@@ -72,7 +72,7 @@
   overflow-x: hidden;
 }
 
-.followup #target-container-wrapper .target-container .panel .small-height {
+/*.followup #target-container-wrapper .target-container .panel .small-height {
   height: 85px;
 }
 
@@ -82,7 +82,7 @@
 
 .followup #target-container-wrapper .target-container .panel .large-height {
   height: 350px;
-}
+}*/
 
 .followup #target-container-wrapper .target-container .panel .list-group li {
   margin-right: 10px;

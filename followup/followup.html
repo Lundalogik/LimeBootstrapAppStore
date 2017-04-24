@@ -16,9 +16,9 @@
     	},
         /* Add logic for which users that will be able to admin the app, example only users in the group administrator and superusers */
           securityLevel: lbs.common.executeVba('Followup.FollowupMemberOfGroup',';Administrators;Superusers;') && 'admin' || 'user',
+          /* nroftiles = adjust how many tiles that will be shown before a scrollbar appears */
+          nroftiles: 4,
         structureMapping: {
-            targetType: 'count',
-
             /* Field mappings for target table */
             targetTable: 'target',
             targetTypeField: 'targettype',
@@ -37,12 +37,12 @@
         /* Map the keys from the optionsfield in the different tables */
     	targetMapping: [
     		{
-                targetTypeKey: 'customervisit',
-    			scoreTypeKey: 'customervisit'
+                targetTypeKey: 'customeractivity',
+    			scoreTypeKeys: ['customervisit', 'salescall']
     		},
             {
                 targetTypeKey: 'salescall',
-                scoreTypeKey: 'salescall' 
+                scoreTypeKeys: ['salescall']
             }
     	]
 	}
