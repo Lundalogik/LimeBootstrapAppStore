@@ -1,0 +1,106 @@
+<div class="targethelper">
+<div class="col-xs-8 col-md-8 col-sm-8 col-xs-offset-2 col-md-offset-2 col-sm-offset-2">
+	<!-- ko if: appmode() === 'user' -->
+		<h3 data-bind="text: coworker().name"></h3>
+	<!-- /ko -->
+	<!-- ko if: appmode() === 'admin' -->
+	<div class="row separator"></div>
+	<div class="dropdown">
+
+		<!--<button id="item2" type="button" class="btn btn-default" data-bind="text: coworker2().name2"/>-->
+		<button type="button" class="btn btn-default btn-lime dropdown-toggle " data-toggle="dropdown" data-bind="text: coworker2().name2, icon:'fa-bars'"> 
+			<span class="caret"></span>
+		</button>
+
+		<ul class="dropdown-menu" role="menu">
+			<!-- ko foreach: coworkers -->
+			<li>
+				<a href="#" data-bind="text: name2, click: selectcoworker"></a>
+			</li>
+			<!-- /ko -->
+		</ul>
+	
+
+	</div>
+	<!-- /ko -->
+	<div class="row separator"></div>
+	<div class="btn-group">
+
+		<!--<button id="item0" type="button" class="btn btn-default" data-bind="text: targetType().name, icon:'fa-bars'"/>-->
+		<button type="button" class="btn btn-default btn-lime dropdown-toggle " data-toggle="dropdown" data-bind="text: targetType().name, icon:'fa-bars'">
+			<span class="caret"></span>
+		</button>
+
+		<ul class="dropdown-menu" role="menu">
+			<!-- ko foreach: targetTypes -->
+			<li>
+				<a href="#" data-bind="text: name, click: select"></a>
+			</li>
+			<!-- /ko -->
+		</ul>
+
+
+	</div>
+
+	<div class="row separator"></div>
+	
+	<input type="date" class="form-control date" data-bind="yearpicker: year">
+
+	<div class="row separator"></div>
+	<button type="button" class="btn btn-wide btn-warning" data-bind="text:localize.Targethelper.standard_value" data-toggle="modal" 
+        data-target="#contactinformation"/>
+
+
+
+	<div class="row separator"></div>
+	<!-- ko foreach: months -->
+		<div class="input-group">
+			<span class="input-group-addon" data-bind="text: name"/>
+			<input type="number" class="form-control" data-bind="numeric,value: target">
+		</div>
+	<!-- /ko -->
+	<div class="row separator"></div>
+
+</div>
+<div class="col-xs-12 col-md-12 col-sm-12">
+	<div class="row separator separator-high">
+	<!-- ko if: error -->
+	<div class="alert alert-danger">
+		<span><i class="fa fa-exclamation"/><i data-bind="text: error"/></span>
+	</div>
+	<!-- /ko -->
+	<!-- ko if: success -->
+	<div class="alert alert-success">
+		<span><i class="fa fa-exclamation"/><i data-bind="text: success"/></span>
+	</div>
+	<!-- /ko -->
+	</div>
+</div>
+<div class="col-xs-8 col-md-8 col-sm-8 col-xs-offset-2 col-md-offset-2 col-sm-offset-2">
+	<!-- <button type="button" class="btn btn-wide btn-warning" data-bind="text: 'Ange standardvärde'" data-toggle="modal" 
+        data-target="#contactinformation"/>
+	<div class="row separator"></div> -->
+	<button type="button" class="btn btn-wide btn-success" data-bind="text: localize.Targethelper.save, click: Save"/>
+	
+
+</div>
+
+
+<!-- Modal -->
+	<div class="modal fade" id="contactinformation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="H1"><span data-bind="text: localize.Targethelper.monthly_value"></span></h4>
+		  </div>
+		  <div class="modal-body">
+			<input type="number" class="form-control" data-bind="numeric,value: targetdefault">
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-bind="text: localize.Targethelper.update, click: SplitYearly" data-dismiss="modal"></button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+</div>
