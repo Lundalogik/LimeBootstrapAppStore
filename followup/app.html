@@ -40,7 +40,7 @@
 								<b data-bind="text: name"/>
 								<span class="badge" data-bind="visible: ($parent.grouping.latestFetched() == 'target' && $parent.securityLevel != 'user'), text:currentValue + ' / ' + monthToDateValue + ' ( ' + targetValue + ' )'" />
 							</div>
-							<ul class="list-group" data-bind="css: $parent.listSizeClass">
+							<ul class="list-group" data-bind="style:{'height': $parent.listSizeHeight}">
 								<!-- ko if: infoMessage() != '' -->
 									<li class="list-group-item list-group-item-info" >
 										<div data-bind="text: infoMessage" />
