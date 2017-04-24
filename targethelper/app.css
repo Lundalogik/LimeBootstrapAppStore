@@ -1,0 +1,54 @@
+/*
+PUT SOME FANCY CSS STUFF HERE PLEASE!
+*/
+
+.targethelper .input-group-addon{
+	width: 159px;
+}
+
+.targethelper .form-control{
+	width: 185px;
+	text-align: center;
+}
+
+.targethelper #item0{
+	width: 319px;
+}
+.targethelper #item1{
+	width: 135px;
+}
+.targethelper #item2{
+	width: 319px;
+}
+
+.targethelper .btn-wide{
+	width: 345px;
+}
+
+.targethelper .btn-group{
+	width: 349px;
+	margin-right: 0px;
+}
+/*
+.btn.btn-default.dropdown-toggle {
+	width: 317px;
+}*/
+
+.targethelper .separator{
+	height: 15px;
+}
+
+.targethelper .separator.separator-high{
+	height: 75px;
+}
+
+.targethelper .alert-danger{
+	text-align: center;
+}
+.targethelper .alert-success{
+	text-align: center;
+}
+
+.targethelper .date{
+	width: 345px;
+}

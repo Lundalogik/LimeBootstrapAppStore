@@ -1,0 +1,15 @@
+{
+	"name": "targethelper",
+	"author":"jka",
+	"status":"Development",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"23.12.2015",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}
