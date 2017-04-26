@@ -28,12 +28,18 @@ PUT SOME FANCY CSS STUFF HERE PLEASE!
 .targethelper .btn-group{
 	width: 349px;
 	margin-right: 0px;
+
 }
 /*
 .btn.btn-default.dropdown-toggle {
 	width: 317px;
 }*/
+.targethelper .dropdown-menu{
 
+	max-height: 400px;
+	overflow-y: auto;
+
+}
 .targethelper .separator{
 	height: 15px;
 }
