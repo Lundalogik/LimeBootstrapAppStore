@@ -1,0 +1,15 @@
+{
+	"name": "Budget gauge",
+	"author":"Adam Olsson",
+	"status":"Development",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2015-03-26",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}
