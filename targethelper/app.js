@@ -143,7 +143,7 @@ lbs.apploader.register('targethelper', function () {
                     $.each(viewModel.months(),function(i,m){
                         
                         var targetvalue = m.target()
-alert(targetvalue);
+
                         if(targetvalue === ""){
                             alert("f")
                           targetvalue = "0"
