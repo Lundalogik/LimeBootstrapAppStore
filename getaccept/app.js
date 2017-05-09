@@ -99,7 +99,7 @@
             
             var deal_value="";
             var deal_name="";
-            var comany_name="";
+            var company_name="";
 
             if(className == "business"){                                
                 
