@@ -221,3 +221,49 @@ ErrorHandler:
     Call UI.ShowError("LimeCalendar.GetTableLocale")
 End Function
 
+Public Function GetDateFormat() As String
+    On Error GoTo ErrorHandler
+    Dim splitDate() As String
+    Dim separator As String
+    separator = GetDateSeparator
+    splitDate = VBA.Split(VBA.Date, separator)
+    Select Case VBA.Day(VBA.CDate("01-02-03"))
+        Case 1
+            GetDateFormat = VBA.Left("DD", VBA.Len(splitDate(0))) & separator & _
+                            VBA.Left("MM", VBA.Len(splitDate(1))) & separator & _
+                            VBA.Left("YYYY", VBA.Len(splitDate(2)))
+        Case 2
+            GetDateFormat = VBA.Left("MM", VBA.Len(splitDate(0))) & separator & _
+                            VBA.Left("DD", VBA.Len(splitDate(1))) & separator & _
+                            VBA.Left("YYYY", VBA.Len(splitDate(2)))
+        Case 3
+            GetDateFormat = VBA.Left("YYYY", VBA.Len(splitDate(0))) & separator & _
+                            VBA.Left("MM", VBA.Len(splitDate(1))) & separator & _
+                            VBA.Left("DD", VBA.Len(splitDate(2)))
+    End Select
+    GetDateFormat = GetDateFormat
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError("LimeCalendar.GetDateFormat")
+End Function
+
+Private Function GetDateSeparator() As String
+    Dim sDate As String
+    Dim i As Integer
+    Dim retVal As String
+    sDate = VBA.CStr(VBA.Now)
+    
+    For i = 1 To Len(sDate)
+        If Not VBA.IsNumeric(VBA.Mid(sDate, i, 1)) Then
+            retVal = retVal & VBA.Mid(sDate, i, 1)
+        End If
+    Next i
+    GetDateSeparator = VBA.Left(retVal, 1)
+End Function
+
+Public Sub Test()
+    Dim sTest() As String
+    
+    sTest = VBA.Split(VBA.Date, GetDateSeparator)
+    
+End Sub

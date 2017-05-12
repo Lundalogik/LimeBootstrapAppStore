@@ -40,9 +40,16 @@ lbs.apploader.register('LimeCalendar', function () {
                         initialField: 'coworker',
                         dateformat: 'YYYY-MM-DD',
                         color: '#fff',
-                        backgroundColor: '#FF3296',
-                        borderColor: '#FF3296',
-                        showOnZero: false
+                        backgroundColor: '#575756',
+                        borderColor: '#575756',
+                        showOnZero: false,
+                        statusColors: {
+                            '': '#575756',
+                            'planned': '#EF6407',
+                            'ongoing': '#00C8AA',
+                            'done': '#00BEFF',
+                            'cancelled': '#FF3296',
+                        }
                     }
                 }
             ];
@@ -79,6 +86,8 @@ lbs.apploader.register('LimeCalendar', function () {
         but, well, here you have it.
     */
     self.initialize = function (node, viewModel) {
+
+        viewModel.dateFormat = lbs.common.executeVba("LimeCalendar.GetDateFormat");
         viewModel.selectedDate = ko.observable();
         viewModel.personFilter = ko.observable();
         viewModel.selectedEvent = ko.observable();
@@ -189,9 +198,9 @@ lbs.apploader.register('LimeCalendar', function () {
                 return {
                     id: event.id,
                     table: event.table.table,
-                    start: moment(event.start).format(event.dateFormat),
+                    start: moment(event.start,"YYYY-MM-DD",true).format(viewModel.dateFormat),
                     startfield: event.startfield,
-                    end: event.end ? moment(event.end).format(event.dateFormat) : null,
+                    end: event.end ? moment(event.end, "YYYY-MM-DD",true).format(viewModel.dateFormat) : null,
                     endfield: event.endfield
                 }
             });
@@ -241,7 +250,7 @@ lbs.apploader.register('LimeCalendar', function () {
                     {type: 'records', source: 'LimeCalendar.GetItems, ' + btoa(params)},
                     true
                 );
-
+                
                 var items = ko.utils.arrayMap(jsonData[table.table].records, function(item) {
                     return new model.GenericModel(
                         viewModel, 
@@ -255,10 +264,12 @@ lbs.apploader.register('LimeCalendar', function () {
                         table.options
                     );
                 });
+                
                 viewModel.tables()[index].hitcount(items.length);
                 allItems = allItems.concat(items);
             });
-            viewModel.events(allItems);
+
+            viewModel.events(allItems); 
             viewModel.setItems();
         }
 
@@ -341,6 +352,7 @@ lbs.apploader.register('LimeCalendar', function () {
                 appViewModel: viewModel,
                 viewDate: viewModel.calendarModel.viewDate
             });
+
         }
         
         viewModel.setup();
