@@ -13,8 +13,8 @@ var model = {
 		self.startfield = start;
 		self.endfield = end;
 		self.statusFilter = options.statusFilter ? item[options.statusFilter].text : '';
-		self.start = moment(item[start].text).format(options.dateformat);
-		self.end = moment(item[end].text).format(options.dateformat);
+		self.start = moment(item[start].text, viewModel.dateFormat, true).format("YYYY-MM-DD");
+		self.end = moment(item[end].text, viewModel.dateFormat, true).format("YYYY-MM-DD");
 		self.fields = ko.observableArray(ko.utils.arrayMap(self.view(), function(field, index) {
 			return {
 				name: eval('viewModel.localize.LimeCalendar.' + self.locales()[index]),
@@ -26,6 +26,10 @@ var model = {
 		self.backgroundColor = options.backgroundColor;
 		self.color = options.color;
 		self.borderColor = options.borderColor;
+		if(options.statusColors) {
+			self.backgroundColor = options.statusColors[item[options.statusFilter].key] || self.backgroundColor;
+			self.borderColor = options.statusColors[item[options.statusFilter].key] || self.borderColor;
+		}
 	},
 
 	Coworker: function(viewModel, item){
