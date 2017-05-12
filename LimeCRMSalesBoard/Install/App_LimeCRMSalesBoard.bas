@@ -44,7 +44,7 @@ Public Sub openLimeCRMSalesBoard()
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.openLimeCRMSalesBoard")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".openLimeCRMSalesBoard")
 End Sub
 
 
@@ -67,7 +67,7 @@ Public Function getBoardXML(boardConfigXML As String) As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getBoardXML")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getBoardXML")
 End Function
 
 ' ##SUMMARY Retrieves the board xml using a SQL stored procedure to fetch data from the database.
@@ -118,7 +118,7 @@ Private Function getBoardXMLUsingSQL(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getBoardXMLUsingSQL")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getBoardXMLUsingSQL")
 End Function
 
 
@@ -136,7 +136,7 @@ Private Sub addSQLParameterFromXML(ByRef oProc As LDE.Procedure, parameterName A
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.addSQLParameterFromXML")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".addSQLParameterFromXML")
 End Sub
 
 
@@ -194,7 +194,7 @@ Private Function getBoardXMLUsingVBA(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
 
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getBoardXMLUsingVBA")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getBoardXMLUsingVBA")
 End Function
 
 
@@ -222,7 +222,7 @@ Private Function createCard(ByRef oDataXml As MSXML2.DOMDocument60, ByRef oRecor
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.createCard")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".createCard")
 End Function
 
 
@@ -242,7 +242,7 @@ Private Sub setCardAttribute(ByRef oCardElement As MSXML2.IXMLDOMElement, attrib
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.setCardAttribute")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".setCardAttribute")
 End Sub
 
 
@@ -268,7 +268,7 @@ Private Function isFieldTypeDate(ft As LDE.FieldTypeEnum)
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.isFieldTypeDate")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".isFieldTypeDate")
 End Function
 
 
@@ -293,7 +293,7 @@ Private Function getFieldMappings(ByRef oBoardXmlDoc As MSXML2.DOMDocument60) As
 
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getFieldMappings")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getFieldMappings")
 End Function
 
 
@@ -323,7 +323,7 @@ Private Sub addFieldMapping(ByRef fm As Scripting.Dictionary, ByRef oBoardXmlDoc
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.addFieldMapping")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".addFieldMapping")
 End Sub
 
 ' ##SUMMARY Adds all necessary fields from the board config and returns a new view object.
@@ -345,7 +345,7 @@ Private Function createView(ByRef fm As Scripting.Dictionary) As LDE.View
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.createView")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".createView")
 End Function
 
 
@@ -383,7 +383,7 @@ Public Function createFilter(optionFieldName As String) As LDE.Filter
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.createFilter")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".createFilter")
 End Function
 
 
@@ -402,7 +402,7 @@ Public Function getActiveTable() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveTable")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getActiveTable")
 End Function
 
 
@@ -418,7 +418,7 @@ Public Function getActiveTableLocalNameSingular() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveTableLocalNameSingular")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getActiveTableLocalNameSingular")
 End Function
 
 
@@ -434,7 +434,7 @@ Public Function getActiveTableLocalNamePlural() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveTableLocalNamePlural")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getActiveTableLocalNamePlural")
 End Function
 
 
@@ -471,7 +471,7 @@ Public Function getActiveBoardName() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveBoardName")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getActiveBoardName")
 End Function
 
 ' ##SUMMARY Builds and returns string containing ids for all items in the active explorer.
@@ -497,7 +497,7 @@ Private Function getIdsAsString() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getIdsAsString")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getIdsAsString")
 End Function
 
 
@@ -514,7 +514,7 @@ Public Function getLocale() As String
 
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getLocale")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getLocale")
 End Function
 
 
@@ -530,7 +530,7 @@ Public Sub setDataSource(source As String)
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.setDataSource")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".setDataSource")
 End Sub
 
 
@@ -542,7 +542,7 @@ Public Sub setMaxNbrOfRecords(val As Long)
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.setMaxNbrOfRecords")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".setMaxNbrOfRecords")
 End Sub
 
 
@@ -567,7 +567,7 @@ Public Function getSortFieldType(tableName As String, fieldName As String) As St
 
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getSortFieldType")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getSortFieldType")
 End Function
 
 
@@ -598,7 +598,7 @@ Public Function getListFiltered() As Boolean
     Exit Function
 ErrorHandler:
     getListFiltered = False
-    Call UI.ShowError("App_LimeCRMSalesBoard.getListFiltered")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getListFiltered")
 End Function
 
 
