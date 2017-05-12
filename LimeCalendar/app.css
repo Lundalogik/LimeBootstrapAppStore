@@ -1,0 +1,149 @@
+/*
+PUT SOME FANCY CSS STUFF HERE PLEASE!
+*/
+
+body{
+	background-color: #FFF;
+	color: #454545;
+}
+
+body.overview {
+	background-color: #F1F6FF;
+}
+
+.calendar-container{
+	margin-top: 70px;
+	padding-right: 50px;
+	padding-left: 50px;
+}
+
+.calendar-container.overview{
+	margin-left: 10%;
+	width: 80%;
+}
+
+.panel.panel-lime {
+	border: 1px solid ;
+}
+
+div.row > div {
+	text-overflow: default;
+	word-break: normal;
+	white-space: normal;
+	word-wrap: normal;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+.navbar{
+	background-color: #00C8AA;
+	color: white;
+	height: 60px;
+}
+
+.navbar.overview {
+	background-color: #F1F6FF;
+	color: #6985B7;
+}
+
+.navbar > div.container{
+	margin-left: 0px;
+	margin-right: 0px;
+	width: 100%;
+}
+
+.navbar > div.container > div.navbar-header{
+	text-align: center;
+	margin-top: 12px;
+}
+
+.navbar > div.container > div.input-group{
+	margin-top: 12px;
+	margin-right: 12px;
+}
+
+.btn.btn-plain{
+	background-color: #00C8AA;
+	color: #fff;
+}
+
+.btn.btn-plain:hover{
+	background-color: #11D8BB;
+	color: #fff;
+}
+
+.btn.btn-plain.open{
+	background-image: none;
+	background-color: red;
+	color: #fff;
+}
+
+ul.dropdown-menu{
+	width: 150px;
+}
+
+.btn.btn-plain:active{
+	box-shadow: none;
+}
+/*Blue: 00A8CC*/
+.btn-group.open > .btn.btn-plain{
+	box-shadow: none;
+	background-color: #18DFBF;
+}
+
+.modal-body-header{
+	margin-top: 24px;
+}
+
+.btn.legend:hover {
+	opacity: 0.7;
+	cursor: pointer;
+}
+
+.legend-container{
+	margin-top: 8px;
+}
+
+span.caret{
+	margin-left: 6px !important;
+}
+
+a.list-group-item.list-group-item-selected,
+a.list-group-item.list-group-item-selected:active,
+a.list-group-item.list-group-item-selected:hover {
+	background: none;
+	background-image: none;
+	background-color: #00C8AA;
+	border-color: #00C8AA;
+	color: #FFF;
+}
+
+.modal-header{
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+}
+.modal-dialog.modal-event {
+	margin-top: 150px !important;
+}
+
+li.selected {
+	background-color: #00C8AA;
+}
+
+li.selected > a {
+	color: #FFF;
+}
+
+li:hover > a {
+	background-image: none !important;
+	background: none !important;
+	background-color: rgba(0,0,0,0);
+	color: #FFF !important;
+}
+li:hover {
+	background-image: none !important;
+	background: none !important;
+	background-color: rgba(0,200,170,0.7) !important;
+	color: #FFF !important;
+	opacity: 1;
+}

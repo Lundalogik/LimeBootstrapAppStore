@@ -31,6 +31,6 @@ Public Function GetTargetMonthToDateValue(ByVal dGivenDate As Date) As Long
     
     GetTargetMonthToDateValue = VBA.Round(lngTargetValue * dblMonthToDatePercentage, 0)
 Exit Function
-ErrorHandler:
+errorhandler:
     Call UI.ShowError("FollowupChildData.GetTargetMonthToDateValue")
 End Function

@@ -2,7 +2,7 @@ Attribute VB_Name = "Followup"
 Option Explicit
 
 Public Sub AddToPane()
-On Error GoTo ErrorHandler
+On Error GoTo errorhandler
     Dim sPaneName As String
     sPaneName = "FollowUp"
     'For follow up app
@@ -21,7 +21,7 @@ On Error GoTo ErrorHandler
         Set Application.Panes.ActivePane = Application.Panes.Item(sPaneName)
     End If
 Exit Sub
-ErrorHandler:
+errorhandler:
     Call UI.ShowError("Followup.AddToPane")
 End Sub
 
@@ -36,17 +36,20 @@ Private Sub FillParentAndTranslationDic( _
     ByVal sScoreTableName As String, _
     ByVal sScoreTypeFieldName As String _
 )
-On Error GoTo ErrorHandler
+On Error GoTo errorhandler
     ' For reading XML parameters
     Dim oCoworkerNodeList As MSXML2.IXMLDOMNodeList
     Dim oTargetTypeNodeList As MSXML2.IXMLDOMNodeList
     Dim oCoworkerNode As MSXML2.IXMLDOMNode
     Dim oTargetTypeNode As MSXML2.IXMLDOMNode
+    Dim oScoreTypeNode As MSXML2.IXMLDOMNode
+    Dim oScoreTypeNodes As MSXML2.IXMLDOMNodeList
     
     Dim oTargettypeOption As LDE.Option
     Dim oScoreTypeOption As LDE.Option
     Dim oParentData As FollowupParentData
     Dim oChildData As FollowupChildData
+    Dim oTargetTypeCollection As Collection
     Dim key As Variant
 
     Set oCoworkerNodeList = oCoworkerXml.selectNodes("coworkers/coworker")
@@ -63,10 +66,33 @@ On Error GoTo ErrorHandler
     
         ' Add all targets as children
         For Each oTargetTypeNode In oTargetTypeNodeList
-            Set oTargettypeOption = Application.Database.Classes(sTargetTableName).Fields(sTargetTypeFieldName).Options.Lookup(oTargetTypeNode.selectSingleNode("targetTypeKey").Text, lkLookupOptionByKey)
-            Set oScoreTypeOption = Application.Database.Classes(sScoreTableName).Fields(sScoreTypeFieldName).Options.Lookup(oTargetTypeNode.selectSingleNode("scoreTypeKey").Text, lkLookupOptionByKey)
-            
-            Call oScoreToTargetTranslationDic.Add(oScoreTypeOption.Value, oTargettypeOption.Value)
+            Set oTargettypeOption = Application.Database.Classes(sTargetTableName).Fields(sTargetTypeFieldName).Options.Lookup( _
+                oTargetTypeNode.selectSingleNode("targetTypeKey").Text, _
+                lkLookupOptionByKey _
+            )
+
+            Set oScoreTypeNodes = oTargetTypeNode.selectNodes("scoreTypeKeys/scoreTypeKey")
+            If Not oScoreTypeNodes Is Nothing Then
+                Set oTargetTypeCollection = New Collection
+                
+                For Each oScoreTypeNode In oScoreTypeNodes
+                    Set oScoreTypeOption = Application.Database.Classes(sScoreTableName).Fields(sScoreTypeFieldName).Options.Lookup( _
+                        oScoreTypeNode.Text, _
+                        lkLookupOptionByKey _
+                    )
+                    
+                    If oScoreToTargetTranslationDic.Exists(oScoreTypeOption.Value) Then
+                        Set oTargetTypeCollection = oScoreToTargetTranslationDic(oScoreTypeOption.Value)
+                    Else
+                        Set oTargetTypeCollection = New Collection
+                        Call oScoreToTargetTranslationDic.Add(oScoreTypeOption.Value, oTargetTypeCollection)
+                    End If
+                    
+                    Call oTargetTypeCollection.Add(oTargettypeOption.Value)
+                    Set oScoreToTargetTranslationDic(oScoreTypeOption.Value) = oTargetTypeCollection
+
+                Next oScoreTypeNode
+            End If
             
             For Each key In oTargetDataDic.Keys
                 Set oParentData = oTargetDataDic(key)
@@ -79,10 +105,33 @@ On Error GoTo ErrorHandler
     Else ' Group on Targettype
         ' Add all targets as parents
         For Each oTargetTypeNode In oTargetTypeNodeList
-            Set oTargettypeOption = Application.Database.Classes(sTargetTableName).Fields(sTargetTypeFieldName).Options.Lookup(oTargetTypeNode.selectSingleNode("targetTypeKey").Text, lkLookupOptionByKey)
-            Set oScoreTypeOption = Application.Database.Classes(sScoreTableName).Fields(sScoreTypeFieldName).Options.Lookup(oTargetTypeNode.selectSingleNode("scoreTypeKey").Text, lkLookupOptionByKey)
+            Set oTargettypeOption = Application.Database.Classes(sTargetTableName).Fields(sTargetTypeFieldName).Options.Lookup( _
+                oTargetTypeNode.selectSingleNode("targetTypeKey").Text, _
+                lkLookupOptionByKey _
+            )
             
-            Call oScoreToTargetTranslationDic.Add(oScoreTypeOption.Value, oTargettypeOption.Value)
+            Set oScoreTypeNodes = oTargetTypeNode.selectNodes("scoreTypeKeys/scoreTypeKey")
+            If Not oScoreTypeNodes Is Nothing Then
+                Set oTargetTypeCollection = New Collection
+                
+                For Each oScoreTypeNode In oScoreTypeNodes
+                    Set oScoreTypeOption = Application.Database.Classes(sScoreTableName).Fields(sScoreTypeFieldName).Options.Lookup( _
+                        oScoreTypeNode.Text, _
+                        lkLookupOptionByKey _
+                    )
+                    
+                    If oScoreToTargetTranslationDic.Exists(oScoreTypeOption.Value) Then
+                        Set oTargetTypeCollection = oScoreToTargetTranslationDic(oScoreTypeOption.Value)
+                    Else
+                        Set oTargetTypeCollection = New Collection
+                        Call oScoreToTargetTranslationDic.Add(oScoreTypeOption.Value, oTargetTypeCollection)
+                    End If
+                    
+                    Call oTargetTypeCollection.Add(oTargettypeOption.Value)
+                    Set oScoreToTargetTranslationDic(oScoreTypeOption.Value) = oTargetTypeCollection
+
+                Next oScoreTypeNode
+            End If
             
             Set oParentData = New FollowupParentData
             oParentData.sId = oTargettypeOption.key
@@ -103,7 +152,7 @@ On Error GoTo ErrorHandler
     End If
     
 Exit Sub
-ErrorHandler:
+errorhandler:
     Call UI.ShowError("Followup.FillParentAndTranslationDic")
 End Sub
 
@@ -124,7 +173,7 @@ Public Function GetTargetData( _
 'ByVal sScoreDateFieldName As String, _
 'ByVal sScoreValueFieldName As String _
 
-    On Error GoTo ErrorHandler
+    On Error GoTo errorhandler
     
     ' Read from structureXml
     Dim sTargetTableName As String
@@ -141,6 +190,7 @@ Public Function GetTargetData( _
     Dim oStructureXml As New MSXML2.DOMDocument60
     Dim oParentData As FollowupParentData
     Dim oChildData As FollowupChildData
+    Dim oTargetCollection As Collection
     
     ' For fetching data from Lime database
     Dim oTargetFilter As New LDE.Filter
@@ -158,6 +208,7 @@ Public Function GetTargetData( _
     Dim keyParent As Variant
     Dim keyChild As Variant
     Dim sXml As String
+    Dim i As Long
     
     Application.MousePointer = MousePointerConstants.ccHourglass
 
@@ -212,13 +263,17 @@ Public Function GetTargetData( _
         
         ' Adding all types to filters
         For Each keyChild In oScoreToTargetTranslationDic.Keys
-            Call oTargetFilter.AddCondition(sTargetTypeFieldName, lkOpEqual, VBA.CLng(oScoreToTargetTranslationDic(VBA.CLng(keyChild))))
+            Set oTargetCollection = oScoreToTargetTranslationDic(VBA.CLng(keyChild))
+            For i = 1 To oTargetCollection.Count
+                Call oTargetFilter.AddCondition(sTargetTypeFieldName, lkOpEqual, VBA.CLng(oTargetCollection(i)))
+                If oTargetFilter.Count > 1 Then
+                    Call oTargetFilter.AddOperator(lkOpOr)
+                End If
+            Next i
+            
             Call oScoreFilter.AddCondition(sScoreTypeFieldName, lkOpEqual, VBA.CLng(keyChild))
             
-            If oTargetFilter.count > 1 Then
-                Call oTargetFilter.AddOperator(lkOpOr)
-            End If
-            If oScoreFilter.count > 1 Then
+            If oScoreFilter.Count > 1 Then
                 Call oScoreFilter.AddOperator(lkOpOr)
             End If
         Next keyChild
@@ -278,22 +333,25 @@ Public Function GetTargetData( _
             ' Set actual values
             For Each oRecord In oScoreRecords
                 keyParent = VBA.CStr(oRecord.Value("coworker"))
-                keyChild = VBA.CStr(oScoreToTargetTranslationDic(oRecord.Value(sScoreTypeFieldName)))
-                If oTargetDataDic.Exists(keyParent) Then
-                    Set oParentData = oTargetDataDic(keyParent)
-                    If oParentData.oChildrenData.Exists(keyChild) Then
-                        Set oChildData = oParentData.oChildrenData(keyChild)
-                        oChildData.lngCurrentValue = oChildData.lngCurrentValue + 1
-                        Set oParentData.oChildrenData(keyChild) = oChildData
+                Set oTargetCollection = oScoreToTargetTranslationDic(oRecord.Value(sScoreTypeFieldName))
+                For i = 1 To oTargetCollection.Count
+                    keyChild = VBA.CStr(oTargetCollection(i))
+                    If oTargetDataDic.Exists(keyParent) Then
+                        Set oParentData = oTargetDataDic(keyParent)
+                        If oParentData.oChildrenData.Exists(keyChild) Then
+                            Set oChildData = oParentData.oChildrenData(keyChild)
+                            oChildData.lngCurrentValue = oChildData.lngCurrentValue + 1
+                            Set oParentData.oChildrenData(keyChild) = oChildData
+                        Else
+                            sErrorMessage = Localize.GetText("Followup", "error_mapping")
+                            Exit For
+                        End If
+                        Set oTargetDataDic(keyParent) = oParentData
                     Else
                         sErrorMessage = Localize.GetText("Followup", "error_mapping")
                         Exit For
                     End If
-                    Set oTargetDataDic(keyParent) = oParentData
-                Else
-                    sErrorMessage = Localize.GetText("Followup", "error_mapping")
-                    Exit For
-                End If
+                Next i
             Next oRecord
         Else ' Grouping on targettype
             ' Set target values
@@ -319,23 +377,26 @@ Public Function GetTargetData( _
             
             ' Set actual values
             For Each oRecord In oScoreRecords
-                keyParent = VBA.CStr(oScoreToTargetTranslationDic(oRecord.Value(sScoreTypeFieldName)))
                 keyChild = VBA.CStr(oRecord.Value("coworker"))
-                If oTargetDataDic.Exists(keyParent) Then
-                    Set oParentData = oTargetDataDic(keyParent)
-                    If oParentData.oChildrenData.Exists(keyChild) Then
-                        Set oChildData = oParentData.oChildrenData(keyChild)
-                        oChildData.lngCurrentValue = oChildData.lngCurrentValue + 1
-                        Set oParentData.oChildrenData(keyChild) = oChildData
+                Set oTargetCollection = oScoreToTargetTranslationDic(oRecord.Value(sScoreTypeFieldName))
+                For i = 1 To oTargetCollection.Count
+                    keyParent = VBA.CStr(oTargetCollection(i))
+                    If oTargetDataDic.Exists(keyParent) Then
+                        Set oParentData = oTargetDataDic(keyParent)
+                        If oParentData.oChildrenData.Exists(keyChild) Then
+                            Set oChildData = oParentData.oChildrenData(keyChild)
+                            oChildData.lngCurrentValue = oChildData.lngCurrentValue + 1
+                            Set oParentData.oChildrenData(keyChild) = oChildData
+                        Else
+                            sErrorMessage = Localize.GetText("Followup", "error_mapping")
+                            Exit For
+                        End If
+                        Set oTargetDataDic(keyParent) = oParentData
                     Else
                         sErrorMessage = Localize.GetText("Followup", "error_mapping")
                         Exit For
                     End If
-                    Set oTargetDataDic(keyParent) = oParentData
-                Else
-                    sErrorMessage = Localize.GetText("Followup", "error_mapping")
-                    Exit For
-                End If
+                Next i
             Next oRecord
         End If
         
@@ -385,7 +446,7 @@ FailingLoad:
     sXml = sXml & "</targetData>"
     GetTargetData = sXml
 Exit Function
-ErrorHandler:
+errorhandler:
     Application.MousePointer = MousePointerConstants.ccDefault
     Call UI.ShowError("Followup.GetTargetData")
 End Function
@@ -398,7 +459,7 @@ Public Function GetChoices( _
     ByVal sScoreTypeFieldName As String, _
     ByVal sCoworkerNameFieldName As String _
 ) As String
-    On Error GoTo ErrorHandler
+    On Error GoTo errorhandler
     Dim sXml As String
     Dim sErrorMessage As String
 
@@ -479,7 +540,7 @@ Public Function GetChoices( _
     End If
 
 Exit Function
-ErrorHandler:
+errorhandler:
     Call UI.ShowError("Followup.GetChoices")
 End Function
 
@@ -488,7 +549,7 @@ Private Function GetCoworkersWithTargets( _
     ByVal sTargetTableName As String, _
     ByVal sCoworkerNameFieldName As String _
 ) As LDE.Records
-On Error GoTo ErrorHandler
+On Error GoTo errorhandler
     Dim oCoworkerRecords As New LDE.Records
     Dim oFilter As New LDE.Filter
     Dim oView As New LDE.View
@@ -501,21 +562,21 @@ On Error GoTo ErrorHandler
     Set GetCoworkersWithTargets = oCoworkerRecords
 
 Exit Function
-ErrorHandler:
+errorhandler:
     Call UI.ShowError("Followup.GetCoworkersWithTargets")
 End Function
 
 Private Sub AddXmlElement(ByRef sXml As String, ByVal sName As String, ByVal sValue As String)
-On Error GoTo ErrorHandler
+On Error GoTo errorhandler
     sXml = sXml & Lime.FormatString("<%1><![CDATA[%2]]></%1>", sName, sValue)
 Exit Sub
-ErrorHandler:
+errorhandler:
     Call UI.ShowError("Followup.AddXmlElement")
 End Sub
 
 ' Returns nr of week days (Mon-Fri) In a given range
 Private Function GetNrWorkingDaysInRange(dStartDate As Date, dEndDate As Date) As Long
-On Error GoTo ErrorHandler
+On Error GoTo errorhandler
     Dim lngTotalDays As Long, lngTotalWeeks As Long, lngDaysPerWeekToSkip As Long, lngMinusFix As Long
     
     lngTotalDays = VBA.DateDiff("d", dStartDate, dEndDate)
@@ -533,14 +594,14 @@ On Error GoTo ErrorHandler
     GetNrWorkingDaysInRange = lngTotalDays - (lngTotalWeeks * lngDaysPerWeekToSkip) - lngMinusFix
 
 Exit Function
-ErrorHandler:
+errorhandler:
     Call UI.ShowError("Followup.GetNrWorkingDaysInRange")
 End Function
 
 
 ' Returns nr of week days (Mon-Fri) given month
 Public Function GetNrWorkingDaysGivenMonth(ByVal dGivenDate As Date) As Long
-On Error GoTo ErrorHandler
+On Error GoTo errorhandler
     Dim dFirstGivenMonth As Date, dLastGivenMonth As Date
     
     dFirstGivenMonth = VBA.DateAdd("d", -VBA.Day(dGivenDate) + 1, dGivenDate)
@@ -548,20 +609,20 @@ On Error GoTo ErrorHandler
     
     GetNrWorkingDaysGivenMonth = GetNrWorkingDaysInRange(dFirstGivenMonth, dLastGivenMonth)
 Exit Function
-ErrorHandler:
+errorhandler:
     Call UI.ShowError("Followup.GetNrWorkingDaysGivenMonth")
 End Function
 
 ' Returns nr of week days (Mon-Fri) given month so far
 Public Function GetNrWorkingDaysGivenMonthSoFar(ByVal dGivenDate As Date) As Long
-On Error GoTo ErrorHandler
+On Error GoTo errorhandler
     Dim dFirstGivenMonth As Date
     
     dFirstGivenMonth = VBA.DateAdd("d", -VBA.Day(dGivenDate) + 1, dGivenDate)
     
     GetNrWorkingDaysGivenMonthSoFar = GetNrWorkingDaysInRange(dFirstGivenMonth, dGivenDate)
 Exit Function
-ErrorHandler:
+errorhandler:
     Call UI.ShowError("Followup.GetNrWorkingDaysGivenMonthSoFar")
 End Function
 
@@ -871,7 +932,7 @@ Private Function AddOrCheckLocalize( _
     sFI As String, _
     sDA As String _
 ) As Boolean
-    On Error GoTo ErrorHandler:
+    On Error GoTo errorhandler:
     Dim oFilter As New LDE.Filter
     Dim oRecs As New LDE.Records
     Dim oRec As LDE.Record
@@ -915,23 +976,23 @@ Private Function AddOrCheckLocalize( _
     Set Localize.dicLookup = Nothing
     AddOrCheckLocalize = True
     Exit Function
-ErrorHandler:
+errorhandler:
     Debug.Print ("Error while validating or adding Localize")
     AddOrCheckLocalize = False
 End Function
 
 Private Sub AddLocaleToRecord(ByRef oRec As LDE.Record, ByVal sLocaleCode As String, ByVal sLocaleValue As String)
-On Error GoTo ErrorHandler
+On Error GoTo errorhandler
     If oRec.Fields.Exists(sLocaleCode) Then
         oRec.Value(sLocaleCode) = sLocaleValue
     End If
 Exit Sub
-ErrorHandler:
+errorhandler:
     Call UI.ShowError("Followup.AddLocaleToRecord")
 End Sub
 
 Public Function FollowupMemberOfGroup(ByVal sSepareatedGroups As String, Optional ByVal bMustBeMemberOfAll As Boolean = False) As Boolean
-On Error GoTo ErrorHandler
+On Error GoTo errorhandler
     Dim sGroupNames() As String
     Dim sGroupName As String
     Dim i As Long
@@ -973,6 +1034,6 @@ On Error GoTo ErrorHandler
    
     FollowupMemberOfGroup = bReturnValue
 Exit Function
-ErrorHandler:
+errorhandler:
     Call UI.ShowError("Followup.FollowupMemberOfGroup")
 End Function

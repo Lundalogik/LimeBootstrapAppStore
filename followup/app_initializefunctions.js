@@ -22,13 +22,14 @@ initializeLib.initializeDatepicker = function(viewModel, appConfig) {
 	// Initialize datepicker
 	if (!initializeLib.pickerLoaded) {
         initializeLib.pickerLoaded = true;
-        
+
         var localeKey = lbs.limeDataConnection.Database.Locale || 'en-us';
         switch(localeKey)
         {
             case 'no':
                 localeKey = 'nb';
         }
+
 
         $('#datetimepicker').datetimepicker({
             inline: false,
@@ -99,7 +100,7 @@ initializeLib.initializeViewModel = function(viewModel, appConfig) {
     viewModel.errorMessage = ko.observable('');
     viewModel.criticalErrorMessage = ko.observable('');
 
-	viewModel.listSizeClass = ko.observable('');
+	viewModel.listSizeHeight = ko.observable('');
     
     viewModel.allCoworkers = ko.computed(function(){
          return helperLib.allChoicesComputed(viewModel.choices.coworkers());

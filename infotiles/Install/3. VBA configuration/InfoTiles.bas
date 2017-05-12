@@ -70,7 +70,7 @@ On Error GoTo ErrorHandler
 Exit Function
 ErrorHandler:
     GetHitCount = -99
-    Call UI.ShowError("InfoTiles.GetHitCount")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".GetHitCount")
 End Function
 
 Public Function GetSumField(ByVal className As String, ByVal filterName As String, ByVal fieldName As String, ByVal sActiveClass As String, ByVal lngIdRecord As Long) As String
@@ -135,7 +135,7 @@ On Error GoTo ErrorHandler
     GetSumField = CStr(VBA.Format(VBA.CDbl(sum), "#,0"))
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("InfoTiles.GetHitCount")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".GetSumField")
 End Function
 
 Public Sub ShowFilter(ByVal lngidinfotiles As Long)
@@ -202,7 +202,7 @@ Public Sub ShowFilter(ByVal lngidinfotiles As Long)
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("InfoTiles.SetFilter")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".ShowFilter")
 End Sub
 
 Public Function FetchFiltersXML(ByVal sActiveClass As String, ByVal lngIdRecord As Long) As String
@@ -368,7 +368,7 @@ ErrorHandler:
     Select Case Err.Number
         Case -2146233079, -2147188732: ' Error codes to "ignore"
         Case Else
-            Call UI.ShowError("InfoTiles.FetchFiltersXML")
+            Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".FetchFiltersXML")
     End Select
     
 End Function
@@ -380,7 +380,7 @@ Public Sub SearchIcon()
 
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("InfoTiles.SearchIcon")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".SearchIcon")
 End Sub
 
 Public Function GetFilterCountByType(ByVal oFilters As LDE.Filters, Optional ByVal filterType As FilterTypeEnum = lkFilterTypeDynamic) As Integer
@@ -394,7 +394,7 @@ On Error GoTo ErrorHandler
     Next
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("InfoTiles.GetFilterCountByType")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".GetFilterCountByType")
 End Function
 
 'fieldTypes as Keys will be checked
@@ -409,7 +409,7 @@ On Error GoTo ErrorHandler
     Next
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("InfoTiles.GetFieldCountByTypes")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".GetFieldCountByTypes")
 End Function
 
 Public Function FindExplorerFieldsByClass(ByVal oClass As LDE.Class) As Collection
@@ -430,7 +430,7 @@ On Error GoTo ErrorHandler
     Set FindExplorerFieldsByClass = oFields
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("InfoTiles.FindExplorerFieldsByClass")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".FindExplorerFieldsByClass")
 End Function
 
 Public Function GetInspectorExplorerFilters(ByVal InspectorClass As String, ByVal ExplorerClass As String) As LDE.Filters
@@ -442,7 +442,7 @@ On Error GoTo ErrorHandler
     Set GetInspectorExplorerFilters = oFilters
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("InfoTiles.GetInspectorExplorerFilters")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".GetInspectorExplorerFilters")
 End Function
 
 Private Function FixColorToHexString(ByVal colorNr As Long) As String
@@ -455,7 +455,7 @@ On Error GoTo ErrorHandler
     FixColorToHexString = str
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("InfoTiles.ReverseHexString")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".FixColorToHexString")
 End Function
 
 '------------------------------------------
@@ -478,7 +478,7 @@ On Error GoTo ErrorHandler
     
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("InfoTiles.Install")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".Install")
 End Sub
 
 

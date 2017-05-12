@@ -1,0 +1,30 @@
+ko.bindingHandlers.datepicker = {
+    init: function(element, valueAccessor, allBindingsAccessor) {
+      //initialize datepicker with some optional options
+	  var d = moment().format('YYYY-MM-DD');
+      var options = allBindingsAccessor().datepickerOptions || {format: 'yyyy-mm-dd', autoclose: true,weekStart:1,todayHighlight:true,startDate:d,orientation:'left top'};
+      $(element).datepicker(options);
+      
+      //when a user changes the date, update the view model
+      ko.utils.registerEventHandler(element, "changeDate", function(event) {
+             var value = valueAccessor();
+             if (ko.isObservable(value)) {
+                 value(event.date);
+             }                
+      });
+    },
+    update: function(element, valueAccessor)   {
+        var value, widget = $(element).data("datepicker");
+         //when the view model is updated, update the widget
+        if (widget) {
+            value = ko.utils.unwrapObservable(valueAccessor());
+            
+            if (!value) { 
+               $(element).val("").change();
+               return;
+            }
+
+            widget.setDate(_.isString(value) ? new Date(value) : value);
+        }
+    }
+};

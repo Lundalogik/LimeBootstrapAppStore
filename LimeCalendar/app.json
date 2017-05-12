@@ -1,0 +1,151 @@
+{
+	"name": "LimeCalendar",
+	"displayName": "Lime Calendar",
+	"author": "JKA",
+	"status": "Release",
+	"shortDesc": "Simple and configurable calendar for Lime CRM.",
+	"versions": [
+		{
+			"version": "1.2",
+			"date": "2017-03-17",
+			"comments": "UX changes, added possibility to open in overview and added functionality to open records from the calendar."
+		},
+		{
+			"version": "1.1",
+			"date": "2017-03-16",
+			"comments": "Added selection filter."
+		},
+		{
+			"version": "1.0",
+			"date": "2017-03-06",
+			"comments": "First release. Added more complex filter configuration and more."
+		},
+		{
+			"version": "0.1",
+			"date": "2017-02-28",
+			"comments": "First beta release"
+		}
+	],
+	"install": {
+		"localize": [{
+			"owner": "LimeCalendar",
+			"code": "selection",
+			"sv": "Markerade rader",
+			"en_us": "Selected rows"
+		},{
+			"owner": "LimeCalendar",
+			"code": "saved",
+			"sv": "Ändringarna sparade!",
+			"en_us": "Saved successfully!"
+		},{
+			"owner": "LimeCalendar",
+			"code": "open",
+			"sv": "Öppna",
+			"en_us": "Open"
+		},{
+			"owner": "LimeCalendar",
+			"code": "start",
+			"sv": "Start",
+			"en_us": "Start"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "end",
+			"sv": "Slut",
+			"en_us": "End"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "todoCoworker",
+			"sv": "Medarbetare",
+			"en_us": "Coworker"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "todoPerson",
+			"sv": "Kontaktperson",
+			"en_us": "Contact"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "todoNote",
+			"sv": "Anteckning",
+			"en_us": "Note"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "todoDone",
+			"sv": "Klar",
+			"en_us": "Done"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "campaignStatus",
+			"sv": "Status",
+			"en_us": "Status"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "campaignPurpose",
+			"sv": "Syfte",
+			"en_us": "Purpose"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "mine",
+			"sv": "Mina",
+			"en_us": "Mine"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "all",
+			"sv": "Alla",
+			"en_us": "All"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "chooseCoworker",
+			"sv": "V\u00E4lj medarbetare",
+			"en_us": "Choose coworker"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "filter",
+			"sv": "Filtrera",
+			"en_us": "Filter"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "save",
+			"sv": "Spara",
+			"en_us": "Save"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "search",
+			"sv": "S\u00F6k",
+			"en_us": "Search"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "searchCoworkers",
+			"sv": "S\u00F6k efter anv\u00E4ndare",
+			"en_us": "Search for coworkers"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "searchHits",
+			"sv": "S\u00F6kresultat",
+			"en_us": "Search result"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "searchGroup",
+			"sv": "S\u00F6k efter grupp",
+			"en_us": "Search for a group"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "chooseGroup",
+			"sv": "V\u00E4lj grupp",
+			"en_us": "Choose group"
+		, {
+			"owner": "LimeCalendar",
+			"code": "openCalendar",
+			"sv": "\u00D6ppna kalender",
+			"en_us": "Open calendar"
+		}, {
+			"owner": "LimeCalendar",
+			"code": "openCalendarOverview",
+			"sv": "\u00D6ppna kalender i \u00F6versiktsfliken",
+			"en_us": "Open calendar in the overview"
+		}],
+		"vba": [{
+			"name": "LimeCalendar",
+			"relPath": "Install\\LimeCalendar.bas"
+		}]
+	}
+}
