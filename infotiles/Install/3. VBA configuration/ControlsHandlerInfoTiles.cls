@@ -33,7 +33,7 @@ Private Sub Class_Initialize()
     End If
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.Class_Initialize")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".Class_Initialize")
 End Sub
 
 Private Sub m_Controls_AfterCommand(ByVal Control As IControl, ByVal Command As ControlCommandEnum, ByVal Params As LDE.IProperties)
@@ -56,7 +56,7 @@ On Error GoTo ErrorHandler
 
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.m_controls_AfterCommand")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".m_controls_AfterCommand")
 End Sub
 
 Private Sub m_controls_AfterRecordChanged()
@@ -64,7 +64,7 @@ Private Sub m_controls_AfterRecordChanged()
     Call Setup
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.m_controls_AfterRecordChanged")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".m_controls_AfterRecordChanged")
 End Sub
 
 Private Sub m_Controls_BeforeCommand(ByVal Control As IControl, ByVal Command As ControlCommandEnum, ByVal Params As LDE.IProperties, Cancel As Boolean)
@@ -238,13 +238,10 @@ Private Sub m_Controls_BeforeCommand(ByVal Control As IControl, ByVal Command As
             
             End Select ' Control name
     End Select ' Command Type
-
     
-    
-    
-Exit Sub
+	Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.m_Controls_BeforeCommand")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".m_Controls_BeforeCommand")
 End Sub
 
 
@@ -253,7 +250,7 @@ Private Sub m_Controls_Refresh()
     Call Setup
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.m_Controls_Refresh")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".m_Controls_Refresh")
 End Sub
 
 Private Sub Setup()
@@ -274,7 +271,7 @@ Private Sub Setup()
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.Setup")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".Setup")
 End Sub
 
 Private Sub HideShowFields()
@@ -323,7 +320,7 @@ Private Sub HideShowFields()
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.Setup")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".HideShowFields")
 End Sub
 Private Sub SetRequiredFields()
     On Error GoTo ErrorHandler
@@ -351,7 +348,7 @@ Private Sub SetRequiredFields()
      
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.Setup")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".SetRequiredFields")
 End Sub
 
 
@@ -377,7 +374,7 @@ On Error GoTo ErrorHandler
     End If
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.m_Controls_BeforeSave")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".m_Controls_BeforeSave")
 End Sub
 
 Private Sub m_ControlVisibleOn_LostFocus()
@@ -385,7 +382,7 @@ On Error GoTo ErrorHandler
     Call UpdateDatabaseNameVisibleOn
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.m_ControlVisibleOn_LostFocus")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".m_ControlVisibleOn_LostFocus")
 End Sub
 
 Private Sub m_ControlExplorer_LostFocus()
@@ -393,7 +390,7 @@ On Error GoTo ErrorHandler
     Call UpdateDatabaseNameExplorer
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.m_ControlExplorer_LostFocus")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".m_ControlExplorer_LostFocus")
 End Sub
 
 Private Sub m_ControlField_LostFocus()
@@ -401,7 +398,7 @@ On Error GoTo ErrorHandler
     Call UpdateDatabaseNameField
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.m_ControlField_LostFocus")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".m_ControlField_LostFocus")
 End Sub
 
 Private Sub UpdateDatabaseNameVisibleOn()
@@ -416,7 +413,7 @@ On Error GoTo ErrorHandler
     End If
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.UpdateDatabaseNameVisibleOn")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".UpdateDatabaseNameVisibleOn")
 End Sub
 
 Private Sub UpdateDatabaseNameExplorer()
@@ -447,7 +444,7 @@ On Error GoTo ErrorHandler
 
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.UpdateDatabaseNameExplorer")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".UpdateDatabaseNameExplorer")
 End Sub
 
 Private Sub UpdateDatabaseNameField()
@@ -470,7 +467,7 @@ On Error GoTo ErrorHandler
     End If
 Exit Sub
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.UpdateDatabaseNameField")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".UpdateDatabaseNameField")
 End Sub
 
 Private Function VerifyFilterPublished(ByRef sWarningMessage As String) As Boolean
@@ -511,6 +508,6 @@ On Error GoTo ErrorHandler
     End If
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("ControlsHandlerInfoTiles.VerifyFilterPublished")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".VerifyFilterPublished")
 End Function
 
