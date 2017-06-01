@@ -32,8 +32,9 @@ Public Function GetMatrix(Iduser As Long, startdate As Date, enddate As Date) As
     If Not oProc Is Nothing Then
         ' ÄNDRAR VILKEN MEDARBETARE VI KOLLAR PÅ.
         oProc.Parameters("@@idcoworker").InputValue = Iduser
-        oProc.Parameters("@@startdate").InputValue = startdate
-        oProc.Parameters("@@enddate").InputValue = enddate
+        ' TLN - Changed date format to the Database Standard
+        oProc.Parameters("@@startdate").InputValue = VBA.Format(startdate, "YYYY-mm-dd")
+        oProc.Parameters("@@enddate").InputValue = VBA.Format(enddate, "YYYY-mm-dd")
         oProc.Execute (False)
         sXml = oProc.Parameters("@@xml").OutputValue
     End If

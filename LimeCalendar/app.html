@@ -112,11 +112,11 @@
       		<div class="modal-body">
 	  			<div class="row">
 		    		<div data-bind="text: localize.LimeCalendar.start" class="col-xs-4"></div>
-		    		<div data-bind="text: selectedEvent().start ? moment(selectedEvent().start).format(selectedEvent().dateFormat) : ''" class="col-xs-8" ></div>
+		    		<div data-bind="text: selectedEvent().start ? moment(selectedEvent().start, 'YYYY-MM-DD', true).format(dateFormat) : ''" class="col-xs-8" ></div>
 		    	</div>
 		    	<div class="row">
 		    		<div data-bind="text: localize.LimeCalendar.end" class="col-xs-4"></div>
-		    		<div data-bind="text: selectedEvent().end ? moment(selectedEvent().end).format(selectedEvent().dateFormat) : ''" class="col-xs-8"></div>
+		    		<div data-bind="text: selectedEvent().end ? moment(selectedEvent().end, 'YYYY-MM-DD', true).format(dateFormat) : ''" class="col-xs-8"></div>
 		    	</div>
 		  		<!-- ko foreach: selectedEvent().fields -->
 	  			<div class="row">
