@@ -10,6 +10,11 @@ Private m_maxNbrOfRecords As Long
 ' Is set in function getActiveTable.
 Private m_explorer As Lime.Explorer
 
+' Are set in sub setIgnoreOptionsLists
+Private m_ignoreOptionsKeys As String
+Private m_ignoreOptionsIds As String
+
+
 ' Used in field mappings dictionary to keep track of field names
 Private Enum m_InformationTypeEnum
     sbBoardSummation = 1
@@ -58,6 +63,9 @@ Public Function getBoardXML(boardConfigXML As String) As String
     Dim oBoardXmlDoc As New MSXML2.DOMDocument60
     Call oBoardXmlDoc.loadXML(boardConfigXML)
     
+    ' Set ignore options lists
+    Call setIgnoreOptionsLists(oBoardXmlDoc)
+    
     ' Use either VBA or SQL procedure. Determined in the app config
     If m_dataSource = "vba" Then
         getBoardXML = getBoardXMLUsingVBA(oBoardXmlDoc)
@@ -82,6 +90,8 @@ Private Function getBoardXMLUsingSQL(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     oProc.Parameters("@@tablename").InputValue = m_explorer.Class.Name
 
     Call addSQLParameterFromXML(oProc, "@@lanefieldname", oBoardXmlDoc, "/board/lanes/optionField")
+    Call addSQLParameterFromXML(oProc, "@@laneoptionsignorekeys", oBoardXmlDoc, "/board/lanes/ignoreOptions/keys")
+    Call addSQLParameterFromXML(oProc, "@@laneoptionsignoreids", oBoardXmlDoc, "/board/lanes/ignoreOptions/ids")
     Call addSQLParameterFromXML(oProc, "@@titlefieldname", oBoardXmlDoc, "/board/card/titleField")
     Call addSQLParameterFromXML(oProc, "@@completionfieldname", oBoardXmlDoc, "/board/card/percentField")
     Call addSQLParameterFromXML(oProc, "@@sumfieldname", oBoardXmlDoc, "/board/summation/field")
@@ -104,7 +114,7 @@ Private Function getBoardXMLUsingSQL(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     oProc.Parameters("@@iduser").InputValue = ActiveUser.ID
 
     Call oProc.Execute(False)
-    Debug.Print oProc.result
+    'Debug.Print oProc.result
     getBoardXMLUsingSQL = oProc.result
 
 'Dim strFilename As String: strFilename = "D:\temp\LimeCRMSalesBoardexamplexml.txt"
@@ -144,8 +154,6 @@ End Sub
 Private Function getBoardXMLUsingVBA(ByRef oBoardXmlDoc As MSXML2.DOMDocument60) As String
     On Error GoTo ErrorHandler
     
-    'Debug.Print "vba"
-    
     ' Set up field mappings
     Dim fieldMappings As Scripting.Dictionary
     Set fieldMappings = getFieldMappings(oBoardXmlDoc)
@@ -158,18 +166,24 @@ Private Function getBoardXMLUsingVBA(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     ' Loop options to create Lanes elements
     Dim oOption As LDE.Option
     Dim oLaneElement As MSXML2.IXMLDOMElement
+    
     For Each oOption In Database.Classes(m_explorer.Class.Name).Fields(fieldMappings(m_InformationTypeEnum.sbLaneTitle)).Options
-        Set oLaneElement = oDataXml.createElement("Lanes")
-        Call oLaneElement.SetAttribute("id", oOption.Value)
-        Call oLaneElement.SetAttribute("key", oOption.key)
-        Call oLaneElement.SetAttribute("name", oOption.Text)
-        Call oLaneElement.SetAttribute("order", oOption.Attributes("stringorder"))
-        Call rootNode.appendChild(oLaneElement)
+        If isValidOption(oOption) Then           ' Check that it is not an ignored option
+            Set oLaneElement = oDataXml.createElement("Lanes")
+            Call oLaneElement.SetAttribute("id", oOption.Value)
+            Call oLaneElement.SetAttribute("key", oOption.key)
+            Call oLaneElement.SetAttribute("name", oOption.Text)
+            Call oLaneElement.SetAttribute("order", oOption.Attributes("stringorder"))
+            Call rootNode.appendChild(oLaneElement)
+        End If
     Next oOption
     
     ' Get records
     Dim oRecords As New LDE.Records
-    Call oRecords.Open(Database.Classes(m_explorer.Class.Name), createFilter(fieldMappings(m_InformationTypeEnum.sbLaneTitle)), createView(fieldMappings), m_maxNbrOfRecords)
+    Call oRecords.Open(Database.Classes(m_explorer.Class.Name) _
+                        , createFilter(fieldMappings(m_InformationTypeEnum.sbLaneTitle)) _
+                        , createView(fieldMappings) _
+                        , m_maxNbrOfRecords)
     
     ' Loop records and add to xml
     Dim oRecord As LDE.Record
@@ -189,7 +203,6 @@ Private Function getBoardXMLUsingVBA(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
         prevLaneId = thisLaneId
     Next oRecord
     
-    'Debug.Print oDataXml.XML
     getBoardXMLUsingVBA = oDataXml.XML
 
     Exit Function
@@ -235,7 +248,7 @@ Private Sub setCardAttribute(ByRef oCardElement As MSXML2.IXMLDOMElement, attrib
             If isFieldTypeDate(oRecord.field(fieldName).Type) Then
                 Call oCardElement.SetAttribute(attributeName, CStr(oRecord(fieldName)))
             Else
-                Call oCardElement.SetAttribute(attributeName, oRecord(fieldName))
+                Call oCardElement.SetAttribute(attributeName, VBA.Replace(oRecord(fieldName), """", "\"""))
             End If
         End If
     End If
@@ -349,7 +362,7 @@ ErrorHandler:
 End Function
 
 
-' ##SUMMARY Creates a filter that will receive the correct records for the app.
+' ##SUMMARY Creates a filter that will extract the correct records for the app.
 Public Function createFilter(optionFieldName As String) As LDE.Filter
     On Error GoTo ErrorHandler
     
@@ -357,7 +370,7 @@ Public Function createFilter(optionFieldName As String) As LDE.Filter
     
     Call oFilter.AddCondition("", lkOpIn, m_explorer.Items.Pool, lkConditionTypePool)
     
-    ' Loop over options to make sure no inactive records are included
+    ' Loop over options to make sure no records with inactive options or explicitly ignored options (in app config) are included
     Dim oOption As LDE.Option
     Dim oOptions As LDE.Options
     Set oOptions = Database.Classes(m_explorer.Class.Name).Fields(optionFieldName).Options
@@ -365,10 +378,12 @@ Public Function createFilter(optionFieldName As String) As LDE.Filter
     Dim counter As Long
     counter = 0
     For Each oOption In oOptions
-        counter = counter + 1
-        Call oFilter.AddCondition(optionFieldName, lkOpEqual, oOption.Value)
-        If counter > 1 Then
-            Call oFilter.AddOperator(lkOpOr)
+        If isValidOption(oOption) Then
+            counter = counter + 1
+            Call oFilter.AddCondition(optionFieldName, lkOpEqual, oOption.Value)
+            If counter > 1 Then
+                Call oFilter.AddOperator(lkOpOr)
+            End If
         End If
     Next oOption
     
@@ -599,6 +614,41 @@ Public Function getListFiltered() As Boolean
 ErrorHandler:
     getListFiltered = False
     Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getListFiltered")
+End Function
+
+
+' ##SUMMARY Initiates the global variables holding the possible ignore options lists (one for keys and one for idstrings).
+' If there is a list specified for keys, then the ids are ignored.
+Private Sub setIgnoreOptionsLists(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
+    On Error GoTo ErrorHandler
+
+    ' Get possible list of options to ignore
+    If Not oBoardXmlDoc.selectSingleNode("/board/lanes/ignoreOptions/keys") Is Nothing Then
+        m_ignoreOptionsKeys = oBoardXmlDoc.selectSingleNode("/board/lanes/ignoreOptions/keys").Text
+    ElseIf Not oBoardXmlDoc.selectSingleNode("/board/lanes/ignoreOptions/ids") Is Nothing Then
+        m_ignoreOptionsIds = oBoardXmlDoc.selectSingleNode("/board/lanes/ignoreOptions/ids").Text
+    End If
+
+    Exit Sub
+ErrorHandler:
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".setIgnoreOptionsLists")
+End Sub
+
+
+' ##SUMMARY Returns true if the specifed option is a valid option for the Lanes to use.
+Private Function isValidOption(ByRef oOption As LDE.Option) As Boolean
+    On Error GoTo ErrorHandler
+
+    isValidOption = True
+    If m_ignoreOptionsKeys <> "" Then
+        isValidOption = (VBA.InStr(m_ignoreOptionsKeys, ";" & oOption.key & ";") = 0)
+    ElseIf m_ignoreOptionsIds <> "" Then
+        isValidOption = (VBA.InStr(m_ignoreOptionsIds, ";" & VBA.CStr(oOption.Value) & ";") = 0)
+    End If
+
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".isValidOption")
 End Function
 
 

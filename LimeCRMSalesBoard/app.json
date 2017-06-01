@@ -70,6 +70,11 @@
 			"version":"2.1.2",
 			"date":"2017-02-01",
 			"comments":"Bug fix: Sorting of cards have been fixed."
+		},
+		{
+			"version":"2.2.0",
+			"date":"2017-06-01",
+			"comments":"Added feature: Possibility to ignore certain options through the app config."
 		}
 	],
 	"install":{
