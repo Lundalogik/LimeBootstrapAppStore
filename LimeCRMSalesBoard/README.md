@@ -142,6 +142,12 @@ The file `LimeCRMSalesBoard.html` contains the app config object. An example is 
 
 **boards.lanes.optionField**: The options of this field will render one lane each.
 
+**boards.lanes.ignoreOptions**: This object is only needed if you want to prevent certain columns from being drawn on the board. If not present, all active options will be included on the board. Note that inactive options always are ignored.
+
+**boards.lanes.ignoreOptions.keys**: A semicolon separated list of the keys of the options to ignore. Best practice is to both start and end the string with a semicolon.
+
+**boards.lanes.ignoreOptions.ids**: Only used if there is no keys property defined on the ignoreOptions object. A semicolon separated list of the idstrings of the options to ignore. Best practice is to both start and end the string with a semicolon.
+
 **boards.lanes.defaultValues**: An object with default values that will be used by Lime CRM Sales Board if a value is not specified for a specific option in the individualLaneSettings array.
 
 **boards.lanes.defaultValues.laneColor**: The default color for a lane if another one is not specified in the individualLaneSettings array. Must be one of the following: 'blue', 'turquoise', 'green', 'clean-green', 'orange' or 'deep-red'.
