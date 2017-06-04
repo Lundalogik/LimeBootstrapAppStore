@@ -1,51 +1,132 @@
 body {
-    /*background-color:#fff;*/
+    overflow-y: auto;
 }
-.inputfield {    
-    min-height: 250px;
-    height:auto;
-    margin-top: 20px;
+
+.sms .link {
+    cursor: pointer;
+    text-decoration: underline;
 }
-.dropdown {
-    margin-top: 7px;    
+
+.sms .alert.error-message {
+    white-space: pre;
 }
-.datepick {
-    width: 250px;
-    margin-top:10px;
+
+.sms .keepFormatting {
+    white-space: pre-wrap;
 }
-.dropdown-menu {
-    min-width: 220px;
-    width:220px;
+
+.sms .allow-line-break {
+    white-space: normal;
 }
-.sms-button {
-    width:220px;
+
+.sms .receiver-panel .panel-heading {
+    height: 55px;
 }
-.person-table {
-    width: 250px;
-    margin-bottom: 10px;    
-    overflow:scroll;        
+
+.sms .failed-person-list {
+    
 }
-.person-table-head {
-    font-weight:bold;
-    padding-right: 20px;    
+
+.sms .datetimepicker {
+    margin-top: 5px;
 }
-.person-table-head-row {
-    /*position:absolute;*/
-    margin-bottom:15px;
+
+.sms .message-field {
+    height: 250px;
 }
-.person-table-row {
-    margin-top: 10px;
+
+.sms .person-text-row {
+    padding-top: 5px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
-.person-div {
-    height:154px;
-    padding:18px 0px 0px 20px;
-    overflow-y:scroll;
-    width:390px;
-    margin-bottom:30px;
-    overflow-x:hidden;
-    background-color:#fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-left:14px;
-    margin-top:2px;
+
+.sms .receiver-remove {
+    cursor: pointer;
+    font-size: 18px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.sms .receiver-table .header-row {
+    font-weight: bold;
+}
+
+.sms .row {
+    /*border: solid 1px green;*/
+}
+
+
+.sms .close-btn-group {
+    width: 200px;
+    float: right;
+}
+
+.sms .close-btn-group .btn {
+    width: calc(50% - 2px);
+}
+
+/*
+Set is narrow.
+*/
+.sms table.table-fixedheader, table.table-fixedheader>thead, table.table-fixedheader>tbody, table.table-fixedheader>thead>tr, table.table-fixedheader>tbody>tr, table.table-fixedheader>thead>tr>th, table.table-fixedheader>tbody>td {
+    display: block;
+}
+
+.sms table.table-fixedheader>thead>tr:after, table.table-fixedheader>tbody>tr:after {
+    content:' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+/*
+When scrolling the table, actually it is only the tbody portion of the
+table that scrolls (not the entire table: we want the thead to remain
+fixed).  We must specify an explicit height for the tbody.  We include
+100px as a default, but it can be overridden elsewhere.
+
+Also, we force the scrollbar to always be displayed so that the usable
+width for the table contents doesn't change (such as becoming narrower
+when a scrollbar is visible and wider when it is not).
+*/
+.sms table.table-fixedheader>tbody {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 155px;
+    
+}
+/*
+We really don't want to scroll the thead contents, but we want to force
+a scrollbar to be displayed anyway so that the usable width of the thead
+will exactly match the tbody.
+*/
+.sms table.table-fixedheader>thead {
+    overflow-y: hidden;    
+    overflow-x: hidden;
+}
+/*
+For browsers that support it (webkit), we set the background color of
+the unneeded scrollbar in the thead to make it invisible.  (Setting
+visiblity: hidden defeats the purpose, as this alters the usable width
+of the thead.)
+*/
+.sms table.table-fixedheader>thead::-webkit-scrollbar {
+    background-color: inherit;
+}
+
+.sms table.table-fixedheader>thead>tr>th:after, table.table-fixedheader>tbody>tr>td:after {
+    content:' ';
+    display: table-cell;
+    visibility: hidden;
+    clear: both;
+}
+/*
+We want to set <th> and <td> elements to float left.
+We also must explicitly set the width for each column (both for the <th>
+and the <td>).  We set to 20% here a default placeholder, but it can be
+overridden elsewhere.
+*/
+.sms table.table-fixedheader>thead tr th, table.table-fixedheader>tbody tr td {
+    float: left;    
+    word-wrap:break-word;     
 }
