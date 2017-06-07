@@ -1,0 +1,10 @@
+Add this to the _config.js file:
+
+'smstemplate' : {
+    dataSources: [
+    	{type: 'activeInspector', source: ''}, 
+    	{type: 'localization', source: '' },
+        {type: 'xml', source: 'Actionpad_SmsTemplate.GetTemplateCodes', alias: 'templateCodes'},
+    ],
+ 	autorefresh : false
+}
