@@ -621,6 +621,10 @@ End Function
 ' If there is a list specified for keys, then the ids are ignored.
 Private Sub setIgnoreOptionsLists(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     On Error GoTo ErrorHandler
+    
+    ' Set default as empty
+    m_ignoreOptionsKeys = ""
+    m_ignoreOptionsIds = ""
 
     ' Get possible list of options to ignore
     If Not oBoardXmlDoc.selectSingleNode("/board/lanes/ignoreOptions/keys") Is Nothing Then
