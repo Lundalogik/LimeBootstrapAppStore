@@ -1,6 +1,6 @@
 .infotiles{
-  margin-top: 5px;
-  height:auto;
+  margin: 0px;
+  padding: 0px;
   position: relative;
 }
 
@@ -47,7 +47,7 @@
   margin-left: 10px;
   padding-top: 5px;
   margin-bottom: 0;
-  line-height: 32px;
+  /*line-height: 32px;*/
   vertical-align:middle;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -92,17 +92,30 @@
   vertical-align:middle;
 }
 
-.infotiles .refresh{
-  cursor: pointer;
-}
-
-.infotiles .refresh:hover{
-  opacity: 0.85;
-}
-
 .infotiles .tile {
   animation-duration: 1s;
   animation-name: expand;
+}
+
+.infotiles #infotiles-footer #refresh {
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 18px;
+}
+
+.infotiles #infotiles-footer #refresh:hover{
+  opacity: 0.85;
+}
+
+.infotiles #infotiles-footer #no-data {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+
+.infotiles #infotiles-footer {
+  margin: 0px;
+  padding: 0px;
 }
 
 @keyframes expand {
@@ -114,3 +127,7 @@
     width: 100%;
   }
 }
+
+/*.infotiles .tile {
+  border: solid 1px red;
+}*/

@@ -8,10 +8,12 @@
 			</div>
 		</div>
 	<!-- /ko -->
-	<div class="container">
+	<div class="container-fluid" id="infotiles-footer">
 		<div class="row">
-			<span class="col-md-6 pull-left h5" data-bind="text: localize.Infotiles.no_data, visible:(infotiles().length == 0)" />
-			<span class="col-md-6 refresh pull-right h4" data-bind="text:' ', icon:'fa-refresh', click:refresh" />
+			<div id="no-data" class="col-xs-6 text-left">
+				<span data-bind="text: localize.Infotiles.no_data, visible:(infotiles().length == 0)">
+			</div>
+			<div id="refresh" class="col-xs-6 text-right" data-bind="text:' ', icon:'fa-refresh', click:refresh" />
 		</div>
 	</div>
 </div>
