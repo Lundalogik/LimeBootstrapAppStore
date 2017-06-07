@@ -75,6 +75,11 @@
 			"version":"2.2.0",
 			"date":"2017-06-01",
 			"comments":"Added feature: Possibility to ignore certain options through the app config."
+		},
+		{
+			"version":"2.2.1",
+			"date":"2017-06-07",
+			"comments":"Bug fix: If the ignoreOptions object was removed from the config and VBA is used to fetch data, the app didn't start showing the previously ignored options."
 		}
 	],
 	"install":{
