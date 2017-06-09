@@ -70,6 +70,11 @@
 			"version":"2.1.2",
 			"date":"2017-02-01",
 			"comments":"Bug fix: Sorting of cards have been fixed."
+		},
+		{
+			"version":"2.1.3",
+			"date":"2017-06-09",
+			"comments":"Code refactoring, optimizations and some changes to the UI."
 		}
 	],
 	"install":{
