@@ -31,14 +31,14 @@ The `app.json` should be formated as:
 	"status":"[Status of the app, can be: 'Release', 'Beta' OR 'Development']",
 	"versions":[
 			{
-			"version":"1",
-			"date":"2014-02-06",
-			"comments":"CSS improvements!"
+			"version":"1.1.0",
+			"date":"2017-02-06",
+			"comments":"CSS improvements."
 		},
 		{
-			"version":"0.9",
-			"date":"2013-11-18",
-			"comments":"The first stable beta of the Business Funnel"
+			"version":"1.0.0",
+			"date":"2016-11-18",
+			"comments":"The first stable beta version."
 		}
 	],
 	"install":{
