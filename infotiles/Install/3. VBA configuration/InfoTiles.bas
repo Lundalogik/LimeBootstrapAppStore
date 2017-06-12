@@ -392,7 +392,7 @@ On Error GoTo ErrorHandler
 Exit Function
 ErrorHandler:
     Select Case Err.Number
-        Case -2146233079, -2147188732: ' Error codes to "ignore"
+        Case -2146233079, -2147188732, -2130558070: ' Error codes to "ignore"
         Case Else
             Call UI.ShowError("InfoTiles.FetchFiltersXML")
     End Select
