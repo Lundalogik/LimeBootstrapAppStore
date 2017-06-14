@@ -136,14 +136,11 @@ body
 }
 
 .limecrmsalesboard-lane-title {
-	/*border: 1px solid red;*/
+
 	font-size: 16px;
 	width: 80%;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	/*display: inline-block;*/
-	/*vertical-align: bottom;*/
-	/*height: 100%;*/
 }
 
 .limecrmsalesboard-lane-count {
@@ -152,7 +149,6 @@ body
 
 .limecrmsalesboard-lane-sum {
 	font-size: 14px;
-	/*padding-left: 5px;*/
 }
 
 .limecrmsalesboard-lane-sum-unit {
@@ -164,18 +160,14 @@ body
 }
 
 .limecrmsalesboard-card {
-	/*width: 100%;*/
 	border-width: 0px 0px 1px 0px;
 	border-style: solid;
 	border-color: #c7cdd3;
 	white-space: normal;
 	background-color: #FFFFFF;
-	/*padding: 5px;*/
 	margin-bottom: 10px;
-	/*border-radius: 5px;*/
 	cursor: pointer;
 	height: 90px;
-	/*border: 1px solid black;*/
 }
 
 .limecrmsalesboard-card:last-child {
@@ -184,12 +176,10 @@ body
 
 .limecrmsalesboard-card-leftside {
 	float: left;
-	/*width: 22%;*/
 	height: 100%;
 	padding-top: 20px;
 	padding-right: 10px;
 	padding-left: 10px;
-	/*border: 1px solid orange;*/
 }
 
 .limecrmsalesboard-card-icon {
@@ -197,16 +187,14 @@ body
 	height: 30px;
 }
 
-/*.limecrmsalesboard-card-icon-image {
-	fill: red;
-}*/
+.limecrmsalesboard-card-icon-font {
+	font-size: 32px;
+}
 
 .limecrmsalesboard-card-rightside {
 	padding-top: 18px;
 	padding-right: 10px;
 	position: relative;
-	/*width: 100%;*/
-	/*border: 1px solid black;*/
 }
 
 .limecrmsalesboard-card-title {
@@ -214,11 +202,27 @@ body
 	overflow: hidden;
 	white-space: nowrap;
 	margin-bottom: -2px;
-	/*width: 100px;
-	height: 20px;*/
-	/*border: 1px solid green;*/
-    /*background:linear-gradient(to right, transparent 50px, red);*/
+
 }
+
+.limecrmsalesboard-card-open {
+	position: absolute;
+	top: 2px;
+	right: 0px;
+	color: #454545;
+	text-align: center;
+	padding: 2px;
+	border-radius: 2px;
+}
+
+.limecrmsalesboard-card-open > * {
+	margin: 2px;
+}
+
+.limecrmsalesboard-card-anchor:hover {
+	background-color: #EDEDED;
+}
+
 
 .limecrmsalesboard-card-title::before {
 	content: '';
@@ -226,7 +230,6 @@ body
     height: 18px;    
     position: absolute;
     background: linear-gradient(to right, transparent 140px, #FFFFFF);
-    /*border: 1px solid green;*/
 }
 
 .limecrmsalesboard-card-inforow {
@@ -236,7 +239,6 @@ body
 
 .limecrmsalesboard-card-value {
 	font-size: 12px;
-	/*border: 1px solid red;*/
 }
 
 .limecrmsalesboard-card-value-unit {
@@ -245,7 +247,6 @@ body
 
 .limecrmsalesboard-card-additionalinfo {
 	font-size: 12px;
-	/*float: left;*/
 }
 
 .limecrmsalesboard-card-additionalinfo-separator {
@@ -259,7 +260,6 @@ body
     height: 16px;    
     position: absolute;
     background: linear-gradient(to right, transparent 140px, #FFFFFF);
-    /*border: 1px solid green;*/
 }
 
 .limecrmsalesboard-card-owner {
@@ -275,7 +275,6 @@ body
     height: 16px;    
     position: absolute;
     background: linear-gradient(to right, transparent 140px, #FFFFFF);
-	/*border: 1px solid green;*/
 }
 
 .limecrmsalesboard-notactivated-container {
@@ -297,30 +296,30 @@ body
 }
 
 .limecrmsalesboard-board-header>.limecrmsalesboard-refresh {
-	/*margin-left: 6px;*/
 	float: left;
 }
 
 .limecrmsalesboard-refresh>i {
-/*	margin-top: 50px;
-	cursor: pointer;
-	font-size: 36px;*/
 	font-size: 14px;
 }
 
 button.limecrmsalesboard-btn {
 	border: 1px solid #BBBBBB;
-	/*padding-top: 3px;
-	padding-bottom: 3px;*/
 	font-size: 12px;
 	color: #777777;
 	background-color: #FDFDFD;
-	/*line-height: 20px;*/
 }
 
 button.limecrmsalesboard-btn:hover {
 	color: #444444;
 	background-color: #EDEDED;
+}
+
+button.limecrmsalesboard-btn:hover > i {
+    animation-name: spin;
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
 }
 
 
@@ -336,13 +335,11 @@ button.limecrmsalesboard-btn:hover {
 
 .limecrmsalesboard-donut .limecrmsalesboard-donut-master {
 	position: absolute;
-	/*background: #6DD0F2;*/
-
 	top: 0;
 	left: 0;
 	bottom: 0;
 	right: 0;
-border-radius: 100%;
+	border-radius: 100%;
 }
 
 .limecrmsalesboard-donut .limecrmsalesboard-donut-slice {
@@ -353,39 +350,27 @@ border-radius: 100%;
 	right: 0;
 	border-radius: 100%;
 	clip: rect(0px, 30px, 30px, 15px);
-	/*border: 1px solid yellow;*/
 }
 
 .limecrmsalesboard-donut .limecrmsalesboard-donut-slice .limecrmsalesboard-donut-inner {
 	position: absolute;
-	/*background: #2A96BA;*/
-	/*border: 2px solid red;*/
 	top: 0;
 	left: 0;
 	bottom: 0;
 	right: 0;
 	border-radius: 100%;
 	clip: rect(0px, 15px, 30px, 0px); 
-	/*-webkit-transition-duration: 2s;
-	-moz-transition-duration: 2s;
-	-o-transition-duration: 2s;
-transition-duration: 2s;*/
 }
 
 .limecrmsalesboard-donut .limecrmsalesboard-donut-endmarker {
 	position: absolute;
 	background: #FFFFFF;
-	/*border: 2px solid black;*/
 	top: 0;
 	left: 0;
 	bottom: 0;
 	right: 0;
 	border-radius: 100%;
 	clip: rect(0px, 16px, 2px, 14px);
-	/*-webkit-transition-duration: 2s;
-	-moz-transition-duration: 2s;
-	-o-transition-duration: 2s;
-	transition-duration: 2s;*/
 }
 
 .limecrmsalesboard-donut .limecrmsalesboard-donut-cover {
@@ -413,11 +398,35 @@ transition-duration: 2s;*/
 .limecrmsalesboard-donut .limecrmsalesboard-donut-startmarker {
 	background: #FFFFFF;
 	position: absolute;
-
 	top: 0px;
 	left: 14px;
 	bottom: 28px;
 	right: 14px;
-	/*border-radius: 100%;*/
-/*text-align: center;*/
+}
+
+
+
+
+/*
+Animation for spinning stuff
+*/
+@-ms-keyframes spin {
+    from { -ms-transform: rotate(0deg); }
+    to { -ms-transform: rotate(360deg); }
+}
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
 }
