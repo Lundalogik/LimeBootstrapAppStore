@@ -1,0 +1,1 @@
+{"name":"TLN_Demo","author":"Tommy Lindh (Lundalogik)","status":"Development","shortDesc":"Used for demo, Will be removed","versions":[{"version":"0.0.1","date":"2017-06-26","comments":"First and only version"}],"install":{"vba":[{"name":"TLN_Special","relPath":"Install\\TLN_Special.bas"}]}}
