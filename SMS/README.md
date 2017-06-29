@@ -14,14 +14,14 @@ I look forward to see you tomorrow at #place_of_event#"
 
 ## Installation ##
 1. Do one of the following:
-	1. Install the Lip package in the folder: "Install\Lip Package"
+	1. If installed with LIP - Jump to Step 2
 	2. Install the app manually
-		1. Create the tables and fields from the Lip package.
-		2. Add the VBA modules from the Lip package.
-2. Copy the png files from tableicons folder in the "Install\Lip Package\SMS.zip"
-3. Make sure to add an empty option of the field: [smstemplate].[fortable]
+		1. Create the tables and fields that is located in app.json package.
+		2. Add the VBA modules from the folder Install\VBA.
+2. Copy the png files from tableicons folder in the "Install\tableicons"
+3. Make sure to add an empty option of the field: [smstemplate].[fortable] (This is not supported by Lip yet)
 4. Add the content of the "Install\Actionpads\Add to Config.txt" to the "_Config.js" file in the root of the "Actionpads" folder
-5. Craete all localize records by running the Sub "SMS.Install"
+5. Create all localize records by running the Sub "SMS.Install"
 6. Move the file "Install\Actionpads\smstemplate.html" to the root of the "Actionpads" folder
 7. Add lbs.html as the Default AP for the table smstemplate
 8. Make sure to config the app in the "sms.html" file in the root of the "SMS" folder.
