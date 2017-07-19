@@ -9,6 +9,9 @@ On Error GoTo ErrorHandler
     If m_TemplateCodes Is Nothing Then
         Set m_TemplateCodes = New Collection
         
+        ' Add template codes for all tables
+        Call m_TemplateCodes.Add(TemplateCode_Constructor(sAllTablesConstant_dbName, "%%coworker.name%%", "ActiveUser.Record.Value(""name"")", "Inlogad medarbetares namn", True))
+        
         ' Add template codes for person table
         Call m_TemplateCodes.Add(TemplateCode_Constructor("person", "%%firstname%%", "firstname", "Personens förnamn"))
         Call m_TemplateCodes.Add(TemplateCode_Constructor("person", "%%lastname%%", "lastname", "Personens efternamn"))
@@ -186,11 +189,11 @@ On Error GoTo ErrorHandler
             For i = LBound(sReceiverFromFieldsSplitted) To UBound(sReceiverFromFieldsSplitted)
                 sReceiverFromField = sReceiverFromFieldsSplitted(i)
                 
-                sPhoneNr = FormatPhoneNr(sReceiverTableName, oRecord.text(AddParentToStringIfExist(sReceiverFromField, sPhoneFieldName)))
+                sPhoneNr = FormatPhoneNr(sReceiverTableName, oRecord.Text(AddParentToStringIfExist(sReceiverFromField, sPhoneFieldName)))
                 If VBA.Len(sPhoneNr) > 0 Then
                     sXml = sXml & "<receiver>"
                     Call AddXmlElement(sXml, "id", VBA.CStr(oRecord.Value(AddParentToStringIfExist(sReceiverFromField, "id" & sReceiverTableName))))
-                    Call AddXmlElement(sXml, "name", oRecord.text(AddParentToStringIfExist(sReceiverFromField, sNameFieldName)))
+                    Call AddXmlElement(sXml, "name", oRecord.Text(AddParentToStringIfExist(sReceiverFromField, sNameFieldName)))
                     Call AddXmlElement(sXml, "phone", sPhoneNr)
                     sXml = sXml & "</receiver>"
                 Else
@@ -248,8 +251,8 @@ On Error GoTo ErrorHandler
             sXml = sXml & "<template>"
             Call AddXmlElement(sXml, "id", VBA.CStr(oRecord.ID))
             Call AddXmlElement(sXml, "default", VBA.CStr(oRecord.Value("default")))
-            Call AddXmlElement(sXml, "name", oRecord.text("name"))
-            Call AddXmlElement(sXml, "message", oRecord.text("message"))
+            Call AddXmlElement(sXml, "name", oRecord.Text("name"))
+            Call AddXmlElement(sXml, "message", oRecord.Text("message"))
             sXml = sXml & "</template>"
         Next oRecord
     End If
@@ -297,15 +300,15 @@ On Error GoTo ErrorHandler
     For Each oRecord In oRecords
         sXml = sXml & "<user>"
         Call AddXmlElement(sXml, "id", VBA.CStr(oRecord.ID))
-        Call AddXmlElement(sXml, "name", oRecord.text("displayname"))
-        Call AddXmlElement(sXml, "username", oRecord.text("username"))
-        Call AddXmlElement(sXml, "password", oRecord.text("password"))
-        Call AddXmlElement(sXml, "source", oRecord.text("sender"))
+        Call AddXmlElement(sXml, "name", oRecord.Text("displayname"))
+        Call AddXmlElement(sXml, "username", oRecord.Text("username"))
+        Call AddXmlElement(sXml, "password", oRecord.Text("password"))
+        Call AddXmlElement(sXml, "source", oRecord.Text("sender"))
         Call AddXmlElement(sXml, "default", VBA.CStr(oRecord.Value("default")))
-        Call AddXmlElement(sXml, "serviceid", oRecord.text("serviceid"))
-        Call AddXmlElement(sXml, "platformid", oRecord.text("platformid"))
-        Call AddXmlElement(sXml, "platformpartnerid", oRecord.text("platformpartnerid"))
-        Call AddXmlElement(sXml, "gateid", oRecord.text("gateid"))
+        Call AddXmlElement(sXml, "serviceid", oRecord.Text("serviceid"))
+        Call AddXmlElement(sXml, "platformid", oRecord.Text("platformid"))
+        Call AddXmlElement(sXml, "platformpartnerid", oRecord.Text("platformpartnerid"))
+        Call AddXmlElement(sXml, "gateid", oRecord.Text("gateid"))
         
         sXml = sXml & "</user>"
     Next oRecord
@@ -379,7 +382,7 @@ On Error GoTo ErrorHandler
 
         Set oPool = New LDE.Pool
         For Each oXmlNode In oXmlNodes
-            Call oPool.Add(VBA.CLng(oXmlNode.text))
+            Call oPool.Add(VBA.CLng(oXmlNode.Text))
         Next oXmlNode
 
         Set oView = New LDE.View
@@ -639,7 +642,8 @@ Private Function TemplateCode_Constructor( _
     ByVal sReceiverTableName As String, _
     ByVal sTemplateCode As String, _
     ByVal sFieldName As String, _
-    ByVal sDescription As String _
+    ByVal sDescription As String, _
+    Optional ByVal bIsScriptValue As Boolean = False _
 ) As SmsTemplateCode
 On Error GoTo ErrorHandler
     Dim oSmsTemplateCode As New SmsTemplateCode
@@ -647,6 +651,7 @@ On Error GoTo ErrorHandler
     oSmsTemplateCode.sTemplateCode = sTemplateCode
     oSmsTemplateCode.sFieldName = sFieldName
     oSmsTemplateCode.sDescription = sDescription
+    oSmsTemplateCode.bIsScriptValue = bIsScriptValue
     Set TemplateCode_Constructor = oSmsTemplateCode
 Exit Function
 ErrorHandler:
@@ -660,28 +665,39 @@ On Error GoTo ErrorHandler
         
     Set oTemplateCodes = GetTemplateCodes
     For Each oTemplateCode In oTemplateCodes
-        Select Case oTemplateCode.sReceiverTableName
-            Case sReceiverTableName, SMS.sAllTablesConstant_dbName:
-                Call oView.Add(oTemplateCode.sFieldName, lkSortNone, True, oTemplateCode.sTemplateCode)
-        End Select
+        If oTemplateCode.bIsScriptValue = False Then
+            Select Case oTemplateCode.sReceiverTableName
+                Case sReceiverTableName, SMS.sAllTablesConstant_dbName:
+                    Call oView.Add(oTemplateCode.sFieldName, lkSortNone, True, oTemplateCode.sTemplateCode)
+            End Select
+        End If
     Next oTemplateCode
 Exit Sub
 ErrorHandler:
     Call UI.ShowError("Sms.FillViewWithTemplateCodes")
 End Sub
 
-Private Sub ApplyTemplateCodesToText(ByRef sMessage As String, ByVal oRecord As LDE.Record, ByVal sReceiverTableName As String)
+Private Sub ApplyTemplateCodesToText(ByRef sMessage As String, ByVal oRecord As LDE.Record, ByVal sReceiverTableName As String, Optional ByVal bOnlyScript As Boolean = False)
 On Error GoTo ErrorHandler
     Dim oTemplateCodes As Collection, _
-        oTemplateCode As SmsTemplateCode
+        oTemplateCode As SmsTemplateCode, _
+        sFromValue As String, _
+        sToValue As String
         
     Set oTemplateCodes = GetTemplateCodes
     For Each oTemplateCode In oTemplateCodes
         Select Case oTemplateCode.sReceiverTableName
             Case sReceiverTableName, SMS.sAllTablesConstant_dbName:
-                If Not oRecord.Fields.Lookup(oTemplateCode.sFieldName, lkLookupFieldByName) Is Nothing Then
-                    sMessage = VBA.Replace(sMessage, oTemplateCode.sTemplateCode, oRecord.Value(oTemplateCode.sFieldName))
+                If oTemplateCode.bIsScriptValue = False And bOnlyScript = False Then
+                    If Not oRecord.Fields.Lookup(oTemplateCode.sFieldName, lkLookupFieldByName) Is Nothing Then
+                        sFromValue = oTemplateCode.sTemplateCode
+                        sToValue = oRecord.Text(oTemplateCode.sFieldName)
+                    End If
+                ElseIf oTemplateCode.bIsScriptValue = True Then
+                    sFromValue = oTemplateCode.sTemplateCode
+                    sToValue = Lime.Eval(oTemplateCode.sFieldName)
                 End If
+                sMessage = VBA.Replace(sMessage, sFromValue, sToValue)
         End Select
     Next oTemplateCode
 Exit Sub
@@ -729,7 +745,7 @@ On Error GoTo ErrorHandler
     Set oXmlNode = oXml.selectSingleNode(sXPath)
     
     If Not oXmlNode Is Nothing Then
-        sValue = oXmlNode.text
+        sValue = oXmlNode.Text
         bRetVal = True
     End If
     

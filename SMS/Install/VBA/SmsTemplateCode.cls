@@ -13,4 +13,5 @@ Public sDescription As String
 Public sTemplateCode As String
 Public sFieldName As String
 Public sReceiverTableName As String
+Public bIsScriptValue As Boolean
 
