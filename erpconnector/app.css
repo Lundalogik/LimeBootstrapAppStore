@@ -1,0 +1,171 @@
+/*
+PUT SOME FANCY CSS STUFF HERE PLEASE!
+*/
+/*
+.erp{
+	width: 90;
+	height: 90px;
+	bottom: 60px;
+	margin-top: -11px;
+	z-index: 1000;
+	position: absolute;
+}
+
+.erpTurnOver {
+	margin-left: 10px;
+	margin-bottom: 5px;
+	padding: 5px;
+	font-weight: bold;
+}
+
+
+.erpTurnOverResultThisYear {
+	margin-bottom: 10px;
+	margin-right: 15px;
+	font-size: 115%;
+}
+
+.erpTurnOverResultLastYear {
+	margin-bottom: 25px;
+	margin-right: 15px;
+	font-size: 115%;
+}
+*/
+.erpButton:hover {
+	background-color: #585858;
+	color: #f6f6f6;
+}
+
+.erp-icon{
+	height: 100%;
+	line-height: 100%;
+	float: left;
+	margin-left: 2px;
+	margin-top: 4px;
+}
+.erp-text{
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 6px;
+}
+.erpButton {
+	color: #f6f6f6;
+	overflow: hidden;
+	word-wrap: normal;
+	white-space: normal;
+}
+
+
+body.dashboard {
+	background-color: #F1F6FF;
+	color: #454545;
+	overflow-y: auto; 
+}
+
+.panel-header {
+	width: 100%;
+	text-align: center;
+	color: #454545;
+}
+
+.panel.panel-danger > .panel-header {
+	color: #A9494C;
+}
+.panel-subheader {
+	width: 80%;
+	margin-left: 10%;
+	font-style: italic;
+	text-align: center;
+	margin-bottom: 10px;
+	text-overflow: default;
+	word-break: normal;
+	white-space: normal;
+	word-wrap: normal;
+}
+
+.panel-menu {
+	position: absolute;
+	top: 25px;
+	right: 25px;
+}
+
+.panel-header-actions{
+	right: 0px;
+}
+
+.panel {
+	margin-top: 15px;
+	padding: 15px;
+}
+
+ul.dropdown-menu{
+	width: 120px;
+}
+
+ul.dropdown-menu > li{
+	height: 25px;
+	line-height: 25px;
+}
+
+ul.dropdown-menu > li > a > span {
+	margin-right: 6px;
+}
+
+li:not(#chartjs-legend li):hover > a {
+	background-image: none !important;
+	background: none !important;
+	background-color: rgba(0,0,0,0);
+	color: #454545 !important;
+}
+li:not(#chartjs-legend li):hover {
+	background-image: none !important;
+	background: none !important;
+	background-color: rgba(210,210,210,0.7) !important;
+	color: #454545 !important;
+	opacity: 1;
+}
+
+.btn.btn-plain{
+	background-color: #FFF;
+	color: #454545;
+}
+
+.btn.btn-plain:hover{
+	background-color: #FAFAFA;
+	color: #454545;
+}
+.btn.btn-plain:active{
+	box-shadow: none;
+	background-color: #FFF;
+	background: none;
+	background-image: none;
+}
+
+.alert-container {
+	margin-top: 5%;
+}
+
+#chartjs-legend ul {
+	list-style: none;
+  	margin:0;
+  	padding:0;
+  	text-align:center;
+  	margin-bottom: 15px;
+}
+#chartjs-legend li {
+  	cursor:pointer;
+  	margin: 10px 4px;
+  	display: inline-table;
+}
+#chartjs-legend li span {
+  	position:relative;
+  	padding: 6px 20px;
+  	border-radius:13px;
+  	color:white;
+  	z-index:2;
+}
+
+body.dashboard .tooltip >* {
+	border: none;
+	background-color: rgba(0,0,0,0.8);
+}
