@@ -1,0 +1,17 @@
+{
+	"name": "ERP Connector",
+	"author":"MFA, CHS & KSV",
+	"status":"Release",
+	"license": true,
+    "shortDesc": "Transfer customers from Lime CRM to ERP-system and access invoice information directly from Lime CRM.",
+	"versions":[
+		{
+			"version": "1.0",
+            "date": "2017-04-30",
+            "comments": "First release!"
+		}
+	],
+	"install":{
+		
+	}
+}

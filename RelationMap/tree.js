@@ -24,8 +24,7 @@ var tree = (function () {
     // Find node by RecordId, and update tre with selected node as root.
     var selectNodeById = function (treeNode, recordId, viewModel) {
 
-        traverseChildren(findTopNode(treeNode), recordId);
-        return;
+        return traverseChildren(findTopNode(treeNode), recordId);
 
         function findTopNode(d) {
             if (d.parent) {
@@ -37,17 +36,19 @@ var tree = (function () {
 
         function traverseChildren(d, recordId) {
             if (d.recordId === recordId) {
-                viewModel.selectNode(d);
-                return true;
+                //viewModel.selectNode(d);
+                return d;
             } else {
                 if (d.children) {
                     for (var k = 0, len = d.children.length; k < len; k++) {
-                        if (traverseChildren(d.children[k], recordId)) { break; }
+                        var soughtNode = traverseChildren(d.children[k], recordId)
+                        if (soughtNode) { return soughtNode; }
                     }
                 }
                 if (d._children) {
                     for (var k = 0, len = d._children.length; k < len; k++) {
-                        if (traverseChildren(d._children[k], recordId)) { break; }
+                        var soughtNode = traverseChildren(d._children[k], recordId)
+                        if (soughtNode) { return soughtNode; }
                     }
                 }
             }

@@ -1,0 +1,139 @@
+{ 
+   "data" : [
+      {
+         "external_key":"DEALNAME",
+         "lime_name" : "name",
+         "value" : ""
+      },
+      {
+         "external_key":"QUOTESENT",
+         "lime_name" : "quotesent",
+         "value" : ""
+      },
+      {
+         "external_key":"CLOSEDDATE",
+         "lime_name" : "closeddate",
+         "value" : ""
+      },
+      {
+         "external_key":"VALUE",
+         "lime_name" : "value",
+         "value" : ""
+      },
+      {
+         "external_key":"COMPANYNAME",
+         "lime_name" : "company.name",
+         "value" : ""
+      },
+      {
+         "external_key":"COMPANYPHONE",
+         "lime_name" : "company.phone",
+         "value" : ""
+      },
+      {
+         "external_key":"COMPANYWWW",
+         "lime_name" : "company.www",
+         "value" : ""
+      },
+      {
+         "external_key":"COMPANYPOSTAL1",
+         "lime_name" : "company.postaladdress1",
+         "value" : ""
+      },
+      {
+         "external_key":"COMPANYPOSTAL2",
+         "lime_name" : "company.postaladdress2",
+         "value" : ""
+      },
+      {
+         "external_key":"COMPANYPOSTALZIPCODE",
+         "lime_name" : "company.postalzipcode",
+         "value" : ""
+      },
+      {
+         "external_key":"COMPANYPOSTALCITY",
+         "lime_name" : "company.postalcity",
+         "value" : ""
+      },
+      {
+         "external_key":"COMPANYVISITING1",
+         "lime_name" : "company.visitingaddress1",
+         "value" : ""
+      },
+      {
+         "external_key":"COMPANYVISITING2",
+         "lime_name" : "company.visitingaddress2",
+         "value" : ""
+      },
+      {
+         "external_key":"COMPANYVISITINGZIPCODE",
+         "lime_name" : "company.visitingzipcode",
+         "value" : ""
+      },
+      {
+         "external_key":"COMPANYVISITINGCITY",
+         "lime_name" : "company.visitingcity",
+         "value" : ""
+      },
+      {
+         "external_key":"COMPANYCOUNTRY",
+         "lime_name" : "company.country",
+         "value" : ""
+      },
+      {
+         "external_key":"COMPANYREGISTRATIONNO",
+         "lime_name" : "company.registrationno",
+         "value" : ""
+      },
+      {
+         "external_key":"CONTACT",
+         "lime_name" : "person.name",
+         "value" : ""
+      },
+      {
+         "external_key":"CONTACTPHONE",
+         "lime_name" : "person.phone",
+         "value" : ""
+      },
+      {
+         "external_key":"CONTACTEMAIL",
+         "lime_name" : "person.email",
+         "value" : ""
+      },
+      {
+         "external_key":"CONTACTMOBILEPHONE",
+         "lime_name" : "person.mobilephone",
+         "value" : ""
+      },
+      {
+         "external_key":"CONTACTPOSITION",
+         "lime_name" : "person.position",
+         "value" : ""
+      },
+      {
+         "external_key":"RESPONSIBLE",
+         "lime_name" : "coworker.name",
+         "value" : ""
+      },
+      {
+         "external_key":"RESPONSIBLEEMAIL",
+         "lime_name" : "coworker.email",
+         "value" : ""
+      },
+      {
+         "external_key":"RESPONSIBLEPHONE",
+         "lime_name" : "coworker.phone",
+         "value" : ""
+      },
+      {
+         "external_key":"RESPONSIBLEMOBILEPHONE",
+         "lime_name" : "coworker.cellphone",
+         "value" : ""
+      },
+      {
+         "external_key":"RESPONSIBLEOFFICE",
+         "lime_name" : "coworker.office",
+         "value" : ""
+      }
+   ]
+}

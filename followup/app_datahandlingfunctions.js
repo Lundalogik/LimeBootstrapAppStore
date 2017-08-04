@@ -156,14 +156,17 @@ dataHandlingLib.loadChoiceData = function(viewModel, appConfig) {
 
 			// Proceed if target key (Mapped from config matches with a target in Lime database)
 			if(existingTarget.length > 0) {
+				var currentTargetLime = existingTarget[0];
 				
-				var existingScore = $.grep( limeScoreTypes, function( val, i ) {
-					return val.key == currentMapping.scoreTypeKey;
+				var noMatchMappings = $.grep( currentMapping.scoreTypeKeys, function( targetKey, i ) {
+					var limeMappedScoreTypes = $.grep(limeScoreTypes, function( limeOption, j ) {
+						return limeOption.key == targetKey;
+					});
+					return limeMappedScoreTypes.length == 0;
 				});
+
 				// Proceed if score key (Mapped from config matches with a target in Lime database)
-				if(existingScore.length > 0) {
-					var currentTargetLime = existingTarget[0];
-					var currentScoreLime = existingScore[0];
+				if(noMatchMappings.length == 0) {
 					var targetValue = currentTargetLime.value;
 
 					var isTargetMarked = false;
@@ -180,7 +183,7 @@ dataHandlingLib.loadChoiceData = function(viewModel, appConfig) {
 						text : currentTargetLime.text,
 						key : currentTargetLime.key,
 						value : targetValue,
-						scoreTypeKey : currentScoreLime.key,
+						scoreTypeKeys : currentMapping.scoreTypeKeys,
 						state : ko.observable(isTargetMarked),
 						targettypeClicked : function (clickedObj) {
 							if(clickedObj.state() == false) {
@@ -203,7 +206,7 @@ dataHandlingLib.loadChoiceData = function(viewModel, appConfig) {
 				}
 				else {
 					var warningText = viewModel.localize.Followup.error_nomatch_score || 'No localize found for - Followup.error_nomatch_score';
-					warningText = warningText.replace("%1", currentMapping.scoreTypeKey);
+					warningText = warningText.replace("%1", JSON.stringify(noMatchMappings));
 					warningText = warningText.replace("%2", appConfig.structureMapping.scoreTable);
 					viewModel.errorMessage(warningText);
 				}
@@ -227,7 +230,7 @@ dataHandlingLib.loadChoiceData = function(viewModel, appConfig) {
 
 dataHandlingLib.getTargetData = function(viewModel, appConfig) {
 	viewModel.parents([]);
-	
+
 	var chosenMonthMoment = $('#datetimepicker').data('DateTimePicker').date();
 	var highestChildCount = 0;
 
@@ -247,7 +250,12 @@ dataHandlingLib.getTargetData = function(viewModel, appConfig) {
 	for (var i = 0; i < markedTargets.length; i++) {
 		xmlTargets = xmlTargets + '<target>';
 		xmlTargets = xmlTargets + '<targetTypeKey><![CDATA[' + markedTargets[i].key + ']]></targetTypeKey>';
-		xmlTargets = xmlTargets + '<scoreTypeKey><![CDATA[' + markedTargets[i].scoreTypeKey + ']]></scoreTypeKey>';
+		xmlTargets = xmlTargets + '<scoreTypeKeys>';
+		$.each(markedTargets[i].scoreTypeKeys, function(i, targetKey) {
+			xmlTargets = xmlTargets + '<scoreTypeKey><![CDATA[' + targetKey + ']]></scoreTypeKey>';
+		});
+		xmlTargets = xmlTargets + '</scoreTypeKeys>';
+
 		xmlTargets = xmlTargets + '</target>';
 	};
 	xmlTargets = xmlTargets + '</targets>';
@@ -384,7 +392,7 @@ dataHandlingLib.getTargetData = function(viewModel, appConfig) {
 		viewModel.grouping.latestFetched(groupBy);
 
 		// Set height of each child container
-		var listSizeClass = helperLib.getListSizeByChildCount(highestChildCount);
-		viewModel.listSizeClass(listSizeClass);
+		var listSizeHeight = helperLib.getListSizeByChildCount(appConfig,highestChildCount);
+		viewModel.listSizeHeight(listSizeHeight);
 	}
 }

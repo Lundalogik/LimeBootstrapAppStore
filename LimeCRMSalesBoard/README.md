@@ -65,7 +65,7 @@ The file `LimeCRMSalesBoard.html` contains the app config object. An example is 
 				optionField: 'dealstatus',
 				defaultValues: {
 					laneColor: 'clean-green',
-					icon: 'completion',
+					cardIcon: 'completion',
 					positiveSummation: true
 				},
 				individualLaneSettings: [
@@ -142,11 +142,19 @@ The file `LimeCRMSalesBoard.html` contains the app config object. An example is 
 
 **boards.lanes.optionField**: The options of this field will render one lane each.
 
+**boards.lanes.ignoreOptions**: This object is only needed if you want to prevent certain columns from being drawn on the board. If not present, all active options will be included on the board. Note that inactive options always are ignored.
+
+**boards.lanes.ignoreOptions.keys**: A semicolon separated list of the keys of the options to ignore. Best practice is to both start and end the string with a semicolon.
+
+**boards.lanes.ignoreOptions.ids**: Only used if there is no keys property defined on the ignoreOptions object. A semicolon separated list of the idstrings of the options to ignore. Best practice is to both start and end the string with a semicolon.
+
 **boards.lanes.defaultValues**: An object with default values that will be used by Lime CRM Sales Board if a value is not specified for a specific option in the individualLaneSettings array.
 
 **boards.lanes.defaultValues.laneColor**: The default color for a lane if another one is not specified in the individualLaneSettings array. Must be one of the following: 'blue', 'turquoise', 'green', 'clean-green', 'orange' or 'deep-red'.
 
-**boards.lanes.defaultValues.icon**: The default icon for a lane if another one is not specified in the individualLaneSettings array. Must be one of the following: 'completion', 'happy', 'sad' or 'wait'.
+**boards.lanes.defaultValues.cardIcon**: The default icon for a lane if another one is not specified in the individualLaneSettings array. Must be one of the following: 'completion', 'happy', 'sad' or 'wait'. Always overrides the cardIconField setting.
+
+**boards.lanes.defaultValues.cardIconField**: The name of the field from where the name of the icon to use for the cards should be fetched. The field must contain one of the following strings: 'completion', 'happy', 'sad' or 'wait'. Will only be used if a cardIcon is not specified neither on the defaultValues object nor on the individualLaneSettings for a lane.
 
 **boards.lanes.defaultValues.positiveSummation**: The default setting for if the summation values for a lane should add to the principal sum in the board title or the sum within parenthesis. Used if another one is not specified in the individualLaneSettings array.
 
@@ -158,7 +166,7 @@ The file `LimeCRMSalesBoard.html` contains the app config object. An example is 
 
 **boards.lanes.individualLaneSettings.color**: The color of the lane, meaning the color of the bar above the first card and the color of the icon (not valid for icon 'completion'). Must be one of the following: 'blue', 'turquoise', 'green', 'clean-green', 'orange' or 'deep-red'.
 
-**boards.lanes.individualLaneSettings.cardIcon**: Determines which icon that is going to be shown on the cards in the lane. Must be one of the following: 'completion', 'happy', 'sad' or 'wait'.
+**boards.lanes.individualLaneSettings.cardIcon**: Determines which icon that is going to be shown on the cards in the lane. Must be one of the following: 'completion', 'happy', 'sad' or 'wait'. Always overrides the cardIcon and cardIconField attributes on the defaultValues object.
 
 **boards.lanes.individualLaneSettings.positiveSummation**: Should be set to true if the summation values for the lane should add to the principal sum in the board title and false if instead the sum within parenthesis.
 

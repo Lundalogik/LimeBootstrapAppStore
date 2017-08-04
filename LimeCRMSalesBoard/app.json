@@ -55,6 +55,31 @@
 			"version":"2.0.1",
 			"date":"2016-10-13",
 			"comments":"Fixed names of VBA module and SQL code in README. Removed spaces and also changed to lowercase for SQL procedures and functions."
+		},
+		{
+			"version":"2.1.0",
+			"date":"2017-01-26",
+			"comments":"Added feature: dynamic card icons. Now possible to have different card icons within the same lane."
+		},
+		{
+			"version":"2.1.1",
+			"date":"2017-02-01",
+			"comments":"Bug fixes: Cards are now filtered again when using a filter in the Lime explorer. Using dynamic card icons does no longer result in an empty board when refreshing."
+		},
+		{
+			"version":"2.1.2",
+			"date":"2017-02-01",
+			"comments":"Bug fix: Sorting of cards have been fixed."
+		},
+		{
+			"version":"2.2.0",
+			"date":"2017-06-01",
+			"comments":"Added feature: Possibility to ignore certain options through the app config."
+		},
+		{
+			"version":"2.2.1",
+			"date":"2017-06-07",
+			"comments":"Bug fix: If the ignoreOptions object was removed from the config and VBA is used to fetch data, the app didn't start showing the previously ignored options."
 		}
 	],
 	"install":{

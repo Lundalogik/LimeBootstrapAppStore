@@ -35,14 +35,20 @@ Public Function OpenGetAccept(className As String, personSourceTab As String, pe
         If Not oInspector.ActiveExplorer Is Nothing Then
             If oInspector.ActiveExplorer.Class.Name = "document" Then
                 If oInspector.ActiveExplorer.Selection.Count = 1 Then
-                    Set oDialog = New Lime.Dialog
-                    oDialog.Type = lkDialogHTML
-                    oDialog.Property("url") = Application.WebFolder & "lbs.html?ap=apps/getaccept/getaccept&type=tab"
-                    oDialog.Property("height") = 500
-                    oDialog.Property("width") = 700
-                    oDialog.show
-                    OpenGetAccept = TokenHandler
-                    Exit Function
+                    If Not oInspector.ActiveExplorer.ActiveItem.record.Document("document") Is Nothing Then
+                        Set oDialog = New Lime.Dialog
+                        oDialog.Type = lkDialogHTML
+                        oDialog.Property("url") = Application.WebFolder & "lbs.html?ap=apps/getaccept/getaccept&type=tab"
+                        oDialog.Property("height") = 500
+                        oDialog.Property("width") = 700
+                        oDialog.show
+                        OpenGetAccept = TokenHandler
+                        Exit Function
+                    Else
+                        Call Lime.MessageBox(Localize.GetText("GetAccept", "ga_missingDocument"))
+                        OpenGetAccept = "-1"
+                        Exit Function
+                    End If 
                 Else
                     Call Lime.MessageBox(Localize.GetText("GetAccept", "i_only_one_document"))
                     OpenGetAccept = "-1"
@@ -512,7 +518,7 @@ Public Sub Install()
         "Send document", _
         "Skicka dokument", _
         "sende dokument", _
-        "Lähetä dokumentti" _
+        "LÃ¤hetÃ¤ dokumentti" _
     )
     'Send with GetAccept
     Call AddOrCheckLocalize( _
@@ -530,8 +536,8 @@ Public Sub Install()
         "open_in_ga", _
         "Open in GetAccept", _
         "Open in GetAccept", _
-        "Öppna med GetAccept", _
-        "Åpne med GetAccept", _
+        "Ã–ppna med GetAccept", _
+        "Ã…pne med GetAccept", _
         "Avaa kanssa GetAccept" _
     )
     'Login to your GetAccept account
@@ -550,7 +556,7 @@ Public Sub Install()
         "select_ga_entity", _
         "Select Entity", _
         "Select Entity", _
-        "Välj företagsenhet", _
+        "VÃ¤lj fÃ¶retagsenhet", _
         "Select Entity", _
         "Select Entity" _
     )
@@ -580,7 +586,7 @@ Public Sub Install()
         "i_no_selected_document", _
         "No selected document", _
         "You must select a document to send", _
-        "Du måste välja ett dokument att skicka", _
+        "Du mÃ¥ste vÃ¤lja ett dokument att skicka", _
         "You must select a document to send", _
         "You must select a document to send" _
     )
@@ -590,7 +596,7 @@ Public Sub Install()
         "i_no_document_tab_selected", _
         "Document tab not selected", _
         "You must activate the Document tab and choose a document to send", _
-        "Aktivera dokumentfliken och välj ett dokument att skicka", _
+        "Aktivera dokumentfliken och vÃ¤lj ett dokument att skicka", _
         "You must activate the Document tab and choose a document to send", _
         "You must activate the Document tab and choose a document to send" _
     )
@@ -600,7 +606,7 @@ Public Sub Install()
         "i_cant_get_person", _
         "Cant get Person", _
         "Can't get persons from the tab configured, contact your administrator", _
-        "Kan inte hämta personer från fliken som angivits, kontakta din administratör.", _
+        "Kan inte hÃ¤mta personer frÃ¥n fliken som angivits, kontakta din administratÃ¶r.", _
         "Can't get persons from the tab configured, contact your administrator", _
         "Can't get persons from the tab configured, contact your administrator" _
     )
@@ -610,7 +616,7 @@ Public Sub Install()
         "i_download_failed", _
         "Download failed", _
         "The download of the document failed. Check you internet connection and try again. Contact your administrator if it still doesn't work", _
-        "Nedladdningen av dokumentet misslyckades. Konrtollera din internetuppkoppling och försök igen. Kontakta din administratör om felet kvarstår", _
+        "Nedladdningen av dokumentet misslyckades. Konrtollera din internetuppkoppling och fÃ¶rsÃ¶k igen. Kontakta din administratÃ¶r om felet kvarstÃ¥r", _
         "The download of the document failed. Check you internet connection and try again. Contact your administrator if it still doesn't work", _
         "The download of the document failed. Check you internet connection and try again. Contact your administrator if it still doesn't work" _
     )
@@ -620,7 +626,7 @@ Public Sub Install()
         "ga_modal_closed", _
         "Modal closed", _
         "This window will automatically be closed after the document has been processed", _
-        "Detta fönster kommer att stängas automatiskt när dokumentet bearbetats", _
+        "Detta fÃ¶nster kommer att stÃ¤ngas automatiskt nÃ¤r dokumentet bearbetats", _
         "This window will automatically be closed after the document has been processed", _
         "This window will automatically be closed after the document has been processed" _
     )
@@ -660,7 +666,7 @@ Public Sub Install()
         "ga_search", _
         "Status Search", _
         "Search", _
-        "Sök", _
+        "SÃ¶k", _
         "Search", _
         "Search" _
     )
@@ -680,7 +686,7 @@ Public Sub Install()
         "ga_least_one_recipient", _
         "You must select at least one recipient", _
         "You must select at least one recipient", _
-        "Du måste välja minst en mottagare", _
+        "Du mÃ¥ste vÃ¤lja minst en mottagare", _
         "You must select at least one recipient", _
         "You must select at least one recipient" _
     )
@@ -690,7 +696,7 @@ Public Sub Install()
         "ga_least_one_contact", _
         "You must have at least one contact", _
         "You must have at least one contact", _
-        "Du måste ha minst en kontakt", _
+        "Du mÃ¥ste ha minst en kontakt", _
         "You must have at least one contact", _
         "You must have at least one contact" _
     )
@@ -740,7 +746,7 @@ Public Sub Install()
         "ga_viewed", _
         "Viewed", _
         "Viewed", _
-        "Öppnat", _
+        "Ã–ppnat", _
         "Viewed", _
         "Viewed" _
     )
@@ -760,7 +766,7 @@ Public Sub Install()
         "ga_reviewed", _
         "Reviewed", _
         "Reviewed", _
-        "Genomläst", _
+        "GenomlÃ¤st", _
         "Reviewed", _
         "Reviewed" _
     )
@@ -780,7 +786,7 @@ Public Sub Install()
         "ga_recalled", _
         "Recalled", _
         "Recalled", _
-        "Återkallat", _
+        "Ã…terkallat", _
         "Recalled", _
         "Recalled" _
     )
@@ -793,6 +799,16 @@ Public Sub Install()
         "Utkast", _
         "Draft", _
         "Draft" _
+    )
+    'Document is missing
+    Call AddOrCheckLocalize( _
+        sOwner, _
+        "ga_missingDocument", _
+        "The document card is missing a document", _
+        "The document card is missing a document", _
+        "Dokumentkortet saknar ett dokument", _
+        "The document card is missing a document", _
+        "The document card is missing a document" _
     )
     
 End Sub

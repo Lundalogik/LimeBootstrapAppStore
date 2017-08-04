@@ -9,8 +9,11 @@ lbs.apploader.register('creditinfo', function() {
         inline: true,
 		country: "swe",
 		showInField: false,
+        permissions: {
+            canGetRating: []
+        },
         dataSources: [
-
+            {type: 'activeUser', source: '' }
         ],
         resources: {
             scripts: ['js/businesscheck.js', 'js/creditsafe.js' , 'js/experian.js'],
@@ -65,11 +68,27 @@ lbs.apploader.register('creditinfo', function() {
         var existingData;
         loadExistingData();
 
+        //Returns true if user should be able to get a new rating and otherwise false
+        viewModel.permissionToGetRating = function() {
+            if (self.config.permissions.canGetRating.length > 0) {
+                return lbs.common.checkGroup(self.config.permissions.canGetRating, viewModel.ActiveUser.Groups);
+            }
+            else {
+                return true;
+            }
+        }
+
         /*
         ---------------Bindings---------------
         */
         //Get the rating from webservice
         viewModel.getRating = function() {
+
+            // Check that the user may get a new rating
+            if (!viewModel.permissionToGetRating()) {
+                return;
+            }
+
             //Refresh the data from the inspector to check if a unsaved registration number exists.
             if(!viewModel.inline){
                 loadingTimer();
@@ -223,30 +242,31 @@ lbs.apploader.register('creditinfo', function() {
         */
 
         //Knockout hover is a bit quirky, so using jQuery here
-        $(".creditinfo").hover(function() {
-            if(viewModel.inline){ //Inline mode
-                viewModel.ratingIcon('<i class="fa fa-refresh fa-spin" ></i>');
-            }else{
-                $(".handle").stop().animate({ 'margin-top': '-0px' }, "slow");    
-            }
-
-            if (viewModel.ratingDate()) {
-                $(".rating-date").fadeIn();
-            }
-
-        }, function() {
-            if(viewModel.inline){
-                 viewModel.ratingIcon(viewModel.ratingValue());
-            }else{ 
-                if(viewModel.ratingValue()){ // Only slide up if we have a rating
-                    $(".handle").stop().animate({ 'margin-top': '-30px' }, "slow");
+        if (viewModel.permissionToGetRating()) {
+            $(".creditinfo").hover(function() {
+                if(viewModel.inline){ //Inline mode
+                    viewModel.ratingIcon('<i class="fa fa-refresh fa-spin" ></i>');
+                }else{
+                    $(".handle").stop().animate({ 'margin-top': '-0px' }, "slow");    
                 }
-            }
-            if (viewModel.ratingDate() !== "") {
-                    $(".rating-date").stop().fadeOut();
-            }
-        });
 
+                if (viewModel.ratingDate()) {
+                    $(".rating-date").fadeIn();
+                }
+
+            }, function() {
+                if(viewModel.inline){
+                     viewModel.ratingIcon(viewModel.ratingValue());
+                }else{ 
+                    if(viewModel.ratingValue()){ // Only slide up if we have a rating
+                        $(".handle").stop().animate({ 'margin-top': '-30px' }, "slow");
+                    }
+                }
+                if (viewModel.ratingDate() !== "") {
+                        $(".rating-date").stop().fadeOut();
+                }
+            });
+        }
 
         /*
         ---------------Helper functions---------------

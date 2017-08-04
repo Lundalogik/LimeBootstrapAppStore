@@ -31,6 +31,7 @@ The app takes a config with the following parameters
 *	maxAge - Optional, Integer specifying the maximum age of the rating in days. Default: 365
 *	inline - Optional, Boolean specifing if the should be expanded from start. Set to true if you're using the app in a field an not in the actionpad
 *	onlyAllowPublicCompanies - Optional, If false you can perform creditchecks on all companies or persons. However they will receive a letter and there will be an additional cost. Default: False
+*	permissions - object that can contain a property called canGetRating which is an array where you can specify a list of strings of the names of the groups that will be allowed to actually perform a new credit check.
 
 The app should be place just below the ActionPad `class=”header-container”` <div>
 

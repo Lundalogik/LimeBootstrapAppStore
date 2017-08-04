@@ -10,6 +10,11 @@ Private m_maxNbrOfRecords As Long
 ' Is set in function getActiveTable.
 Private m_explorer As Lime.Explorer
 
+' Are set in sub setIgnoreOptionsLists
+Private m_ignoreOptionsKeys As String
+Private m_ignoreOptionsIds As String
+
+
 ' Used in field mappings dictionary to keep track of field names
 Private Enum m_InformationTypeEnum
     sbBoardSummation = 1
@@ -17,9 +22,10 @@ Private Enum m_InformationTypeEnum
     sbCardTitle = 3
     sbCardPercent = 4
     sbCardValue = 5
-    sbCardSorting = 6
-    sbCardOwner = 7
-    sbCardAdditionalInfo = 8
+    sbCardIcon = 6
+    sbCardSorting = 7
+    sbCardOwner = 8
+    sbCardAdditionalInfo = 9
 End Enum
 
 ' ##SUMMARY Opens LimeCRMSalesBoard in a pane
@@ -43,7 +49,7 @@ Public Sub openLimeCRMSalesBoard()
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.openLimeCRMSalesBoard")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".openLimeCRMSalesBoard")
 End Sub
 
 
@@ -57,6 +63,9 @@ Public Function getBoardXML(boardConfigXML As String) As String
     Dim oBoardXmlDoc As New MSXML2.DOMDocument60
     Call oBoardXmlDoc.loadXML(boardConfigXML)
     
+    ' Set ignore options lists
+    Call setIgnoreOptionsLists(oBoardXmlDoc)
+    
     ' Use either VBA or SQL procedure. Determined in the app config
     If m_dataSource = "vba" Then
         getBoardXML = getBoardXMLUsingVBA(oBoardXmlDoc)
@@ -66,14 +75,14 @@ Public Function getBoardXML(boardConfigXML As String) As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getBoardXML")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getBoardXML")
 End Function
 
 ' ##SUMMARY Retrieves the board xml using a SQL stored procedure to fetch data from the database.
 Private Function getBoardXMLUsingSQL(ByRef oBoardXmlDoc As MSXML2.DOMDocument60) As String
     On Error GoTo ErrorHandler
     
-    Debug.Print "sql"
+    'Debug.Print "sql"
     
     ' Call procedure to get board data
     Dim oProc As LDE.Procedure
@@ -81,10 +90,13 @@ Private Function getBoardXMLUsingSQL(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     oProc.Parameters("@@tablename").InputValue = m_explorer.Class.Name
 
     Call addSQLParameterFromXML(oProc, "@@lanefieldname", oBoardXmlDoc, "/board/lanes/optionField")
+    Call addSQLParameterFromXML(oProc, "@@laneoptionsignorekeys", oBoardXmlDoc, "/board/lanes/ignoreOptions/keys")
+    Call addSQLParameterFromXML(oProc, "@@laneoptionsignoreids", oBoardXmlDoc, "/board/lanes/ignoreOptions/ids")
     Call addSQLParameterFromXML(oProc, "@@titlefieldname", oBoardXmlDoc, "/board/card/titleField")
     Call addSQLParameterFromXML(oProc, "@@completionfieldname", oBoardXmlDoc, "/board/card/percentField")
     Call addSQLParameterFromXML(oProc, "@@sumfieldname", oBoardXmlDoc, "/board/summation/field")
     Call addSQLParameterFromXML(oProc, "@@valuefieldname", oBoardXmlDoc, "/board/card/value/field")
+    Call addSQLParameterFromXML(oProc, "@@iconfieldname", oBoardXmlDoc, "/board/lanes/defaultValues/cardIconField")
     Call addSQLParameterFromXML(oProc, "@@sortfieldname", oBoardXmlDoc, "/board/card/sorting/field")
     Call addSQLParameterFromXML(oProc, "@@ownerfieldname", oBoardXmlDoc, "/board/card/owner/fieldName")
     Call addSQLParameterFromXML(oProc, "@@ownerrelatedtablename", oBoardXmlDoc, "/board/card/owner/relatedTableName")
@@ -102,7 +114,7 @@ Private Function getBoardXMLUsingSQL(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     oProc.Parameters("@@iduser").InputValue = ActiveUser.ID
 
     Call oProc.Execute(False)
-    Debug.Print oProc.result
+    'Debug.Print oProc.result
     getBoardXMLUsingSQL = oProc.result
 
 'Dim strFilename As String: strFilename = "D:\temp\LimeCRMSalesBoardexamplexml.txt"
@@ -116,7 +128,7 @@ Private Function getBoardXMLUsingSQL(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getBoardXMLUsingSQL")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getBoardXMLUsingSQL")
 End Function
 
 
@@ -134,15 +146,13 @@ Private Sub addSQLParameterFromXML(ByRef oProc As LDE.Procedure, parameterName A
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.addSQLParameterFromXML")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".addSQLParameterFromXML")
 End Sub
 
 
 ' ##SUMMARY Retrieves the board xml using VBA code to fetch data from the database.
 Private Function getBoardXMLUsingVBA(ByRef oBoardXmlDoc As MSXML2.DOMDocument60) As String
     On Error GoTo ErrorHandler
-    
-    Debug.Print "vba"
     
     ' Set up field mappings
     Dim fieldMappings As Scripting.Dictionary
@@ -156,18 +166,24 @@ Private Function getBoardXMLUsingVBA(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     ' Loop options to create Lanes elements
     Dim oOption As LDE.Option
     Dim oLaneElement As MSXML2.IXMLDOMElement
+    
     For Each oOption In Database.Classes(m_explorer.Class.Name).Fields(fieldMappings(m_InformationTypeEnum.sbLaneTitle)).Options
-        Set oLaneElement = oDataXml.createElement("Lanes")
-        Call oLaneElement.SetAttribute("id", oOption.Value)
-        Call oLaneElement.SetAttribute("key", oOption.key)
-        Call oLaneElement.SetAttribute("name", oOption.Text)
-        Call oLaneElement.SetAttribute("order", oOption.Attributes("stringorder"))
-        Call rootNode.appendChild(oLaneElement)
+        If isValidOption(oOption) Then           ' Check that it is not an ignored option
+            Set oLaneElement = oDataXml.createElement("Lanes")
+            Call oLaneElement.SetAttribute("id", oOption.Value)
+            Call oLaneElement.SetAttribute("key", oOption.key)
+            Call oLaneElement.SetAttribute("name", oOption.Text)
+            Call oLaneElement.SetAttribute("order", oOption.Attributes("stringorder"))
+            Call rootNode.appendChild(oLaneElement)
+        End If
     Next oOption
     
     ' Get records
     Dim oRecords As New LDE.Records
-    Call oRecords.Open(Database.Classes(m_explorer.Class.Name), createFilter(fieldMappings(m_InformationTypeEnum.sbLaneTitle)), createView(fieldMappings), m_maxNbrOfRecords)
+    Call oRecords.Open(Database.Classes(m_explorer.Class.Name) _
+                        , createFilter(fieldMappings(m_InformationTypeEnum.sbLaneTitle)) _
+                        , createView(fieldMappings) _
+                        , m_maxNbrOfRecords)
     
     ' Loop records and add to xml
     Dim oRecord As LDE.Record
@@ -187,12 +203,11 @@ Private Function getBoardXMLUsingVBA(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
         prevLaneId = thisLaneId
     Next oRecord
     
-    Debug.Print oDataXml.XML
     getBoardXMLUsingVBA = oDataXml.XML
 
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getBoardXMLUsingVBA")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getBoardXMLUsingVBA")
 End Function
 
 
@@ -214,12 +229,13 @@ Private Function createCard(ByRef oDataXml As MSXML2.DOMDocument60, ByRef oRecor
     Call setCardAttribute(oCardElement, "sumValue", oRecord, fm(m_InformationTypeEnum.sbBoardSummation))
     Call setCardAttribute(oCardElement, "title", oRecord, fm(m_InformationTypeEnum.sbCardTitle))
     Call setCardAttribute(oCardElement, "value", oRecord, fm(m_InformationTypeEnum.sbCardValue))
+    Call setCardAttribute(oCardElement, "icon", oRecord, fm(m_InformationTypeEnum.sbCardIcon))
     
     Set createCard = oCardElement
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.createCard")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".createCard")
 End Function
 
 
@@ -227,21 +243,23 @@ End Function
 Private Sub setCardAttribute(ByRef oCardElement As MSXML2.IXMLDOMElement, attributeName As String, ByRef oRecord As LDE.Record, fieldName As String)
     On Error GoTo ErrorHandler
 
-    If Not VBA.IsNull(oRecord(fieldName)) Then
-        If isFieldTypeDate(oRecord.field(fieldName).Type) Then
-            Call oCardElement.SetAttribute(attributeName, CStr(oRecord(fieldName)))
-        Else
-            Call oCardElement.SetAttribute(attributeName, oRecord(fieldName))
+    If fieldName <> "" Then
+        If Not VBA.IsNull(oRecord(fieldName)) Then
+            If isFieldTypeDate(oRecord.field(fieldName).Type) Then
+                Call oCardElement.SetAttribute(attributeName, CStr(oRecord(fieldName)))
+            Else
+                Call oCardElement.SetAttribute(attributeName, VBA.Replace(oRecord(fieldName), """", "\"""))
+            End If
         End If
     End If
-
+    
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.setCardAttribute")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".setCardAttribute")
 End Sub
 
 
-' ##SUMMARY Sets the specified attribute on the card if not null
+' ##SUMMARY Returns true if it is any kind of field containing a date or time.
 Private Function isFieldTypeDate(ft As LDE.FieldTypeEnum)
     On Error GoTo ErrorHandler
 
@@ -253,7 +271,9 @@ Private Function isFieldTypeDate(ft As LDE.FieldTypeEnum)
             Or ft = lkFieldTypeDateTime _
             Or ft = lkFieldTypeDateTimeSeconds _
             Or ft = lkFieldTypeDateWeek _
-            Or ft = lkFieldTypeDateYear Then
+            Or ft = lkFieldTypeDateYear _
+            Or ft = lkFieldTypeTime _
+            Or ft = lkFieldTypeTimeStamp Then
         isFieldTypeDate = True
     Else
         isFieldTypeDate = False
@@ -261,7 +281,7 @@ Private Function isFieldTypeDate(ft As LDE.FieldTypeEnum)
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.isFieldTypeDate")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".isFieldTypeDate")
 End Function
 
 
@@ -277,6 +297,7 @@ Private Function getFieldMappings(ByRef oBoardXmlDoc As MSXML2.DOMDocument60) As
     Call addFieldMapping(fieldMappings, oBoardXmlDoc, m_InformationTypeEnum.sbCardPercent, "/board/card/percentField")
     Call addFieldMapping(fieldMappings, oBoardXmlDoc, m_InformationTypeEnum.sbBoardSummation, "/board/summation/field")
     Call addFieldMapping(fieldMappings, oBoardXmlDoc, m_InformationTypeEnum.sbCardValue, "/board/card/value/field")
+    Call addFieldMapping(fieldMappings, oBoardXmlDoc, m_InformationTypeEnum.sbCardIcon, "/board/lanes/defaultValues/cardIconField")
     Call addFieldMapping(fieldMappings, oBoardXmlDoc, m_InformationTypeEnum.sbCardSorting, "/board/card/sorting/field")
     Call addFieldMapping(fieldMappings, oBoardXmlDoc, m_InformationTypeEnum.sbCardOwner, "/board/card/owner/fieldName", "/board/card/owner/relatedTableFieldName")
     Call addFieldMapping(fieldMappings, oBoardXmlDoc, m_InformationTypeEnum.sbCardAdditionalInfo, "/board/card/additionalInfo/fieldName", "/board/card/additionalInfo/relatedTableFieldName")
@@ -285,7 +306,7 @@ Private Function getFieldMappings(ByRef oBoardXmlDoc As MSXML2.DOMDocument60) As
 
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getFieldMappings")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getFieldMappings")
 End Function
 
 
@@ -315,7 +336,7 @@ Private Sub addFieldMapping(ByRef fm As Scripting.Dictionary, ByRef oBoardXmlDoc
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.addFieldMapping")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".addFieldMapping")
 End Sub
 
 ' ##SUMMARY Adds all necessary fields from the board config and returns a new view object.
@@ -328,6 +349,7 @@ Private Function createView(ByRef fm As Scripting.Dictionary) As LDE.View
     Call oView.Add(fm(m_InformationTypeEnum.sbCardPercent))
     Call oView.Add(fm(m_InformationTypeEnum.sbBoardSummation))
     Call oView.Add(fm(m_InformationTypeEnum.sbCardValue))
+    Call oView.Add(fm(m_InformationTypeEnum.sbCardIcon))
     Call oView.Add(fm(m_InformationTypeEnum.sbCardSorting))
     Call oView.Add(fm(m_InformationTypeEnum.sbCardOwner))
     Call oView.Add(fm(m_InformationTypeEnum.sbCardAdditionalInfo))
@@ -336,19 +358,19 @@ Private Function createView(ByRef fm As Scripting.Dictionary) As LDE.View
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.createView")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".createView")
 End Function
 
 
-' ##SUMMARY Creates a filter that will receive the correct records for the app.
+' ##SUMMARY Creates a filter that will extract the correct records for the app.
 Public Function createFilter(optionFieldName As String) As LDE.Filter
     On Error GoTo ErrorHandler
     
     Dim oFilter As New LDE.Filter
     
-    Call oFilter.AddCondition("", lkOpIn, m_explorer.Records.Pool, lkConditionTypePool)
+    Call oFilter.AddCondition("", lkOpIn, m_explorer.Items.Pool, lkConditionTypePool)
     
-    ' Loop over options to make sure no inactive records are included
+    ' Loop over options to make sure no records with inactive options or explicitly ignored options (in app config) are included
     Dim oOption As LDE.Option
     Dim oOptions As LDE.Options
     Set oOptions = Database.Classes(m_explorer.Class.Name).Fields(optionFieldName).Options
@@ -356,10 +378,12 @@ Public Function createFilter(optionFieldName As String) As LDE.Filter
     Dim counter As Long
     counter = 0
     For Each oOption In oOptions
-        counter = counter + 1
-        Call oFilter.AddCondition(optionFieldName, lkOpEqual, oOption.Value)
-        If counter > 1 Then
-            Call oFilter.AddOperator(lkOpOr)
+        If isValidOption(oOption) Then
+            counter = counter + 1
+            Call oFilter.AddCondition(optionFieldName, lkOpEqual, oOption.Value)
+            If counter > 1 Then
+                Call oFilter.AddOperator(lkOpOr)
+            End If
         End If
     Next oOption
     
@@ -374,7 +398,7 @@ Public Function createFilter(optionFieldName As String) As LDE.Filter
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.createFilter")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".createFilter")
 End Function
 
 
@@ -393,7 +417,7 @@ Public Function getActiveTable() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveTable")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getActiveTable")
 End Function
 
 
@@ -409,7 +433,7 @@ Public Function getActiveTableLocalNameSingular() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveTableLocalNameSingular")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getActiveTableLocalNameSingular")
 End Function
 
 
@@ -425,7 +449,7 @@ Public Function getActiveTableLocalNamePlural() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveTableLocalNamePlural")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getActiveTableLocalNamePlural")
 End Function
 
 
@@ -462,7 +486,7 @@ Public Function getActiveBoardName() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveBoardName")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getActiveBoardName")
 End Function
 
 ' ##SUMMARY Builds and returns string containing ids for all items in the active explorer.
@@ -488,7 +512,7 @@ Private Function getIdsAsString() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getIdsAsString")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getIdsAsString")
 End Function
 
 
@@ -505,7 +529,7 @@ Public Function getLocale() As String
 
     Exit Function
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.getLocale")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getLocale")
 End Function
 
 
@@ -521,7 +545,7 @@ Public Sub setDataSource(source As String)
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.setDataSource")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".setDataSource")
 End Sub
 
 
@@ -533,8 +557,33 @@ Public Sub setMaxNbrOfRecords(val As Long)
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError("App_LimeCRMSalesBoard.setMaxNbrOfRecords")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".setMaxNbrOfRecords")
 End Sub
+
+
+' ##SUMMARY Called from LimeCRMSalesBoard. Returns a string describing which type of value the sorting algorithm should treat the sorting values as.
+Public Function getSortFieldType(tableName As String, fieldName As String) As String
+    On Error GoTo ErrorHandler
+
+    If Database.Classes(tableName).Fields.Exists(fieldName) Then
+        If isFieldTypeDate(Database.Classes(tableName).Fields(fieldName).Type) Then
+            getSortFieldType = "string"
+        Else
+            Select Case Database.Classes(tableName).Fields(fieldName).Type
+                Case lkFieldTypeDecimal, lkFieldTypeInteger, lkFieldTypeYesNo:
+                    getSortFieldType = "float"
+                Case Else:
+                    getSortFieldType = "string"
+            End Select
+        End If
+    Else
+        getSortFieldType = "string"
+    End If
+
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getSortFieldType")
+End Function
 
 
 ' ##SUMMARY Called from LimeCRMSalesBoard. Returns true if either a fast filter or column filters are applied on the current Explorer list.
@@ -564,7 +613,46 @@ Public Function getListFiltered() As Boolean
     Exit Function
 ErrorHandler:
     getListFiltered = False
-    Call UI.ShowError("App_LimeCRMSalesBoard.getListFiltered")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getListFiltered")
+End Function
+
+
+' ##SUMMARY Initiates the global variables holding the possible ignore options lists (one for keys and one for idstrings).
+' If there is a list specified for keys, then the ids are ignored.
+Private Sub setIgnoreOptionsLists(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
+    On Error GoTo ErrorHandler
+    
+    ' Set default as empty
+    m_ignoreOptionsKeys = ""
+    m_ignoreOptionsIds = ""
+
+    ' Get possible list of options to ignore
+    If Not oBoardXmlDoc.selectSingleNode("/board/lanes/ignoreOptions/keys") Is Nothing Then
+        m_ignoreOptionsKeys = oBoardXmlDoc.selectSingleNode("/board/lanes/ignoreOptions/keys").Text
+    ElseIf Not oBoardXmlDoc.selectSingleNode("/board/lanes/ignoreOptions/ids") Is Nothing Then
+        m_ignoreOptionsIds = oBoardXmlDoc.selectSingleNode("/board/lanes/ignoreOptions/ids").Text
+    End If
+
+    Exit Sub
+ErrorHandler:
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".setIgnoreOptionsLists")
+End Sub
+
+
+' ##SUMMARY Returns true if the specifed option is a valid option for the Lanes to use.
+Private Function isValidOption(ByRef oOption As LDE.Option) As Boolean
+    On Error GoTo ErrorHandler
+
+    isValidOption = True
+    If m_ignoreOptionsKeys <> "" Then
+        isValidOption = (VBA.InStr(m_ignoreOptionsKeys, ";" & oOption.key & ";") = 0)
+    ElseIf m_ignoreOptionsIds <> "" Then
+        isValidOption = (VBA.InStr(m_ignoreOptionsIds, ";" & VBA.CStr(oOption.Value) & ";") = 0)
+    End If
+
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".isValidOption")
 End Function
 
 
