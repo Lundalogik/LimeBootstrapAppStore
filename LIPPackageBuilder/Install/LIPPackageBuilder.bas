@@ -250,7 +250,7 @@ On Error GoTo ErrorHandler
     'Zip Temporary folder and save package
     Dim ZipPath As String
     If bResult Then
-        bResult = ZipTemporaryFolder(oPackage.Item("name"), strTempFolder, ZipPath)
+        bResult = ZipTemporaryFolder(oPackage.item("name"), strTempFolder, ZipPath)
     End If
     
     If bResult = False Then
@@ -291,20 +291,20 @@ On Error GoTo ErrorHandler
     
             
             
-            For Each oTable In oPackage.Item("install").Item("tables")
+            For Each oTable In oPackage.item("install").item("tables")
                 If oTable.exists("fields") Then
                     Dim oField As Object
-                    For Each oField In oTable.Item("fields")
+                    For Each oField In oTable.item("fields")
                         
-                        If oField.Item("attributes").Item("optionquery") <> "" And oField.Item("attributes").Item("optionquery") <> "''" Then
-                            bResult = SaveTextToDisk(oField.Item("attributes").Item("optionquery"), strOptionQueryFolder, oTable.Item("name") & "." & oField.Item("name") & ".txt")
+                        If oField.item("attributes").item("optionquery") <> "" And oField.item("attributes").item("optionquery") <> "''" Then
+                            bResult = SaveTextToDisk(oField.item("attributes").item("optionquery"), strOptionQueryFolder, oTable.item("name") & "." & oField.item("name") & ".txt")
                             
                             If bResult = False Then allOK = False
                             
                         End If
                         'Remove property from JSON object
-                        If oField.Item("attributes").exists("optionquery") Then
-                            Call oField.Item("attributes").Remove("optionquery")
+                        If oField.item("attributes").exists("optionquery") Then
+                            Call oField.item("attributes").Remove("optionquery")
                         End If
                     Next
                 End If
@@ -333,20 +333,20 @@ On Error GoTo ErrorHandler
     
             
             
-            For Each oTable In oPackage.Item("install").Item("tables")
+            For Each oTable In oPackage.item("install").item("tables")
                 If oTable.exists("fields") Then
                     Dim oField As Object
-                    For Each oField In oTable.Item("fields")
+                    For Each oField In oTable.item("fields")
                         
-                        If oField.Item("attributes").Item("onsqlupdate") <> "" And oField.Item("attributes").Item("onsqlupdate") <> "''" Then
-                            bResult = SaveTextToDisk(oField.Item("attributes").Item("onsqlupdate"), strSqlOnUpdateFolder, oTable.Item("name") & "." & oField.Item("name") & ".txt")
-                            Call oField.Item("attributes").Remove("onsqlupdate")
+                        If oField.item("attributes").item("onsqlupdate") <> "" And oField.item("attributes").item("onsqlupdate") <> "''" Then
+                            bResult = SaveTextToDisk(oField.item("attributes").item("onsqlupdate"), strSqlOnUpdateFolder, oTable.item("name") & "." & oField.item("name") & ".txt")
+                            Call oField.item("attributes").Remove("onsqlupdate")
                             If bResult = False Then allOK = False
                             
                         End If
                         'Remove property in JSON object
-                        If oField.Item("attributes").exists("onsqlupdate") Then
-                            Call oField.Item("attributes").Remove("onsqlupdate")
+                        If oField.item("attributes").exists("onsqlupdate") Then
+                            Call oField.item("attributes").Remove("onsqlupdate")
                         End If
                     Next
                     
@@ -376,20 +376,20 @@ On Error GoTo ErrorHandler
     
             
             
-            For Each oTable In oPackage.Item("install").Item("tables")
+            For Each oTable In oPackage.item("install").item("tables")
                 If oTable.exists("fields") Then
                     Dim oField As Object
-                    For Each oField In oTable.Item("fields")
+                    For Each oField In oTable.item("fields")
                         
-                        If oField.Item("attributes").Item("onsqlinsert") <> "" And oField.Item("attributes").Item("onsqlinsert") <> "''" Then
-                            bResult = SaveTextToDisk(oField.Item("attributes").Item("onsqlinsert"), strSqlForNewFolder, oTable.Item("name") & "." & oField.Item("name") & ".txt")
-                            Call oField.Item("attributes").Remove("onsqlinsert")
+                        If oField.item("attributes").item("onsqlinsert") <> "" And oField.item("attributes").item("onsqlinsert") <> "''" Then
+                            bResult = SaveTextToDisk(oField.item("attributes").item("onsqlinsert"), strSqlForNewFolder, oTable.item("name") & "." & oField.item("name") & ".txt")
+                            Call oField.item("attributes").Remove("onsqlinsert")
                             If bResult = False Then allOK = False
                             
                         End If
                         'Remove property in JSON object
-                        If oField.Item("attributes").exists("onsqlinsert") Then
-                            Call oField.Item("attributes").Remove("onsqlinsert")
+                        If oField.item("attributes").exists("onsqlinsert") Then
+                            Call oField.item("attributes").Remove("onsqlinsert")
                         End If
                     Next
                 End If
@@ -418,20 +418,20 @@ On Error GoTo ErrorHandler
     
             
             
-            For Each oTable In oPackage.Item("install").Item("tables")
+            For Each oTable In oPackage.item("install").item("tables")
                 If oTable.exists("fields") Then
                     Dim oField As Object
-                    For Each oField In oTable.Item("fields")
+                    For Each oField In oTable.item("fields")
                         
-                        If oField.Item("attributes").Item("sql") <> "" And oField.Item("attributes").Item("sql") <> "''" Then
-                            bResult = SaveTextToDisk(oField.Item("attributes").Item("sql"), strSqlExpressionsFolder, oTable.Item("name") & "." & oField.Item("name") & ".txt")
-                            Call oField.Item("attributes").Remove("sql")
+                        If oField.item("attributes").item("sql") <> "" And oField.item("attributes").item("sql") <> "''" Then
+                            bResult = SaveTextToDisk(oField.item("attributes").item("sql"), strSqlExpressionsFolder, oTable.item("name") & "." & oField.item("name") & ".txt")
+                            Call oField.item("attributes").Remove("sql")
                             If bResult = False Then allOK = False
                         End If
                         
                         'Remove property in JSON object
-                        If oField.Item("attributes").exists("sql") Then
-                            Call oField.Item("attributes").Remove("sql")
+                        If oField.item("attributes").exists("sql") Then
+                            Call oField.item("attributes").Remove("sql")
                         End If
                     Next
                 End If
@@ -458,16 +458,16 @@ On Error GoTo ErrorHandler
             Dim strFilePath As String
             strSqlDescriptiveFolder = strTempFolder & "\" & "descriptive_expressions"
             
-            For Each oTable In oPackage.Item("install").Item("tables")
-                If oTable.Item("attributes").Item("descriptive") <> "" And oTable.Item("attributes").Item("descriptive") <> "''" Then
-                    bResult = SaveTextToDisk(oTable.Item("attributes").Item("descriptive"), strSqlDescriptiveFolder, oTable.Item("name") & ".txt")
+            For Each oTable In oPackage.item("install").item("tables")
+                If oTable.item("attributes").item("descriptive") <> "" And oTable.item("attributes").item("descriptive") <> "''" Then
+                    bResult = SaveTextToDisk(oTable.item("attributes").item("descriptive"), strSqlDescriptiveFolder, oTable.item("name") & ".txt")
                     If bResult = False Then allOK = False
                             
                 End If
                 
                 'Remove property from JSON object
-                If oTable.Item("attributes").exists("descriptive") Then
-                    Call oTable.Item("attributes").Remove("descriptive")
+                If oTable.item("attributes").exists("descriptive") Then
+                    Call oTable.item("attributes").Remove("descriptive")
                 End If
             Next
         End If
@@ -576,11 +576,11 @@ On Error GoTo ErrorHandler
             Dim oTable As Object
             Dim strIconFolder As String
             strIconFolder = strTempFolder & "\" & "tableicons"
-            For Each oTable In oPackage.Item("install").Item("tables")
+            For Each oTable In oPackage.item("install").item("tables")
                 If oTable.exists("attributes") Then
-                    If oTable.Item("attributes").exists("icon") Then
-                        bResult = SaveBinaryToDisk(oTable.Item("attributes").Item("icon"), oTable("name") & ".ico", strIconFolder)
-                        Call oTable.Item("attributes").Remove("icon")
+                    If oTable.item("attributes").exists("icon") Then
+                        bResult = SaveBinaryToDisk(oTable.item("attributes").item("icon"), oTable("name") & ".ico", strIconFolder)
+                        Call oTable.item("attributes").Remove("icon")
                         If bResult = False Then bAllOK = False
                     End If
                 End If
@@ -596,18 +596,18 @@ End Function
 Private Function ExportSql(oPackage As Object, strTempFolder As String) As Boolean
 On Error GoTo ErrorHandler
     Dim bResult As Boolean
-    If Not oPackage.Item("install") Is Nothing Then
+    If Not oPackage.item("install") Is Nothing Then
         Dim oProcedure As Object
         
-        If Not oPackage.Item("install").Item("sql") Is Nothing Then
-            For Each oProcedure In oPackage.Item("install").Item("sql")
-                bResult = ExportSqlObject(oProcedure.Item("name"), oProcedure.Item("definition"), strTempFolder)
+        If Not oPackage.item("install").item("sql") Is Nothing Then
+            For Each oProcedure In oPackage.item("install").item("sql")
+                bResult = ExportSqlObject(oProcedure.item("name"), oProcedure.item("definition"), strTempFolder)
                 If bResult = False Then
                     ExportSql = False
                     Exit Function
                 End If
                 Call oProcedure.Remove("definition")
-                Call oProcedure.Add("relPath", "sql\" & oProcedure.Item("name") & ".sql")
+                Call oProcedure.Add("relPath", "sql\" & oProcedure.item("name") & ".sql")
             Next
         End If
         
@@ -761,7 +761,7 @@ On Error GoTo ErrorHandler
     
         
     
-    NewFolderName = VBA.Left(NewFolderName, InStrRev(NewFolderName, "\")) & oPackage.Item("name")
+    NewFolderName = VBA.Left(NewFolderName, InStrRev(NewFolderName, "\")) & oPackage.item("name")
 '    If Dir(NewFolderName, vbDirectory) = "" Then
 '        Call Application.MessageBox("The folder """ & NewFolderName & """ already exists.")
 '        RenameTemporaryFolder = False
@@ -860,12 +860,12 @@ Public Function ExportVBA(oPackage As Object, strTempFolder As String) As Boolea
 On Error GoTo ErrorHandler
     Dim bResult As Boolean
     bResult = True
-    If Not oPackage.Item("install") Is Nothing Then
+    If Not oPackage.item("install") Is Nothing Then
         Dim oModule As Object
         
-        If Not oPackage.Item("install").Item("vba") Is Nothing Then
-            For Each oModule In oPackage.Item("install").Item("vba")
-                bResult = ExportVBAModule(oModule.Item("name"), strTempFolder)
+        If Not oPackage.item("install").item("vba") Is Nothing Then
+            For Each oModule In oPackage.item("install").item("vba")
+                bResult = ExportVBAModule(oModule.item("name"), strTempFolder)
                 If bResult = False Then
                     ExportVBA = False
                     Exit Function
@@ -970,60 +970,60 @@ Public Function GetLocalizations(ByVal sOwner As String) As Records
 ErrorHandler:
     Call UI.ShowError("LIPPackageBuilder.GetLocalizations")
 End Function
-'LJE This is not yet implemented
-'Public Function OpenExistingPackage() As String
-'On Error GoTo ErrorHandler
-'    Dim o As New LCO.FileOpenDialog
-'    Dim strFilePath As String
-'    o.AllowMultiSelect = False
-'    o.Caption = "Select Package file"
-'    o.Filter = "Zipped Package files (*.zip) | *.zip"
-'
-'    o.DefaultFolder = LCO.GetDesktopPath
-'    If o.show = vbOK Then
-'        strFilePath = o.Filename
-'    Else
-'        Exit Function
-'    End If
-'
-'    If LCO.ExtractFileExtension(strFilePath) = "zip" Then
-'        Dim strTempFolderPath As String
-'        strTempFolderPath = Application.TemporaryFolder & "\" & VBA.Replace(VBA.Replace(LCO.GenerateGUID, "{", ""), "}", "")
-'        Dim FSO As New Scripting.FileSystemObject
-'        If Not FSO.FolderExists(strTempFolderPath) Then
-'            Call FSO.CreateFolder(strTempFolderPath)
-'        End If
-'
-'
-'        On Error GoTo UnzipError
-'        Call UnZip(strTempFolderPath, strFilePath)
-'
-'        On Error GoTo ErrorHandler
-'        Dim strJson As String
-'        If LCO.FileExists(strTempFolderPath & "\" & "app.json") Then
-'            strJson = ReadAllTextFromFile(strTempFolderPath & "\" & "app.json")
-'        ElseIf LCO.FileExists(strTempFolderPath & "\" & "package.json") Then
-'            strJson = ReadAllTextFromFile(strTempFolderPath & "\" & "package.json")
-'        Else
-'            Call Application.MessageBox("Could not find an app.json or a package.json in the extracted folder")
-'            Exit Function
-'        End If
-'
-'        Dim b64Json As String
-'        b64Json = XMLEncodeBase64(strJson)
-'
-'        OpenExistingPackage = b64Json
-'
-'    End If
-'
-'
-'Exit Function
-'ErrorHandler:
-'    Call UI.ShowError("LIPPackageBuilder.OpenExistingPackage")
-'    Exit Function
-'UnzipError:
-'    Call Application.MessageBox("There was an error unzipping the zipped package file")
-'End Function
+
+Public Function OpenExistingPackage() As String
+On Error GoTo ErrorHandler
+    Dim o As New LCO.FileOpenDialog
+    Dim strFilePath As String
+    o.AllowMultiSelect = False
+    o.Caption = "Select Package file"
+    o.Filter = "Zipped Package files (*.zip) | *.zip"
+
+    o.DefaultFolder = LCO.GetDesktopPath
+    If o.Show = vbOK Then
+        strFilePath = o.FileName
+    Else
+        Exit Function
+    End If
+
+    If LCO.ExtractFileExtension(strFilePath) = "zip" Then
+        Dim strTempFolderPath As String
+        strTempFolderPath = Application.TemporaryFolder & "\" & VBA.Replace(VBA.Replace(LCO.GenerateGUID, "{", ""), "}", "")
+        Dim FSO As New Scripting.FileSystemObject
+        If Not FSO.FolderExists(strTempFolderPath) Then
+            Call FSO.CreateFolder(strTempFolderPath)
+        End If
+
+
+        On Error GoTo UnzipError
+        Call UnZip(strTempFolderPath, strFilePath)
+
+        On Error GoTo ErrorHandler
+        Dim strJson As String
+        If LCO.FileExists(strTempFolderPath & "\" & "app.json") Then
+            strJson = ReadAllTextFromFile(strTempFolderPath & "\" & "app.json")
+        ElseIf LCO.FileExists(strTempFolderPath & "\" & "package.json") Then
+            strJson = ReadAllTextFromFile(strTempFolderPath & "\" & "package.json")
+        Else
+            Call Application.MessageBox("Could not find an app.json or a package.json in the extracted folder")
+            Exit Function
+        End If
+
+        Dim b64Json As String
+        b64Json = XMLEncodeBase64(strJson)
+
+        OpenExistingPackage = b64Json
+
+    End If
+
+
+Exit Function
+ErrorHandler:
+    Call UI.ShowError("LIPPackageBuilder.OpenExistingPackage")
+    Exit Function
+UnzipError:
+    Call Application.MessageBox("There was an error unzipping the zipped package file")
+End Function
 
 
 Sub UnZip(strTargetPath As String, Fname As Variant)
@@ -1082,11 +1082,11 @@ On Error GoTo ErrorHandler
             Dim strIconFolder As String
             Dim oField As Object
             
-            For Each oTable In oPackage.Item("install").Item("tables")
+            For Each oTable In oPackage.item("install").item("tables")
                 If oTable.exists("fields") Then
-                    For Each oField In oTable.Item("fields")
+                    For Each oField In oTable.item("fields")
                         If oField.exists("attributes") Then
-                            Call oField.Item("attributes").Remove("relatedtable")
+                            Call oField.item("attributes").Remove("relatedtable")
                         End If
                     Next
                 End If
