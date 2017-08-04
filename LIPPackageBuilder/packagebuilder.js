@@ -197,6 +197,7 @@ packagebuilder = {
                     arrLocalizations.push({
                         'owner' : locale.owner,
                         'code' : locale.code,
+                        'context' : locale.context,
                         'sv': locale.sv,
                         'en_us' : locale.en_us,
                         'fi' : locale.fi,

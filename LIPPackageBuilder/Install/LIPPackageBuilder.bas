@@ -12,7 +12,7 @@ Public Sub OpenPackageBuilder()
     oDialog.Property("url") = Application.WebFolder & "lbs.html?ap=apps/LIPPackageBuilder/packagebuilder&type=tab"
     oDialog.Property("height") = 900
     oDialog.Property("width") = 1600
-    oDialog.show
+    oDialog.Show
 
     Exit Sub
 ErrorHandler:
@@ -51,7 +51,7 @@ On Error GoTo ErrorHandler
         'Only include modules, class modules and forms
         If oComp.Type <> 11 And oComp.Type <> 100 Then
             strComponents = strComponents & "{"
-            strComponents = strComponents & """name"": """ & oComp.name & ""","
+            strComponents = strComponents & """name"": """ & oComp.Name & ""","
             strComponents = strComponents & """type"": """ & GetModuleTypeName(oComp.Type) & """},"
         End If
     Next
@@ -142,7 +142,7 @@ On Error GoTo ErrorHandler
     Set oPackage = JsonConverter.ParseJson(strPackageJson)
     
     'Export VBA modules
-    If bResult And oPackage("install").Exists("vba") Then
+    If bResult And oPackage("install").exists("vba") Then
         bResult = ExportVBA(oPackage, strTempFolder)
     End If
     If bResult = False Then
@@ -151,7 +151,7 @@ On Error GoTo ErrorHandler
     End If
     
     'Export SQL Procedures and functions
-    If bResult And oPackage("install").Exists("sql") Then
+    If bResult And oPackage("install").exists("sql") Then
         bResult = ExportSql(oPackage, strTempFolder)
         
     End If
@@ -214,6 +214,7 @@ On Error GoTo ErrorHandler
         bResult = True
     End If
     
+
     'LJE This is not yet implemented
     'If bResult Then
     '    bResult = CleanupPackageFile(oPackage)
@@ -222,6 +223,7 @@ On Error GoTo ErrorHandler
     '    Call Application.MessageBox("Couldn't cleanup the package file, aborting...", vbError)
     '    bResult = False
     'End If
+
     
     'Save Package.json
     If bResult Then
@@ -280,8 +282,8 @@ On Error GoTo ErrorHandler
     Dim allOK As Boolean
     bResult = True
     allOK = True
-    If oPackage.Exists("install") Then
-        If oPackage("install").Exists("tables") Then
+    If oPackage.exists("install") Then
+        If oPackage("install").exists("tables") Then
             Dim oTable As Object
             Dim strOptionQueryFolder As String
             Dim strFilePath As String
@@ -290,7 +292,7 @@ On Error GoTo ErrorHandler
             
             
             For Each oTable In oPackage.Item("install").Item("tables")
-                If oTable.Exists("fields") Then
+                If oTable.exists("fields") Then
                     Dim oField As Object
                     For Each oField In oTable.Item("fields")
                         
@@ -301,7 +303,7 @@ On Error GoTo ErrorHandler
                             
                         End If
                         'Remove property from JSON object
-                        If oField.Item("attributes").Exists("optionquery") Then
+                        If oField.Item("attributes").exists("optionquery") Then
                             Call oField.Item("attributes").Remove("optionquery")
                         End If
                     Next
@@ -322,8 +324,8 @@ On Error GoTo ErrorHandler
     Dim allOK As Boolean
     bResult = True
     allOK = True
-    If oPackage.Exists("install") Then
-        If oPackage("install").Exists("tables") Then
+    If oPackage.exists("install") Then
+        If oPackage("install").exists("tables") Then
             Dim oTable As Object
             Dim strSqlOnUpdateFolder As String
             Dim strFilePath As String
@@ -332,7 +334,7 @@ On Error GoTo ErrorHandler
             
             
             For Each oTable In oPackage.Item("install").Item("tables")
-                If oTable.Exists("fields") Then
+                If oTable.exists("fields") Then
                     Dim oField As Object
                     For Each oField In oTable.Item("fields")
                         
@@ -343,7 +345,7 @@ On Error GoTo ErrorHandler
                             
                         End If
                         'Remove property in JSON object
-                        If oField.Item("attributes").Exists("onsqlupdate") Then
+                        If oField.Item("attributes").exists("onsqlupdate") Then
                             Call oField.Item("attributes").Remove("onsqlupdate")
                         End If
                     Next
@@ -365,8 +367,8 @@ On Error GoTo ErrorHandler
     Dim allOK As Boolean
     bResult = True
     allOK = True
-    If oPackage.Exists("install") Then
-        If oPackage("install").Exists("tables") Then
+    If oPackage.exists("install") Then
+        If oPackage("install").exists("tables") Then
             Dim oTable As Object
             Dim strSqlForNewFolder As String
             Dim strFilePath As String
@@ -375,7 +377,7 @@ On Error GoTo ErrorHandler
             
             
             For Each oTable In oPackage.Item("install").Item("tables")
-                If oTable.Exists("fields") Then
+                If oTable.exists("fields") Then
                     Dim oField As Object
                     For Each oField In oTable.Item("fields")
                         
@@ -386,7 +388,7 @@ On Error GoTo ErrorHandler
                             
                         End If
                         'Remove property in JSON object
-                        If oField.Item("attributes").Exists("onsqlinsert") Then
+                        If oField.Item("attributes").exists("onsqlinsert") Then
                             Call oField.Item("attributes").Remove("onsqlinsert")
                         End If
                     Next
@@ -407,8 +409,8 @@ On Error GoTo ErrorHandler
     Dim allOK As Boolean
     bResult = True
     allOK = True
-    If oPackage.Exists("install") Then
-        If oPackage("install").Exists("tables") Then
+    If oPackage.exists("install") Then
+        If oPackage("install").exists("tables") Then
             Dim oTable As Object
             Dim strSqlExpressionsFolder As String
             Dim strFilePath As String
@@ -417,7 +419,7 @@ On Error GoTo ErrorHandler
             
             
             For Each oTable In oPackage.Item("install").Item("tables")
-                If oTable.Exists("fields") Then
+                If oTable.exists("fields") Then
                     Dim oField As Object
                     For Each oField In oTable.Item("fields")
                         
@@ -428,7 +430,7 @@ On Error GoTo ErrorHandler
                         End If
                         
                         'Remove property in JSON object
-                        If oField.Item("attributes").Exists("sql") Then
+                        If oField.Item("attributes").exists("sql") Then
                             Call oField.Item("attributes").Remove("sql")
                         End If
                     Next
@@ -449,8 +451,8 @@ On Error GoTo ErrorHandler
     Dim allOK As Boolean
     bResult = True
     allOK = True
-    If oPackage.Exists("install") Then
-        If oPackage("install").Exists("tables") Then
+    If oPackage.exists("install") Then
+        If oPackage("install").exists("tables") Then
             Dim oTable As Object
             Dim strSqlDescriptiveFolder As String
             Dim strFilePath As String
@@ -464,7 +466,7 @@ On Error GoTo ErrorHandler
                 End If
                 
                 'Remove property from JSON object
-                If oTable.Item("attributes").Exists("descriptive") Then
+                If oTable.Item("attributes").exists("descriptive") Then
                     Call oTable.Item("attributes").Remove("descriptive")
                 End If
             Next
@@ -569,14 +571,14 @@ On Error GoTo ErrorHandler
     bResult = True
     bAllOK = True
     
-    If oPackage.Exists("install") Then
-        If oPackage("install").Exists("tables") Then
+    If oPackage.exists("install") Then
+        If oPackage("install").exists("tables") Then
             Dim oTable As Object
             Dim strIconFolder As String
             strIconFolder = strTempFolder & "\" & "tableicons"
             For Each oTable In oPackage.Item("install").Item("tables")
-                If oTable.Exists("attributes") Then
-                    If oTable.Item("attributes").Exists("icon") Then
+                If oTable.exists("attributes") Then
+                    If oTable.Item("attributes").exists("icon") Then
                         bResult = SaveBinaryToDisk(oTable.Item("attributes").Item("icon"), oTable("name") & ".ico", strIconFolder)
                         Call oTable.Item("attributes").Remove("icon")
                         If bResult = False Then bAllOK = False
@@ -669,7 +671,7 @@ On Error GoTo ErrorHandler
     GetFolder = ""
         
     fldr.text = "Select a Folder to save the package file."
-    If fldr.show = vbOK Then
+    If fldr.Show = vbOK Then
         GetFolder = fldr.Folder
     End If
     Set fldr = Nothing
@@ -894,7 +896,7 @@ On Error GoTo ErrorHandler
     Dim strFilename As String
     
     If Not Component Is Nothing Then
-        strFilename = Component.name
+        strFilename = Component.Name
         Select Case Component.Type
             Case 1
                 strFilename = strFilename & ".bas"
@@ -919,7 +921,7 @@ End Function
 
 Private Function CreateTemporaryFolder(Optional strTempFolder As String = "", Optional Subfolder As String = "") As String
 On Error GoTo ErrorHandler
-    'Kolla om sökvägen finns och skapar mappen
+    'Kolla om sï¿½kvï¿½gen finns och skapar mappen
     Dim strTempPath As String
     
     strTempPath = IIf(strTempFolder = "", Application.WebFolder & "apps\LIPPackageBuilder\" & VBA.Replace(VBA.Replace(LCO.GenerateGUID, "{", ""), "}", ""), strTempFolder)
@@ -953,6 +955,7 @@ Public Function GetLocalizations(ByVal sOwner As String) As Records
     
     Call oView.Add("owner", lkSortAscending)
     Call oView.Add("code")
+    Call oView.Add("context")
     Call oView.Add("sv")
     Call oView.Add("en_us")
     Call oView.Add("no")
@@ -1073,16 +1076,16 @@ End Function
 Private Function CleanupPackageFile(oPackage As Object) As Boolean
 On Error GoTo ErrorHandler
     'Remove related table
-     If oPackage.Exists("install") Then
-        If oPackage("install").Exists("tables") Then
+     If oPackage.exists("install") Then
+        If oPackage("install").exists("tables") Then
             Dim oTable As Object
             Dim strIconFolder As String
             Dim oField As Object
             
             For Each oTable In oPackage.Item("install").Item("tables")
-                If oTable.Exists("fields") Then
+                If oTable.exists("fields") Then
                     For Each oField In oTable.Item("fields")
-                        If oField.Exists("attributes") Then
+                        If oField.exists("attributes") Then
                             Call oField.Item("attributes").Remove("relatedtable")
                         End If
                     Next
@@ -1095,3 +1098,4 @@ Exit Function
 ErrorHandler:
     CleanupPackageFile = False
 End Function
+

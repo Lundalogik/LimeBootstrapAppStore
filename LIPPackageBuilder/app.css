@@ -62,3 +62,14 @@ body{
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+#open-existing-package-button{
+    margin-left:15px;
+    margin-bottom:20px;
+}
+.details-submenu{
+    margin-left:50px;
+}
+.details-tab{
+    margin-top:30px;
+}

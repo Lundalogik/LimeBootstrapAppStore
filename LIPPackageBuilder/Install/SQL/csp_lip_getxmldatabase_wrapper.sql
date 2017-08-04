@@ -8,7 +8,9 @@ GO
 -- Created: 2016-01-25
 
 -- Called by the LIP Package Builder. Returns relevant XML structure for the database.
-
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'csp_lip_getxmldatabase_wrapper' AND UPPER(type) = 'P')
+   DROP PROCEDURE [csp_lip_getxmldatabase_wrapper]
+GO
 CREATE PROCEDURE [dbo].[csp_lip_getxmldatabase_wrapper]
 	@@lang NVARCHAR(5)
 	, @@idcoworker INT = NULL

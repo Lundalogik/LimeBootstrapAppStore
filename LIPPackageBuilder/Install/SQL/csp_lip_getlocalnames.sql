@@ -10,7 +10,9 @@ GO
 -- Returns the local names for all fields and tables as an xml.
 
 --##TODO: Lägg tillbaka validationtexts, comments och descriptions. XML:en blir dock för stor om man har med dem.
-
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'csp_lip_getlocalnames' AND UPPER(type) = 'P')
+   DROP PROCEDURE [csp_lip_getlocalnames]
+GO
 CREATE PROCEDURE [dbo].[csp_lip_getlocalnames]
 	@@lang NVARCHAR(5) = N''
 	, @@idcoworker INT = NULL
