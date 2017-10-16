@@ -17,7 +17,14 @@ On the company card, a nice graph will give you a brilliant overview of the invo
 See the instructions in the Installation-folder.
 
 ## Important
-You need to be able to connect to your Visma-database when transferring your customers from Lime CRM to Visma Administration.
+You need to be able to connect to your ERP-system when transferring your customers from Lime CRM to the ERP-system.
+
+## System support
+The following ERP-systems are currently supported by the ERP Connector:
+
+  * Visma Administration
+  * Visma Business
+  * Microsoft Dynamics Navision (NAV)
 
 ### More reading
 For more extensive description of the add-on, please see the <a href="http://docs.lundalogik.com/crm/addons/visma-administration/start">documentation</a>
