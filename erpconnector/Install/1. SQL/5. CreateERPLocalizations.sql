@@ -95,9 +95,9 @@ SELECT 1 AS createduser
 	, N'Title in header for invoice graph' AS context
 	, N'Fakturering' AS sv
 	, N'Invoicing' AS en_us
-	, N'' AS [no]
-	, N'' AS da
-	, N'' AS fi
+	, N'Fakturering' AS [no]
+	, N'Fakturering' AS da
+	, N'Laskutus' AS fi
 UNION ALL
 SELECT 1 AS createduser
 	, 1 AS updateduser
@@ -105,11 +105,11 @@ SELECT 1 AS createduser
 	, N'ERPConnector' AS [owner]
 	, N'invoiceSubHeader' AS code
 	, N'Subtitle for invoice graph' AS context
-	, N'Betalda fakturor mot kunden de senaste fem åren.' AS sv
-	, N'Payed invoices for the customer the last five years.' AS en_us
-	, N'' AS [no]
-	, N'' AS da
-	, N'' AS fi
+	, N'Betalda fakturor mot kunden de senaste fem åren' AS sv
+	, N'Payed invoices for the customer the last five years' AS en_us
+	, N'Kunders betalte fakturaer de siste fem årene' AS [no]
+	, N'Kundens betalte faktura de sidste 5 år' AS da
+	, N'Asiakkaan maksetut laskut viimeiseltä viideltä vuodelta' AS fi
 UNION ALL
 SELECT 1 AS createduser
 	, 1 AS updateduser
@@ -121,7 +121,7 @@ SELECT 1 AS createduser
 	, N'Months' AS en_us
 	, N'Måneder' AS [no]
 	, N'Måneder' AS da
-	, N'' AS fi
+	, N'Kuukaudet' AS fi
 UNION ALL
 SELECT 1 AS createduser
 	, 1 AS updateduser
@@ -133,7 +133,7 @@ SELECT 1 AS createduser
 	, N'Quarters' AS en_us
 	, N'Kvartal' AS [no]
 	, N'Kvartal' AS da
-	, N'' AS fi
+	, N'Vuosineljännekset' AS fi
 UNION ALL
 SELECT 1 AS createduser
 	, 1 AS updateduser
@@ -143,9 +143,9 @@ SELECT 1 AS createduser
 	, N'Text showing in graph when there are no invoices' AS context
 	, N'Inga fakturor finns registrerade på företaget!' AS sv
 	, N'No invoices are registered on this company!' AS en_us
-	, N'' AS [no]
-	, N'' AS da
-	, N'' AS fi
+	, N'Det finnes ingen fakturaer på denne kunden!' AS [no]
+	, N'Der findes ingen faktura på denne kunde!' AS da
+	, N'Asiakkaalle ei ole merkitty laskuja!' AS fi
 UNION ALL
 SELECT 1 AS createduser
 	, 1 AS updateduser
@@ -155,6 +155,6 @@ SELECT 1 AS createduser
 	, N'Text for total sum' AS context
 	, N'Totalt' AS sv
 	, N'Total' AS en_us
-	, N'' AS [no]
-	, N'' AS da
-	, N'' AS fi
+	, N'Total' AS [no]
+	, N'Totalt' AS da
+	, N'Yhteensä' AS fi

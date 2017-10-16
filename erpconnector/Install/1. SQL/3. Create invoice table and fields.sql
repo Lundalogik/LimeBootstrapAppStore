@@ -284,6 +284,29 @@ BEGIN TRY
 		EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'isnullable', @@valueint = 1	--nullable
 		EXEC [dbo].[lsp_setfieldattributevalue] @@idfield = @idfield, @@name = N'defaultvalue', @@valueint = null	--default
 
+		--CREATE TEXT FIELD currency
+		SET @tablename = N'invoice'
+		SET @fieldname = N'currency'
+		PRINT N'CREATE FIELD: ' + @tablename + '.' + @fieldname
+		SET @return_value = null
+		SET @defaultvalue = null
+		SET @idfield = null
+		SET @localname = null
+		SET @idcategory = null
+		SET @idstring = null
+
+		EXEC @return_value = [dbo].[lsp_addfield]
+			@@table = @tablename,
+			@@name = @fieldname,
+			@@fieldtype = 1,					--Text field
+			@@length = 32,						--Behövs endast om textfält
+			@@defaultvalue = @defaultvalue OUTPUT,
+			@@idfield = @idfield OUTPUT,
+			@@localname = @localname OUTPUT,
+			@@idcategory = @idcategory OUTPUT
+						
+		UPDATE [string] SET en_us = N'Currency', sv = N'Valuta', [no] = N'Valuta', da = N'Valuta', fi = N'Valuutta' WHERE [idstring] = @localname
+
 		--CREATE DECIMAL FIELD invoice_sum
 		SET @tablename = N'invoice'
 		SET @fieldname = N'invoice_sum'
