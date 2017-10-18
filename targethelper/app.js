@@ -145,10 +145,10 @@ lbs.apploader.register('targethelper', function () {
                         var targetvalue = m.target()
 
                         if(targetvalue === ""){
-                            alert("f")
+                            
                           targetvalue = "0"
                         }
-                        alert(targetvalue);
+                        
                         targets = targets + targetvalue + ";";
                     });
 
