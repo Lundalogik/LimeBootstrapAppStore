@@ -18,6 +18,9 @@ Features :
 You can add the GetAccept App on every object where there is a document tab present. 
 
 ##Installation
+
+https://github.com/Lundalogik/LimeBootstrapAppStore/tree/master/getaccept
+
 1. Copy the "getaccept" folder to the apps folder in the Actionpad-folder.
 2. Add a yes/no field named to "sent_with_ga" to the document table, set it as protected for editing in LIME Pro
 3. Import the GetAccept.bas ("..\Install\VBA") to the VBA
