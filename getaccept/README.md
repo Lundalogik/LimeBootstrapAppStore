@@ -1,9 +1,9 @@
-#GetAccept - eSigning
+# GetAccept - eSigning
 
 CREATED BY: GetAccept
 To use this app you need to have a GetAccept account, create one for free att www.getaccept.com 
 
-#Close more deals faster
+# Close more deals faster
 GetAccept is a third party tool helping sales people close more deals by taking control of the proposal and eSigning workflow. Now it is integrated with LIME Pro and you can send your document directly from LIME Pro through GetAccept. 
 
 Features :
@@ -14,10 +14,10 @@ Features :
 - Automatic reminders smooothly moving your deal forward
 - eSigning, make it easy for you customers to say and skip the hazle with printers and scanners
 
-#How does it work
+# How does it work
 You can add the GetAccept App on every object where there is a document tab present. 
 
-##Installation
+## Installation
 1. Copy the "getaccept" folder to the apps folder in the Actionpad-folder.
 2. Add a yes/no field named to "sent_with_ga" to the document table, set it as protected for editing in LIME Pro
 3. Import the GetAccept.bas ("..\Install\VBA") to the VBA
