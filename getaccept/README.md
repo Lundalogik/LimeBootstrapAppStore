@@ -41,5 +41,5 @@ Configuration:
 
 You are now done. Each user will have their own login credentials which is used to start using the GetAccept integration.
 
-## Important
+## Important 
 Each user at a company using the GetAccept integration need to have a GetAccept account.
