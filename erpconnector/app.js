@@ -77,8 +77,8 @@ lbs.apploader.register('erpconnector', function () {
                      //Save erpid (Number) to field-erpid in Lime CRM
                     if (ErpResponse.Number !== "") {  
                         lbs.limeDataConnection.ActiveInspector.Controls.SetValue('erpid', ErpResponse.Number);
-                        lbs.limeDataConnection.ActiveInspector.Controls.SetValue('erp_turnover_yearnow', ErpResponse.AccumulateTurnoverThisYear);
-                        lbs.limeDataConnection.ActiveInspector.Controls.SetValue('erp_turnover_lastyear', ErpResponse.AccumulateTurnoverLastYear);
+                        //lbs.limeDataConnection.ActiveInspector.Controls.SetValue('erp_turnover_yearnow', ErpResponse.AccumulateTurnoverThisYear);
+                        //lbs.limeDataConnection.ActiveInspector.Controls.SetValue('erp_turnover_lastyear', ErpResponse.AccumulateTurnoverLastYear);
                         lbs.limeDataConnection.ActiveInspector.Save();
                         lbs.limeDataConnection.ActiveInspector.WebBar.Refresh();
                     }
