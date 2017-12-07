@@ -24,7 +24,7 @@ The following ERP-systems are currently supported by the ERP Connector:
 
   * Visma Administration
   * Visma Business
-  * Microsoft Dynamics Navision (NAV)1
+  * Microsoft Dynamics Navision (NAV)
 
 ### More reading
 For more extensive description of the add-on, please see the <a href="http://docs.lundalogik.com/crm/addons/visma-administration/start">documentation</a>
