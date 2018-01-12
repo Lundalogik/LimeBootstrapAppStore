@@ -7,7 +7,7 @@ lbs.apploader.register('Fulltextsearch', function () {
         The variabels specified in "config:{}", when you initalize your app are available in in the object "appConfig".
     */
     self.config =  function(appConfig){
-            this.yourPropertyDefinedWhenTheAppIsUsed = appConfig.yourProperty;
+            //this.yourPropertyDefinedWhenTheAppIsUsed = appConfig.yourProperty;
             this.dataSources = [];
             this.resources = {
                 scripts: [], // <= External libs for your apps. Must be a file
@@ -29,52 +29,55 @@ lbs.apploader.register('Fulltextsearch', function () {
     */
     self.initialize = function (node, viewModel) {
         
-        viewModel.searchValue = ko.observable($('#searchValue').val()).extend({throttle:1000});
-        viewModel.searchString = ko.observable('');
-        var lastManualSearchValue = "";
+        var searchInput = $('#searchInput');
+        viewModel.searchString = ko.observable(searchInput.val());              //This one is used for hover effects in the GUI
+        viewModel.searchStringThrottled = ko.computed(viewModel.searchString).extend({throttle:1000});          //This one is used for automatic searches
+        var lastManualSearchString = '';
+
         
-        viewModel.searchValue.subscribe(function(newValue){
+        // Make the app perform an automatic search after the user has typed something in the search input.
+        viewModel.searchStringThrottled.subscribe(function(newValue) {
             if(newValue.length > 1) {
-                if (newValue !== lastManualSearchValue) {
-                    lbs.common.executeVba('Fulltextsearch.Search,' + newValue);
+                // Only perform automatic search if not a manual search was just done for the same string.
+                if (newValue !== lastManualSearchString) {
+                    lbs.common.executeVba('AO_Fulltextsearch.Search,' + newValue);
                     window.focus();
-                    $('#searchValue').focus();
+                    searchInput.focus();
                 }
             }
         });
 
-        viewModel.or = function(i, event){
-            if ($('#searchValue').val().length > 0){
-                viewModel.searchString(viewModel.searchString() + $('#searchValue').val() + ' [--OR--]');                                
-                $('#searchValue').val($('#searchValue').val() + ' OR ');
-                $('#searchValue').keydown();
-                window.focus();
-                $('#searchValue').focus();
-            }            
-        }
-
-        viewModel.and = function(i, event){
-            if ($('#searchValue').val().length > 0){
-                viewModel.searchString(viewModel.searchString() + $('#searchValue').val() + ' [--AND--]');                                
-                $('#searchValue').val($('#searchValue').val() + ' AND ');
-                $('#searchValue').keydown();
-                $('#searchValue').focus();
-            }            
-        }
-
-        viewModel.like = function(i, event){
-            if ($('#searchValue').val().length > 0){
-                //viewModel.searchString(viewModel.searchString() + $('#searchValue').val() + ' [--LIKE--]');                                
-                lbs.common.executeVba('Fulltextsearch.Search,' + $('#searchValue').val() + '*');
-                $('#searchValue').val($('#searchValue').val() + '*');
-                $('#searchValue').keydown();
-                $('#searchValue').focus();
+        /* Called when clicking the helper button OR in the GUI.
+            Adds the logical operator OR to the search string. */
+        viewModel.addOperatorOr = function(i, event){
+            if (searchInput.val().length > 0) {
+                // Check the last four characters in the string
+                if (searchInput.val().slice(-4) !== ' OR ') {
+                    searchInput.val(searchInput.val() + ' OR ');
+                }
             }
+            searchInput.focus();        
         }
-        viewModel.showString = function(i,event){
-            lastManualSearchValue = $('#searchValue').val();
-            lbs.common.executeVba('Fulltextsearch.Search,' + $('#searchValue').val());
+
+        /* Called when clicking the helper button BEGINS WITH in the GUI.
+            Adds the wild card operator * to the search string. */
+        viewModel.addOperatorBeginsWith = function(i, event){
+            if (searchInput.val().length > 0) {
+                // Check the last character in the string
+                if (searchInput.val().slice(-1) !== ' ' && searchInput.val().slice(-1) !== '*') {
+                    searchInput.val(searchInput.val() + '*');
+                    searchInput.keydown();                      // Trigger an automatic search
+                }
+            }
+            searchInput.focus();
         }
+
+        // Called when clicking the search button in the GUI for a manual search.
+        viewModel.manualSearch = function(i, event){
+            lastManualSearchString = searchInput.val();
+            lbs.common.executeVba('AO_Fulltextsearch.Search,' + lastManualSearchString);
+        }
+
         return viewModel;
     };
 });

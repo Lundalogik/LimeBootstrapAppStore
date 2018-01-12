@@ -1,17 +1,24 @@
 {
 	"name": "Fulltextsearch",
-	"author":"Andreas Åström & Amina Demirovic",
-	"status":"Release",
-	"license":true,
-	"shortDesc": "Allows you to search for text IN documents.",
-	"versions":[
+	"author": "Andreas Åström & Amina Demirovic",
+	"status": "Release",
+	"license": true,
+	"shortDesc": "Allows you to search for text in documents.",
+	"versions": [
 		{
-			"version":"0.1",
-			"date":"2015-04-02",
-			"comments":"Relseas party!"
+			"version": "0.1.0",
+			"authors": ["Andreas Åström, Lundalogik AB", "Amina Demirovic, Lundalogik AB"],
+			"date": "2015-04-02",
+			"comments": "First release."
+		}
+		, {
+			"version": "1.0.0",
+			"authors": ["Fredrik Eriksson, Lundalogik AB"],
+			"date": "2018-01-12",
+			"comments": "Updated according to latest requirements for Community Add-ons. Cleaned up javascript code, improved the README and GUI."
 		}
 	],
-	"install":{
+	"install": {
 		
 	}
 }
