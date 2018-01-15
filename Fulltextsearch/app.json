@@ -3,7 +3,7 @@
 	"author": "Andreas Åström & Amina Demirovic",
 	"status": "Release",
 	"license": true,
-	"shortDesc": "Allows you to search for text in documents.",
+	"shortDesc": "Allows you to search for text in documents stored in Lime CRM.",
 	"versions": [
 		{
 			"version": "0.1.0",
@@ -16,6 +16,12 @@
 			"authors": ["Fredrik Eriksson, Lundalogik AB"],
 			"date": "2018-01-12",
 			"comments": "Updated according to latest requirements for Community Add-ons. Cleaned up javascript code, improved the README and GUI."
+		}
+		, {
+			"version": "1.0.1",
+			"authors": ["Fredrik Eriksson, Lundalogik AB"],
+			"date": "2018-01-15",
+			"comments": "Improved the README."
 		}
 	],
 	"install": {

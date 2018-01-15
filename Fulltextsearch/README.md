@@ -1,8 +1,15 @@
 # Fulltextsearch 
 This app allows you to search for text or words in documents stored in the documents tab in Lime CRM.
-Supported file types depend on which iFilters that are installed on the SQL server. Common file types are doc, docx, msg, xls, xlxs, xml, txt and csv. New iFilters could always be installed (to be able to install an iFilter the SQL Server has to be 64-bit if Windows is 64-bit).
 
-*Important* This search function does NOT support pdf files.
+## Requirements
+Supported file types depend on which iFilters that are installed in Windows and activated by the SQL server. As a default, SQL Server will activate every iFilter that is installed in Windows. This will normally include most common file types, such as doc, docx, msg, xls, xlxs, xml, txt and csv. This is what the add-on is sold to be able to do.
+
+*Important:* pdf files are not supported.
+
+New iFilters could be installed, but that requires that the SQL Server is 64-bit if Windows is 64-bit. To check which filters that are active on a SQL Server, the following command could be used:
+```sql
+EXEC sp_help_fulltext_system_components 'filter'
+```
 
 ## Features
 The search is conducted on full words only as default. If two or more words are typed separated with space, only documents containing all of the words are shown in the result list. There are ways to perform more advanced searches. For this, there are two helper buttons that will insert an operator in the search string. The purpose behind these are described below.
