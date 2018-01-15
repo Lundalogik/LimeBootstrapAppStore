@@ -2,7 +2,16 @@
 This app allows you to search for text or words in documents stored in the documents tab in Lime CRM.
 
 ## Requirements
-Supported file types depend on which iFilters that are installed in Windows and activated by the SQL server. As a default, SQL Server will activate every iFilter that is installed in Windows. This will normally include most common file types, such as doc, docx, msg, xls, xlxs, xml, txt and csv. This is what the add-on is sold to be able to do.
+* SQL Server 2008 R2 or later.
+
+## Features
+The search is conducted on full words only as default. If two or more words are typed separated with space, only documents containing all of the words are shown in the result list. There are ways to perform more advanced searches. For this, there are two helper buttons that will insert an operator in the search string. The purpose behind these are described below.
+
+*OR*: If two words are separated by the OR operator, the search result will contain all documents that has at least one of the two words in them.
+*BEGINS WITH*: This operator (*) can be used to search for only the beginning of a word, and accept all endings of it, when finding documents. For example, searching for "cust*" will return documents containing words such as "customer", "custom", "customs" etc.
+
+### Supported File Types
+Supported file types depend on which iFilters that are installed in Windows and activated by the SQL server. As a default, SQL Server will activate every iFilter that is installed in Windows. This will normally include most common file types, such as doc, docx, msg, xls, xlxs, xml, txt and csv.
 
 *Important:* pdf files are not supported.
 
@@ -10,12 +19,6 @@ New iFilters could be installed, but that requires that the SQL Server is 64-bit
 ```sql
 EXEC sp_help_fulltext_system_components 'filter'
 ```
-
-## Features
-The search is conducted on full words only as default. If two or more words are typed separated with space, only documents containing all of the words are shown in the result list. There are ways to perform more advanced searches. For this, there are two helper buttons that will insert an operator in the search string. The purpose behind these are described below.
-
-*OR*: If two words are separated by the OR operator, the search result will contain all documents that has at least one of the two words in them.
-*BEGINS WITH*: This operator (*) can be used to search for only the beginning of a word, and accept all endings of it, when finding documents. For example, searching for "cust*" will return documents containing words such as "customer", "custom", "customs" etc.
 
 ## Installation
 1. Create the SQL function cfn_addon_fulltextsearch_checkstring.
