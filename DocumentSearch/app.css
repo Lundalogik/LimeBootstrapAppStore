@@ -1,4 +1,4 @@
-.fulltextsearch {
+.documentsearch {
 	height: 150px;
 	width: 100%;
 	background-color: #fff;
@@ -29,14 +29,14 @@
 	margin-bottom: 8px;	
 }
 
-li#fulltextsearch:hover {
+li#documentsearch:hover {
 	background-color: #F1F6FF;
 }
 
-span.fulltextsearch-helperbutton.fulltextsearch-buttonactive:hover {
+span.documentsearch-helperbutton.documentsearch-buttonactive:hover {
 	background-color: #3B8FD3;
 }
 
-span.fulltextsearch-manualsearchbutton.fulltextsearch-buttonactive:hover {
+span.documentsearch-manualsearchbutton.documentsearch-buttonactive:hover {
 	background-color: #E2E2E2;
 }

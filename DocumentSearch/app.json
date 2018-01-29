@@ -1,5 +1,5 @@
 {
-	"name": "Fulltextsearch",
+	"name": "DocumentSearch",
 	"author": "Andreas Åström & Amina Demirovic",
 	"status": "Release",
 	"license": true,
@@ -22,6 +22,12 @@
 			"authors": ["Fredrik Eriksson, Lundalogik AB"],
 			"date": "2018-01-15",
 			"comments": "Improved the README."
+		}
+		, {
+			"version": "2.0.0",
+			"authors": ["Fredrik Eriksson, Lundalogik AB"],
+			"date": "2018-01-29",
+			"comments": "Renamed add-on from Fulltextsearch to DocumentSearch."
 		}
 	],
 	"install": {

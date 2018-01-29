@@ -1,4 +1,4 @@
-lbs.apploader.register('Fulltextsearch', function () {
+lbs.apploader.register('DocumentSearch', function () {
     var self = this;
 
     /*Config (version 2.0)
@@ -40,7 +40,7 @@ lbs.apploader.register('Fulltextsearch', function () {
             if(newValue.length > 1) {
                 // Only perform automatic search if not a manual search was just done for the same string.
                 if (newValue !== lastManualSearchString) {
-                    lbs.common.executeVba('AO_Fulltextsearch.Search,' + newValue);
+                    lbs.common.executeVba('AO_DocumentSearch.Search,' + newValue);
                     window.focus();
                     searchInput.focus();
                 }
@@ -75,7 +75,7 @@ lbs.apploader.register('Fulltextsearch', function () {
         // Called when clicking the search button in the GUI for a manual search.
         viewModel.manualSearch = function(i, event){
             lastManualSearchString = searchInput.val();
-            lbs.common.executeVba('AO_Fulltextsearch.Search,' + lastManualSearchString);
+            lbs.common.executeVba('AO_DocumentSearch.Search,' + lastManualSearchString);
         }
 
         return viewModel;

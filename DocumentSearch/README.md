@@ -1,4 +1,4 @@
-# Fulltextsearch 
+# Document Search 
 This app allows you to search for text or words in documents stored in the documents tab in Lime CRM.
 
 ## Requirements
@@ -21,10 +21,10 @@ EXEC sp_help_fulltext_system_components 'filter'
 ```
 
 ## Installation
-1. Create the SQL function cfn_addon_fulltextsearch_checkstring.
-2. Create the SQL function cfn_addon_fulltextsearch_checktype.
-3. Create the SQL function cfn_addon_fulltextsearch_editstring.
-4. Create the SQL procedure csp_addon_fulltextsearch_finddocuments. If you get an error stating that:
+1. Create the SQL function cfn_addon_documentsearch_checkstring.
+2. Create the SQL function cfn_addon_documentsearch_checktype.
+3. Create the SQL function cfn_addon_documentsearch_editstring.
+4. Create the SQL procedure csp_addon_documentsearch_finddocuments. If you get an error stating that:
 ```
 Cannot use a CONTAINS or FREETEXT predicate on table or indexed view 'dbo.file' because it is not full-text indexed.
 ```
@@ -33,15 +33,15 @@ The full-text index is created by right clicking the table ```dbo.file``` and th
 a. Choose 'pk__file__idfile' as a unique index. Click 'Next >'.
 b. The next page in the wizard is for choosing which column to perform full-text searches in. Tick the box for 'data'. In the drop down in the column 'Type column', select 'fileextension'. Also specify your desired language in the column 'Language for Word Breaker'. Click 'Next >'.
 c. Select Change Tracking. Let the option 'Automatically' be selected. Click 'Next >'.
-d. Select Catalog, Index Filegroup and Stoplist. Tick the box 'Create a new catalog'. Enter the name 'addon_fulltextsearch'. Let it be Accent sensitive. Click 'Next >'.
+d. Select Catalog, Index Filegroup and Stoplist. Tick the box 'Create a new catalog'. Enter the name 'addon_documentsearch'. Let it be Accent sensitive. Click 'Next >'.
 e. Define Population Schedules (Optional). Skip this and just click 'Next >'.
 f. Full-Text Indexing Wizard Description. Click 'Finish'.
 g. When the wizard has completed its work, click 'Close'.
 
 5. If you are running Lime CRM Server 12.x or later, please restart the LDC manually (right-click on it and click "Shut down").
 6. Restart the Lime CRM desktop client.
-7. Add the VBA module AO_Fulltextsearch and save the VBA project.
-8. Add the "Fulltextsearch" folder to the Actionpads\apps folder.
+7. Add the VBA module AO_DocumentSearch and save the VBA project.
+8. Add the "DocumentSearch" folder to the Actionpads\apps folder.
 9. In the main actionpad, where you want the app to be shown: Insert one of the two ways of showing the app found in app_instantiation.html.
 10. Publish the actionpads.
 11. Restart the Lime CRM desktop client and start using the add-on!
