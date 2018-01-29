@@ -2,6 +2,7 @@
 ## PLEASE NOTE THAT THE APP IS ON THE GETACCEPT REPO! https://github.com/getaccept/limecrm
 
 CREATED BY: GetAccept
+
 To use this app you need to have a GetAccept account, create one for free att www.getaccept.com 
 
 # Close more deals faster
