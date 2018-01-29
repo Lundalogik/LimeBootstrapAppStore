@@ -1,0 +1,37 @@
+    
+	<div class="headercontainer">
+	<span id="menuText" data-bind="text:'Checklista'"></span>    	
+    <div id="container1">    	    	    	        	
+	    <div id="container2" class="listhead" data-bind="visible: showChecklist">
+
+			<ul class="menu expandable open" id="list">				
+				<!-- ko foreach:activitys -->						
+				<li id="listitem" data-bind="visible: isVisible() == 1" title="">
+					
+                    <span data-bind="icon: 'fa-gears fa-lg',tooltip:'Pågående', visible: isOngoing() == 1,style:{color:'#464646'}"> </span>
+                    <span id="checkIcon" data-bind="
+                        text:' ', 
+                        click:check,                           
+                        icon:  (ignoreActivity() != 0)? 'fa-times' : (showCheckbox() == 0)?((ischecked() != 0) ?'fa-check-square' : 'fa-square') : 'fa-long-arrow-right', 
+                        style: { color: ischecked() != 0 ? (ignoreActivity() != 0? '#FFCC66':'#5cb85c') : '' },                    
+                        visible: isOngoing() == 0"> 
+                    </span>	
+
+					<!--<span id="checkIcon" data-bind="text:' ',  icon: (showCheckbox() == 0)?((ischecked() != 0) ?'fa-check-square' : 'fa-square') : 'fa-long-arrow-right', style: { color: ischecked() != 0 ? '#5cb85c' : '' }"> </span>-->				
+					<span data-bind="text:description, popover:historyText(), click:check, contextmenu:{}"></span>
+					<span data-bind=" visible:descriptionoffice !== '0',  text:descriptionoffice, style: {color:'#bf3b26'},  click:check"></span>
+					<span data-bind="icon: (isSpecial() == 1 ? icon() : ''), click:special, visible: isSpecial() == 1"> </span>											 
+				</li>
+				<!-- /ko-->	
+			</ul>
+		</div>	        
+         <ul id="contextMenu" class="dropdown-menu" role="menu" >    
+		    <li><a id="ignore"></a></li> 
+		    <!--<li class="divider"></li>-->           
+		    <li><a id="ongoing"></a></li>                        
+            <li id="specialHolder"><a id="special"></a></li>
+		</ul>  		
+	</div>
+	</div>
+	
+

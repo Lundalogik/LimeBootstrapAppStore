@@ -1,0 +1,28 @@
+.helpdeskhelper {    
+    height: 70px;
+    background-color: #e56c19;
+    position:static;
+    left:0px;
+    right:0px;
+    padding-left: 10px;
+    color: #fff;
+    box-shadow: 0px 2px 1px #888888;
+    font-size: 30px;
+    line-height: 70px;
+    cursor:pointer;
+    padding-bottom: 10px;    
+    margin: 10px -10px 0px -10px;
+}
+.small{
+    height: 30px;    
+    color:#fff;   
+    background-color:#e56c19;
+    width:40px;
+    line-height: 26px;
+    font-size:16px;
+    padding: 2px;
+    text-align:center;
+    border-radius:16px;
+    box-shadow:none;
+    margin-left:0px;    
+}

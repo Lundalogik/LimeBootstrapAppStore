@@ -1,0 +1,14 @@
+.dropdown-menu{
+	width:100%;
+}
+#datepicker{
+	margin-top:5px; 
+	height:33px;
+	font-size:13px;
+}
+#dropdown{
+	width:50%;
+}
+#input-container{
+	width:100%;
+}

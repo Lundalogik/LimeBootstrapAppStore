@@ -1,0 +1,21 @@
+{
+	"name": "JobStatus",
+	"author":"Andreas Åström",
+	"status":"Release",
+	"shortDesc": "Keeps track of your SQL-jobs.",
+	"versions":[
+		{
+			"version":"0.2",
+			"date":"2015-04-17",
+			"comments":"Release party"
+		}
+		,{
+			"version":"0.1",
+			"date":"2015-04-13",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}

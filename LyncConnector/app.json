@@ -1,16 +1,26 @@
 {
 	"name": "LyncConnector",
-	"author":"Adrian Schmidt and crew!",
-	"status":"Release",
+	"author": "Adrian Schmidt and crew!",
+	"status": "Release",
 	"shortDesc": "Lync Connector - Connects people!",
-	"versions":[
+	"versions": [
+		{
+			"version":"0.3",
+			"date":"2015-05-28",
+			"comments":"Updates LyncConnector to work with later versions of LimeBootstrap."
+		},
+		{
+			"version":"0.2",
+			"date":"2015-05-28",
+			"comments":"Fixes bug that caused LyncConnector to crash if there was no coworkerObject on the card."
+		},
 		{
 			"version":"0.1",
 			"date":"2014-05-08",
 			"comments":"Creation"
 		}
 	],
-	"install":{
+	"install": {
 
 	}
 }

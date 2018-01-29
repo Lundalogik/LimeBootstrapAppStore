@@ -58,7 +58,7 @@ lbs.apploader.register('businessfunnel', function () {
 			var maxAll = 0;
 			for (var j = 0; j < dataset.value.length; j++) {
 				if(!_.contains(self.config.removeStatus, dataset.value[j].key)){
-					maxAll = maxAll + parseInt(dataset.value[j].businessvalue);
+					maxAll = maxAll + parseInt(dataset.value[j].value);
 				}
 			};
 
@@ -96,15 +96,15 @@ lbs.apploader.register('businessfunnel', function () {
                 //REMOVE UNWANTED STATUSES FROM AN ARRAY SET BY USER
                 if(!_.contains(self.config.removeStatus, data.value[i].key)){    
 
-                    //SET ALL BUSINESSVALUES TO INTEGERS
-                    data.value[i].businessvalue = parseInt(data.value[i].businessvalue);  
+                    //SET ALL valueS TO INTEGERS
+                    data.value[i].value = parseInt(data.value[i].value);  
                 
-                    data.value[i].percentText = (parseInt(data.value[i].businessvalue)/parseInt(getMaxAll(data)))*100 +'%';
+                    data.value[i].percentText = (parseInt(data.value[i].value)/parseInt(getMaxAll(data)))*100 +'%';
                                         
-                    data.value[i].percent = (parseInt(data.value[i].businessvalue)/parseInt(getMaxAll(data)))*100;
+                    data.value[i].percent = (parseInt(data.value[i].value)/parseInt(getMaxAll(data)))*100;
      
                     data.value[i].money = $.number(
-                        (parseInt(data.value[i].businessvalue)/self.config.divider), self.config.decimals, ',', ' '
+                        (parseInt(data.value[i].value)/self.config.divider), self.config.decimals, ',', ' '
                     ) + ' ' +self.config.currency;
                             
                     data.value[i].color=colors[i%+colors.length];

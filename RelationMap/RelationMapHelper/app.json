@@ -1,0 +1,15 @@
+{
+	"name": "RelationMapHelper",
+	"author":"Karl Fogelström",
+	"status":"Development",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2016-12-29",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}

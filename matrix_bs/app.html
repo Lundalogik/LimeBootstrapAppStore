@@ -1,0 +1,51 @@
+﻿<div class="row">
+    <!--Här görs urvalen-->
+    <div class="col-md-10 col-md-offset-1" id="headselection">
+        <div class="row">
+            <!--<div class="col-md-2">-->
+                <div class="dropdown users">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true"><span data-bind="text:selectedcoworker"></span>                        
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" data-bind="foreach: coworkerslist">            
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-bind="text: name, click:pick "></a></li>                       
+                    </ul>
+                </div>            
+                <input class="form-control selection" type="text" id="Text1" placeholder="Startdatum" data-bind="datepicker:'', value: startDate, tooltip: 'Default är 3 månader tillbaka.'" />            
+                <input class="form-control selection" type="text" id="datepicker" placeholder="Slutdatum" data-bind="datepicker:'', value: endDate, tooltip: 'Default är idag.'" />
+                <button class="btn btn-default" data-bind="click: click, text: 'Hämta', icon:'fa-search'"></button>
+            <!--</div>-->
+        </div>
+    </div>
+	<div class ="m">
+    <!--Hör görs urvalen slut-->
+    <!--Matrix börjar här-->
+    <div class="row">
+        <div class="col-md-6 col-md-offset-1">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-1" data-bind="text:' '"></div> 
+                            <!-- ko foreach:{data: $root.classification(), as: 'index'}-->
+                            <div class="col-md-2 x matrix-classification" data-bind="text:index, tooltip: 'Potential'"></div>   
+                            <!-- /ko -->                                                                                                         
+                        </div>
+                    </div>
+                    <!-- ko foreach:{data:potentials(),as: 'potential'}-->                        
+                        <div class="row">                                                     
+                            <div class="col-md-12">   
+                                <div class="col-md-1 y" data-bind="text:potential, tooltip: 'Klassificering'"></div>     
+                                <!-- ko foreach:{data: $root.classification, as: 'index'}-->                        
+                                <div class="col-md-2 matrix" data-bind="text: '', attr:{id: potential+'-'+index}, click: function(){$root.showhistory(potential ,index)}"></div>                                                                                                                  
+                                <!-- /ko -->                                                                              
+                            </div>                                                                                                   
+                        </div>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>        
+    </div>    
+    <!--Matrix slutar här-->
+	</div>
+</div>

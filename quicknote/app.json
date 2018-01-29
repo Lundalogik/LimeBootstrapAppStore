@@ -1,0 +1,16 @@
+{
+	"name": "quicknote",
+	"author":"TLN",
+	"status":"Beta",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2015-12-10",
+			"comments":"Creation"
+		}
+	],
+	"shortDesc" : "LIME QuickNote consists of a plain notepad and is located in the actionpad. We can see an immediate benefit when working with call lists and to-dos.",
+	"install":{
+		
+	}
+}

@@ -1,0 +1,12 @@
+---------------------------------------------------
+Add to thisapplication.setup
+
+Call Followup.AddToPane
+
+---------------------------------------------------
+
+Code for index actionpad
+
+<li data-bind="vba: 'Followup.AddToPane', icon: 'fa-bullseye', text: localize.Followup.open_followup"/>
+
+----------------------------------------------------

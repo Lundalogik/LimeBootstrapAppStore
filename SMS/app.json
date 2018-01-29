@@ -1,0 +1,949 @@
+{
+  "name": "SMS",
+  "author": "Tommy Lindh (Lundalogik)",
+  "status": "Release",
+  "shortDesc": "An SMS app that sends SMS using APIs with no SQL that makes it great for hosting customers.\\r\\nHave not been tested with a lot of SMS but works fine with a few 100 I think",
+  "versions": [
+    {
+      "version": "1.0",
+      "date": "2017-05-26",
+      "comments": "First released version"
+    },
+    {
+      "version": "1.1",
+      "date": "2017-06-29",
+      "comments": "This app can now be installed using Lip"
+    }
+  ],
+  "install": {
+    "tables": [
+      {
+        "name": "coworker",
+        "localname": "Medarbetare",
+        "invisible": "0",
+        "attributes": {
+          "tableorder": "9",
+          "invisible": "0",
+          "syscomment": "",
+          "label": "6",
+          "log": "0",
+          "actionpad": ""
+        },
+        "localname_singular": {
+          "sv": "Medarbetare",
+          "no": "Medarbeider",
+          "fi": "Ty\u00F6ntekij\u00E4",
+          "en_us": "Coworker",
+          "da": "Medarbejder"
+        },
+        "localname_plural": {
+          "sv": "Medarbetare",
+          "no": "Medarbeider",
+          "fi": "Ty\u00F6ntekij\u00E4t",
+          "en_us": "Coworkers",
+          "da": "Medarbejdere"
+        },
+        "fields": [
+          {
+            "table": "coworker",
+            "name": "smsuser",
+            "localname": {
+              "sv": "SMS-anv\u00E4ndare",
+              "no": "smsuser",
+              "fi": "smsuser",
+              "en_us": "smsuser",
+              "da": "smsuser"
+            },
+            "attributes": {
+              "relationtab": "1",
+              "fieldtype": "relation",
+              "limereadonly": "0",
+              "invisible": "0",
+              "width": "0",
+              "height": "0",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "25",
+              "isnullable": "1",
+              "formatsql": "1",
+              "label": "0",
+              "idrelation": "7501",
+              "relatedtable": "smsuser"
+            }
+          }
+        ]
+      },
+      {
+        "name": "smsuser",
+        "localname": "SMS-anv\u00E4ndare",
+        "invisible": "0",
+        "attributes": {
+          "tableorder": "18",
+          "invisible": "0",
+          "syscomment": "",
+          "label": "0",
+          "log": "0",
+          "actionpad": ""
+        },
+        "localname_singular": {
+          "sv": "SMS-anv\u00E4ndare",
+          "no": "smsuser",
+          "fi": "smsuser",
+          "en_us": "smsuser",
+          "da": "smsuser"
+        },
+        "localname_plural": {
+          "sv": "SMS-anv\u00E4ndare",
+          "no": "",
+          "fi": "",
+          "en_us": "",
+          "da": ""
+        },
+        "fields": [
+          {
+            "table": "smsuser",
+            "name": "displayname",
+            "localname": {
+              "sv": "Visningsnamn",
+              "no": "displayname",
+              "fi": "displayname",
+              "en_us": "Display name",
+              "da": "displayname"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "string",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "7",
+              "height": "0",
+              "length": "64",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "1",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            }
+          },
+          {
+            "table": "smsuser",
+            "name": "username",
+            "localname": {
+              "sv": "Anv\u00E4ndarnamn",
+              "no": "username",
+              "fi": "username",
+              "en_us": "username",
+              "da": "username"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "string",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "4",
+              "height": "0",
+              "length": "64",
+              "limerequiredforedit": "0",
+              "newline": "3",
+              "fieldorder": "2",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            }
+          },
+          {
+            "table": "smsuser",
+            "name": "password",
+            "localname": {
+              "sv": "L\u00F6senord",
+              "no": "password",
+              "fi": "password",
+              "en_us": "password",
+              "da": "password"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "string",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "0",
+              "height": "0",
+              "length": "64",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "3",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            }
+          },
+          {
+            "table": "smsuser",
+            "name": "inactive",
+            "localname": {
+              "sv": "Inaktiv",
+              "no": "inactive",
+              "fi": "inactive",
+              "en_us": "inactive",
+              "da": "inactive"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "yesno",
+              "limereadonly": "0",
+              "invisible": "0",
+              "width": "2",
+              "height": "0",
+              "defaultvalue": "0",
+              "limerequiredforedit": "0",
+              "newline": "3",
+              "fieldorder": "4",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0"
+            }
+          },
+          {
+            "table": "smsuser",
+            "name": "default",
+            "localname": {
+              "sv": "Standardv\u00E4rde",
+              "no": "default",
+              "fi": "default",
+              "en_us": "default",
+              "da": "default"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "yesno",
+              "limereadonly": "0",
+              "invisible": "0",
+              "width": "2",
+              "height": "0",
+              "defaultvalue": "0",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "5",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0"
+            }
+          },
+          {
+            "table": "smsuser",
+            "name": "coworker",
+            "localname": {
+              "sv": "Medarbetare",
+              "no": "coworker",
+              "fi": "coworker",
+              "en_us": "coworker",
+              "da": "coworker"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "relation",
+              "limereadonly": "0",
+              "invisible": "0",
+              "width": "0",
+              "height": "0",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "6",
+              "isnullable": "1",
+              "formatsql": "1",
+              "label": "0",
+              "idrelation": "7501",
+              "relatedtable": "coworker"
+            }
+          },
+          {
+            "table": "smsuser",
+            "name": "sender",
+            "localname": {
+              "sv": "Avs\u00E4ndare",
+              "no": "sender",
+              "fi": "sender",
+              "en_us": "sender",
+              "da": "sender"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "string",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "7",
+              "height": "0",
+              "length": "64",
+              "limerequiredforedit": "0",
+              "newline": "3",
+              "fieldorder": "7",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            }
+          },
+          {
+            "table": "smsuser",
+            "name": "serviceid",
+            "localname": {
+              "sv": "Service-ID",
+              "no": "serviceid",
+              "fi": "serviceid",
+              "en_us": "serviceid",
+              "da": "serviceid"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "string",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "0",
+              "height": "0",
+              "length": "64",
+              "limerequiredforedit": "0",
+              "newline": "3",
+              "fieldorder": "8",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            },
+            "separator": {
+              "sv": "Link Mobility Soap Api",
+              "no": "",
+              "fi": "",
+              "en_us": "",
+              "da": ""
+            }
+          },
+          {
+            "table": "smsuser",
+            "name": "platformpartnerid",
+            "localname": {
+              "sv": "PlatformPartnerId",
+              "no": "platformpartnerid",
+              "fi": "platformpartnerid",
+              "en_us": "platformpartnerid",
+              "da": "platformpartnerid"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "string",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "0",
+              "height": "0",
+              "length": "64",
+              "limerequiredforedit": "0",
+              "newline": "3",
+              "fieldorder": "9",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            },
+            "separator": {
+              "sv": "Link Mobility Rest Api",
+              "no": "",
+              "fi": "",
+              "en_us": "",
+              "da": ""
+            }
+          },
+          {
+            "table": "smsuser",
+            "name": "platformid",
+            "localname": {
+              "sv": "PlatformId",
+              "no": "platformid",
+              "fi": "platformid",
+              "en_us": "platformid",
+              "da": "platformid"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "string",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "0",
+              "height": "0",
+              "length": "64",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "10",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            }
+          },
+          {
+            "table": "smsuser",
+            "name": "gateid",
+            "localname": {
+              "sv": "GateId",
+              "no": "gateid",
+              "fi": "gateid",
+              "en_us": "gateid",
+              "da": "gateid"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "string",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "0",
+              "height": "0",
+              "length": "64",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "11",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            }
+          },
+          {
+            "table": "smsuser",
+            "name": "sms",
+            "localname": {
+              "sv": "SMS",
+              "no": "sms",
+              "fi": "sms",
+              "en_us": "sms",
+              "da": "sms"
+            },
+            "attributes": {
+              "relationtab": "1",
+              "fieldtype": "relation",
+              "limereadonly": "0",
+              "invisible": "0",
+              "width": "0",
+              "height": "0",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "12",
+              "isnullable": "1",
+              "formatsql": "1",
+              "label": "0",
+              "idrelation": "107501",
+              "relatedtable": "sms"
+            }
+          }
+        ]
+      },
+      {
+        "name": "smstemplate",
+        "localname": "SMS-mall",
+        "invisible": "0",
+        "attributes": {
+          "tableorder": "19",
+          "invisible": "0",
+          "syscomment": "",
+          "label": "0",
+          "log": "0",
+          "actionpad": ""
+        },
+        "localname_singular": {
+          "sv": "SMS-mall",
+          "no": "smstemplate",
+          "fi": "smstemplate",
+          "en_us": "smstemplate",
+          "da": "smstemplate"
+        },
+        "localname_plural": {
+          "sv": "SMS-mallar",
+          "no": "",
+          "fi": "",
+          "en_us": "",
+          "da": ""
+        },
+        "fields": [
+          {
+            "table": "smstemplate",
+            "name": "name",
+            "localname": {
+              "sv": "Namn",
+              "no": "name",
+              "fi": "name",
+              "en_us": "name",
+              "da": "name"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "string",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "5",
+              "height": "0",
+              "length": "256",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "1",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            }
+          },
+          {
+            "table": "smstemplate",
+            "name": "inactive",
+            "localname": {
+              "sv": "Inaktiv",
+              "no": "inactive",
+              "fi": "inactive",
+              "en_us": "inactive",
+              "da": "inactive"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "yesno",
+              "limereadonly": "0",
+              "invisible": "0",
+              "width": "2",
+              "height": "0",
+              "defaultvalue": "0",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "2",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0"
+            }
+          },
+          {
+            "table": "smstemplate",
+            "name": "fortable",
+            "localname": {
+              "sv": "Mot tabell",
+              "no": "fortable",
+              "fi": "fortable",
+              "en_us": "fortable",
+              "da": "fortable"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "string",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "5",
+              "height": "0",
+              "length": "256",
+              "limerequiredforedit": "0",
+              "newline": "3",
+              "fieldorder": "3",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            }
+          },
+          {
+            "table": "smstemplate",
+            "name": "default",
+            "localname": {
+              "sv": "Standardv\u00E4rde",
+              "no": "default",
+              "fi": "default",
+              "en_us": "default",
+              "da": "default"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "yesno",
+              "limereadonly": "0",
+              "invisible": "0",
+              "width": "2",
+              "height": "0",
+              "defaultvalue": "0",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "4",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0"
+            }
+          },
+          {
+            "table": "smstemplate",
+            "name": "message",
+            "localname": {
+              "sv": "Meddelande",
+              "no": "message",
+              "fi": "message",
+              "en_us": "message",
+              "da": "message"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "string",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "7",
+              "height": "4",
+              "length": "1024",
+              "limerequiredforedit": "0",
+              "newline": "3",
+              "fieldorder": "5",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            }
+          }
+        ]
+      },
+      {
+        "name": "sms",
+        "localname": "SMS",
+        "invisible": "0",
+        "attributes": {
+          "tableorder": "20",
+          "invisible": "0",
+          "syscomment": "",
+          "label": "0",
+          "log": "0",
+          "actionpad": ""
+        },
+        "localname_singular": {
+          "sv": "SMS",
+          "no": "sms",
+          "fi": "sms",
+          "en_us": "sms",
+          "da": "sms"
+        },
+        "localname_plural": {
+          "sv": "SMS",
+          "no": "",
+          "fi": "",
+          "en_us": "",
+          "da": ""
+        },
+        "fields": [
+          {
+            "table": "sms",
+            "name": "phone",
+            "localname": {
+              "sv": "Mobilnummer",
+              "no": "phone",
+              "fi": "phone",
+              "en_us": "phone",
+              "da": "phone"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "formatedstring",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "0",
+              "height": "0",
+              "length": "32",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "1",
+              "isnullable": "0",
+              "type": "2",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            }
+          },
+          {
+            "table": "sms",
+            "name": "sent",
+            "localname": {
+              "sv": "Skickat",
+              "no": "sent",
+              "fi": "sent",
+              "en_us": "sent",
+              "da": "sent"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "time",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "3",
+              "height": "0",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "2",
+              "isnullable": "1",
+              "type": "1",
+              "formatsql": "1",
+              "label": "0"
+            }
+          },
+          {
+            "table": "sms",
+            "name": "smsuser",
+            "localname": {
+              "sv": "SMS-anv\u00E4ndare",
+              "no": "smsuser",
+              "fi": "smsuser",
+              "en_us": "smsuser",
+              "da": "smsuser"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "relation",
+              "limereadonly": "0",
+              "invisible": "0",
+              "width": "0",
+              "height": "0",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "3",
+              "isnullable": "1",
+              "formatsql": "1",
+              "label": "0",
+              "idrelation": "107501",
+              "relatedtable": "smsuser"
+            }
+          },
+          {
+            "table": "sms",
+            "name": "message",
+            "localname": {
+              "sv": "Meddelande",
+              "no": "message",
+              "fi": "message",
+              "en_us": "message",
+              "da": "message"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "string",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "9",
+              "height": "3",
+              "length": "1024",
+              "limerequiredforedit": "0",
+              "newline": "3",
+              "fieldorder": "4",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            }
+          },
+          {
+            "table": "sms",
+            "name": "messageid",
+            "localname": {
+              "sv": "MeddelandeID fr\u00E5n leverant\u00F6r",
+              "no": "messageid",
+              "fi": "messageid",
+              "en_us": "messageid",
+              "da": "messageid"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "string",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "7",
+              "height": "0",
+              "length": "64",
+              "limerequiredforedit": "0",
+              "newline": "3",
+              "fieldorder": "6",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            },
+            "separator": {
+              "sv": "Status",
+              "no": "",
+              "fi": "",
+              "en_us": "",
+              "da": ""
+            }
+          },
+          {
+            "table": "sms",
+            "name": "smsstatus",
+            "localname": {
+              "sv": "Status",
+              "no": "smsstatus",
+              "fi": "smsstatus",
+              "en_us": "smsstatus",
+              "da": "smsstatus"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "option",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "4",
+              "height": "0",
+              "defaultvalue": "352301",
+              "limerequiredforedit": "0",
+              "newline": "3",
+              "fieldorder": "7",
+              "isnullable": "0",
+              "type": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            },
+            "options": [
+              {
+                "sv": "K\u00F6ad",
+                "no": "",
+                "fi": "",
+                "en_us": "",
+                "da": "",
+                "key": "queued",
+                "color": "12419407",
+                "default": "true"
+              },
+              {
+                "sv": "Misslyckades",
+                "no": "",
+                "fi": "",
+                "en_us": "",
+                "da": "",
+                "key": "failure",
+                "color": "5066944"
+              },
+              {
+                "sv": "Skickat",
+                "no": "",
+                "fi": "",
+                "en_us": "",
+                "da": "",
+                "key": "sent",
+                "color": "5880731"
+              }
+            ]
+          },
+          {
+            "table": "sms",
+            "name": "resultcode",
+            "localname": {
+              "sv": "Resultatkod",
+              "no": "resultcode",
+              "fi": "resultcode",
+              "en_us": "resultcode",
+              "da": "resultcode"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "string",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "0",
+              "height": "0",
+              "length": "32",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "8",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            }
+          },
+          {
+            "table": "sms",
+            "name": "resultdescription",
+            "localname": {
+              "sv": "Resultat",
+              "no": "resultdescription",
+              "fi": "resultdescription",
+              "en_us": "resultdescription",
+              "da": "resultdescription"
+            },
+            "attributes": {
+              "relationtab": "0",
+              "fieldtype": "string",
+              "limereadonly": "0",
+              "invisible": "0",
+              "required": "0",
+              "width": "7",
+              "height": "3",
+              "limerequiredforedit": "0",
+              "newline": "2",
+              "fieldorder": "9",
+              "isnullable": "0",
+              "formatsql": "1",
+              "label": "0",
+              "adlabel": "0"
+            }
+          }
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "table1": "coworker",
+        "field1": "smsuser",
+        "table2": "smsuser",
+        "field2": "coworker"
+      },
+      {
+        "table1": "smsuser",
+        "field1": "sms",
+        "table2": "sms",
+        "field2": "smsuser"
+      }
+    ],
+    "vba": [
+      {
+        "name": "SmsTemplateCode",
+        "relPath": "Install\\VBA\\SmsTemplateCode.cls"
+      },
+      {
+        "name": "SmsWebsericeResponse",
+        "relPath": "Install\\VBA\\SmsWebsericeResponse.cls"
+      },
+      {
+        "name": "ControlsHandlerSmsTemplate",
+        "relPath": "Install\\VBA\\ControlsHandlerSmsTemplate.cls"
+      },
+      {
+        "name": "SmsWebserviceParameters",
+        "relPath": "Install\\VBA\\SmsWebserviceParameters.cls"
+      },
+      {
+        "name": "SMS",
+        "relPath": "Install\\VBA\\SMS.bas"
+      },
+      {
+        "name": "Actionpad_SmsTemplate",
+        "relPath": "Install\\VBA\\Actionpad_SmsTemplate.bas"
+      },
+      {
+        "name": "JsonConverter",
+        "relPath": "Install\\VBA\\JsonConverter.bas"
+      }
+    ]
+  }
+}

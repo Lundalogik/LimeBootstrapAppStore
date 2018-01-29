@@ -1,0 +1,14 @@
+<div class="dropdown">
+  <button class="btn btn-default btn-lime dropdown-toggle" type="button" id="contactPersons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    <span class="fa fa-user nudge-left"/>
+    <span data-bind="text: localize.ConnectionTag.label"/>
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+	<!-- ko foreach: visibleContacts -->
+	<li>
+	<a href="#" data-bind="text: name, click: setName"></a>
+	</li>
+	<!-- /ko -->
+  </ul>
+</div>

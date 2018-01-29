@@ -1,0 +1,16 @@
+{
+	"name": "parkerrand",
+	"author":"Andreas Åström",
+	"status":"Release",
+	"shortDesc":"With this fancy app are you allowed to pick a date when you like to park an errand.",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2015-03-20",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}

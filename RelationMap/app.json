@@ -1,0 +1,20 @@
+{
+	"name": "RelationMap",
+	"author":"Karl Fogelström",
+	"status":"Beta",
+	"versions":[
+		{
+			"version":"0.2",
+			"date":"2017-03-03",
+			"comments":"Perfomance optimizations, added functionality, and refactoring."
+		},
+		{
+			"version":"0.1",
+			"date":"2016-12-29",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}

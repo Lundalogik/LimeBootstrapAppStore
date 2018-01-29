@@ -1,0 +1,67 @@
+Option Explicit
+    
+'This Company includes controls events only. Controls events should always be used instead of inspector
+'events if both hold the same event. Control events are used when editing lists.
+
+    Private WithEvents m_Controls As Lime.Controls
+    
+Private Sub Class_Initialize()
+    On Error GoTo ErrorHandler
+    Set m_Controls = Application.ActiveControls
+    
+    If Not m_Controls Is Nothing Then
+        If Not m_Controls.Record Is Nothing Then
+            Call Setup
+        End If
+    End If
+    Exit Sub
+ErrorHandler:
+    Call UI.ShowError("ControlsHandlerCompany.Class_Initialize")
+End Sub
+
+Private Sub m_controls_AfterRecordChanged()
+    On Error GoTo ErrorHandler
+    
+    If Not m_Controls.Record Is Nothing Then
+        Call Setup
+    End If
+    
+    Exit Sub
+ErrorHandler:
+    Call UI.ShowError("ControlsHandlerCompany.m_controls_AfterRecordChanged")
+End Sub
+
+Private Sub m_Controls_Refresh()
+    On Error GoTo ErrorHandler
+    
+    If Not m_Controls.Record Is Nothing Then
+        Call Setup
+    End If
+    
+    Exit Sub
+ErrorHandler:
+    Call UI.ShowError("ControlsHandlerCompany.m_Controls_Refresh")
+End Sub
+
+'Setup may only be called from Class_Initialize and the CONTROL events
+Private Sub Setup()
+    On Error GoTo ErrorHandler
+    If Not m_Controls.Record Is Nothing Then
+	' ERP CONNECTOR GRAPH START
+        m_Controls.ParentInspector.PaneControls("erpconnector_graph").Value = WebFolder & "lbs.html?ap=\apps\erpconnector\views\dashboard&type=tab"
+        'Call m_Controls.ParentInspector.PaneControls("erpconnector_graph").Refresh
+	' ERP CONNECTOR GRAPH END
+        ' When new
+        If (m_Controls.State And lkControlsStateNew) = lkControlsStateNew Then
+            ' Add code to run for new records here...
+        End If
+        
+        ' Add code to run for all records (old and new) here...
+    End If
+
+    Exit Sub
+ErrorHandler:
+    Call UI.ShowError("ControlsHandlerCompany.Setup")
+End Sub
+
+

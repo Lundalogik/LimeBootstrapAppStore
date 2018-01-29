@@ -1,4 +1,4 @@
-
+<!-- ko if:news().length > 0 -->
 <div class="carousel slide" data-ride="carousel" data-bind="attr: { id: uniqueId }, css: { empty: !news().length, single: news().length === 1 }">
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox" data-bind="foreach: news">
@@ -25,3 +25,4 @@
     <span class="sr-only">Next</span><i class="fa fa-angle-right" aria-hidden="true"></i>
   </a>
 </div>
+<!-- /ko -->

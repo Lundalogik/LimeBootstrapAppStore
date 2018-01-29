@@ -1,0 +1,16 @@
+{
+	"name": "Rating",
+	"author":"ATH",
+	"status":"Development",
+	"shortDesc":"Display ratings on a company in a nice way",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2017-04-27",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}

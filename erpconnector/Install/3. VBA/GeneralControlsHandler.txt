@@ -1,0 +1,7 @@
+ADD CONTROLSHANDLER FOR COMPANY!
+
+    Private m_ControlsHandlerCompany As ControlsHandlerCompany
+
+
+Case "company"
+                Set m_ControlsHandlerCompany = New ControlsHandlerCompany

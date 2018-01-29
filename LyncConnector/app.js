@@ -12,7 +12,8 @@ lbs.apploader.register('LyncConnector', function() {
             type: 'activeInspector'
         }, {
             type: 'relatedRecord',
-            source: 'coworker'
+            source: 'coworker',
+            view: 'email;name'
         }];
         this.resources = {
             scripts: [], // <= External libs for your apps. Must be a file
@@ -189,7 +190,8 @@ lbs.apploader.register('LyncConnector', function() {
             vm.presenceText(statusObj.text);
         }
 
-        if (vm.coworkerObject().email.value) {
+        var coworkerObject = vm.coworkerObject && vm.coworkerObject() || {};
+        if (coworkerObject.email && coworkerObject.email.value) {
             try {
                 if (window.ActiveXObject) {
                     nameCtrl = new ActiveXObject("Name.NameCtrl");

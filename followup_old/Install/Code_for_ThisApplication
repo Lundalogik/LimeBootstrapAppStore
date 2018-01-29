@@ -1,0 +1,9 @@
+'For follow up app
+    If Application.Panes.Exists("FollowUp") = False Then
+        Call Application.Panes.Add("FollowUp", "", "", lkPaneStyleNoToolBar)
+    End If
+    Application.Panes("FollowUp").url = WebFolder & "lbs.html?ap=followup&type=tab"
+    Application.Panes.Visible = True
+    If Not Application.Panes.ActivePane Is Application.Panes.Item("FollowUp") Then
+        Set Application.Panes.ActivePane = Application.Panes.Item("FollowUp")
+    End If

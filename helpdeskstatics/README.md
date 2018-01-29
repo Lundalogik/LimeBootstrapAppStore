@@ -26,7 +26,7 @@ Shows totals and coworker specific data
 ###How is calculation done
 Is done in a SQL procedure, csp_getHelpdeskStatistics.
 
-**Acthve**
+**Active**
 
 * Open: all tickets where enddate IS NULL
 * Not initiated: All tickets where startdate and enddate IS NULL
@@ -39,7 +39,7 @@ Is done in a SQL procedure, csp_getHelpdeskStatistics.
 * Month: all tickets where the created time/enddat month is the same as the month of todays date
 
 ###To use:
-Insert the SQL proceduer named **csp_getHelpdeskStatistics** in the database where you want to use the helpdesk statistics. 
+Insert the SQL proceduer named **csp_getHelpdeskStatistics** in the database where you want to use the helpdesk statistics. Please observe that the field for Delayed helpdesk tickets is **[nextactiondate]** as used in LIME Core v. 5.1-database. If you use **[deadlinedate]**, please uncomment and comment the correct section in the SQL-code.
 
 Copy the helpdeskstatistics app folder to the apps folder under the actionpad folder.
 
@@ -49,10 +49,10 @@ Insert the following html tag in the actionpad where you want it to be shown, mo
 
 
 ***Localize texts***
-Copy the text from localize.zls to the localize tab in LIME Pro to get the correct translation texts for the app. 
+Run the SQL-code named createLocalizeRecordHelpdeskStatistics.sql. This will create all records needed for the localizations.
 
 ####Only show when helpdesk tab is active
-Most common is to only shoq the helpdesk statistics when the helpdesk tab is active. In order to do this you need to add the VBA code saved in the app folder.
+Most common is to only show the helpdesk statistics when the helpdesk tab is active. In order to do this you need to add the VBA code saved in the app folder.
 
 
 ####Configuration

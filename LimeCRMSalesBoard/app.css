@@ -1,0 +1,423 @@
+body
+{ 
+	scrollbar-base-color: #E0EEFF;
+	scrollbar-arrow-color: #6985B7;
+	scrollbar-DarkShadow-Color: #666666;
+	background-color: #F1F6FF;
+	font-family: Arial;
+}
+
+
+.limecrmsalesboard-board {
+	/*overflow-y: auto;*/	/* Does not work unfortunately */
+	overflow-x: auto;
+	/*border: 1px solid green;*/
+	margin-left: 11px;
+	margin-top: 7px;
+}
+
+.limecrmsalesboard-board-header {
+	/*border: 1px solid green;*/
+	height: 50px;
+	text-align: center;
+	font-size: 20px;
+}
+
+.limecrmsalesboard-filterwarning {
+	font-size: 18px;
+
+}
+
+.limecrmsalesboard-board-header-title {
+	margin-bottom: 10px;
+	/*color: #212121;*/
+	/*border: 1px solid black;*/
+	/*float: left;*/
+	display: inline-block;
+	/*margin-left: auto;
+	margin-right: auto;*/
+}
+
+.limecrmsalesboard-board-header-unit {
+	font-size: 14px;
+}
+
+.limecrmsalesboard-board-header-negativesum {
+	margin-left: 15px;
+}
+
+.limecrmsalesboard-parenthesis {
+	margin-left: -5px;
+	margin-right: -5px;
+}
+
+.limecrmsalesboard-color-positive {
+	color: #00b05b;
+}
+
+.limecrmsalesboard-color-negative {
+	color: #8b8b8b;
+}
+
+.limecrmsalesboard-color-title {
+	color: #212121;
+}
+
+.limecrmsalesboard-color-lessimportant {
+	color: #8b8b8b;
+}
+
+.limecrmsalesboard-color-positive-background {
+	background-color: #00b05b;
+}
+
+.limecrmsalesboard-color-lessimportant-background {
+	background-color: #8b8b8b;
+}
+
+.limecrmsalesboard-color-blue {
+	background-color: #2693ff;
+}
+
+.limecrmsalesboard-color-turquoise {
+	background-color: #00a4b0;
+}
+
+.limecrmsalesboard-color-green {
+	background-color: #83Ba1f;
+}
+
+.limecrmsalesboard-color-clean-green {
+	background-color: #00b05b;
+}
+
+.limecrmsalesboard-color-orange {
+	background-color: #e56c19;
+}
+
+.limecrmsalesboard-color-deep-red {
+	background-color: #c81c1c;
+}
+
+
+.limecrmsalesboard-lanes-container {
+	height: 85%;
+	/*width: 1260px;*/
+	/*border: 2px solid black;*/
+	margin-left: -10px;
+	margin-right: -10px;
+}
+
+.limecrmsalesboard-lane-container {
+	height: 100%;
+	/*border: 1px solid red;*/
+	float: left;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.limecrmsalesboard-lane {
+	width: 232px;
+	/*border: 1px solid green;*/
+	/*padding: 10px;*/
+	/*border-radius: 5px;*/
+	background-color: transparent;/*#E0EEFF;*/
+	/*margin: 5px;*/
+}
+
+.limecrmsalesboard-lane-header {
+	/*border: 1px solid black;*/
+	width:100%;
+	/*height: 30px;*/
+}
+
+.limecrmsalesboard-lane-info {
+	margin-bottom: 20px;
+}
+
+.limecrmsalesboard-lane-title {
+	/*border: 1px solid red;*/
+	font-size: 16px;
+	width: 80%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	/*display: inline-block;*/
+	/*vertical-align: bottom;*/
+	/*height: 100%;*/
+}
+
+.limecrmsalesboard-lane-count {
+	font-size: 14px;
+}
+
+.limecrmsalesboard-lane-sum {
+	font-size: 14px;
+	/*padding-left: 5px;*/
+}
+
+.limecrmsalesboard-lane-sum-unit {
+	font-size: 10px;
+}
+
+.limecrmsalesboard-lane-coloredbar {
+	height: 4px;
+}
+
+.limecrmsalesboard-card {
+	/*width: 100%;*/
+	border-width: 0px 0px 1px 0px;
+	border-style: solid;
+	border-color: #c7cdd3;
+	white-space: normal;
+	background-color: #FFFFFF;
+	/*padding: 5px;*/
+	margin-bottom: 10px;
+	/*border-radius: 5px;*/
+	cursor: pointer;
+	height: 90px;
+	/*border: 1px solid black;*/
+}
+
+.limecrmsalesboard-card:last-child {
+	margin-bottom: 0px;
+}
+
+.limecrmsalesboard-card-leftside {
+	float: left;
+	/*width: 22%;*/
+	height: 100%;
+	padding-top: 20px;
+	padding-right: 10px;
+	padding-left: 10px;
+	/*border: 1px solid orange;*/
+}
+
+.limecrmsalesboard-card-icon {
+	width: 30px;
+	height: 30px;
+}
+
+/*.limecrmsalesboard-card-icon-image {
+	fill: red;
+}*/
+
+.limecrmsalesboard-card-rightside {
+	padding-top: 18px;
+	padding-right: 10px;
+	position: relative;
+	/*width: 100%;*/
+	/*border: 1px solid black;*/
+}
+
+.limecrmsalesboard-card-title {
+	font-size: 13px;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-bottom: -2px;
+	/*width: 100px;
+	height: 20px;*/
+	/*border: 1px solid green;*/
+    /*background:linear-gradient(to right, transparent 50px, red);*/
+}
+
+.limecrmsalesboard-card-title::before {
+	content: '';
+	width: 172px;
+    height: 18px;    
+    position: absolute;
+    background: linear-gradient(to right, transparent 140px, #FFFFFF);
+    /*border: 1px solid green;*/
+}
+
+.limecrmsalesboard-card-inforow {
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.limecrmsalesboard-card-value {
+	font-size: 12px;
+	/*border: 1px solid red;*/
+}
+
+.limecrmsalesboard-card-value-unit {
+	font-size: 10px;
+}
+
+.limecrmsalesboard-card-additionalinfo {
+	font-size: 12px;
+	/*float: left;*/
+}
+
+.limecrmsalesboard-card-additionalinfo-separator {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.limecrmsalesboard-card-value::before {
+	content: '';
+	width: 172px;
+    height: 16px;    
+    position: absolute;
+    background: linear-gradient(to right, transparent 140px, #FFFFFF);
+    /*border: 1px solid green;*/
+}
+
+.limecrmsalesboard-card-owner {
+	font-size: 12px;
+	overflow: hidden;
+	white-space: nowrap;
+	padding-top: 4px;
+}
+
+.limecrmsalesboard-card-owner::before {
+	content: '';
+	width: 172px;
+    height: 16px;    
+    position: absolute;
+    background: linear-gradient(to right, transparent 140px, #FFFFFF);
+	/*border: 1px solid green;*/
+}
+
+.limecrmsalesboard-notactivated-container {
+	margin-top: 80px;
+	margin-left: auto;
+	margin-right: auto;
+	visibility: none;
+	text-align: center;
+}
+
+.limecrmsalesboard-notactivated-icon {
+	font-size: 64px;
+}
+
+.limecrmsalesboard-notactivated {
+	font-size: 24px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.limecrmsalesboard-board-header>.limecrmsalesboard-refresh {
+	/*margin-left: 6px;*/
+	float: left;
+}
+
+.limecrmsalesboard-refresh>i {
+/*	margin-top: 50px;
+	cursor: pointer;
+	font-size: 36px;*/
+	font-size: 14px;
+}
+
+button.limecrmsalesboard-btn {
+	border: 1px solid #BBBBBB;
+	/*padding-top: 3px;
+	padding-bottom: 3px;*/
+	font-size: 12px;
+	color: #777777;
+	background-color: #FDFDFD;
+	/*line-height: 20px;*/
+}
+
+button.limecrmsalesboard-btn:hover {
+	color: #444444;
+	background-color: #EDEDED;
+}
+
+
+
+/* DONUT CHART CSS */
+
+.limecrmsalesboard-donut {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+.limecrmsalesboard-donut .limecrmsalesboard-donut-master {
+	position: absolute;
+	/*background: #6DD0F2;*/
+
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+border-radius: 100%;
+}
+
+.limecrmsalesboard-donut .limecrmsalesboard-donut-slice {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	border-radius: 100%;
+	clip: rect(0px, 30px, 30px, 15px);
+	/*border: 1px solid yellow;*/
+}
+
+.limecrmsalesboard-donut .limecrmsalesboard-donut-slice .limecrmsalesboard-donut-inner {
+	position: absolute;
+	/*background: #2A96BA;*/
+	/*border: 2px solid red;*/
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	border-radius: 100%;
+	clip: rect(0px, 15px, 30px, 0px); 
+	/*-webkit-transition-duration: 2s;
+	-moz-transition-duration: 2s;
+	-o-transition-duration: 2s;
+transition-duration: 2s;*/
+}
+
+.limecrmsalesboard-donut .limecrmsalesboard-donut-endmarker {
+	position: absolute;
+	background: #FFFFFF;
+	/*border: 2px solid black;*/
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	border-radius: 100%;
+	clip: rect(0px, 16px, 2px, 14px);
+	/*-webkit-transition-duration: 2s;
+	-moz-transition-duration: 2s;
+	-o-transition-duration: 2s;
+	transition-duration: 2s;*/
+}
+
+.limecrmsalesboard-donut .limecrmsalesboard-donut-cover {
+	background: #FFFFFF;
+	position: absolute;
+	font-size: 11px;
+	top: 2px;
+	left: 2px;
+	bottom: 2px;
+	right: 2px;
+	border-radius: 100%;
+	text-align: center;
+	line-height: 28px;
+}
+
+.limecrmsalesboard-donut-cover-smalltext {
+	font-size: 10px;
+}
+
+.limecrmsalesboard-donut-cover-percentsign {
+	margin-left: -3px;
+	font-size: 8px;
+}
+
+.limecrmsalesboard-donut .limecrmsalesboard-donut-startmarker {
+	background: #FFFFFF;
+	position: absolute;
+
+	top: 0px;
+	left: 14px;
+	bottom: 28px;
+	right: 14px;
+	/*border-radius: 100%;*/
+/*text-align: center;*/
+}

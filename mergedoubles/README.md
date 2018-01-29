@@ -1,6 +1,6 @@
-#Duplicate merger
+﻿#Duplicate merger
 
-Kill duplicates like Rambo on crack!
+This application helps you remove your duplicates!
 
 ##Installation
 

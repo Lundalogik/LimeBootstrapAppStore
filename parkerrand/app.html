@@ -1,0 +1,28 @@
+<div class="row">
+	<div class="col-lg-12">
+		<div class="input-group input-append date" id="input-container">
+			<input class="form-control" type="text" id="datepicker" placeholder="Parkera till" data-bind="datepicker:'', value: newValue" />
+			<div class="input-group-btn" id="dropdown">
+				<button class="btn btn-lime btn-default dropdown-toggle" data-toggle="dropdown">
+					<span data-bind="text:localize.Actionpad_Helpdesk.park, icon: 'fa-caret-down'"></span>
+				</button>				
+				<ul class="dropdown-menu">
+					<li data-bind="vba:'ActionPad_Helpdesk.Park, 24, h, t_park_3_day', text:localize.Actionpad_Helpdesk.pc3d"></li>
+					<li data-bind="vba:'ActionPad_Helpdesk.Park, 40, h, t_park_1_week', text:localize.Actionpad_Helpdesk.pc1w "></li>
+					<li data-bind="vba:'ActionPad_Helpdesk.Park, 80, h, t_park_2_week', text:localize.Actionpad_Helpdesk.pc2w"></li>
+					<li data-bind="vba:'ActionPad_Helpdesk.Park, 160, h, t_park_4_week', text:localize.Actionpad_Helpdesk.pc4w"></li>
+					<li class="divider"></li>
+					<li data-bind="vba:'ActionPad_Helpdesk.Park, 1, m, t_park_1_month', text:localize.Actionpad_Helpdesk.pc1m"></li>
+					<li data-bind="vba: 'ActionPad_Helpdesk.Park, 2, m, t_park_2_month', text:localize.Actionpad_Helpdesk.pc2m"></li>
+					<li data-bind="vba: 'ActionPad_Helpdesk.Park, 6, m, t_park_6_month', text:localize.Actionpad_Helpdesk.pc6m"></li>
+					<li class="divider"></li>
+					<li data-bind="vba:'ActionPad_Helpdesk.Park, 1, h, t_park_searched', text:localize.Actionpad_Helpdesk.notthere"></li>
+					<li data-bind="vba:'ActionPad_Helpdesk.Park, 4, h, t_park_searched_4_hour', text:localize.Actionpad_Helpdesk.notthere_4h"></li>
+					<li data-bind="vba:'ActionPad_Helpdesk.Park, 8, h, t_park_searched_1_day', text:localize.Actionpad_Helpdesk.notthere_1d"></li>
+					<li data-bind="vba:'ActionPad_Helpdesk.Park, 4, h, t_park_searched_mes', text:localize.Actionpad_Helpdesk.nottheremsg"></li>
+					<li data-bind="vba:'ActionPad_Helpdesk.Park, 8, h, t_park_searched_mes_1_day', text:localize.Actionpad_Helpdesk.nottheremsg_1d"></li>		
+				</ul>	
+			</div>
+		</div>
+	</div>
+</div>

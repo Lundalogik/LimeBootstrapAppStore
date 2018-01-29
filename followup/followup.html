@@ -1,0 +1,50 @@
+﻿<div data-app="{
+    app:'followup', 
+    config: {
+        /* Limit the number of selected coworkers and types */
+        choiceLimits: {
+            totalMax: 999,
+            targetMax: 999,
+            coworkerMax: 999
+        },
+        /* If empty values should be showed or not */
+        showEmptyValues: true,
+
+    	coloring: {
+    		green: 1.0,
+    		yellow: 0.6 
+    	},
+        /* Add logic for which users that will be able to admin the app, example only users in the group administrator and superusers */
+          securityLevel: lbs.common.executeVba('Followup.FollowupMemberOfGroup',';Administrators;Superusers;') && 'admin' || 'user',
+          /* nroftiles = adjust how many tiles that will be shown before a scrollbar appears */
+          nroftiles: 4,
+        structureMapping: {
+            /* Field mappings for target table */
+            targetTable: 'target',
+            targetTypeField: 'targettype',
+            targetValueField: 'targetvalue',
+            targetDateField: 'targetdate',
+
+            /* Field mappings for score table */
+            scoreTable: 'history',
+            scoreTypeField: 'type',
+            scoreValueField: '',
+            scoreDateField: 'date',
+
+            /* Field mappings for coworker table */
+            coworkerNameField: 'name',
+        },
+        /* Map the keys from the optionsfield in the different tables */
+    	targetMapping: [
+    		{
+                targetTypeKey: 'customeractivity',
+    			scoreTypeKeys: ['customervisit', 'salescall']
+    		},
+            {
+                targetTypeKey: 'salescall',
+                scoreTypeKeys: ['salescall']
+            }
+    	]
+	}
+}"/>
+

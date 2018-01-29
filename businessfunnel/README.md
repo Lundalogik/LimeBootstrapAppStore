@@ -61,7 +61,7 @@ The customer want the currency in "kr" and they only have small deals so they do
 *	divider = 1
 *	remove statuses 'onhold' and 'rejection' (key on the optionfield)
 
-	`<div data-app="{app:'businessfunnel', config:{  currency:'kr', divider:1, removeStatus:'onhold','rejection']}}"></div>`
+	`<div data-app="{app:'businessfunnel', config:{  currency:'kr', divider:1, removeStatus:['onhold','rejection']}}"></div>`
 	
 
 ####Example 2

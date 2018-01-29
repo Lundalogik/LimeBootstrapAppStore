@@ -15,9 +15,7 @@
             "comments": "The first stable beta of the checklist"
         }
     ],    
-    "dependencies":{
-        "vba_json":"1.0"
-    },
+
     "install": {
         "preInstallScript": "",
         "postInstallScript": "",
@@ -26,7 +24,7 @@
                 "owner": "checklist",
                 "context": "title",
                 "sv": "Checklista",
-                "en_us": "Checklist",
+                "en-us": "Checklist",
                 "no": "Checklista",
                 "fi": "Holy shit!"
             },
@@ -34,7 +32,7 @@
                 "owner": "checklist",
                 "context": "create",
                 "sv": "Skapa ny",
-                "en_us": "Add new",
+                "en-us": "Add new",
                 "no": "Skap ny",
                 "fi": "Mumamamakkkk!"
             }
@@ -47,29 +45,67 @@
         ],
         "tables": [
             {
+
                 "name": "checklist",
-                "sv": "Checklista",
-                "en_us": "Checklist",
+                "descriptive":"[test].[title]",
+                "localname_singular": 
+                {
+                    "sv": "Cheklista",
+                    "en_us": "Checklist"
+                },
+                "localname_plural": 
+                {
+                    "sv": "Checklistor",
+                    "en_us": "Checklists"
+                },
+                "attributes": {
+                    "invisible": "no",
+                    "actionpad":"lbs.html"
+                },
                 "fields": [
                     {
                         "name": "title",
-                        "sv": "Titel",
-                        "en_us": "Title"
+                        "type": "string",
+                        "localname": {
+                            "sv": "Titel",
+                            "en-us": "Title"
+                        }, 
+                        "attributes": {
+                            "length": 256
+                        } 
                     },
                     {
                         "name": "origin",
-                        "sv": "Tillhörighet",
-                        "en_us": "Origin"
+                        "type": "string",
+                        "localname": {
+                            "sv": "Tillhörighet",
+                            "en-us": "Origin"
+                        }, 
+                        "attributes": {
+                            "length": 256
+                        } 
                     },
                     {
                         "name": "order",
-                        "sv": "Plats i listan",
-                        "en_us": "Order"
+                        "type": "integer",
+                        "localname": {
+                            "sv": "Plats i listan",
+                            "en-us": "Order"
+                        }, 
+                        "attributes": {
+                            "length": 256
+                        } 
                     },
                     {
                         "name": "mouseover",
-                        "sv": "Utökad beskrivning",
-                        "en_us": "Mouse over message"
+                        "type":"string",
+                        "localname": {
+                            "sv": "Utökad beskrivning",
+                            "en-us": "Mouse over message"
+                        }, 
+                        "attributes": {
+                            "length": 256
+                        }
                     }
                 ]
             }

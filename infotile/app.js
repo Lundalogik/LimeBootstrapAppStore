@@ -35,22 +35,22 @@ lbs.apploader.register('infotile', function () {
             viewmodel.tileColor = function(){
                 switch(self.config.tileColor){
                     case "blue":
-                        return "rgb(70, 116, 238)";
+                        return "rgb(38, 147, 255)";
                     break;
                     case "darkgrey":
-                        return "rgb(176, 176, 176)";
+                        return "rgb(70, 70, 70)";
                     break;
                     case "red":
-                        return "rgb(232, 89, 89)";
+                        return "rgb(191, 59, 38)";
                     break;
                     case "pink":
-                        return "rgb(243, 150, 206)";
+                        return "rgb(208, 23, 114)";
                     break;
                     case "orange":
-                        return "rgb(244, 187, 36)";
+                        return "rgb(229, 108, 25)";
                     break;
                     case "green":
-                        return "rgb(153, 216, 122)";
+                        return "rgb(131, 186, 31)";
                     break;
                     default:
                         return self.config.tileColor;

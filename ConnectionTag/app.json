@@ -1,0 +1,17 @@
+{
+	"name": "ConnectionTag",
+	"author":"jka",
+	"status":"Release",
+	"license": true,
+	"shortDesc": "Lists contacts and lets you insert contact names into text fields.",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2016-01-29",
+			"comments":"Creation"
+		}
+	],
+	"install":{
+		
+	}
+}

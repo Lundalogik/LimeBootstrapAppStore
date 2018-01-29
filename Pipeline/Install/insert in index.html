@@ -1,0 +1,26 @@
+<div data-app="{app:'Pipeline', 
+    config:{
+        table: 'business',
+        statusfield: 'businesstatus',
+        valuefield: 'businessvalue',
+        //shadowValuefield: 'weightedvalue',
+        currency: 'kr',
+        divider: '1',
+        decimals: '2',
+        delimiterChar: ' ',
+        Filters: [
+            {    
+                localize: { owner: 'Pipeline', code: 'all' },
+                filter: '[Alla]'
+            },
+            {    
+                localize: { owner: 'Pipeline', code: 'pipe' },
+                filter: 'Pipe'
+            },
+            {    
+                localize: false,
+                filter: 'Min pipe'
+            },
+        ]
+    }}">
+</div>

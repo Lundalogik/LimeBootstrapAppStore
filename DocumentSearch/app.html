@@ -1,0 +1,18 @@
+<div class="documentsearch">
+	<p id="title" data-bind="text: localize.Addon_DocumentSearch.i_title, icon: 'fa-file', popover:{text: localize.Addon_DocumentSearch.i_popover_general, type:'info'}"></p>
+	<div class="separator"></div>
+	<div class="input-group input-group-md search-input">	  
+	  <input id="searchInput" type="text" class="form-control" data-bind="attr: {placeholder: localize.Addon_DocumentSearch.i_placeholder}, value: searchString, valueUpdate:'afterkeydown'">
+	  <span class="input-group-addon documentsearch-manualsearchbutton" data-bind="icon: 'fa-search', click: manualSearch, css:{ 'documentsearch-buttonactive': searchString().length > 0}"> </span>
+	</div>	
+	<span class="label label-primary documentsearch-helperbutton"
+			data-bind="text: localize.Addon_DocumentSearch.btn_or, 
+						click: addOperatorOr, 
+						popover:{text: localize.Addon_DocumentSearch.i_popover_btn_or, type:'info'},
+						css:{ 'documentsearch-buttonactive': searchString().length > 0}"></span>
+	<span class="label label-primary documentsearch-helperbutton"
+			data-bind="text: localize.Addon_DocumentSearch.btn_beginswith, 
+						click: addOperatorBeginsWith, 
+						popover:{text: localize.Addon_DocumentSearch.i_popover_btn_beginswith, type:'info'}, 
+						css:{ 'documentsearch-buttonactive': searchString().length > 0}"></span>
+</div>

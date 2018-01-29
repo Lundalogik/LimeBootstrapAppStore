@@ -1,0 +1,180 @@
+﻿<div class="sms">
+	<!-- ko if: errorMessage() != '' -->
+		<div class="alert alert-danger full-width error-message" data-bind="text: errorMessage"/>
+	<!-- /ko -->
+	<!-- ko if: errorMessage() == '' -->
+		<div class="container">
+			<div class="row header-row">
+				<h3 class="col-sm-6" data-bind="text: getLocalize('sms', 'form_headLine')"/>
+				<h3 class="col-sm-6" data-bind="text: getLocalize('sms', 'form_advancedSettings')"/>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="message-type">
+						<div class="radio">
+						  <label>
+							<input type="radio" data-bind="checked: inputValues.messageType" value="free">
+							<span data-bind="text: getLocalize('sms', 'form_radio_free')" />
+						  </label>
+						</div>
+						<div class="radio">
+						  <label>
+							<input type="radio" data-bind="checked: inputValues.messageType" value="template">
+							<span data-bind="text: getLocalize('sms', 'form_radio_template')" />
+						  </label>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-6">
+  
+					<div class="template-list btn-group btn-group-lime">
+						<div class="form-group">
+  							<label data-bind="text: getLocalize('sms', 'form_user_label')"></label>
+							<button class="btn btn-info btn-lime dropdown-toggle" data-toggle="dropdown" data-bind="text:inputValues.user() && inputValues.user().name || getLocalize('sms', 'form_users_novalue'), icon: 'fa-caret-down'"></button>
+							<ul class="dropdown-menu" data-bind="foreach: users()">
+								<li data-bind="text:name, click: select"></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="template-list btn-group btn-group-lime">
+						<button class="btn btn-info btn-lime dropdown-toggle" data-toggle="dropdown" data-bind="
+							text:inputValues.template() && inputValues.template().name || getLocalize('sms', 'form_templates_novalue'),
+							icon: 'fa-caret-down',
+							disable: inputValues.messageType() != 'template'"></button>
+						<ul class="dropdown-menu" data-bind="foreach: templates()">
+							<li data-bind="text:name, click: select"></li>
+						</ul>
+					</div>
+				</div>
+				<div data-bind="visible: allowSmsOnTime" class="col-sm-6">
+					<div class="input-group datetimepicker">
+						<span class="input-group-addon">
+							<input type="checkbox" data-bind="checked: inputValues.sendOnTime" />
+						</span>
+                        <input id="datetimepicker" type='text' class="form-control text-center" data-bind="
+                        	enable: inputValues.sendOnTime() == true,
+                        	click: function(event) {
+                        		$('#datetimepicker').data('DateTimePicker').show();
+                        	}
+                        "/>
+					</div>
+				</div>
+			</div>
+
+			<div class="row person-text-row">
+				<div class="col-sm-6">
+					<textarea class="form-control message-field" data-bind="attr: {placeholder: getLocalize('sms', 'form_message_placeholder')}, value: inputValues.message, valueUpdate: 'afterkeydown'"></textarea>
+				</div>
+
+				<div class="col-sm-6">
+
+					<div class="panel panel-info receiver-panel">
+						<div class="panel-heading">
+							<b class="" data-bind="text: getLocalize('sms', 'form_receiver_header', receivers().length.toString())"/>
+							<!-- ko if: receiversNoPhone() > 0 -->
+								<span data-bind="text: ' - '" />
+								<i class="allow-line-break bg-danger" data-bind="text: getLocalize('sms', 'form_receiver_nophone', receiversNoPhone().toString())" />
+							<!-- /ko -->
+							</br>
+						</div>
+
+						<table class="table table-fixedheader receiver-table" >
+							<thead>
+								<tr class="header-row">
+									<th width="50%" data-bind="text: getLocalize('sms', 'form_receiver_header_name')"></th>
+									<th width="50%" data-bind="text: getLocalize('sms', 'form_receiver_header_number')"></th>
+								</tr>
+							</thead>
+							<tbody data-bind="foreach: receivers">
+								<tr>
+									<td width="50%" data-bind="text: name"/>
+									<td width="43%"data-bind="text: phone"/>
+									<td width="7%" class="receiver-remove">
+										<span data-bind="text: ' ', icon:'fa-trash', click: remove"/>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="template-list btn-group btn-group-lime dropup">
+						<button class="btn btn-info btn-lime dropdown-toggle" data-toggle="dropdown" data-bind="
+							text:getLocalize('sms', 'templatecodesHeader'),
+							icon: 'fa-caret-down'"></button>
+						<ul class="dropdown-menu" data-bind="foreach: templateCodes()">
+							<li data-bind="text:description, click: insertCode"></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="close-btn-group">
+						<button class="btn btn-success" data-bind="disable: !allowToSend(), click: send, text: getLocalize('sms', 'form_button_send')" />
+						<button class="btn btn-danger" data-bind="click: close, text: getLocalize('sms', 'form_button_close')" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Modal window for showing a loader -->
+		<div class="modal fade" id="modal-loading" data-backdrop="static" data-keyboard="false">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" data-bind="text: getLocalize('sms', 'form_loadingText')"></h4>
+					</div>
+					<div class="modal-body">
+						<div class="text-center">
+							<i class="fa fa-gear fa-spin fa-5x"></i>
+						</div>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+		<!-- Modal window for showing the result -->
+		<div class="modal fade" id="modal-result" data-backdrop="static" data-keyboard="false">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body" data-bind="css: { 'text-danger' : !sendSuccess(), 'text-success': sendSuccess() }">
+						<div class="text-center">
+							<i data-bind="css: { 'fa-thumbs-down' : !sendSuccess(), 'fa-thumbs-up': sendSuccess()}" class="fa fa-5x"> </i>
+						</div>
+						<div class="text-center">
+							<h3 class="keepFormatting" data-bind="text: sendSuccess() && getLocalize('sms', 'form_successText') || getLocalize('sms', 'form_criticalErrorText')" />
+							<p class="keepFormatting" data-bind="text: sendErrorMessage" />
+							<div data-bind="visible: receiverErrors().length > 0">
+								<div class="text-warning text-center">
+									<i class="fa fa-exclamation-triangle fa-2x "></i>
+									<span data-bind="text: getLocalize('sms', 'form_errorCountFormat', receiverErrors().length, receivers().length - receiverErrors().length, receivers().length)"/> </br>
+									<span class="link" data-bind="text: getLocalize('sms', 'form_clickForReceiver'), click: showErrorReceivers"/>
+								</div>
+								<div class="panel panel-warning">
+									<div class="panel-heading" data-bind="text: getLocalize('sms', 'form_failedPersons_Title') "></div>
+
+									<ul class="list-group failed-person-list" data-bind="foreach: receiverErrors">
+										<li class="list-group-item list-group-item-warning" data-bind="text: receiverName + ' (' + receiverPhone + ') - ' + message" />
+									</ul>
+								</div>
+								<h5 class="text-info" data-bind="text: getLocalize('sms', 'form_moreInfoText')" />
+							</div>
+							<button class="btn btn-primary" data-bind="text: getLocalize('sms', 'form_button_close'), click: close" />
+						</div>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+	<!-- /ko -->
+</div>

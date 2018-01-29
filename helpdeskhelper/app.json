@@ -1,0 +1,21 @@
+{
+	"name": "helpdeskhelper",
+	"author":"Andreas Åström",	
+	"status": "Beta",
+    "shortDesc": "This application helps you to become the king of customer service",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"2015-07-20",
+			"comments":"Creation"
+		}, 
+		{
+			"version":"0.2",
+			"date":"2015-09-03",
+			"comments":"Lets do some Beta testing"
+		}
+	],
+	"install":{
+		
+	}
+}

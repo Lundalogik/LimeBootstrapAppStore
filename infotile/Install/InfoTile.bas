@@ -6,7 +6,7 @@ On Error GoTo ErrorHandler
     GetInfo = oFilter.HitCount(Database.Classes(className))
 Exit Function
 ErrorHandler:
-    MsgBox ("InfoTile.GetInfo: Filter or Class not found!")
+    Call UI.ShowError("InfoTile.GetInfo")
 End Function
 
 

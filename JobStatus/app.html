@@ -1,0 +1,33 @@
+<div class="JobStatus" data-bind="visible: (hasError() && isMember)">
+	<div class="row">
+		<div class="col-xs-2 fa-2x" id="icon">
+			<span data-bind="icon:'fa-flag'"> </span>				
+		</div>
+		<div class="col-xs-9">
+			<h4 data-bind="text: 'SQL-jobb har stannat!'"></h4>	
+			<!-- ko if: many()  -->
+				<!-- ko foreach:JobData.jobstatus.job -->
+					<!-- ko if: run_status -->					
+						<div class="job-container">
+							<span data-bind="text: 'Jobb: ' + JobName"></span>
+							<br/>
+							<span data-bind="text: 'Datum: ' + RunDateTime"></span>
+							<br/>			
+						</div>
+					<!-- /ko -->
+				<!-- /ko -->			
+			<!-- /ko -->
+			<!--  ko if: many() == false -->					
+				<span data-bind="text: 'Jobb: ' + JobData.jobstatus.job.JobName"></span>
+				<br/>
+				<span data-bind="text: 'Datum: ' + JobData.jobstatus.job.RunDateTime"></span>
+				<br/>
+			<!-- /ko -->
+		</div>
+	</div>
+</div>
+<div data-bind="visible: (hasError() == false && isMember)">
+	<span data-bind="text: 'Integration körd', icon: 'fa-cogs'"></span>
+</div>
+
+

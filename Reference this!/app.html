@@ -1,0 +1,11 @@
+<button class="btn btn-default btn-lime" data-bind="text: 'Get references!', click: getReferences"></button>
+
+<div class="list-group">
+	<!-- ko if: noCompanies()-->
+
+	<span class="list-group-item list-group-item-danger" data-bind="icon: 'fa-exclamation', text: errorText"></span>
+	<!-- /ko -->
+	<!-- ko foreach: companies -->
+	<a class="list-group-item" data-bind="icon: 'fa-building', text: name, click: open"></a>
+	<!-- /ko -->
+</div>

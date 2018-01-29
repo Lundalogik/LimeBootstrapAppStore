@@ -12,9 +12,14 @@
     };
     
     self.initialize = function (node, viewModel) {
+    	
+	    	
 		//insert the datamodel into a variable
 		var data = viewModel.participants.data.participants;
-		
+		if (!Array.isArray(data.value)) {
+	            var arr = [data.value];
+	            data.value = arr;
+	        }
 		//create an array where we set the label and value info that the donut chart needs
 		var dataArray = [];
 		

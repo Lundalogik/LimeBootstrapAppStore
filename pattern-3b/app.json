@@ -1,0 +1,73 @@
+{
+    "name": "Pattern 3B",
+    "author":"FER",
+    "status":"Development",
+    "shortDesc":"Install pattern 3B",
+    "versions":[
+        {
+            "version":"0.1",
+            "date":"2015-04-16",
+            "comments":"First test"
+        }
+    ],
+    "dependencies":{
+
+    },
+    "install": {
+
+        "vba": [
+            {
+                "relPath": "Pattern_3b.cls",
+                "name": "Pattern_3b"
+            }
+        ],
+        "tables": [
+            {
+                "name": "business",
+                "localname_singular": {
+                    "sv": "Affär",
+                    "en_us": "Business"
+                },
+                "localname_plural": {
+                    "sv": "Affärer",
+                    "en_us": "Businesses"
+                },
+                "fields": [
+                    {
+                        "name": "need",
+                        "localname": {
+                            "sv": "Behov",
+                            "en_us": "Need"
+                        },
+                        "attributes": {
+                            "type": "yesno",
+                            "defaultvalue": "0"   
+                        }
+                    },
+                     {
+                        "name": "decisionmaker",
+                        "localname": {
+                            "sv": "Beslutsfattare",
+                            "en_us": "Decisionmaker"
+                        },
+                        "attributes": {
+                            "type": "yesno",
+                            "defaultvalue": "0"
+                        }
+                    },
+                    {
+                        "name": "budget",
+                        "localname": {
+                            "sv": "Budget",
+                            "en_us": "Budget"
+                        },
+                        "attributes": {
+                            "type": "yesno",
+                            "defaultvalue": "0"   
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
