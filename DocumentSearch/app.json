@@ -29,6 +29,12 @@
 			"date": "2018-01-29",
 			"comments": "Renamed add-on from Fulltextsearch to DocumentSearch."
 		}
+		, {
+			"version": "2.0.1",
+			"authors": ["Fredrik Eriksson, Lundalogik AB"],
+			"date": "2018-01-29",
+			"comments": "Fixed formatting errors in README."
+		}
 	],
 	"install": {
 		
