@@ -22,16 +22,7 @@ EXEC sp_help_fulltext_system_components 'filter'
 ```
 
 ## Installation
-1. Create the SQL function cfn_addon_documentsearch_checkstring.
-2. Create the SQL function cfn_addon_documentsearch_checktype.
-3. Create the SQL function cfn_addon_documentsearch_editstring.
-4. Create the SQL procedure csp_addon_documentsearch_finddocuments. If you get an error stating that:
-```
-Cannot use a CONTAINS or FREETEXT predicate on table or indexed view 'dbo.file' because it is not full-text indexed.
-```
-this means that a full-text search index must be created on the column ```dbo.file.data``` first. 
-The full-text index is created by right clicking the table ```dbo.file``` and then 'Full-Text index' -> 'Define Full-Text Index'. This will start a wizard where you should follow the steps below (done in Management Studio 13.0 for a SQL 2008 database):
-
+1. Create a full-text index on the column ```dbo.file.data``` by right clicking the table ```dbo.file``` and then 'Full-Text index' -> 'Define Full-Text Index'. This will start a wizard where you should follow the steps below (done in Management Studio 13.0 for a SQL 2008 database):
 	* Choose 'pk__file__idfile' as a unique index. Click 'Next >'.
 	* The next page in the wizard is for choosing which column to perform full-text searches in. Tick the box for 'data'. In the drop down in the column 'Type column', select 'fileextension'. Also specify your desired language in the column 'Language for Word Breaker'. Click 'Next >'.
 	* Select Change Tracking. Let the option 'Automatically' be selected. Click 'Next >'.
@@ -40,11 +31,25 @@ The full-text index is created by right clicking the table ```dbo.file``` and th
 	* Full-Text Indexing Wizard Description. Click 'Finish'.
 	* When the wizard has completed its work, click 'Close'.
 
-5. If you are running Lime CRM Server 12.x or later, please restart the LDC manually (right-click on it and click "Shut down").
-6. Restart the Lime CRM desktop client.
-7. Add the VBA module AO_DocumentSearch and save the VBA project.
-8. Add the "DocumentSearch" folder to the Actionpads\apps folder.
-9. In the main actionpad, where you want the app to be shown: Insert one of the two ways of showing the app found in app_instantiation.html.
-10. Publish the actionpads.
-11. Restart the Lime CRM desktop client and start using the add-on!
-12. Add a customization record in Lundalogik's Lime CRM under the customer. Note the version installed (can be found in the app.json file). Link it to the product card.
+2. Create the SQL function cfn_addon_documentsearch_checkstring.
+3. Create the SQL function cfn_addon_documentsearch_checktype.
+4. Create the SQL function cfn_addon_documentsearch_editstring.
+5. Create the SQL procedure csp_addon_documentsearch_finddocuments.
+6. If you are running Lime CRM Server 12.x or later, please restart the LDC manually (right-click on it and click "Shut down").
+7. Restart the Lime CRM desktop client.
+8. Add the VBA module AO_DocumentSearch and save the VBA project.
+9. Add the "DocumentSearch" folder to the Actionpads\apps folder.
+10. In the main actionpad, where you want the app to be shown: Insert one of the two ways of showing the app found in app_instantiation.html.
+11. Publish the actionpads.
+12. Restart the Lime CRM desktop client and start using the add-on!
+13. Add a customization record in Lundalogik's Lime CRM under the customer. Note the version installed (can be found in the app.json file). Link it to the product card.
+
+## Troubleshooting
+
+### No Full-text Index
+An error is thrown by SQL Server when creating the stored procedure csp_addon_documentsearch_finddocuments:
+```
+Cannot use a CONTAINS or FREETEXT predicate on table or indexed view 'dbo.file' because it is not full-text indexed.
+```
+
+This means that a full-text search index must be created on the column ```dbo.file.data```. Try to repeat step 1 in the installation instructions.
