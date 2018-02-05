@@ -80,10 +80,10 @@
 		var titlename = lbs.common.executeVba('Localize.GetText, budgetgauge, title')
 
 		//We start at All month
-		viewModel.latestTab= ko.observable("all");
+		viewModel.latestTab = ko.observable("all");
 		
-		viewModel.latestTabCalender= ko.observable("month");
-		viewModel.dropdowntext=ko.observable(alltext);
+		viewModel.latestTabCalender = ko.observable("month");
+		viewModel.dropdowntext = ko.observable(alltext);
 
 		//Colors
 		var lowcolor = "#ff0033" //RED
@@ -159,8 +159,8 @@
 
 		function loadData(){
 			/*if (viewModel.datatype() === 'business'){
-				//var xmlData = lbs.common.executeVba('budgetgauge.Initialize_business,'+ btype +','+ttype); 
-				var xmlData = lbs.common.executeVba('budgetgauge.GetValues,'+ btype +','+ttype +','+ targetClass +','+ targetFieldValue +','+ targetFieldDate +','+ targetFieldType);
+				//var xmlData = lbs.common.executeVba('AO_BudgetGauge.Initialize_business,'+ btype +','+ttype); 
+				var xmlData = lbs.common.executeVba('AO_BudgetGauge.GetValues,'+ btype +','+ttype +','+ targetClass +','+ targetFieldValue +','+ targetFieldDate +','+ targetFieldType);
 			}*/
 
 			var xmlStructure = '<structure>';
@@ -180,7 +180,7 @@
 
 
 
-			var sourceString = 'budgetgauge.GetValues, ' +
+			var sourceString = 'AO_BudgetGauge.GetValues, ' +
 	    	xmlStructure;
 /*alert(sourceString);
 		var xmlData = lbs.loader.loadDataSources({}, [{
@@ -195,7 +195,7 @@ var xmlData = lbs.common.executeVba(sourceString);
 
 
 			/*else if(viewModel.datatype() === 'order'){
-				var xmlData = lbs.common.executeVba('budgetgauge.Initialize_order,'+ btype +','+ttype); 	
+				var xmlData = lbs.common.executeVba('AO_BudgetGauge.Initialize_order,'+ btype +','+ttype); 	
 			} */    
 			var json = xml2json($.parseXML(xmlData),'');
 			json = $.parseJSON(json);
