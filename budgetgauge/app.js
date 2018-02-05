@@ -77,6 +77,7 @@
 		var thismonth = lbs.common.executeVba('Localize.GetText, budgetgauge,  thismonth');
 		var thisyear = lbs.common.executeVba('Localize.GetText, budgetgauge,  thisyear');
 		var valuenow = lbs.common.executeVba('Localize.GetText, budgetgauge, targetvaluenow')
+		var titlename = lbs.common.executeVba('Localize.GetText, budgetgauge, title')
 
 		//We start at All month
 		viewModel.latestTab= ko.observable("all");
@@ -90,9 +91,9 @@
 		var highcolor =  "#33cc00" //GREEN
 
 		if (divider === 'tkr') {
-				var title = "Budget Tkr"
+				var title = titlename + " Tkr"
 			} else {
-				var title = "Budget"
+				var title = titlename
 			}
 		
 		//Create config for the gauges

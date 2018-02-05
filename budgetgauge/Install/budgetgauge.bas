@@ -1,4 +1,3 @@
-Attribute VB_Name = "budgetgauge"
 Option Explicit
 
 
@@ -282,7 +281,7 @@ Call AddOrCheckLocalize( _
         "Used for the goalapp app", _
         "Month", _
         "Månad", _
-        " ", _
+        "Måned", _
         " ", _
         " " _
     )
@@ -292,7 +291,7 @@ Call AddOrCheckLocalize( _
         "Used for the goalapp app", _
         "Year", _
         "År", _
-        " ", _
+        "År", _
         " ", _
         " " _
     )
@@ -304,7 +303,7 @@ Call AddOrCheckLocalize( _
         "Used for the goalapp app", _
         "Mine", _
         "Mina", _
-        " ", _
+        "Mine", _
         " ", _
         " " _
     )
@@ -314,7 +313,7 @@ Call AddOrCheckLocalize( _
         "Used for the goalapp app", _
         "All", _
         "Alla", _
-        " ", _
+        "Alle", _
         " ", _
         " " _
     )
@@ -324,7 +323,7 @@ Call AddOrCheckLocalize( _
         "Used for the goalapp app", _
         "This year", _
         "I år", _
-        " ", _
+        "I år", _
         " ", _
         " " _
     )
@@ -334,7 +333,7 @@ Call AddOrCheckLocalize( _
         "Used for the goalapp app", _
         "This month", _
         "Denna månad", _
-        " ", _
+        "Denne måneden", _
         " ", _
         " " _
     )
@@ -344,11 +343,20 @@ Call AddOrCheckLocalize( _
         "Used for the goalapp app", _
         "Target value now", _
         "Önskat nuvärde", _
-        " ", _
+        "Ønsket nåverdi", _
         " ", _
         " " _
     )
-    
+    Call AddOrCheckLocalize( _
+        sOwner, _
+        "title", _
+        "Used for the goalapp app", _
+        "Order intake", _
+        "Order intake", _
+        "Order intake", _
+        "Order intake", _
+        "Order intake" _
+    )
 
 End Sub
 
@@ -469,4 +477,3 @@ End Sub
 '    Debug.Print ("Error while validating or adding Localize")
 '    AddOrCheckLocalize = False
 'End Function
-
