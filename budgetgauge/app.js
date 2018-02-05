@@ -76,6 +76,7 @@
 		var minetext = lbs.common.executeVba('Localize.GetText, budgetgauge,  mine');
 		var thismonth = lbs.common.executeVba('Localize.GetText, budgetgauge,  thismonth');
 		var thisyear = lbs.common.executeVba('Localize.GetText, budgetgauge,  thisyear');
+		var valuenow = lbs.common.executeVba('Localize.GetText, budgetgauge, targetvaluenow')
 
 		//We start at All month
 		viewModel.latestTab= ko.observable("all");
@@ -255,7 +256,7 @@ var xmlData = lbs.common.executeVba(sourceString);
 				self.gmonthall.refresh(gageConfigmonthall.value, maxmonthall);
 				if(viewModel.latestTabCalender()=="month")
 				{
-					viewModel.targetnow("Önskat nuvärde: " + data.value["targetnowall"]);
+					viewModel.targetnow(valuenow + ": " + data.value["targetnowall"]);
 				}
 
 			}
@@ -282,7 +283,7 @@ var xmlData = lbs.common.executeVba(sourceString);
 				self.gmonthmine.refresh(gageConfigmonthmine.value, maxmonthmine);
 				if(viewModel.latestTabCalender()=="month")
 				{
-					viewModel.targetnow("Önskat nuvärde: " + data.value["targetnowmine"]);
+					viewModel.targetnow(valuenow + ": " + data.value["targetnowmine"]);
 				}
 			}
         };
@@ -319,7 +320,7 @@ var xmlData = lbs.common.executeVba(sourceString);
 				self.gyearall.refresh(gageConfigyearall.value, maxyearall);
 				if(viewModel.latestTabCalender()=="year")
 				{
-					viewModel.targetnow("Önskat nuvärde: " + data.value["targetnowall"]);
+					viewModel.targetnow(valuenow + ": " + data.value["targetnowall"]);
 				}
 			}
 			else if(viewModel.latestTab() === "mine"){
@@ -345,7 +346,7 @@ var xmlData = lbs.common.executeVba(sourceString);
 				self.gyearmine.refresh(gageConfigyearmine.value, maxyearmine);
 				if(viewModel.latestTabCalender()=="year")
         		{
-					viewModel.targetnow("Önskat nuvärde: " + data.value["targetnowmine"]);
+					viewModel.targetnow(valuenow + ": " + data.value["targetnowmine"]);
 				}
 			}
 		};
