@@ -1,15 +1,27 @@
 {
 	"name": "Budget gauge",
-	"author":"Adam Olsson",
-	"status":"Development",
-	"versions":[
+	"author": "Adam Olsson",
+	"status": "Development",
+	"versions": [
 		{
-			"version":"0.1",
-			"date":"2015-03-26",
-			"comments":"Creation"
+			"version": "0.1.0",
+			"date": "2015-03-26",
+			"comments": "Creation"
+		},
+		{
+			"version": "0.2.0",
+			"date": "2018-02-05",
+			"author": "An Thien Huynh, Lundalogik AB",
+			"comments": "Added translations for norwegian."
+		},
+		{
+			"version": "0.2.1",
+			"date": "2018-02-05",
+			"author": "Fredrik Eriksson, Lundalogik AB",
+			"comments": "Fixed formatting errors in README and fixed error with naming of VBA module."
 		}
 	],
-	"install":{
+	"install": {
 		
 	}
 }

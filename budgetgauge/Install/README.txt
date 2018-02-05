@@ -1,1 +1,0 @@
-In the vba code run the Install sub to create localize posts
