@@ -432,13 +432,6 @@ END CATCH
 COMMIT TRANSACTION
 GO
 
-EXEC lsp_refreshldc
-EXEC lsp_refreshcaches
-
-GO
-
-
-
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -472,5 +465,7 @@ END
 GO
 
 EXEC lsp_refreshldc
+EXEC lsp_refreshcaches
+EXEC lsp_setdatabasetimestamp
 
 GO
