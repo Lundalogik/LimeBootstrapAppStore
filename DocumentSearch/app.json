@@ -1,0 +1,10 @@
+{
+	"name": "DocumentSearch",
+	"author": "Andreas Åström & Amina Demirovic",
+	"status": "Release",
+	"license": true,
+	"shortDesc": "Allows you to search for text in documents stored in Lime CRM.",
+	"install": {
+		
+	}
+}
