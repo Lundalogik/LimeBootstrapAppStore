@@ -1,6 +1,6 @@
 {
     "name": "InfoTiles",
-    "author": "MMD",
+    "author": "Tommy Lindh",
     "status": "Release",
     "license": true,
     "shortDesc": "Supply your favourite Lime CRM filter and the tile will show the name and the count of the filter.",
