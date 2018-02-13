@@ -19,7 +19,8 @@ As you set your filters yourself, only you, Lime CRM and the sky is the limit.
 {
   showOnEmpty: true, // [Optional] - Default value false
   timer: 30 // [Optional] - How often the infotiles app should reload (in Seconds), 
-  // if undefined/null/false it never reloads (Default: undefined)
+            // if undefined/null/false it never reloads (Default: undefined)
+            // Try to avoid this functionality if possible due to server performance and user experience
 }
 ```
 
