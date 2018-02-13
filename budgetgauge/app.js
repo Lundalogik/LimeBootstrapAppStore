@@ -76,12 +76,14 @@
 		var minetext = lbs.common.executeVba('Localize.GetText, budgetgauge,  mine');
 		var thismonth = lbs.common.executeVba('Localize.GetText, budgetgauge,  thismonth');
 		var thisyear = lbs.common.executeVba('Localize.GetText, budgetgauge,  thisyear');
+		var valuenow = lbs.common.executeVba('Localize.GetText, budgetgauge, targetvaluenow')
+		var titlename = lbs.common.executeVba('Localize.GetText, budgetgauge, title')
 
 		//We start at All month
-		viewModel.latestTab= ko.observable("all");
+		viewModel.latestTab = ko.observable("all");
 		
-		viewModel.latestTabCalender= ko.observable("month");
-		viewModel.dropdowntext=ko.observable(alltext);
+		viewModel.latestTabCalender = ko.observable("month");
+		viewModel.dropdowntext = ko.observable(alltext);
 
 		//Colors
 		var lowcolor = "#ff0033" //RED
@@ -89,9 +91,9 @@
 		var highcolor =  "#33cc00" //GREEN
 
 		if (divider === 'tkr') {
-				var title = "Budget Tkr"
+				var title = titlename + " Tkr"
 			} else {
-				var title = "Budget"
+				var title = titlename
 			}
 		
 		//Create config for the gauges
@@ -157,8 +159,8 @@
 
 		function loadData(){
 			/*if (viewModel.datatype() === 'business'){
-				//var xmlData = lbs.common.executeVba('budgetgauge.Initialize_business,'+ btype +','+ttype); 
-				var xmlData = lbs.common.executeVba('budgetgauge.GetValues,'+ btype +','+ttype +','+ targetClass +','+ targetFieldValue +','+ targetFieldDate +','+ targetFieldType);
+				//var xmlData = lbs.common.executeVba('AO_BudgetGauge.Initialize_business,'+ btype +','+ttype); 
+				var xmlData = lbs.common.executeVba('AO_BudgetGauge.GetValues,'+ btype +','+ttype +','+ targetClass +','+ targetFieldValue +','+ targetFieldDate +','+ targetFieldType);
 			}*/
 
 			var xmlStructure = '<structure>';
@@ -178,7 +180,7 @@
 
 
 
-			var sourceString = 'budgetgauge.GetValues, ' +
+			var sourceString = 'AO_BudgetGauge.GetValues, ' +
 	    	xmlStructure;
 /*alert(sourceString);
 		var xmlData = lbs.loader.loadDataSources({}, [{
@@ -193,7 +195,7 @@ var xmlData = lbs.common.executeVba(sourceString);
 
 
 			/*else if(viewModel.datatype() === 'order'){
-				var xmlData = lbs.common.executeVba('budgetgauge.Initialize_order,'+ btype +','+ttype); 	
+				var xmlData = lbs.common.executeVba('AO_BudgetGauge.Initialize_order,'+ btype +','+ttype); 	
 			} */    
 			var json = xml2json($.parseXML(xmlData),'');
 			json = $.parseJSON(json);
@@ -255,7 +257,7 @@ var xmlData = lbs.common.executeVba(sourceString);
 				self.gmonthall.refresh(gageConfigmonthall.value, maxmonthall);
 				if(viewModel.latestTabCalender()=="month")
 				{
-					viewModel.targetnow("Önskat nuvärde: " + data.value["targetnowall"]);
+					viewModel.targetnow(valuenow + ": " + data.value["targetnowall"]);
 				}
 
 			}
@@ -282,7 +284,7 @@ var xmlData = lbs.common.executeVba(sourceString);
 				self.gmonthmine.refresh(gageConfigmonthmine.value, maxmonthmine);
 				if(viewModel.latestTabCalender()=="month")
 				{
-					viewModel.targetnow("Önskat nuvärde: " + data.value["targetnowmine"]);
+					viewModel.targetnow(valuenow + ": " + data.value["targetnowmine"]);
 				}
 			}
         };
@@ -319,7 +321,7 @@ var xmlData = lbs.common.executeVba(sourceString);
 				self.gyearall.refresh(gageConfigyearall.value, maxyearall);
 				if(viewModel.latestTabCalender()=="year")
 				{
-					viewModel.targetnow("Önskat nuvärde: " + data.value["targetnowall"]);
+					viewModel.targetnow(valuenow + ": " + data.value["targetnowall"]);
 				}
 			}
 			else if(viewModel.latestTab() === "mine"){
@@ -345,7 +347,7 @@ var xmlData = lbs.common.executeVba(sourceString);
 				self.gyearmine.refresh(gageConfigyearmine.value, maxyearmine);
 				if(viewModel.latestTabCalender()=="year")
         		{
-					viewModel.targetnow("Önskat nuvärde: " + data.value["targetnowmine"]);
+					viewModel.targetnow(valuenow + ": " + data.value["targetnowmine"]);
 				}
 			}
 		};

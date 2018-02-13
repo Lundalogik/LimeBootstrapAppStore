@@ -1,4 +1,4 @@
-Attribute VB_Name = "budgetgauge"
+Attribute VB_Name = "AO_BudgetGauge"
 Option Explicit
 
 
@@ -54,20 +54,20 @@ On Error GoTo errorhandler
     If oStructureXml.loadXML(Xml) Then
         
         ' Set value to Structure Variables
-        dealstatus = oStructureXml.selectSingleNode("structure/btype").Text
-        targettype = oStructureXml.selectSingleNode("structure/ttype").Text
+        dealstatus = oStructureXml.selectSingleNode("structure/btype").text
+        targettype = oStructureXml.selectSingleNode("structure/ttype").text
         
-        scoreClass = oStructureXml.selectSingleNode("structure/scoreClass").Text
-        scoreFieldValue = oStructureXml.selectSingleNode("structure/scoreFieldValue").Text
-        scoreFieldDate = oStructureXml.selectSingleNode("structure/scoreFieldDate").Text
-        scoreFieldStatus = oStructureXml.selectSingleNode("structure/scoreFieldStatus").Text
-        scoreFieldCoworker = oStructureXml.selectSingleNode("structure/scoreFieldCoworker").Text
+        scoreClass = oStructureXml.selectSingleNode("structure/scoreClass").text
+        scoreFieldValue = oStructureXml.selectSingleNode("structure/scoreFieldValue").text
+        scoreFieldDate = oStructureXml.selectSingleNode("structure/scoreFieldDate").text
+        scoreFieldStatus = oStructureXml.selectSingleNode("structure/scoreFieldStatus").text
+        scoreFieldCoworker = oStructureXml.selectSingleNode("structure/scoreFieldCoworker").text
         
-        targetClass = oStructureXml.selectSingleNode("structure/targetClass").Text
-        targetFieldValue = oStructureXml.selectSingleNode("structure/targetFieldValue").Text
-        targetFieldDate = oStructureXml.selectSingleNode("structure/targetFieldDate").Text
-        targetFieldType = oStructureXml.selectSingleNode("structure/targetFieldType").Text
-        targetFieldCoworker = oStructureXml.selectSingleNode("structure/targetFieldCoworker").Text
+        targetClass = oStructureXml.selectSingleNode("structure/targetClass").text
+        targetFieldValue = oStructureXml.selectSingleNode("structure/targetFieldValue").text
+        targetFieldDate = oStructureXml.selectSingleNode("structure/targetFieldDate").text
+        targetFieldType = oStructureXml.selectSingleNode("structure/targetFieldType").text
+        targetFieldCoworker = oStructureXml.selectSingleNode("structure/targetFieldCoworker").text
     
     End If
 
@@ -113,15 +113,15 @@ On Error GoTo errorhandler
 
     Call oScoreRecords.Open(Database.Classes(scoreClass), oScoreFilter, oScoreView)
      For Each oScoreRecord In oScoreRecords
-         If Not VBA.IsNull(oScoreRecord.value(scoreFieldValue)) Then
-            sumScoreAll = sumScoreAll + oScoreRecord.value(scoreFieldValue)
-            If VBA.month(oScoreRecord.value(scoreFieldDate)) = VBA.month(Now()) Then
-                sumScoreAllMonth = sumScoreAllMonth + oScoreRecord.value(scoreFieldValue)
+         If Not VBA.IsNull(oScoreRecord.Value(scoreFieldValue)) Then
+            sumScoreAll = sumScoreAll + oScoreRecord.Value(scoreFieldValue)
+            If VBA.month(oScoreRecord.Value(scoreFieldDate)) = VBA.month(Now()) Then
+                sumScoreAllMonth = sumScoreAllMonth + oScoreRecord.Value(scoreFieldValue)
             End If
-             If oScoreRecord.value(scoreFieldCoworker) = ActiveUser.Record.ID Then
-                 sumScoreMine = sumScoreMine + oScoreRecord.value(scoreFieldValue)
-                 If VBA.month(oScoreRecord.value(scoreFieldDate)) = VBA.month(Now()) Then
-                    sumScoreMineMonth = sumScoreMineMonth + oScoreRecord.value(scoreFieldValue)
+             If oScoreRecord.Value(scoreFieldCoworker) = ActiveUser.Record.ID Then
+                 sumScoreMine = sumScoreMine + oScoreRecord.Value(scoreFieldValue)
+                 If VBA.month(oScoreRecord.Value(scoreFieldDate)) = VBA.month(Now()) Then
+                    sumScoreMineMonth = sumScoreMineMonth + oScoreRecord.Value(scoreFieldValue)
                 End If
              End If
          End If
@@ -138,15 +138,15 @@ On Error GoTo errorhandler
 
     Call oTargetRecords.Open(Database.Classes(targetClass), oTargetFilter, oTargetView)
      For Each oTargetRecord In oTargetRecords
-         If Not VBA.IsNull(oTargetRecord.value(targetFieldValue)) Then
-            sumTargetAll = sumTargetAll + oTargetRecord.value(targetFieldValue)
-            If VBA.month(oTargetRecord.value(targetFieldDate)) = VBA.month(Now()) Then
-                sumTargetAllMonth = sumTargetAllMonth + oTargetRecord.value(targetFieldValue)
+         If Not VBA.IsNull(oTargetRecord.Value(targetFieldValue)) Then
+            sumTargetAll = sumTargetAll + oTargetRecord.Value(targetFieldValue)
+            If VBA.month(oTargetRecord.Value(targetFieldDate)) = VBA.month(Now()) Then
+                sumTargetAllMonth = sumTargetAllMonth + oTargetRecord.Value(targetFieldValue)
             End If
-            If oTargetRecord.value(targetFieldCoworker) = ActiveUser.Record.ID Then
-                 sumTargetMine = sumTargetMine + oTargetRecord.value(targetFieldValue)
-                 If VBA.month(oTargetRecord.value(targetFieldDate)) = VBA.month(Now()) Then
-                    sumTargetMineMonth = sumTargetMineMonth + oTargetRecord.value(targetFieldValue)
+            If oTargetRecord.Value(targetFieldCoworker) = ActiveUser.Record.ID Then
+                 sumTargetMine = sumTargetMine + oTargetRecord.Value(targetFieldValue)
+                 If VBA.month(oTargetRecord.Value(targetFieldDate)) = VBA.month(Now()) Then
+                    sumTargetMineMonth = sumTargetMineMonth + oTargetRecord.Value(targetFieldValue)
                 End If
             End If
          End If
@@ -183,7 +183,7 @@ sXml = sXml + "</goalxml></data>"
     GetValues = sXml
 Exit Function
 errorhandler:
-    Call UI.ShowError("budgetgauge.GetValues")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".GetValues")
 End Function
 
 'HELP FUNCTIONS
@@ -194,7 +194,7 @@ On Error GoTo errorhandler
     lngTargetMonthToDateValue = VBA.Round(targetvalue * dblMonthToDatePercentage, 0)
 Exit Function
 errorhandler:
-    Call UI.ShowError("budgetgauge.lngTargetMonthToDateValue")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".lngTargetMonthToDateValue")
 End Function
 
 Public Function lngTargetYearToDateValue(targetvalue As Long) As Long
@@ -204,7 +204,7 @@ On Error GoTo errorhandler
     lngTargetYearToDateValue = VBA.Round(targetvalue * dblYearToDatePercentage, 0)
 Exit Function
 errorhandler:
-    Call UI.ShowError("budgetgauge.lngTargetYearToDateValue")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".lngTargetYearToDateValue")
 End Function
 
 Function CWDMonth(myDate As Date) As Long
@@ -215,7 +215,7 @@ On Error GoTo errorhandler
   CWDMonth = DateDiff("d", startdate, enddate) - DateDiff("ww", startdate, enddate) * 2 - (Weekday(enddate) <> 7) + (Weekday(startdate) = 1)
 Exit Function
 errorhandler:
-    Call UI.ShowError("budgetgauge.CWDMonth")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".CWDMonth")
 End Function
 
 Function CWDnowMonth(myDate As Date) As Long
@@ -226,7 +226,7 @@ On Error GoTo errorhandler
   CWDnowMonth = DateDiff("d", startdate, enddate) - DateDiff("ww", startdate, enddate) * 2 - (Weekday(enddate) <> 7) + (Weekday(startdate) = 1)
 Exit Function
 errorhandler:
-    Call UI.ShowError("budgetgauge.CWDnowMonth")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".CWDnowMonth")
 End Function
 
 Function CWDYear(myDate As Date) As Long
@@ -237,7 +237,7 @@ On Error GoTo errorhandler
   CWDYear = DateDiff("d", startdate, enddate) - DateDiff("ww", startdate, enddate) * 2 - (Weekday(enddate) <> 7) + (Weekday(startdate) = 1)
 Exit Function
 errorhandler:
-    Call UI.ShowError("budgetgauge.CWDYear")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".CWDYear")
 End Function
 
 Function CWDnowYear(myDate As Date) As Long
@@ -248,7 +248,7 @@ On Error GoTo errorhandler
   CWDnowYear = DateDiff("d", startdate, enddate) - DateDiff("ww", startdate, enddate) * 2 - (Weekday(enddate) <> 7) + (Weekday(startdate) = 1)
 Exit Function
 errorhandler:
-    Call UI.ShowError("budgetgauge.CWDnowYear")
+    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".CWDnowYear")
 End Function
 
 
@@ -264,7 +264,7 @@ End Function
 '    End If
 'Exit Function
 'errorhandler:
-'Call UI.ShowError("budgetgauge.SalesOrConsultatnt")
+'Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".SalesOrConsultatnt")
 'End Function
 
 
@@ -282,7 +282,7 @@ Call AddOrCheckLocalize( _
         "Used for the goalapp app", _
         "Month", _
         "Månad", _
-        " ", _
+        "Måned", _
         " ", _
         " " _
     )
@@ -292,7 +292,7 @@ Call AddOrCheckLocalize( _
         "Used for the goalapp app", _
         "Year", _
         "År", _
-        " ", _
+        "År", _
         " ", _
         " " _
     )
@@ -304,7 +304,7 @@ Call AddOrCheckLocalize( _
         "Used for the goalapp app", _
         "Mine", _
         "Mina", _
-        " ", _
+        "Mine", _
         " ", _
         " " _
     )
@@ -314,7 +314,7 @@ Call AddOrCheckLocalize( _
         "Used for the goalapp app", _
         "All", _
         "Alla", _
-        " ", _
+        "Alle", _
         " ", _
         " " _
     )
@@ -324,7 +324,7 @@ Call AddOrCheckLocalize( _
         "Used for the goalapp app", _
         "This year", _
         "I år", _
-        " ", _
+        "I år", _
         " ", _
         " " _
     )
@@ -334,7 +334,7 @@ Call AddOrCheckLocalize( _
         "Used for the goalapp app", _
         "This month", _
         "Denna månad", _
-        " ", _
+        "Denne måneden", _
         " ", _
         " " _
     )
@@ -344,11 +344,20 @@ Call AddOrCheckLocalize( _
         "Used for the goalapp app", _
         "Target value now", _
         "Önskat nuvärde", _
-        " ", _
+        "Ønsket nåverdi", _
         " ", _
         " " _
     )
-    
+    Call AddOrCheckLocalize( _
+        sOwner, _
+        "title", _
+        "Used for the goalapp app", _
+        "Order intake", _
+        "Order intake", _
+        "Order intake", _
+        "Order intake", _
+        "Order intake" _
+    )
 
 End Sub
 
@@ -376,9 +385,9 @@ Private Function AddOrCheckLocalize( _
         Debug.Print ("Localization " & sOwner & "." & sCode & " not found, creating new!")
         Set oRec = New LDE.Record
         Call oRec.Open(Database.Classes("localize"))
-        oRec.value("owner") = sOwner
-        oRec.value("code") = sCode
-        oRec.value("context") = sDescription
+        oRec.Value("owner") = sOwner
+        oRec.Value("code") = sCode
+        oRec.Value("context") = sDescription
         Call AddLocaleToRecord(oRec, "sv", sSV)
         Call AddLocaleToRecord(oRec, "en_us", sEN_US)
         Call AddLocaleToRecord(oRec, "no", sNO)
@@ -390,9 +399,9 @@ Private Function AddOrCheckLocalize( _
     Debug.Print ("Updating localization " & sOwner & "." & sCode)
         Call oRecs.Open(Database.Classes("localize"), oFilter)
         Set oRec = oRecs(1)
-        oRec.value("owner") = sOwner
-        oRec.value("code") = sCode
-        oRec.value("context") = sDescription
+        oRec.Value("owner") = sOwner
+        oRec.Value("code") = sCode
+        oRec.Value("context") = sDescription
         Call AddLocaleToRecord(oRec, "sv", sSV)
         Call AddLocaleToRecord(oRec, "en_us", sEN_US)
         Call AddLocaleToRecord(oRec, "no", sNO)
@@ -415,7 +424,7 @@ End Function
 Private Sub AddLocaleToRecord(ByRef oRec As LDE.Record, ByVal sLocaleCode As String, ByVal sLocaleValue As String)
 On Error GoTo errorhandler
     If oRec.Fields.Exists(sLocaleCode) Then
-        oRec.value(sLocaleCode) = sLocaleValue
+        oRec.Value(sLocaleCode) = sLocaleValue
     End If
 Exit Sub
 errorhandler:
@@ -469,4 +478,3 @@ End Sub
 '    Debug.Print ("Error while validating or adding Localize")
 '    AddOrCheckLocalize = False
 'End Function
-

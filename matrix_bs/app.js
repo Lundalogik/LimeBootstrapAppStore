@@ -145,8 +145,13 @@
 ko.bindingHandlers.datepicker = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         //initialize datepicker with some optional options
-        var d = moment().format('YYYY-MM-DD');
-        var options = allBindingsAccessor().datepickerOptions || { format: 'yyyy-mm-dd', autoclose: true, weekStart: 1, todayHighlight: true, orientation: 'left top' };
+        var format = 'yyyy-mm-dd';
+		var language = window.navigator.userLanguage.substring(0,2);
+		if(language == 'da' || language == 'no' || language == 'nb' || language == 'nn'){
+			format = 'dd/mm/yyyy';
+		}
+        
+        var options = allBindingsAccessor().datepickerOptions || { format: format, autoclose: true, weekStart: 1, todayHighlight: true, orientation: 'left top' };
         $(element).datepicker(options);
 
         //when a user changes the date, update the view model

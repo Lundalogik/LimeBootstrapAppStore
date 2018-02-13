@@ -1,5 +1,7 @@
-# LIME Bootstrap AppStore
+# Important!
+This repository is going to be replaced by separate repositories for each add-on. **Do not add new folders** to this repository anymore. If you have a new add-on that needs version control, please contact [Fredrik Eriksson](mailto:fredrik.eriksson@lundalogik.se) for instructions on how to do it. Updating existing add-ons here is fine until they are migrated to separate repositories. After migrating an add-on the folder here will be emptied and a redirect link will be inserted in the README file.
 
+# LIME Bootstrap AppStore
 This repo contains all apps available for LIME Bootstrap. The appstore itself can be found [here](http://www.lime-bootstrap.com/appstore/).
 
 ## Building apps
@@ -14,7 +16,7 @@ __WARNING:__ Committing an invalid `app.json` may cause the appstore to crash. T
 
 __NOTE:__ The `app.json` powers the versioning system of the app. When you raise a version number an automatic message will be shown to all users of the app, with debug enabled, asking them to update.
 
-Any pictures (.jpg, .jpeg, .png) in the app's root folder will automatically be used as cover pictures for the app. If you don't want these pictures to be distributed when someone downloads your app, just append an undersore `_` to the filename and it will be ignored. `_example.png`
+Any pictures (.jpg, .jpeg, .png) in the app's root folder will automatically be used as cover pictures for the app. If you don't want these pictures to be distributed when someone downloads your app, just prepend an undersore `_` to the filename and it will be ignored. `_example.png`
 
 The information about the app in the appstore is pulled from the `README.md`-file in the app's root folder
 
