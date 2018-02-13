@@ -14,8 +14,8 @@ As you set your filters yourself, only you, Lime CRM and the sky is the limit.
 ``` html
 <div data-app="{app:'infotiles', config:{showOnEmpty: true}}"></div>
 ```
-
-``` Configuration
+### Configuration
+``` js
 {
   showOnEmpty: true, // [Optional] - Default value false
   timer: 30 // [Optional] - How often the infotiles app should reload (in Seconds), 
