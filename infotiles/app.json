@@ -28,7 +28,12 @@
         {
             "version": "3.0.2",
             "date": "2018-02-13",
-            "comments": "Added auto reload functionality"
+            "comments": "Added auto reload functionality."
+        },
+        {
+            "version": "3.0.3",
+            "date": "2018-02-16",
+            "comments": "Bugfix: Could not sum decimal values."
         }
     ],
     "install": {

@@ -80,10 +80,11 @@ On Error GoTo ErrorHandler
     Dim oField As LDE.field
     Dim oClass As LDE.Class
     Dim oRecords As New LDE.Records
-    Dim oRecord As LDE.Record
-    Dim sum As Long
+    Dim oRecord As LDE.record
+    Dim vSum As Variant
+    Dim sReturnValue As String
     
-    sum = 0
+    vSum = 0
     If sActiveClass = VisibleOnIndexName Then
         If Application.Explorers.Exists(className) Then
             If Application.Explorers(className).Filters.Exists(filterName) Then
@@ -91,7 +92,7 @@ On Error GoTo ErrorHandler
                 Call oRecords.Open(Database.Classes(className), oFilter)
                 For Each oRecord In oRecords
                     If Not VBA.IsNull(oRecord.Value(fieldName)) Then
-                        sum = sum + oRecord.Value(fieldName)
+                        vSum = vSum + oRecord.Value(fieldName)
                     End If
                 Next oRecord
             End If
@@ -124,7 +125,7 @@ On Error GoTo ErrorHandler
                         Call oRecords.Open(Database.Classes(oField.Name), oFilter)
                         For Each oRecord In oRecords
                             If Not VBA.IsNull(oRecord.Value(fieldName)) Then
-                                sum = sum + oRecord.Value(fieldName)
+                                vSum = vSum + oRecord.Value(fieldName)
                             End If
                         Next oRecord
                     End If
@@ -132,11 +133,37 @@ On Error GoTo ErrorHandler
             End If
         End If
     End If
-    GetSumField = CStr(VBA.Format(VBA.CDbl(sum), "#,0"))
+        
+    Select Case VBA.TypeName(vSum)
+        Case "Double"
+            If InfoTiles.GetFractionalPart(vSum) = 0 Then
+                sReturnValue = VBA.CStr(VBA.FormatNumber(vSum, 0))
+            Else
+                sReturnValue = VBA.CStr(VBA.FormatNumber(vSum, 2))
+            End If
+        Case Else
+            If VBA.IsNumeric(vSum) Then
+                sReturnValue = VBA.CStr(VBA.FormatNumber(vSum, 0))
+            Else
+                sReturnValue = VBA.CStr(vSum)
+            End If
+    End Select
+    
+    GetSumField = sReturnValue
+
 Exit Function
 ErrorHandler:
-    Call UI.ShowError("InfoTiles.GetHitCount")
+    Call UI.ShowError("InfoTiles.GetSumField")
 End Function
+
+Private Function GetFractionalPart(ByVal vValue As Double) As Double
+On Error GoTo ErrorHandler
+    GetFractionalPart = vValue - VBA.Fix(vValue)
+Exit Function
+ErrorHandler:
+    Call UI.ShowError("InfoTiles.GetFractionalPart")
+End Function
+
 ' ##SUMMARY Is used to show the filter
 Public Sub ShowFilter(ByVal lngidinfotiles As Long)
     On Error GoTo ErrorHandler
@@ -568,7 +595,7 @@ On Error GoTo ErrorHandler
         "no_data", _
         "Translation for " & sOwner, _
         "No data for InfoTiles", _
-        "Ingen data fˆr InfoTiles", _
+        "Ingen data f√∂r InfoTiles", _
         "No data for InfoTiles", _
         "No data for InfoTiles" _
     )
@@ -588,7 +615,7 @@ On Error GoTo ErrorHandler
         "field_missing", _
         "Translation for " & sOwner, _
         "The field '%2' in table '%1' is not found", _
-        "Kan inte hitta f‰ltet '%2' i tabellen '%1'", _
+        "Kan inte hitta f√§ltet '%2' i tabellen '%1'", _
         "The field '%2' in table '%1' is not found", _
         "The field '%2' in table '%1' is not found" _
     )
@@ -598,7 +625,7 @@ On Error GoTo ErrorHandler
         "options_missing", _
         "Translation for " & sOwner, _
         "The field '%2' in table '%1' doesn't have any options", _
-        "Kan inte hitta nÂgra alternativ i f‰ltet '%2' i tabellen '%1'", _
+        "Kan inte hitta n√•gra alternativ i f√§ltet '%2' i tabellen '%1'", _
         "The field '%2' in table '%1' doesn't have any options", _
         "The field '%2' in table '%1' doesn't have any options" _
     )
@@ -608,7 +635,7 @@ On Error GoTo ErrorHandler
         "option_missing", _
         "Translation for " & sOwner, _
         "The field '%2' in table '%1' doesn't have any option with key '%3'", _
-        "Kan inte hitta nÂgot alternativ i f‰ltet '%2' i tabellen '%1' med nyckel '%3'", _
+        "Kan inte hitta n√•got alternativ i f√§ltet '%2' i tabellen '%1' med nyckel '%3'", _
         "The field '%2' in table '%1' doesn't have any option with key '%3'", _
         "The field '%2' in table '%1' doesn't have any option with key '%3'" _
     )
@@ -618,7 +645,7 @@ On Error GoTo ErrorHandler
         "coworker_department_missing", _
         "Translation for " & sOwner, _
         "The field '%1' in the coworker table", _
-        "Kan inte hitta f‰ltet '%1' Medarbetar-tabellen", _
+        "Kan inte hitta f√§ltet '%1' Medarbetar-tabellen", _
         "The field '%1' in the coworker table", _
         "The field '%1' in the coworker table" _
     )
