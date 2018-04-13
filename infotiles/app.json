@@ -1,6 +1,6 @@
 {
     "name": "InfoTiles",
-    "author": "MMD",
+    "author": "Tommy Lindh",
     "status": "Release",
     "license": true,
     "shortDesc": "Supply your favourite Lime CRM filter and the tile will show the name and the count of the filter.",
@@ -24,6 +24,16 @@
             "version": "3.0.1",
             "date": "2017-06-12",
             "comments": "Added error code to ignore in VBA function FetchFiltersXML."
+        },
+        {
+            "version": "3.0.2",
+            "date": "2018-02-13",
+            "comments": "Added auto reload functionality."
+        },
+        {
+            "version": "3.0.3",
+            "date": "2018-02-16",
+            "comments": "Bugfix: Could not sum decimal values."
         }
     ],
     "install": {

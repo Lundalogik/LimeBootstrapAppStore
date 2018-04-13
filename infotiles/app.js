@@ -13,10 +13,9 @@ lbs.apploader.register('infotiles', function () {
 
         appConfig = appConfig || {};
         this.showOnEmpty = appConfig.showOnEmpty == null && true || appConfig.showOnEmpty;
-/*
-        this.timer = appConfig.timer ? appConfig.timer*1000 : 60 * 1000; //s -> ms
-        this.refreshtype = appConfig.refresh ? appConfig.refresh : "manual" || "manual";
-*/
+        
+        this.timer = appConfig.timer ? appConfig.timer*1000 : undefined; //s -> ms
+
     },
 
     //initialize
@@ -24,6 +23,10 @@ lbs.apploader.register('infotiles', function () {
         var self = this;
         var myInfotilesModel = new infotilesModel(self.config);
         myInfotilesModel.localize = viewmodel.localize;
+ 
+        if(self.config.timer)
+            var interval = setInterval(myInfotilesModel.refresh, self.config.timer);
+
 		return myInfotilesModel;
     }
 
@@ -35,12 +38,6 @@ function infotilesModel(appConfig) {
     me.leftText = ko.observable('');
     me.height = ko.observable();
     me.infotiles = ko.observableArray();
-/*
-    me.refreshtype = appConfig.refresh;
-    me.mstimer = ko.observable(0);
-    me.continueTimer = ko.observable(true);
-    me.timer = appConfig.timer;
-*/    
     me.infotilesVisible = ko.observable(true);
 
     function populateInfotiles(rawInfotilesItems){
@@ -67,22 +64,7 @@ function infotilesModel(appConfig) {
                 return 45;
         }
     }
-/*
-    me.runTimer = function(){
-        if(me.continueTimer()){
-            me.mstimer(me.mstimer() + 100)
-            setTimeout(me.runTimer, 100);
-            if(me.mstimer() > me.timer) {
-                if(me.refreshtype == "manual"){
-                    me.continueTimer(false);
-                }
-                else{
-                    me.refresh();
-                }
-            }
-        }
-    }
-*/
+
     me.refresh = function(){
         try {
             var rawInfotilesData = getFilterData();
@@ -94,11 +76,6 @@ function infotilesModel(appConfig) {
             else {
                 me.infotilesVisible(true);
             }
-/*
-            me.continueTimer(true);
-            me.mstimer(0);
-            me.runTimer();
-*/
         }
         catch(e) {
             alert(e);
@@ -152,4 +129,3 @@ function createInfotilesItemFromRaw(rawInfotilesItem){
         rawInfotilesItem.size['#cdata'] ? rawInfotilesItem.size['#cdata'] : "medium"
     );
 }
-
