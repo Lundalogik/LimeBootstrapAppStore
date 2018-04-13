@@ -37,6 +37,7 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
         viewModel.boardConfig = ko.observableArray();
         viewModel.board = ko.observable();
         viewModel.loading = ko.observable(true);
+        viewModel.lanesContainerWidth = ko.observable('0px');
 
         // Get colors object
         self.limeCRMSalesBoardColors = new limeCRMSalesBoardColors();
@@ -82,6 +83,7 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
             
             // Check if valid active table
             if (viewModel.boardConfig().length !== 1) {
+                viewModel.loading(false);
                 return self.b;
             }
 
@@ -105,7 +107,7 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
             self.b.cardValueUnit = viewModel.boardConfig()[0].card.value.unit;
 
             // Add lanes and cards
-            self.b.lanes(ko.utils.arrayMap(data.board.data.Lanes, function(lane){
+            self.b.lanes(ko.utils.arrayMap(data.board.data.Lanes, function(lane) {
                 return new models.Lane(lane, viewModel.boardConfig()[0], self);
             }));
 
@@ -122,11 +124,11 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
             self.b.sumNegative = utils.numericStringMakePretty(boardSumNegative.toString());
 
             // Set dynamic css property to make room for all lanes in width.
-            var laneWidth = parseInt($('.limecrmsalesboard-lane-container').css('width').replace(/\D+/g, ''));     // replace all non-digits with nothing
+            var laneWidth = parseInt($('.limecrmsalesboard-lane').css('width').replace(/\D+/g, ''));     // replace all non-digits with nothing
             var laneMargins = parseInt($('.limecrmsalesboard-lane-container').css('margin-left').replace(/\D+/g, ''))
                                 + parseInt($('.limecrmsalesboard-lane-container').css('margin-right').replace(/\D+/g, ''));     // replace all non-digits with nothing
-            
-            viewModel.lanesContainerWidth = self.b.lanes().length * (laneWidth + laneMargins);
+            viewModel.lanesContainerWidth(self.b.lanes().length * (laneWidth + laneMargins) + 'px');
+
             resizeBoardHeight();
             viewModel.loading(false);
             return self.b;

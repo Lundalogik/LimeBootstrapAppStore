@@ -5,7 +5,13 @@ var models = {
         scope.laneSettings = models.getLaneSettings(settings.lanes, lane, board)
         scope.color = scope.laneSettings.color;
         scope.colorHex = board.limeCRMSalesBoardColors.getColorHex(scope.laneSettings.color);
-        scope.cards = ko.observableArray(ko.utils.arrayMap(lane.Cards, function(card){
+
+        // Make sure lanes with only one card works
+        if (lane.Cards && !_.isArray(lane.Cards)) {
+            lane.Cards = [lane.Cards];
+        }
+        
+        scope.cards = ko.observableArray(ko.utils.arrayMap(lane.Cards, function(card) {
             return new models.Card(card, scope.laneSettings);
         }));
         if(settings.card.sorting){

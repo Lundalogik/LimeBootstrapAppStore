@@ -1,4 +1,6 @@
-<div class="limecrmsalesboard-board loading" data-bind="visible: loading()" ><div>Loading...</div></div>
+<div class="limecrmsalesboard-board loading" data-bind="visible: loading()">
+	<div>Loading...</div>
+</div>
 <div class="limecrmsalesboard-board" data-bind="visible: boardConfig().length === 1" style="display: none;">
 	<div class="limecrmsalesboard-board-header">
 		<button type="button" class="btn limecrmsalesboard-btn limecrmsalesboard-refresh" data-bind="click: initialize">
@@ -18,7 +20,7 @@
 			<span class="limecrmsalesboard-parenthesis">)</span>
 		</span>
 	</div>
-	<div class="limecrmsalesboard-lanes-container" data-bind="foreach: board().lanes(), css: {'width': lanesContainerWidth}">
+	<div class="limecrmsalesboard-lanes-container" data-bind="foreach: board().lanes(), style: {'width': lanesContainerWidth}">
 		<div class="limecrmsalesboard-lane-container">
 			<div class="limecrmsalesboard-lane">
 				<div class="limecrmsalesboard-lane-header">
