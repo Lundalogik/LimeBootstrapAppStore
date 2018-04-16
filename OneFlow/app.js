@@ -18,15 +18,15 @@ lbs.apploader.register('OneFlow', function () {
             this.accounts = [
                 // {
                 //     'name': 'Gröna Lund',
-                //     'token': 'ec437cd1572897b58d96e8b6837978495ce51ec3'//'e417398d71af8a03677d71560273bff76ce088d0'
+                //     'token': ''//''
                 // },
                 {
                     'name': 'Lundalogik',
-                    'token': '46050eb43205dcb7f84519cd56db295960ef2bf9'
+                    'token': ''
                 },
                 {
                     'name': 'Oneflow',
-                    'token': 'c7ce6e4ee9e9a688ab42b179adae10708b057da9'
+                    'token': ''
                 }
             ];
             this.token = '581d1971d047c3c78812e14d0898969a56aa51d5';
