@@ -100,6 +100,8 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
             var boardForVBA = { board: viewModel.boardConfig()[0] };
             var vbaCommand = 'App_LimeCRMSalesBoard.getBoardXML, ' + json2xml(boardForVBA);
             lbs.loader.loadDataSource(data, { type: 'xml', source: vbaCommand, alias: 'board' }, false);
+            // data = lbs.loader.loadDataSource({ type: 'xml', source: vbaCommand, alias: 'board' });           // Change to this instead in LBS 2.0
+
             self.b.name = lbs.common.executeVba('App_LimeCRMSalesBoard.getActiveBoardName') + ', ' + viewModel.localize.App_LimeCRMSalesBoard.boardtitleSumLabel + ':';
             self.b.localNameSingular = lbs.common.executeVba('App_LimeCRMSalesBoard.getActiveTableLocalNameSingular');
             self.b.localNamePlural = lbs.common.executeVba('App_LimeCRMSalesBoard.getActiveTableLocalNamePlural');
