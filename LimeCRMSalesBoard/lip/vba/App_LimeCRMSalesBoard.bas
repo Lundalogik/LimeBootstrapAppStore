@@ -35,7 +35,7 @@ Public Sub openLimeCRMSalesBoard()
     Dim url As String
     Dim p As Lime.Pane
     
-    url = Application.WebFolder & "lbs.html?ap=apps/LimeCRMSalesBoard/LimeCRMSalesBoard&type=inline"
+    url = Application.WebFolder & "lbs.html?ap=apps/LimeCRMSalesBoard/views/LimeCRMSalesBoard&type=inline"
     If Application.Panes.Exists("Lime CRM Sales Board") Then
         Set p = Application.Panes("Lime CRM Sales Board")
     End If

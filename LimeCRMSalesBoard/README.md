@@ -1,64 +1,65 @@
-# Lime CRM Sales Board #
+# Lime CRM Sales Board
 
-CREATED BY: Fredrik Eriksson, Lundalogik AB
 
-DESIGNED BY: Joakim Lindblom, Lundalogik AB
-
-## About ##
+## About
 Lime CRM Sales Board offers a new and different way to look at Lime CRM data. Lime CRM Sales Board lives in the Panes next to the Limelight, browser, Outlook calendar and Outlook inbox and lets you view the records in your current tab as cards on a Kanban style board (think Trello, LeanKit Kanban etc.). This gives you a good overview and offers a different way to view your data besides the classic Lime CRM list.
 
 
-## Features ##
+## Features
 
-### Use in multiple tabs ###
+### Use in multiple tabs
 Lime CRM Sales Board can be set up to show data from multiple Lime CRM tabs, each with unique settings of how to show the records and what information to show for each record. Examples of usage are:
 
 * **Deals**: View the current pipe or all deals, won or lost. Either for the whole company or for a specific salesperson at the time.
 * **Projects or project activities**: What are my current project activities and what phase are they in? Development, testing, ready to launch etc.?
+* **Helpdesk cases**: Get an overview of new, ongoing, parked and finished cases. Perhaps for the current week or a certain team?
 * **Development tasks**: Similar to project activities, Lime CRM Sales Board will give a nice overview of the current work being investigated, developed, tested etc.
 * **Solution improvements**: This tab is part of the Lime CRM Core database and is a good way to keep track of changes, fixes or wishes that need to be fixed in your Lime CRM solution. Use Lime CRM Sales Board to easily see what is being done right now and what comes next.
 
-### Fast filtering ###
+### Fast filtering
 Lime CRM Sales Board shows the records that your currently open tab contains at the moment. This means that fast filtering your list will make Lime CRM Sales Board remove cards that were filtered out when refreshing it. A warning triangle icon will appear left of the board title when a filter is applied on the list.
 
-### Click to open ###
+### Click to open
 Click any card in Lime CRM Sales Board and the corresponding record will be opened.
 
-## Technical overview ##
+## Technical overview
 To be able to use Lime CRM Sales Board on a tab you must have an option field on the card. Each option in that field will be converted into a lane in Lime CRM Sales Board. All the records currently visible in the active tab will be converted into a card in the corresponding lane.
 
-### Inactive options ###
+### Inactive options
 An inactive option in the selected option field will not be rendered as a lane in Lime CRM Sales Board. Hence, a record with an inactive option selected will not be fetched from the database.
 
 
-## Install ##
+## Install
 You need to do the following to add Lime CRM Sales Board to your database.
 
-* Add the SQL table valued function `cfn_gettablefromstring` using the script in the file `cfn_gettablefromstring.sql` under the Install subfolder.
-* Add the SQL scalar valued function `cfn_limecrmsalesboard_getsqlexpression` using the script in the file `cfn_limecrmsalesboard_getsqlexpression.sql` under the Install subfolder.
-* Add the SQL procedure `csp_limecrmsalesboard_getboard` using the script in the file `csp_limecrmsalesboard_getboard.sql` under the Install subfolder.
-* Add the localization records needed by running the script in the file `createLocalizeRecords.sql` under the Install folder. *Beware*: If you do not have all the language columns that exist in the Lime CRM Core Database you have to remove the ones you do not have from the SQL script before running it. Otherwise it will fail.
-* If you are running Lime CRM 10.12 or later, please restart the LDC manually (right-click on it and click "Shut down").
-* Restart the Lime CRM client and add the VBA module `App_LimeCRMSalesBoard` located in the Install subfolder.
-* Add the folder LimeCRMSalesBoard under apps in your Actionpad folder.
-* Configure the LimeCRMSalesBoard.html file to make Lime CRM Sales Board work the way you want to. Out of the box, Lime CRM Sales Board is configured to work for the Deals tab in the Lime CRM Core Database.
-* Add a link in your main Actionpad, for example like this:
+1. Download the latest [release from GitHub](https://github.com/Lundalogik/addon-limecrmsalesboard/releases).
+2. *Only needed if you want to use SQL as datasource instead of VBA:* Add the SQL table valued function `cfn_gettablefromstring`.
+3. *Only needed if you want to use SQL as datasource instead of VBA:* Add the SQL scalar valued function `cfn_limecrmsalesboard_getsqlexpression`.
+4. *Only needed if you want to use SQL as datasource instead of VBA:* Add the SQL procedure `csp_limecrmsalesboard_getboard`.
+5. Add the localization records needed by running the script in the file `createLocalizeRecords.sql` under the Install folder. *Beware*: If you do not have all the language columns that exist in the Lime CRM Core Database you have to remove the ones you do not have from the SQL script before running it. Otherwise it will fail.
+6. *Only needed if you want to use SQL as datasource instead of VBA:* Restart the LDC (right-click on it and click "Shut down").
+7. Restart the Lime CRM desktop client and add the VBA module `App_LimeCRMSalesBoard`.
+8. Add the folder LimeCRMSalesBoard under apps in your Actionpads folder.
+9. Configure the LimeCRMSalesBoard.html file to make Lime CRM Sales Board work the way you want to. Out of the box, Lime CRM Sales Board is configured to work for the Deals tab in the Lime CRM Core Database.
+10. Add a link in your main Actionpad, for example like this:
 ```html
 <li data-bind="vba:'App_LimeCRMSalesBoard.openLimeCRMSalesBoard', text:localize.App_LimeCRMSalesBoard.openLimeCRMSalesBoard, icon:'fa-align-left fa-rotate-90'"></li>
 ```
-* Add a customization record in Lundalogik's Lime CRM under the customer. Note the version installed (can be found in the app.json file).
+11. Compile and save VBA.
+12. Publish Actionpads.
+13. Add a customization record under the customer in our own Lime CRM. Link it to the product card for Lime CRM Sales Board. Note the version installed.
 
-### Update ###
-**Important**: If you update your version of Lime CRM Sales Board, remember to first make a copy of the file `LimeCRMSalesBoard.html` so you don't lose your app configuration.
+### Update
+**Important**: If you update your version of Lime CRM Sales Board, remember to first make a copy of the file `LimeCRMSalesBoard.html` so you do not lose your app configuration.
 
 
-## Setup ##
-The file `LimeCRMSalesBoard.html` contains the app config object. An example is shown below together with an explanation for the different settings available.
+## Setup
+The file `views\LimeCRMSalesBoard.html` contains the app config object. An example is shown below together with an explanation for the different settings available.
 
 ```html
 <div data-app="{app:'LimeCRMSalesBoard', config: {
 		dataSource: 'vba',
-		maxNbrOfRecords: 1000,
+		maxNbrOfRecords: 300,
 		boards: [ {
 			table: 'deal',
 			lanes: {
@@ -130,9 +131,9 @@ The file `LimeCRMSalesBoard.html` contains the app config object. An example is 
 }"></div>
 ```
 
-**dataSource**: Can be either 'vba' or 'sql'. Important: Should always be 'vba' in the hosting environment.
+**dataSource**: Can be either 'vba' or 'sql'. Important: Should always be 'vba' in the cloud environment.
 
-**maxNbrOfRecords**: The maximum number of records fetched from the database, no matter how many records that are currently shown in the list.
+**maxNbrOfRecords**: The maximum number of records fetched from the database, no matter how many records that are currently shown in the list. A recommended number is 300. Showing more records than that is not really what the Sales Board is for. Better to use the Salespipe add-on if you are looking for summations of a pipe containing that many records.
 
 **boards**: An array containing board objects. Each board object represent a Lime CRM tab and each tab can only be represented once.
 
