@@ -138,7 +138,7 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
 
 
         /*  Called when clicking a card. */
-        viewModel.openLIMERecord = function(link) {
+        viewModel.openLimeRecord = function(link) {
             if (link !== '') {
                 window.location.href = link;
             }
