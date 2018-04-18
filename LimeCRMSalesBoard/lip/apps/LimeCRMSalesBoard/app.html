@@ -1,6 +1,12 @@
-<div class="limecrmsalesboard-board">
+<div class="limecrmsalesboard-board loading" data-bind="visible: loading()">
+	<div>Loading...</div>
+</div>
+<div class="limecrmsalesboard-board" data-bind="visible: boardConfig().length === 1" style="display: none;">
 	<div class="limecrmsalesboard-board-header">
-		<button type="button" class="btn limecrmsalesboard-btn limecrmsalesboard-refresh"><i class="fa fa-refresh"></i></button>
+		<button type="button" class="btn limecrmsalesboard-btn limecrmsalesboard-refresh" data-bind="click: initialize">
+			<i class="fa fa-refresh"></i>
+			<span data-bind="text: localize.App_LimeCRMSalesBoard.btnRefresh"></span>
+		</button>
 		<i class="fa fa-exclamation-triangle limecrmsalesboard-filterwarning limecrmsalesboard-color-lessimportant"
 				data-bind="tooltip: { text: localize.App_LimeCRMSalesBoard.tooltipFilter, placement: 'bottom' },
 							visible: board().filterApplied"></i>
@@ -14,7 +20,7 @@
 			<span class="limecrmsalesboard-parenthesis">)</span>
 		</span>
 	</div>
-	<div class="limecrmsalesboard-lanes-container" data-bind="foreach: board().lanes()">
+	<div class="limecrmsalesboard-lanes-container" data-bind="foreach: board().lanes(), style: {'width': lanesContainerWidth}">
 		<div class="limecrmsalesboard-lane-container">
 			<div class="limecrmsalesboard-lane">
 				<div class="limecrmsalesboard-lane-header">
@@ -23,7 +29,7 @@
 						<span class="limecrmsalesboard-lane-count limecrmsalesboard-color-lessimportant"
 								data-bind="text: cards().length + ' ' + (cards().length === 1 ? $parent.board().localNameSingular.toLowerCase() : $parent.board().localNamePlural.toLowerCase()) + (cards().length > 0 ? ': ' : '')"></span>
 						<span data-bind="visible: (cards().length > 0)">
-							<span class="limecrmsalesboard-lane-sum" data-bind="text: sum,
+							<span class="limecrmsalesboard-lane-sum" data-bind="text: sumDisplay,
 																		css: {
 																			'limecrmsalesboard-color-positive' : positiveSummation,
 																			'limecrmsalesboard-color-negative' : !positiveSummation
@@ -38,13 +44,13 @@
 					<div class="limecrmsalesboard-lane-coloredbar" data-bind="css: 'limecrmsalesboard-color-' + color"></div>
 				</div>
 				<div data-bind="foreach: cards()">
-					<div class="limecrmsalesboard-card" data-bind="click: function() { $root.openLIMERecord(link) }">
+					<div class="limecrmsalesboard-card" data-bind="click: function() { $root.openLimeRecord(link) }">
 						<div class="limecrmsalesboard-card-leftside">
 					    	<div class="limecrmsalesboard-card-icon">
-					    		<div class="limecrmsalesboard-donut" data-bind="donut: { value : angle() }, visible: icon === 'completion' && completionRate >= 0">
+					    		<div class="limecrmsalesboard-donut" data-bind="donut: { value : angle(), color: color() }, visible: (icon === 'completion' && completionRate >= 0)">
 									<div class="limecrmsalesboard-donut-master limecrmsalesboard-color-lessimportant-background"></div>
 									<div class="limecrmsalesboard-donut-slice">
-										<div class="limecrmsalesboard-donut-inner limecrmsalesboard-color-positive-background"></div>
+										<div class="limecrmsalesboard-donut-inner " data-bind="style: {'background-color': color()}"></div>
 									</div>
 									<div class="limecrmsalesboard-donut-endmarker"></div>
 									<div class="limecrmsalesboard-donut-cover limecrmsalesboard-color-title">
@@ -54,15 +60,13 @@
 									</div>
 									<div class="limecrmsalesboard-donut-startmarker"></div>
 								</div>
-					    		<img class="svg limecrmsalesboard-card-icon-image" src="apps/LimeCRMSalesBoard/resources/happy.svg"
-					    				data-bind="style: { fill: $parent.colorHex}, visible: icon === 'happy'"/>
-					    		<img class="svg limecrmsalesboard-card-icon-image" src="apps/LimeCRMSalesBoard/resources/wait.svg"
-					    				data-bind="style: { fill: $parent.colorHex}, visible: icon === 'wait'"/>
-					    		<img class="svg limecrmsalesboard-card-icon-image" src="apps/LimeCRMSalesBoard/resources/sad.svg"
-					    				data-bind="style: { fill: $parent.colorHex}, visible: icon === 'sad'"/>
+								<span class="fa fa-smile-o limecrmsalesboard-card-icon-font" data-bind="style: {color: $parent.colorHex}, visible: icon === 'happy'" />
+								<span class="fa fa-frown-o limecrmsalesboard-card-icon-font" data-bind="style: {color: $parent.colorHex}, visible: icon === 'sad'" />
+								<span class="fa fa-hourglass-o limecrmsalesboard-card-icon-font" data-bind="style: {color: $parent.colorHex}, visible: icon === 'wait'" />
 					    	</div>
 					    </div>
 						<div class="limecrmsalesboard-card-rightside">
+							<!-- <div class="limecrmsalesboard-card-open"><i class="fa fa-external-link"/></div> -->
 							<div class="limecrmsalesboard-card-title limecrmsalesboard-color-title" data-bind="text: title"></div>
 							<div class="limecrmsalesboard-card-inforow">
 						    	<span class="limecrmsalesboard-card-value" data-bind="text: value,
@@ -88,9 +92,12 @@
 		</div>
 	</div>
 </div>
-<div class="limecrmsalesboard-notactivated-container">
+<div class="limecrmsalesboard-notactivated-container" data-bind="visible: boardConfig().length !== 1"  style="display: none;">
 	<i class="fa fa-exclamation-triangle limecrmsalesboard-notactivated-icon limecrmsalesboard-color-title"></i>
 	<div class="limecrmsalesboard-notactivated limecrmsalesboard-color-title" data-bind="text: localize.App_LimeCRMSalesBoard.notActivated">
 	</div>
-	<button type="button" class="btn limecrmsalesboard-btn limecrmsalesboard-refresh" ><i class="fa fa-refresh"></i></button>
+	<button type="button" class="btn limecrmsalesboard-btn limecrmsalesboard-refresh" data-bind="click: initialize">
+		<i class="fa fa-refresh"></i>
+		<span data-bind="text: localize.App_LimeCRMSalesBoard.btnRefresh"></span>
+	</button>
 </div>
