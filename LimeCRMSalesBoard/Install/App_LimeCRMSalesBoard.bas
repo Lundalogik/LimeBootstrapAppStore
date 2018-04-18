@@ -49,7 +49,7 @@ Public Sub openLimeCRMSalesBoard()
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".openLimeCRMSalesBoard")
+    Call UI.ShowError("App_LimeCRMSalesBoard.openLimeCRMSalesBoard")
 End Sub
 
 
@@ -75,7 +75,7 @@ Public Function getBoardXML(boardConfigXML As String) As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getBoardXML")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getBoardXML")
 End Function
 
 ' ##SUMMARY Retrieves the board xml using a SQL stored procedure to fetch data from the database.
@@ -128,7 +128,7 @@ Private Function getBoardXMLUsingSQL(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getBoardXMLUsingSQL")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getBoardXMLUsingSQL")
 End Function
 
 
@@ -141,12 +141,12 @@ Private Sub addSQLParameterFromXML(ByRef oProc As LDE.Procedure, parameterName A
     Dim oNode As MSXML2.IXMLDOMNode
     Set oNode = oXmlDoc.selectSingleNode(xPath)
     If Not oNode Is Nothing Then
-        oProc.Parameters(parameterName).InputValue = oNode.Text
+        oProc.Parameters(parameterName).InputValue = oNode.text
     End If
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".addSQLParameterFromXML")
+    Call UI.ShowError("App_LimeCRMSalesBoard.addSQLParameterFromXML")
 End Sub
 
 
@@ -172,7 +172,7 @@ Private Function getBoardXMLUsingVBA(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
             Set oLaneElement = oDataXml.createElement("Lanes")
             Call oLaneElement.SetAttribute("id", oOption.Value)
             Call oLaneElement.SetAttribute("key", oOption.key)
-            Call oLaneElement.SetAttribute("name", oOption.Text)
+            Call oLaneElement.SetAttribute("name", oOption.text)
             Call oLaneElement.SetAttribute("order", oOption.Attributes("stringorder"))
             Call rootNode.appendChild(oLaneElement)
         End If
@@ -204,10 +204,10 @@ Private Function getBoardXMLUsingVBA(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
     Next oRecord
     
     getBoardXMLUsingVBA = oDataXml.XML
-
+Debug.Print getBoardXMLUsingVBA
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getBoardXMLUsingVBA")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getBoardXMLUsingVBA")
 End Function
 
 
@@ -235,7 +235,7 @@ Private Function createCard(ByRef oDataXml As MSXML2.DOMDocument60, ByRef oRecor
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".createCard")
+    Call UI.ShowError("App_LimeCRMSalesBoard.createCard")
 End Function
 
 
@@ -247,6 +247,8 @@ Private Sub setCardAttribute(ByRef oCardElement As MSXML2.IXMLDOMElement, attrib
         If Not VBA.IsNull(oRecord(fieldName)) Then
             If isFieldTypeDate(oRecord.field(fieldName).Type) Then
                 Call oCardElement.SetAttribute(attributeName, CStr(oRecord(fieldName)))
+            ElseIf isFieldTypeDecimal(oRecord.field(fieldName).Type) Then
+                Call oCardElement.SetAttribute(attributeName, VBA.Replace(oRecord(fieldName), ",", "."))
             Else
                 Call oCardElement.SetAttribute(attributeName, VBA.Replace(oRecord(fieldName), """", "\"""))
             End If
@@ -255,7 +257,7 @@ Private Sub setCardAttribute(ByRef oCardElement As MSXML2.IXMLDOMElement, attrib
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".setCardAttribute")
+    Call UI.ShowError("App_LimeCRMSalesBoard.setCardAttribute")
 End Sub
 
 
@@ -281,7 +283,25 @@ Private Function isFieldTypeDate(ft As LDE.FieldTypeEnum)
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".isFieldTypeDate")
+    Call UI.ShowError("App_LimeCRMSalesBoard.isFieldTypeDate")
+End Function
+
+
+' ##SUMMARY Returns true if it is any kind of field containing a decimal value
+Private Function isFieldTypeDecimal(ft As LDE.FieldTypeEnum)
+    On Error GoTo ErrorHandler
+
+    If ft = lkFieldTypeDecimal _
+            Or ft = lkFieldTypePercent _
+            Or ft = lkFieldTypeCurrency Then
+        isFieldTypeDecimal = True
+    Else
+        isFieldTypeDecimal = False
+    End If
+    
+    Exit Function
+ErrorHandler:
+    Call UI.ShowError("App_LimeCRMSalesBoard.isFieldTypeDecimal")
 End Function
 
 
@@ -306,7 +326,7 @@ Private Function getFieldMappings(ByRef oBoardXmlDoc As MSXML2.DOMDocument60) As
 
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getFieldMappings")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getFieldMappings")
 End Function
 
 
@@ -319,14 +339,14 @@ Private Sub addFieldMapping(ByRef fm As Scripting.Dictionary, ByRef oBoardXmlDoc
     
     If Not oNodeField Is Nothing Then
         Dim fullFieldName As String
-        fullFieldName = oNodeField.Text
+        fullFieldName = oNodeField.text
         
         ' If a relation, then add the fieldname on the related table
         If xPathRelatedTableField <> "" Then
             Dim oNodeRelatedTableField As MSXML2.IXMLDOMNode
             Set oNodeRelatedTableField = oBoardXmlDoc.selectSingleNode(xPathRelatedTableField)
             If Not oNodeRelatedTableField Is Nothing Then
-                fullFieldName = fullFieldName & "." & oNodeRelatedTableField.Text
+                fullFieldName = fullFieldName & "." & oNodeRelatedTableField.text
             End If
         End If
         
@@ -336,7 +356,7 @@ Private Sub addFieldMapping(ByRef fm As Scripting.Dictionary, ByRef oBoardXmlDoc
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".addFieldMapping")
+    Call UI.ShowError("App_LimeCRMSalesBoard.addFieldMapping")
 End Sub
 
 ' ##SUMMARY Adds all necessary fields from the board config and returns a new view object.
@@ -358,7 +378,7 @@ Private Function createView(ByRef fm As Scripting.Dictionary) As LDE.View
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".createView")
+    Call UI.ShowError("App_LimeCRMSalesBoard.createView")
 End Function
 
 
@@ -390,7 +410,7 @@ Public Function createFilter(optionFieldName As String) As LDE.Filter
     Call oFilter.AddOperator(lkOpAnd)
     
 '    Dim oDlg As New Lime.Dialog
-'    oDlg.Property("class") = Database.Classes("business")
+'    oDlg.Property("class") = Database.Classes("deal")
 '    oDlg.Property("filter") = oFilter
 '    Call oDlg.show(lkDialogFilter)
     
@@ -398,7 +418,7 @@ Public Function createFilter(optionFieldName As String) As LDE.Filter
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".createFilter")
+    Call UI.ShowError("App_LimeCRMSalesBoard.createFilter")
 End Function
 
 
@@ -417,7 +437,7 @@ Public Function getActiveTable() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getActiveTable")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveTable")
 End Function
 
 
@@ -433,7 +453,7 @@ Public Function getActiveTableLocalNameSingular() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getActiveTableLocalNameSingular")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveTableLocalNameSingular")
 End Function
 
 
@@ -449,7 +469,7 @@ Public Function getActiveTableLocalNamePlural() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getActiveTableLocalNamePlural")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveTableLocalNamePlural")
 End Function
 
 
@@ -486,7 +506,7 @@ Public Function getActiveBoardName() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getActiveBoardName")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getActiveBoardName")
 End Function
 
 ' ##SUMMARY Builds and returns string containing ids for all items in the active explorer.
@@ -512,7 +532,7 @@ Private Function getIdsAsString() As String
     
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getIdsAsString")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getIdsAsString")
 End Function
 
 
@@ -529,7 +549,7 @@ Public Function getLocale() As String
 
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getLocale")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getLocale")
 End Function
 
 
@@ -545,7 +565,7 @@ Public Sub setDataSource(source As String)
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".setDataSource")
+    Call UI.ShowError("App_LimeCRMSalesBoard.setDataSource")
 End Sub
 
 
@@ -557,7 +577,7 @@ Public Sub setMaxNbrOfRecords(val As Long)
     
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".setMaxNbrOfRecords")
+    Call UI.ShowError("App_LimeCRMSalesBoard.setMaxNbrOfRecords")
 End Sub
 
 
@@ -582,7 +602,7 @@ Public Function getSortFieldType(tableName As String, fieldName As String) As St
 
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getSortFieldType")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getSortFieldType")
 End Function
 
 
@@ -613,7 +633,7 @@ Public Function getListFiltered() As Boolean
     Exit Function
 ErrorHandler:
     getListFiltered = False
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".getListFiltered")
+    Call UI.ShowError("App_LimeCRMSalesBoard.getListFiltered")
 End Function
 
 
@@ -628,14 +648,14 @@ Private Sub setIgnoreOptionsLists(ByRef oBoardXmlDoc As MSXML2.DOMDocument60)
 
     ' Get possible list of options to ignore
     If Not oBoardXmlDoc.selectSingleNode("/board/lanes/ignoreOptions/keys") Is Nothing Then
-        m_ignoreOptionsKeys = oBoardXmlDoc.selectSingleNode("/board/lanes/ignoreOptions/keys").Text
+        m_ignoreOptionsKeys = oBoardXmlDoc.selectSingleNode("/board/lanes/ignoreOptions/keys").text
     ElseIf Not oBoardXmlDoc.selectSingleNode("/board/lanes/ignoreOptions/ids") Is Nothing Then
-        m_ignoreOptionsIds = oBoardXmlDoc.selectSingleNode("/board/lanes/ignoreOptions/ids").Text
+        m_ignoreOptionsIds = oBoardXmlDoc.selectSingleNode("/board/lanes/ignoreOptions/ids").text
     End If
 
     Exit Sub
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".setIgnoreOptionsLists")
+    Call UI.ShowError("App_LimeCRMSalesBoard.setIgnoreOptionsLists")
 End Sub
 
 
@@ -652,7 +672,7 @@ Private Function isValidOption(ByRef oOption As LDE.Option) As Boolean
 
     Exit Function
 ErrorHandler:
-    Call UI.ShowError(VBE.ActiveCodePane.CodeModule.Name & ".isValidOption")
+    Call UI.ShowError("App_LimeCRMSalesBoard.isValidOption")
 End Function
 
 
