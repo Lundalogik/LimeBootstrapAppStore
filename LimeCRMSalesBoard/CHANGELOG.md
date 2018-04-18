@@ -1,6 +1,7 @@
 # Changelog for Lime CRM Sales Board
 
 ## v2.3.0
+**Released:** 2018-04-18
 
 **Authors:** Jonatan Tegen and Fredrik Eriksson
 
