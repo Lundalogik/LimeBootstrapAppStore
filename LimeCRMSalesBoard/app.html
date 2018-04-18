@@ -44,10 +44,10 @@
 					<div class="limecrmsalesboard-lane-coloredbar" data-bind="css: 'limecrmsalesboard-color-' + color"></div>
 				</div>
 				<div data-bind="foreach: cards()">
-					<div class="limecrmsalesboard-card" data-bind="click: function() { $root.openLIMERecord(link) }">
+					<div class="limecrmsalesboard-card" data-bind="click: function() { $root.openLimeRecord(link) }">
 						<div class="limecrmsalesboard-card-leftside">
 					    	<div class="limecrmsalesboard-card-icon">
-					    		<div class="limecrmsalesboard-donut" data-bind="donut: { value : angle(), color: color() }, visible: icon === 'completion' && completionRate >= 0">
+					    		<div class="limecrmsalesboard-donut" data-bind="donut: { value : angle(), color: color() }, visible: (icon === 'completion' && completionRate >= 0)">
 									<div class="limecrmsalesboard-donut-master limecrmsalesboard-color-lessimportant-background"></div>
 									<div class="limecrmsalesboard-donut-slice">
 										<div class="limecrmsalesboard-donut-inner " data-bind="style: {'background-color': color()}"></div>

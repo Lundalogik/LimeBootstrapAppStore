@@ -19,7 +19,7 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
                     'script/limecrmsalesboard.utils.js'
                 ], // <= External libs for your apps. Must be a file
                 styles: ['app.css'], // <= Load styling for the app.
-                libs: ['json2xml.js','underscore-min.js'] // <= Already included libs, put not loaded per default. Example json2xml.js
+                libs: ['json2xml.js'] // <= Already included libs, put not loaded per default. Example json2xml.js
             };
     };
 
@@ -110,7 +110,7 @@ lbs.apploader.register('LimeCRMSalesBoard', function () {
             self.b.lanes(ko.utils.arrayMap(data.board.data.Lanes, function(lane) {
                 return new models.Lane(lane, viewModel.boardConfig()[0], self);
             }));
-
+            
             // Set board sum
             var boardSumNegative = 0;
             var boardSumPositive = 0;
