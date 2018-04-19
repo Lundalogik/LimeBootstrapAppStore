@@ -1,0 +1,10 @@
+{
+	"name": "Lime CRM Sales Board",
+	"author": "Fredrik Eriksson",
+	"status": "Release",
+	"license": true,
+	"shortDesc": "Lime CRM Sales Board provides a kanban type of overview of the Lime CRM records in your current list.",
+	"install": {
+		
+	}
+}
