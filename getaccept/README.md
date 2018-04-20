@@ -3,6 +3,8 @@
 ## PLEASE NOTE THAT THE ADD-ON IS ON THE GETACCEPT REPO
 This add-on is owned by GetAccept. Go to https://github.com/getaccept/limecrm/releases to fetch the latest released version.
 
+For issues, please refer to [Lime's own repo for GetAccept](https://github.com/Lundalogik/addon-getaccept).
+
 
 ## About
 
