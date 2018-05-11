@@ -1,29 +1,9 @@
 {
     "name": "News Carousel",
     "author": "Tomas Eketorp, Fredrik Eriksson, Niklas Olsson, Adrian Schmidt",
-    "status": "Beta",
-    "shortDesc": "Your own info channel within LIME Pro.",
-    "versions": [
-        {
-            "version": "0.3.1",
-            "date": "2018-02-06",
-            "author": "Fredrik Eriksson, Lundalogik AB",
-            "comments": "Improved install script."
-        },
-        {
-            "version": "0.3.0",
-            "date": "2015-02-23",
-            "comments": "RC2. Now moved from Development to Beta."
-        },
-        {
-            "version": "0.2.0",
-            "date": "2015-02-20",
-            "comments": "RC1"
-        },
-        {
-            "version": "0.1.0",
-            "date": "2015-02-13",
-            "comments": "The Lundalogik Appathon 2015 winner!"
-        }
-    ]
+    "status": "Release",
+    "shortDesc": "Your own info channel within Lime CRM.",
+    "install": {
+		
+	}
 }
