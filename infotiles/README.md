@@ -15,7 +15,7 @@ As you set your filters yourself, only you, Lime CRM and the sky is the limit.
 * Compatible with Lime CRM Cloud
 
 ## Installation
-1. Create the table "infotile" with the necessary fields, see installation instructions [here](https://raw.githubusercontent.com/Lundalogik/LimeBootstrapAppStore/master/infotiles/Docs/Lime CRM InfoTiles.docx). Use the icon "Install\filter_and_sort.ico" for the table.
+1. Create the table "infotile" with the necessary fields, see installation instructions <a href="https://raw.githubusercontent.com/Lundalogik/LimeBootstrapAppStore/master/infotiles/Docs/Lime CRM InfoTiles.docx" download >here</a>. Use the icon "Install\filter_and_sort.ico" for the table.
 2. Restart the Lime CRM Desktop Client.
 3. Import the file InfoTiles.bas from the ..InfoTiles\Install folder
 4. Compile and save the VBA.
