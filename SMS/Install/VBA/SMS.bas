@@ -42,7 +42,7 @@ End Function
 Public Sub OpenSMSModule(ByVal sGetReceiversFrom As String)
 On Error GoTo ErrorHandler
     Dim oExplorer As Lime.Explorer
-    Dim oInspector As Lime.Inspector
+    Dim oInspector As Lime.inspector
     
     Set oExplorer = Application.ActiveExplorer
     Set oInspector = Application.ActiveInspector
@@ -117,12 +117,12 @@ ErrorHandler:
     Call UI.ShowError("Sms.GetTemplateCodesXml")
 End Function
 
-Private Function GetReceiversXml(ByRef oExplorer As Lime.Explorer, ByRef oInspector As Lime.Inspector, ByVal sConfigXml As String) As String
+Private Function GetReceiversXml(ByRef oExplorer As Lime.Explorer, ByRef oInspector As Lime.inspector, ByVal sConfigXml As String) As String
 On Error GoTo ErrorHandler
 
     Dim oPool As New LDE.Pool
     Dim oRecords As New LDE.Records
-    Dim oRecord As New LDE.Record
+    Dim oRecord As New LDE.record
     Dim oView As New LDE.View
     Dim sXml As String
     Dim sGetReceiversFrom As String
@@ -172,7 +172,7 @@ On Error GoTo ErrorHandler
         If sGetReceiversFrom = "inspector" Then
             Set oClassToOpen = oInspector.Class
             Set oPool = New LDE.Pool
-            Call oPool.Add(oInspector.Record.ID)
+            Call oPool.Add(oInspector.record.id)
         ElseIf sGetReceiversFrom = "explorer" Then
             Set oClassToOpen = oExplorer.Class
             Select Case sSelectionType
@@ -189,11 +189,11 @@ On Error GoTo ErrorHandler
             For i = LBound(sReceiverFromFieldsSplitted) To UBound(sReceiverFromFieldsSplitted)
                 sReceiverFromField = sReceiverFromFieldsSplitted(i)
                 
-                sPhoneNr = FormatPhoneNr(sReceiverTableName, oRecord.Text(AddParentToStringIfExist(sReceiverFromField, sPhoneFieldName)))
+                sPhoneNr = FormatPhoneNr(sReceiverTableName, oRecord.text(AddParentToStringIfExist(sReceiverFromField, sPhoneFieldName)))
                 If VBA.Len(sPhoneNr) > 0 Then
                     sXml = sXml & "<receiver>"
                     Call AddXmlElement(sXml, "id", VBA.CStr(oRecord.Value(AddParentToStringIfExist(sReceiverFromField, "id" & sReceiverTableName))))
-                    Call AddXmlElement(sXml, "name", oRecord.Text(AddParentToStringIfExist(sReceiverFromField, sNameFieldName)))
+                    Call AddXmlElement(sXml, "name", oRecord.text(AddParentToStringIfExist(sReceiverFromField, sNameFieldName)))
                     Call AddXmlElement(sXml, "phone", sPhoneNr)
                     sXml = sXml & "</receiver>"
                 Else
@@ -219,7 +219,7 @@ End Function
 Private Function GetTemplatesXml(ByVal sConfigXml As String) As String
 On Error GoTo ErrorHandler
     Dim sXml As String
-    Dim oRecord As New LDE.Record
+    Dim oRecord As New LDE.record
     Dim oRecords As New LDE.Records
     Dim oView As New LDE.View
     Dim oFilter As New LDE.Filter
@@ -249,10 +249,10 @@ On Error GoTo ErrorHandler
 
         For Each oRecord In oRecords
             sXml = sXml & "<template>"
-            Call AddXmlElement(sXml, "id", VBA.CStr(oRecord.ID))
+            Call AddXmlElement(sXml, "id", VBA.CStr(oRecord.id))
             Call AddXmlElement(sXml, "default", VBA.CStr(oRecord.Value("default")))
-            Call AddXmlElement(sXml, "name", oRecord.Text("name"))
-            Call AddXmlElement(sXml, "message", oRecord.Text("message"))
+            Call AddXmlElement(sXml, "name", oRecord.text("name"))
+            Call AddXmlElement(sXml, "message", oRecord.text("message"))
             sXml = sXml & "</template>"
         Next oRecord
     End If
@@ -269,7 +269,7 @@ End Function
 Private Function GetUsersXml() As String
 On Error GoTo ErrorHandler
     Dim sXml As String
-    Dim oRecord As New LDE.Record
+    Dim oRecord As New LDE.record
     Dim oRecords As New LDE.Records
     Dim oView As New LDE.View
     Dim oFilter As New LDE.Filter
@@ -287,8 +287,8 @@ On Error GoTo ErrorHandler
 
 
     Call oFilter.AddCondition("coworker", lkOpEqual, Null)
-    If Not Application.ActiveUser.Record Is Nothing Then
-        Call oFilter.AddCondition("coworker", lkOpEqual, Application.ActiveUser.Record.ID)
+    If Not Application.ActiveUser.record Is Nothing Then
+        Call oFilter.AddCondition("coworker", lkOpEqual, Application.ActiveUser.record.id)
         Call oFilter.AddOperator(lkOpOr)
     End If
     Call oFilter.AddCondition("inactive", lkOpEqual, 0)
@@ -299,16 +299,16 @@ On Error GoTo ErrorHandler
     sXml = "<users>"
     For Each oRecord In oRecords
         sXml = sXml & "<user>"
-        Call AddXmlElement(sXml, "id", VBA.CStr(oRecord.ID))
-        Call AddXmlElement(sXml, "name", oRecord.Text("displayname"))
-        Call AddXmlElement(sXml, "username", oRecord.Text("username"))
-        Call AddXmlElement(sXml, "password", oRecord.Text("password"))
-        Call AddXmlElement(sXml, "source", oRecord.Text("sender"))
+        Call AddXmlElement(sXml, "id", VBA.CStr(oRecord.id))
+        Call AddXmlElement(sXml, "name", oRecord.text("displayname"))
+        Call AddXmlElement(sXml, "username", oRecord.text("username"))
+        Call AddXmlElement(sXml, "password", oRecord.text("password"))
+        Call AddXmlElement(sXml, "source", oRecord.text("sender"))
         Call AddXmlElement(sXml, "default", VBA.CStr(oRecord.Value("default")))
-        Call AddXmlElement(sXml, "serviceid", oRecord.Text("serviceid"))
-        Call AddXmlElement(sXml, "platformid", oRecord.Text("platformid"))
-        Call AddXmlElement(sXml, "platformpartnerid", oRecord.Text("platformpartnerid"))
-        Call AddXmlElement(sXml, "gateid", oRecord.Text("gateid"))
+        Call AddXmlElement(sXml, "serviceid", oRecord.text("serviceid"))
+        Call AddXmlElement(sXml, "platformid", oRecord.text("platformid"))
+        Call AddXmlElement(sXml, "platformpartnerid", oRecord.text("platformpartnerid"))
+        Call AddXmlElement(sXml, "gateid", oRecord.text("gateid"))
         
         sXml = sXml & "</user>"
     Next oRecord
@@ -333,10 +333,10 @@ On Error GoTo ErrorHandler
         oView As LDE.View, _
         oPool As LDE.Pool, _
         oRecords As LDE.Records, _
-        oRecord As LDE.Record, _
+        oRecord As LDE.record, _
         oResponse As SmsWebsericeResponse, _
         oBatch As LDE.Batch, _
-        oSmsRecord As LDE.Record, _
+        oSmsRecord As LDE.record, _
         oReceiverErrors As New Scripting.Dictionary
 
     Dim sXml As String, _
@@ -353,6 +353,8 @@ On Error GoTo ErrorHandler
         sPassword As String, _
         sSender As String, _
         sSmsUser As String, _
+        sApiKey As String, _
+        sUserEmail As String, _
         sReceiverTableName As String, _
         sPhoneFieldName As String, _
         sNameFieldName As String, _
@@ -382,7 +384,7 @@ On Error GoTo ErrorHandler
 
         Set oPool = New LDE.Pool
         For Each oXmlNode In oXmlNodes
-            Call oPool.Add(VBA.CLng(oXmlNode.Text))
+            Call oPool.Add(VBA.CLng(oXmlNode.text))
         Next oXmlNode
 
         Set oView = New LDE.View
@@ -392,9 +394,9 @@ On Error GoTo ErrorHandler
         Call oView.Add(sNameFieldName)
 
         Set oRecords = New LDE.Records
-        Call oRecords.Open(Database.Classes("smsuser"), VBA.CLng(sSmsUser), VBA.Array("platformpartnerid", "platformid", "gateid", "username", "password", "sender", "serviceid"), 1)
-        If oRecords.Count = 1 Then
-            Set oRecord = oRecords.Item(1)
+        Call oRecords.Open(Database.Classes("smsuser"), VBA.CLng(sSmsUser), VBA.Array("platformpartnerid", "platformid", "gateid", "username", "password", "sender", "serviceid", "bw_api_key", "useremail"), 1)
+        If oRecords.count = 1 Then
+            Set oRecord = oRecords.item(1)
 
             sPlatformPartnerId = oRecord.Value("platformpartnerid")
             sPlatformId = oRecord.Value("platformid")
@@ -403,6 +405,8 @@ On Error GoTo ErrorHandler
             sPassword = oRecord.Value("password")
             sSender = oRecord.Value("sender")
             sServiceid = oRecord.Value("serviceid")
+            sApiKey = oRecord.Value("bw_api_key")
+            sUserEmail = oRecord.Value("useremail")
         Else
             sErrorMessage = Lime.FormatString("Error in loading SmsUser: %0%0%1", "Can't find the sms user selected")
             GoTo EndOfFunction
@@ -433,11 +437,15 @@ On Error GoTo ErrorHandler
             oParameters.sPlatformId = sPlatformId
             oParameters.sPlatformPartnerId = sPlatformPartnerId
             oParameters.sGateId = sGateId
-
             
+            ' Bizwizard Rest Api
+            oParameters.sApiKey = sApiKey
+            oParameters.sUserEmail = sUserEmail
+
+            ' Send POST request
             Set oResponse = WebRequest_SendSms_Master(oParameters)
             
-            Set oSmsRecord = New LDE.Record
+            Set oSmsRecord = New LDE.record
             Call oSmsRecord.Open(Database.Classes("sms"))
             oSmsRecord.Value("phone") = sPhoneNr
             oSmsRecord.Value("sent") = VBA.Now
@@ -449,7 +457,7 @@ On Error GoTo ErrorHandler
             oSmsRecord.Value("resultdescription") = oResponse.sMessage
             
             If oSmsRecord.Fields.Exists(sReceiverTableName) Then
-                oSmsRecord.Value(sReceiverTableName) = oRecord.ID
+                oSmsRecord.Value(sReceiverTableName) = oRecord.id
             End If
             
             ' Set additional field relations given in app config (Relations on the active Inspector)
@@ -469,16 +477,16 @@ On Error GoTo ErrorHandler
             
             Call oSmsRecord.Update(oBatch)
             
-            If oBatch.Count > 200 Then
+            If oBatch.count > 200 Then
                 Call oBatch.Execute
             End If
             
             If oResponse.bSuccess = False Then
-                Call oReceiverErrors.Add(VBA.CStr(oRecord.ID), oResponse.sMessage)
+                Call oReceiverErrors.Add(VBA.CStr(oRecord.id), oResponse.sMessage)
             End If
         Next oRecord
         
-        If oBatch.Count > 0 Then
+        If oBatch.count > 0 Then
             Call oBatch.Execute
         End If
     Else
@@ -554,6 +562,8 @@ On Error GoTo ErrorHandler
     Select Case oParameters.sSmsSupplier
         Case "link_mobility"
             Set oResponse = WebRequest_SendSms_LinkMobilityRest(oParameters)
+        Case "bizwizard"
+            Set oResponse = WebRequest_SendSms_BizwizardRest(oParameters)
     End Select
     
     Set WebRequest_SendSms_Master = oResponse
@@ -561,6 +571,56 @@ On Error GoTo ErrorHandler
 Exit Function
 ErrorHandler:
     Call UI.ShowError("Sms.WebRequest_SendSms_Master")
+End Function
+
+Private Function WebRequest_SendSms_BizwizardRest( _
+    ByVal oParameters As SmsWebserviceParameters _
+) As SmsWebsericeResponse
+On Error GoTo ErrorHandler
+    Dim oHttp As New MSXML2.ServerXMLHTTP60, _
+        sPayload As String, _
+        oJsonObj As Dictionary, _
+        oResponse As New SmsWebsericeResponse
+        
+    Dim sApiKey As String
+    Dim sUserEmail As String
+    Dim sEndpoint As String
+
+    'Provided by BW (both api key and endpoint)
+    sApiKey = ""
+    sUserEmail = "api@lime.tech"
+    sEndpoint = ""
+    
+    Call oHttp.Open("Post", sEndpoint, False)
+    Call oHttp.setRequestHeader("Apikey", sApiKey)
+    Call oHttp.setRequestHeader("Useremail", sUserEmail)
+    Call oHttp.setRequestHeader("Content-type", "application/json")
+    
+    sPayload = "{" & _
+        Lime.FormatString("""FromNumber"": ""%1"",", oParameters.sSender) & _
+        Lime.FormatString("""DestinationNumber"": ""%1"",", oParameters.sPhoneNr) & _
+        Lime.FormatString("""Text"": ""%1"",", VBA.Replace(VBA.Replace(oParameters.sMessage, """", "\"""), "%0", "\n")) & _
+    "}"
+    Call oHttp.Send(sPayload)
+    
+    If oHttp.Status = 200 Then
+        oResponse.bSuccess = True
+        Set oJsonObj = JsonConverter.ParseJson(oHttp.ResponseText)
+        oResponse.sCode = ""
+        oResponse.sMessage = ""
+        oResponse.sMessageId = oJsonObj("TransactionSmsId")
+    Else
+        oResponse.bSuccess = False
+        Set oJsonObj = JsonConverter.ParseJson(oHttp.ResponseText)
+        oResponse.sMessageId = oJsonObj("RequestId")
+        oResponse.sCode = oJsonObj("Message")
+        oResponse.sMessage = oJsonObj("ErrorDetails")(1)("Message")
+    End If
+    
+    Set WebRequest_SendSms_BizwizardRest = oResponse
+Exit Function
+ErrorHandler:
+    Call UI.ShowError("WebRequest_SendSms_BizwizardRest")
 End Function
 
 Private Function WebRequest_SendSms_LinkMobilityRest( _
@@ -587,13 +647,13 @@ On Error GoTo ErrorHandler
     
     If oHttp.Status = 200 Then
         oResponse.bSuccess = True
-        Set oJsonObj = JsonConverter.ParseJson(oHttp.responseText)
+        Set oJsonObj = JsonConverter.ParseJson(oHttp.ResponseText)
         oResponse.sCode = oJsonObj("resultCode")
         oResponse.sMessage = oJsonObj("description")
         oResponse.sMessageId = oJsonObj("messageId")
     Else
         oResponse.bSuccess = False
-        Set oJsonObj = JsonConverter.ParseJson(oHttp.responseText)
+        Set oJsonObj = JsonConverter.ParseJson(oHttp.ResponseText)
         oResponse.sCode = oJsonObj("status")
         oResponse.sMessage = oJsonObj("description")
     End If
@@ -677,7 +737,7 @@ ErrorHandler:
     Call UI.ShowError("Sms.FillViewWithTemplateCodes")
 End Sub
 
-Private Sub ApplyTemplateCodesToText(ByRef sMessage As String, ByVal oRecord As LDE.Record, ByVal sReceiverTableName As String, Optional ByVal bOnlyScript As Boolean = False)
+Private Sub ApplyTemplateCodesToText(ByRef sMessage As String, ByVal oRecord As LDE.record, ByVal sReceiverTableName As String, Optional ByVal bOnlyScript As Boolean = False)
 On Error GoTo ErrorHandler
     Dim oTemplateCodes As Collection, _
         oTemplateCode As SmsTemplateCode, _
@@ -691,7 +751,7 @@ On Error GoTo ErrorHandler
                 If oTemplateCode.bIsScriptValue = False And bOnlyScript = False Then
                     If Not oRecord.Fields.Lookup(oTemplateCode.sFieldName, lkLookupFieldByName) Is Nothing Then
                         sFromValue = oTemplateCode.sTemplateCode
-                        sToValue = oRecord.Text(oTemplateCode.sFieldName)
+                        sToValue = oRecord.text(oTemplateCode.sFieldName)
                     End If
                 ElseIf oTemplateCode.bIsScriptValue = True Then
                     sFromValue = oTemplateCode.sTemplateCode
@@ -745,7 +805,7 @@ On Error GoTo ErrorHandler
     Set oXmlNode = oXml.selectSingleNode(sXPath)
     
     If Not oXmlNode Is Nothing Then
-        sValue = oXmlNode.Text
+        sValue = oXmlNode.text
         bRetVal = True
     End If
     
@@ -1087,7 +1147,7 @@ Private Function AddOrCheckLocalize( _
     On Error GoTo ErrorHandler
     Dim oFilter As New LDE.Filter
     Dim oRecs As New LDE.Records
-    Dim oRec As LDE.Record
+    Dim oRec As LDE.record
     
     Call oFilter.AddCondition("owner", lkOpEqual, sOwner)
     Call oFilter.AddCondition("code", lkOpEqual, sCode)
@@ -1095,7 +1155,7 @@ Private Function AddOrCheckLocalize( _
     
     If oFilter.HitCount(Database.Classes("localize")) = 0 Then
         Debug.Print ("Localization " & sOwner & "." & sCode & " not found, creating new!")
-        Set oRec = New LDE.Record
+        Set oRec = New LDE.record
         Call oRec.Open(Database.Classes("localize"))
         oRec.Value("owner") = sOwner
         oRec.Value("code") = sCode
@@ -1133,7 +1193,7 @@ ErrorHandler:
     AddOrCheckLocalize = False
 End Function
 
-Private Sub AddLocaleToRecord(ByRef oRec As LDE.Record, ByVal sLocaleCode As String, ByVal sLocaleValue As String)
+Private Sub AddLocaleToRecord(ByRef oRec As LDE.record, ByVal sLocaleCode As String, ByVal sLocaleValue As String)
 On Error GoTo ErrorHandler
     If oRec.Fields.Exists(sLocaleCode) Then
         oRec.Value(sLocaleCode) = sLocaleValue
@@ -1146,6 +1206,8 @@ End Sub
 '''''''''''''''''''
 '' End: Install functions
 '''''''''''''''''''
+
+
 
 
 
