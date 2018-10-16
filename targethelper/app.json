@@ -1,9 +1,14 @@
 {
-	"name": "Target Helper",
-	"author":"Jonatan Tegen",
+	"name": "targethelper",
+	"author":"jka",
 	"status":"Development",
-	"license": true,
-    "shortDesc": "Visualizes the number of records in a sub tab per status or type as a donut chart in an Actionpad.",
+	"versions":[
+		{
+			"version":"0.1",
+			"date":"23.12.2015",
+			"comments":"Creation"
+		}
+	],
 	"install":{
 		
 	}
