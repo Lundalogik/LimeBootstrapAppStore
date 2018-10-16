@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
 		<title>Sammanslagning dubbletter</title>
 		<link href="styles.css" rel="stylesheet" type="text/css" />
 		<script language="javascript" src="../../../system/js/appInvoker/resources.js"></script>
@@ -17,12 +18,12 @@
 				<tr><td height="2px" colspan="3"/></tr>
 				<tr>
 					<td width="2px" height="18px"/>
-					<td resid="page.optConcat" onclick="consolidate()" class="menuText" onmouseover="switchClass(this)" onmouseout="switchClass(this)" width="176px">Slå samman informationen</td>
+					<td resid="page.optConcat" onclick="consolidate()" class="menuText" onmouseover="switchClass(this)" onmouseout="switchClass(this)" width="176px">Slï¿½ samman informationen</td>
 					<td width="2px"/>
 				</tr>
 				<tr>
 					<td width="2px" height="18px"/>
-					<td resid="page.optOverwrite" onclick="overwrite()" class="menuText" onmouseover="switchClass(this)" onmouseout="switchClass(this)" width="176px">Skriv över</td>
+					<td resid="page.optOverwrite" onclick="overwrite()" class="menuText" onmouseover="switchClass(this)" onmouseout="switchClass(this)" width="176px">Skriv ï¿½ver</td>
 					<td width="2px"/>
 				</tr>
 				<tr><td height="1px" colspan="3"><HR/></TD></tr>
@@ -50,7 +51,7 @@
 						<button id="btn_saveOrLoad" class="btn" style="width:80px" onclick="saveOrLoad()" onmouseout="this.className='btn'" onmouseover="this.className='btnActive'"></button>
 					</td>
 					<td width="190px" align="right">
-					    <button resid="buttons.moveWhereEmpty" id="btn_moveWhereEmpty" class="btn" onclick="moveWhereEmpty()" title="buttons.moveWhereEmptyTitle" onmouseout="this.className='btn'" onmouseover="this.className='btnActive'">Fyll tomma i Behåll</button>
+					    <button resid="buttons.moveWhereEmpty" id="btn_moveWhereEmpty" class="btn" onclick="moveWhereEmpty()" title="buttons.moveWhereEmptyTitle" onmouseout="this.className='btn'" onmouseover="this.className='btnActive'">Fyll tomma i Behï¿½ll</button>
 					    
 			        </td>
 					<td width="190px" align="left">
@@ -60,7 +61,7 @@
 				    <td width="200px" align="right">
 						<button resid="buttons.cancel" id="btn_cancel" class="btn" style="width:80px" onclick="window.close();" onmouseout="this.className='btn'" onmouseover="this.className='btnActive'">Avbryt</button>
 						&nbsp;&nbsp;
-						<button resid="buttons.help" id="btn_help" class="btn" style="width:80px" onclick="help();" onmouseout="this.className='btn'" onmouseover="this.className='btnActive'">Hjälp</button>
+						<button resid="buttons.help" id="btn_help" class="btn" style="width:80px" onclick="help();" onmouseout="this.className='btn'" onmouseover="this.className='btnActive'">Hjï¿½lp</button>
 					</td>
 				</tr>
 				<tr><td height="10px"/></tr>
@@ -86,7 +87,7 @@
     var m_pCurrentRecords = null;
     
     /*
-        Den variablen håller det id som returneras av MergeDoublesCustomizer.getTargetRecordId och
+        Den variablen hï¿½ller det id som returneras av MergeDoublesCustomizer.getTargetRecordId och
         representerar den post som sammanslagningen ska ske till.
      */
     var m_nIdTargetRecord = 0;
@@ -110,7 +111,7 @@ function closePage() {
 	m_nIdTargetRecord = 0;	
 }
 
-/*Hämtar Lime applikation från parentsida*/
+/*Hï¿½mtar Lime applikation frï¿½n parentsida*/
 function getApplication() {
     return window.dialogArguments.Invoker.Application();
 }
@@ -119,7 +120,7 @@ function help() {
 	window.showModalDialog ("help.htm", self, "dialogHeight:500px; dialogWidth: 500px; edge:sunken; help:no;resizeable:no;scroll:auto;status:no;")
 }
 
-/*Slår samman ett textvärde med ett annat*/
+/*Slï¿½r samman ett textvï¿½rde med ett annat*/
 function consolidate() {
 	m_pCurrentRecords[m_nMainSide].Record.Value(m_strFieldToConsolidate) = m_pCurrentRecords[m_nSubSide].Record.Value(m_strFieldToConsolidate);
 	
@@ -138,7 +139,7 @@ function consolidate() {
 	intChanges ++;
 }
 
-/*Skriver över ett textvärde med ett annat*/
+/*Skriver ï¿½ver ett textvï¿½rde med ett annat*/
 function overwrite() {
 	m_pCurrentRecords[m_nMainSide].Record.Value(m_strFieldToConsolidate) = m_pCurrentRecords[m_nSubSide].Record.Value(m_strFieldToConsolidate);
 	
@@ -162,7 +163,7 @@ function cancel() {
 	window.document.all("menuDiv").style.display="none";
 }
 
-/*Gömmer dropdown menyer*/
+/*Gï¿½mmer dropdown menyer*/
 function hideMenu() {
 	if (window.document.all("menuDiv").style.display != "none") {
 		window.document.all("menuDiv").releaseCapture();
@@ -199,7 +200,7 @@ function initPage() {
 	// Set return value to null
 	window.returnValue = null;
 	
-	strSeparatorNames = "¤";
+	strSeparatorNames = "ï¿½";
 
 	if (pApplication.ActiveExplorer.Selection.Count > 1){
         getSelectedRecords();	
@@ -221,7 +222,7 @@ function initPage() {
 	pApplication.MousePointer = 0
 }
 
-/*Skapar ett huvud på sidan*/
+/*Skapar ett huvud pï¿½ sidan*/
 function createHeader() {
 	var strHeaderTable = "<TABLE width='100%' cellspacing='1px' cellpadding='0' border='0' class='bread'>";
 	strHeaderTable += "<tr>";
@@ -275,7 +276,7 @@ function createHeader() {
 	window.document.all("spandescription").innerHTML = strHeaderTable;
 }
 
-/*Sätter rätt namn på knappen*/
+/*Sï¿½tter rï¿½tt namn pï¿½ knappen*/
 function setButtonName() {
 	if (intLoadedObjects == gIntNumberOfSelectedRecords)
 		window.document.all("btn_saveOrLoad").innerHTML = Resources.getText("buttons.finish");
@@ -296,7 +297,7 @@ function saveMultiLink(fieldName) {
 	getApplication().MousePointer = 0
 }
 
-/*Tar bort de poster som är dubbletter. */
+/*Tar bort de poster som ï¿½r dubbletter. */
 function deleteSlaveRecords() {
     var Application = getApplication();
     var pField = null;
@@ -304,8 +305,8 @@ function deleteSlaveRecords() {
     var nIndex = 0;
 	var bDelete = true;
 
-	// Kolla om inactivate är satt och att det finns ett
-	// fält med etiketten Inaktiv
+	// Kolla om inactivate ï¿½r satt och att det finns ett
+	// fï¿½lt med etiketten Inaktiv
 	if (Resources.getIniString("application", "inactivate", "0") == "1") {
 	    pField = getClass().Fields.Lookup(lkFieldLabelInactive, lkLookupFieldByLabel);
 	    
@@ -331,7 +332,7 @@ function deleteSlaveRecords() {
     }
 }
 
-/*Kontrollerar om en ny post ska laddas in eller som sammanslagningen ska slutföras. */
+/*Kontrollerar om en ny post ska laddas in eller som sammanslagningen ska slutfï¿½ras. */
 function saveOrLoad() {
     var pApplication = getApplication();
 	var saveChanges = true;
@@ -391,7 +392,7 @@ function saveOrLoad() {
 	}
 }
 
-/*skapar upp formuläret dynamiskt*/
+/*skapar upp formulï¿½ret dynamiskt*/
 function createPage(mergeRecord){
     var pField = null;
     var strTable = "";
@@ -424,17 +425,17 @@ function createPage(mergeRecord){
 			    strTable += createSingleRelationInput(pField);
 			    break;
 			    
-		    // Färgfält
+		    // Fï¿½rgfï¿½lt
 		    case lkFieldTypeColor:
 			    strTable += createColorInput(pField);
 			    break;
 			    
-		    // Betygsfält
+		    // Betygsfï¿½lt
 		    case lkFieldTypeGrade:
 			    strTable += createGradeInput(pField);
 			    break;
 
-		    // Mängdfält
+		    // Mï¿½ngdfï¿½lt
 		    case lkFieldTypeSet:
 			    strTable += createDatasetInput(pField);
 			    break;
@@ -444,19 +445,19 @@ function createPage(mergeRecord){
 			    strTable += createMultiRelationInput(mergeRecord.Record.Class, pField);
 			    break;
 			    
-		    // Numeriskt fält
+		    // Numeriskt fï¿½lt
 		    case lkFieldTypeInteger:
 		    case lkFieldTypeDecimal:
 		    case lkFieldTypeCurrency:
 			    strTable += createNumeralInput(pField);
 			    break;
 
-		    // Procent fält
+		    // Procent fï¿½lt
 		    case lkFieldTypePercent:
 			    strTable += createPercentInput(pField);
 			    break;	    
 
-		    // Datumfält
+		    // Datumfï¿½lt
 		    case lkFieldTypeTime:
 		    case lkFieldTypeDate:
 		    case lkFieldTypeDateTime:
@@ -469,7 +470,7 @@ function createPage(mergeRecord){
 			    strTable += createDateInput(pField);
 			    break;
 
-		    // Ja och nej fält
+		    // Ja och nej fï¿½lt
 		    case lkFieldTypeYesNo:
 			    strTable += createYesNoInput(pField);
 			    break;
@@ -492,7 +493,7 @@ function createPage(mergeRecord){
 	window.document.all("pageDiv").innerHTML = strTable;
 }
 
-/*Skapar en rad i tabellen med bredden på cellerna*/
+/*Skapar en rad i tabellen med bredden pï¿½ cellerna*/
 function setTableCellWidth(){
 	var strTable = "<tr>";
 	strTable += "<td width='275px'/>";
@@ -512,10 +513,10 @@ function createseparator(field) {
 	
 	if (field.Attribute("separatorlocalname") != undefined){
 		strSeparator = field.Attribute("separatorlocalname");
-		if (strSeparatorNames.indexOf("¤" + strSeparator + "¤") == -1 ){
+		if (strSeparatorNames.indexOf("ï¿½" + strSeparator + "ï¿½") == -1 ){
 			strTable += "<tr id='tr_limit" + strSeparator + "'>";
 			strTable += "<td height='20px' class='separatorTitle'>" + strSeparator + "</td></tr>";
-			strSeparatorNames = strSeparatorNames + strSeparator + "¤";
+			strSeparatorNames = strSeparatorNames + strSeparator + "ï¿½";
 		}
 		
 	}
@@ -533,7 +534,7 @@ function createAlternativeListsInput(field) {
 	return strTable;
 }
 
-/*Skriver ut textvärde där boxen är en enhet hög*/
+/*Skriver ut textvï¿½rde dï¿½r boxen ï¿½r en enhet hï¿½g*/
 function createSingleTextInput(field) {
 	var strTable = "<td><input class='inputBox' type='text' id='txt0_" + field.Name + "' disabled='true' recordType='text'/></td>";
 	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
@@ -543,7 +544,7 @@ function createSingleTextInput(field) {
 	return strTable;
 }
 
-/*Skriver ut textvärde där boxen är mer än en enhet hög*/
+/*Skriver ut textvï¿½rde dï¿½r boxen ï¿½r mer ï¿½n en enhet hï¿½g*/
 function createMultiLineTextInput(field) {
 	var strTable = "<td><div noWrap='true' class='inputBox' id='txt0_" + field.Name + "' recordType='text' style='width: 175px; z-index:999;overflow:auto; height:";
 	strTable += field.Attribute("height") * 23;
@@ -557,7 +558,7 @@ function createMultiLineTextInput(field) {
 	return strTable;
 }
 
-/*Skriver ut relationsfält*/
+/*Skriver ut relationsfï¿½lt*/
 function createSingleRelationInput(field) {
 	var strTable = "<td><input class='inputBox' type='text' id='txt0_" + field.Name + "' recordID='' disabled='true' recordType='link'>" + "</td>"
 	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
@@ -567,7 +568,7 @@ function createSingleRelationInput(field) {
 	return strTable;
 }
 
-/*Skriver ut färgfält*/
+/*Skriver ut fï¿½rgfï¿½lt*/
 function createColorInput(field) {
 	var strTable = "<td><input class='inputBox' type='text' id='txt0_" + field.Name + "' colorRGB='' disabled='true' recordType='color'>" + "</td>"
 	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
@@ -577,7 +578,7 @@ function createColorInput(field) {
 	return strTable;
 }
 
-/*Skriver ut betygsfält*/
+/*Skriver ut betygsfï¿½lt*/
 function createGradeInput(field) {
 	var strTable = "<td><img src='images/empty_star.gif' class='inputBox' heigth='18px' id='txt0_" + field.Name + "' recordType='grade' grade=''/></td>"
 	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
@@ -587,7 +588,7 @@ function createGradeInput(field) {
 	return strTable;
 }
 
-/*Skriver ut mängdfält*/
+/*Skriver ut mï¿½ngdfï¿½lt*/
 function createDatasetInput(field) {
 	var strTable = "<td>"; 
 	strTable += "<table cellspacing='0' cellpadding='0' border='0' class='inputBoxSet'><tr>";
@@ -610,7 +611,7 @@ function createDatasetInput(field) {
 	return strTable;
 }
 
-/*Skriver ut multirelationsfält*/
+/*Skriver ut multirelationsfï¿½lt*/
 function createMultiRelationInput(fieldClass, field) {
 	var strTable = "<td><div noWrap='true' class='inputBox' id='txt0_" + field.Name + "' limeClass='" + fieldClass.Name + "' recordType='multilink' maxRecordReached='false' numberOf='0' recordID='' idvalues='' style='width: 175px; height: 95px; z-index:999;overflow:auto'></div></td>"
 	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
@@ -620,7 +621,7 @@ function createMultiRelationInput(fieldClass, field) {
 	return strTable;
 }
 
-/*Skriver ut numeriska fält*/
+/*Skriver ut numeriska fï¿½lt*/
 function createNumeralInput(field) {
 	var strTable = "<td><input class='inputBox' type='text' id='txt0_" + field.Name + "' disabled='true' recordType='numeral'/></td>";
 	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
@@ -630,7 +631,7 @@ function createNumeralInput(field) {
 	return strTable;
 }
 
-/*Skriver ut procent fält*/
+/*Skriver ut procent fï¿½lt*/
 function createPercentInput(field) {
 	var strTable = "<td><table class='percentBox' cellspacing='0' cellpadding='0' border='0' width='175px'><tr><td align='center' id='txt0_" + field.Name + "' recordType='percent'/>&nbsp;</td><td width='*'>&nbsp;</td></tr></table></td>";
 	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
@@ -640,7 +641,7 @@ function createPercentInput(field) {
 	return strTable;
 }
 
-/*Skriver ut datum fält*/
+/*Skriver ut datum fï¿½lt*/
 function createDateInput(field) {
 	var strTable = "<td><input class='inputBox' type='text' id='txt0_" + field.Name + "' disabled='true' recordType='date'/></td>";
 	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
@@ -650,7 +651,7 @@ function createDateInput(field) {
 	return strTable;
 }
 
-/*Skriver ut Ja/Nej fält*/
+/*Skriver ut Ja/Nej fï¿½lt*/
 function createYesNoInput(field) {
 	var strTable = "<td><input type='checkbox' id='txt0_" + field.Name + "' disabled='true' recordType='yesno'><span id='span0_" + field.Name + "'/>" + "</td>"
 	strTable += "<td align='center' class='hand' name='" + field.Name + "'><img id='arrow' onclick='functionMoveValue(this)' onmouseover='changePicture(this, 1)' onmouseout='changePicture(this, 0)' src='images/inactive_from2to1.ico'></td>";
@@ -659,7 +660,7 @@ function createYesNoInput(field) {
 	return strTable;
 }
 
-/*Beräknar var ett objekt är positionerat på skärmen*/
+/*Berï¿½knar var ett objekt ï¿½r positionerat pï¿½ skï¿½rmen*/
 function absPos(obj){ 
     var y = 0; 
     var x = 0; 
@@ -673,7 +674,7 @@ function absPos(obj){
     return {X: x, Y: y - 114}; 
  } 
 
-/*Ritar upp ett mängdfält i en drop-down meny*/
+/*Ritar upp ett mï¿½ngdfï¿½lt i en drop-down meny*/
 function showTypeSet(obj){
 	var strTxtObjName = obj.id.replace('btn', '');
 	obj = window.document.all("txt" + strTxtObjName);
@@ -716,7 +717,7 @@ function replaceChars(entry, out, add) {
 	return temp;
 }
 
-/*Fyller formulärets boxar med rätt värden*/
+/*Fyller formulï¿½rets boxar med rï¿½tt vï¿½rden*/
 function fillValues(strTypeOfFill) {
     var pMainRecord = null;
     var pSubRecord = null;
@@ -784,7 +785,7 @@ function fillValues(strTypeOfFill) {
 		}
 		
 		switch (pField.Type) {
-		    /*Text och numeriska fält*/
+		    /*Text och numeriska fï¿½lt*/
 		    case lkFieldTypePercent:
 			    var masterValue = fillPercentValues(pMainRecord, pField.Name, strMasterPrefix);
 			    var slaveValue = fillPercentValues(pSubRecord, pField.Name, strSlavePrefix);
@@ -794,7 +795,7 @@ function fillValues(strTypeOfFill) {
 
 			    break;
         
-		    /*Datumfält*/
+		    /*Datumfï¿½lt*/
 		    case lkFieldTypeTime:
 		    case lkFieldTypeDate:
 		    case lkFieldTypeDateTime:
@@ -814,13 +815,13 @@ function fillValues(strTypeOfFill) {
 			    strShowField = fillSingleRelationValues(pSubRecord, pField.Name, strSlavePrefix, strShowField);
 			    break;
 
-		    /*Betygsfält*/
+		    /*Betygsfï¿½lt*/
 		    case lkFieldTypeGrade:
 			    strShowField = fillGradeValues(pMainRecord, pField.Name, strMasterPrefix, strShowField);
 			    strShowField = fillGradeValues(pSubRecord, pField.Name, strSlavePrefix, strShowField);
 			    break;
 
-		    /*Mängdfält*/
+		    /*Mï¿½ngdfï¿½lt*/
 		    case lkFieldTypeSet:
 			    strShowField = fillDatasetValues(pMainRecord, pField.Name, strMasterPrefix, strShowField);
 			    strShowField = fillDatasetValues(pSubRecord, pField.Name, strSlavePrefix, strShowField);
@@ -839,7 +840,7 @@ function fillValues(strTypeOfFill) {
 			    
 			    break;
 
-		    /*Färgfält*/
+		    /*Fï¿½rgfï¿½lt*/
 	        case lkFieldTypeColor:
 			    var masterColor = fillColorValues(pMainRecord, pField.Name, strMasterPrefix);
 			    var slaveColor = fillColorValues(pSubRecord, pField.Name, strSlavePrefix);
@@ -849,7 +850,7 @@ function fillValues(strTypeOfFill) {
 				   
 		        break;
 
-		    /*Ja/Nej fält*/
+		    /*Ja/Nej fï¿½lt*/
 		    case lkFieldTypeYesNo:
 			    var masterValue = fillYesNoValues(pMainRecord, pField.Name, m_nMainSide + "_");
 			    var slaveValue = fillYesNoValues(pSubRecord, pField.Name, m_nSubSide + "_");
@@ -859,7 +860,7 @@ function fillValues(strTypeOfFill) {
 				    
 			    break;
 
-		    /*Alternativfält*/
+		    /*Alternativfï¿½lt*/
 		    case lkFieldTypeOption:
 			    strShowField = fillAlternativeValues(pMainRecord, pField.Name, strMasterPrefix, strShowField);
 			    strShowField = fillAlternativeValues(pSubRecord, pField.Name, strSlavePrefix, strShowField);
@@ -880,10 +881,10 @@ function fillValues(strTypeOfFill) {
 		window.document.all("tr_" + pField.Name).style.display = strShowField;
 
 		if (strShowField == "block"){
-			//Kontroll om något fält visas
+			//Kontroll om nï¿½got fï¿½lt visas
 			shownFields ++;
 			if (blnSeparator){
-				//Kontroll om något fält inom separatorn visas
+				//Kontroll om nï¿½got fï¿½lt inom separatorn visas
 				intSeparator ++;
 			}
 		}
@@ -899,7 +900,7 @@ function fillValues(strTypeOfFill) {
 		window.document.all("informationTD").innerHTML = "<br/><br/>" + Resources.getText("page.identical");
 }
 
-/* Fyller textfält och nummerfält med värden*/
+/* Fyller textfï¿½lt och nummerfï¿½lt med vï¿½rden*/
 function fillTextValues(mergeRecord, fieldName, prefix, showField) {
 	if (mergeRecord.Record.Text(fieldName) != "") {
 		if (window.document.all(prefix + fieldName).tagName.toLowerCase() == "div")
@@ -919,7 +920,7 @@ function fillTextValues(mergeRecord, fieldName, prefix, showField) {
 	return showField;
 }
 
-/* Fyller alternativfältmed värden*/
+/* Fyller alternativfï¿½ltmed vï¿½rden*/
 function fillAlternativeValues(mergeRecord, fieldName, prefix, showField) {
 	if (mergeRecord.Record.Text(fieldName) != "") {
 		window.document.all(prefix + fieldName).value = mergeRecord.Record.Text(fieldName);
@@ -931,7 +932,7 @@ function fillAlternativeValues(mergeRecord, fieldName, prefix, showField) {
 	return showField;
 }
 
-/* Fyller procentfält med värden*/
+/* Fyller procentfï¿½lt med vï¿½rden*/
 function fillPercentValues(mergeRecord, fieldName, prefix, showField) {
 	var strPercent = mergeRecord.Record.Text(fieldName).replace(",00", "");
 	
@@ -952,7 +953,7 @@ function fillPercentValues(mergeRecord, fieldName, prefix, showField) {
 	return strPercent;
 }
 
-/* Fyller datumfält med värden*/
+/* Fyller datumfï¿½lt med vï¿½rden*/
 function fillDateValues(mergeRecord, fieldName, prefix, showField) {
 	if (mergeRecord.Record.Text(fieldName) != "") {
 		window.document.all(prefix + fieldName).value = mergeRecord.Record.Text(fieldName);
@@ -964,7 +965,7 @@ function fillDateValues(mergeRecord, fieldName, prefix, showField) {
 	return showField;
 }
 
-/* Fyller enkelrelationer med värden*/
+/* Fyller enkelrelationer med vï¿½rden*/
 function fillSingleRelationValues(mergeRecord, fieldName, prefix, showField) {
 	if (mergeRecord.Record.Value(fieldName) != null) {
 		window.document.all(prefix + fieldName).value = mergeRecord.Record.Text(fieldName);
@@ -979,7 +980,7 @@ function fillSingleRelationValues(mergeRecord, fieldName, prefix, showField) {
 	return showField;
 }
 
-/* Fyller betygsfält med värden*/
+/* Fyller betygsfï¿½lt med vï¿½rden*/
 function fillGradeValues(mergeRecord, fieldName, prefix, showField) {
     var value = mergeRecord.Record.Value(fieldName);
     
@@ -994,7 +995,7 @@ function fillGradeValues(mergeRecord, fieldName, prefix, showField) {
 	return showField;
 }
 
-/* Fyller mängdfält med värden*/
+/* Fyller mï¿½ngdfï¿½lt med vï¿½rden*/
 function fillDatasetValues(mergeRecord, fieldName, prefix, showField) {
 	if (mergeRecord.Record.Text(fieldName) != "") {
 		var strSetValues = mergeRecord.Record.Text(fieldName);
@@ -1013,7 +1014,7 @@ function fillDatasetValues(mergeRecord, fieldName, prefix, showField) {
 	return showField;
 }
 
-/* Fyller multirelationer med värden*/
+/* Fyller multirelationer med vï¿½rden*/
 function fillMultiRelationValues(mergeRecord, fieldName, prefix, showField){
 	if (fillMultiLink(mergeRecord, fieldName, prefix)) {
 		window.document.all(prefix + fieldName).recordID = mergeRecord.Record.ID + ";";
@@ -1025,7 +1026,7 @@ function fillMultiRelationValues(mergeRecord, fieldName, prefix, showField){
 	return showField;
 }
 
-/* Kontrollerar om multifältet i master ska visas*/
+/* Kontrollerar om multifï¿½ltet i master ska visas*/
 function fillMultiRelationValuesNext(htmlFieldID, showField){
 	if (window.document.all(htmlFieldID) != null) {
 	    if (window.document.all(htmlFieldID).idvalues != "")
@@ -1037,7 +1038,7 @@ function fillMultiRelationValuesNext(htmlFieldID, showField){
 	return showField;
 }
 
-/* Fyller färgfält med färg*/
+/* Fyller fï¿½rgfï¿½lt med fï¿½rg*/
 function fillColorValues(mergeRecord, fieldName, prefix){
 	var nRGBin = mergeRecord.Record.Value(fieldName);
 	var nR=nRGBin & 0xFF;
@@ -1049,7 +1050,7 @@ function fillColorValues(mergeRecord, fieldName, prefix){
 	return nRGBin;
 }
 
-/* Fyller Ja/Nej fält med värde*/
+/* Fyller Ja/Nej fï¿½lt med vï¿½rde*/
 function fillYesNoValues(mergeRecord, fieldName, prefix){
 	if (mergeRecord.Record.Value(fieldName) == 0)
 		var blnChecked = false;
@@ -1062,7 +1063,7 @@ function fillYesNoValues(mergeRecord, fieldName, prefix){
 	return blnChecked;
 }
 
-/*Kontrollerar om de två fälten innehåller samma värden*/
+/*Kontrollerar om de tvï¿½ fï¿½lten innehï¿½ller samma vï¿½rden*/
 function checkIfEqualContent(mainRecord, subRecord, field){
 	var strShowField = "block";
 	
@@ -1082,7 +1083,7 @@ function checkIfEqualContent(mainRecord, subRecord, field){
 	return strShowField;
 }
 
-/*Fyller ett multilänk fält med data*/
+/*Fyller ett multilï¿½nk fï¿½lt med data*/
 function fillMultiLink(mergeRecord, fieldName, prefix){
 	var Application = getApplication();
 	var pRecords = null;
@@ -1104,7 +1105,7 @@ function fillMultiLink(mergeRecord, fieldName, prefix){
 		var i = 0;
 		if (pRecords.Count > intMaxRecord)	{
 			strHtml += "<tr>"
-			strHtml += "<td id='' noWrap='true' " + strClass + "><i>* Mer än " + intMaxRecord + " poster *&nbsp;</i></td>";
+			strHtml += "<td id='' noWrap='true' " + strClass + "><i>* Mer ï¿½n " + intMaxRecord + " poster *&nbsp;</i></td>";
 			strHtml += "</tr>"				
 			objDiv.maxRecordReached = true;
 			objDiv.numberOf = -1;
@@ -1140,7 +1141,7 @@ function fillMultiLink(mergeRecord, fieldName, prefix){
 	return blnRelations;
 }
 
-/*Returnerar rätt className*/
+/*Returnerar rï¿½tt className*/
 function getRowColor(i){
 	var strClass = "";
 	if (i % 2 == 1)
@@ -1149,7 +1150,7 @@ function getRowColor(i){
 	return strClass;
 }
 
-/*Ändrar vilket håll pilarna pekar på*/
+/*ï¿½ndrar vilket hï¿½ll pilarna pekar pï¿½*/
 function changePicture(obj, typeOfPictureChange){
 	if (pickMe[0].checked == true)
 		if (typeOfPictureChange == 1) 
@@ -1163,7 +1164,7 @@ function changePicture(obj, typeOfPictureChange){
 			obj.src = "images/inactive_from1to2.ico";
 }
 
-/*Flyttar värden mellan posterna*/
+/*Flyttar vï¿½rden mellan posterna*/
 function functionMoveValue(obj) {
     var strFieldName = obj.parentElement.name;
     m_strFieldToConsolidate = strFieldName;
@@ -1173,39 +1174,39 @@ function functionMoveValue(obj) {
 	var strNewMenuSet;
 	var strArrayValues;
 	
-	if (objSlave.recordType == "grade")						/*Betygsfält*/
+	if (objSlave.recordType == "grade")						/*Betygsfï¿½lt*/
 		moveGradeValue(strFieldName, objMaster, objSlave);
-	else if (objSlave.recordType == "typeset")				/*Mängdfält*/
+	else if (objSlave.recordType == "typeset")				/*Mï¿½ngdfï¿½lt*/
 		moveTypesetValue(strFieldName, objMaster, objSlave);
-	else if (objSlave.recordType == "multilink")			/*Multirelationsfält*/
+	else if (objSlave.recordType == "multilink")			/*Multirelationsfï¿½lt*/
 		moveMultilinkValue(strFieldName, objMaster, objSlave);
 	else if (objSlave.recordType == "percent")				/*Procent*/
 			movePercentValue(strFieldName, objMaster, objSlave);
-	else if (objSlave.recordType == "yesno")				/*Ja/Nej fält*/
+	else if (objSlave.recordType == "yesno")				/*Ja/Nej fï¿½lt*/
 		moveYesNoValue(strFieldName, objMaster, objSlave);
-	else if (objSlave.recordType == "color")				/*Färgfält*/
+	else if (objSlave.recordType == "color")				/*Fï¿½rgfï¿½lt*/
 			moveColorValue(strFieldName, objMaster, objSlave);
-	else if (objSlave.tagName.toLowerCase() == "div" && objMaster.recordType == "text")		/*Textvärde med mer än en rad*/
+	else if (objSlave.tagName.toLowerCase() == "div" && objMaster.recordType == "text")		/*Textvï¿½rde med mer ï¿½n en rad*/
 		moveMultiLineText(strFieldName, objMaster, objSlave, obj);
 	else{
 		if (objSlave.value == "") {
 			alert(Resources.getText("alert.noValue"));
 		}
 		else{
-			if (objMaster.recordType == "text")					/*text presenterat på en rad*/
+			if (objMaster.recordType == "text")					/*text presenterat pï¿½ en rad*/
 				moveSingleLineText(strFieldName, objMaster, objSlave, obj);
 			
-			else if (objMaster.recordType == "link")			/*Enkelt relationsfält*/
+			else if (objMaster.recordType == "link")			/*Enkelt relationsfï¿½lt*/
 				moveLinkValue(strFieldName, objMaster, objSlave);
-			else if (objMaster.recordType == "numeral" || objMaster.recordType == "date")	/*Numeriskt eller datumfält*/
+			else if (objMaster.recordType == "numeral" || objMaster.recordType == "date")	/*Numeriskt eller datumfï¿½lt*/
 				moveNumeralOrDateValue(strFieldName, objMaster, objSlave);
-			else if (objMaster.recordType == "alternative" )	/*Alternativfält*/
+			else if (objMaster.recordType == "alternative" )	/*Alternativfï¿½lt*/
 				moveAlternativeValue(strFieldName, objMaster, objSlave);
 		}
 	}
 }
 
-/*Flyttar betygsvärde från slave till master*/
+/*Flyttar betygsvï¿½rde frï¿½n slave till master*/
 function moveGradeValue(fieldName, mainBox, subBox) {
 	if (subBox.grade == "" || subBox.grade == "0") {
 		alert(Resources.getText("alert.noValue"));
@@ -1220,7 +1221,7 @@ function moveGradeValue(fieldName, mainBox, subBox) {
 	}
 }
 
-/*Flyttar mängdfältsvärde från slave till master*/
+/*Flyttar mï¿½ngdfï¿½ltsvï¿½rde frï¿½n slave till master*/
 function moveTypesetValue(fieldName, mainBox, subBox){
 	if (subBox.textValue == "") {
 	    alert(Resources.getText("alert.noCheckedOption"));	
@@ -1254,7 +1255,7 @@ function moveTypesetValue(fieldName, mainBox, subBox){
 	}
 }
 
-/*Flyttar multilänkfält från slave till master*/
+/*Flyttar multilï¿½nkfï¿½lt frï¿½n slave till master*/
 function moveMultilinkValue(fieldName, mainBox, subBox){
 	if (subBox.idvalues == "") {
 		alert(Resources.getText("alert.noRelations"));
@@ -1267,7 +1268,7 @@ function moveMultilinkValue(fieldName, mainBox, subBox){
 	}
 }
 
-/*Flyttar procentsvärde från slave till master*/
+/*Flyttar procentsvï¿½rde frï¿½n slave till master*/
 function movePercentValue(fieldName, mainBox, subBox){
 	if (subBox.title == "") {
 		alert(Resources.getText("alert.noPercent"));
@@ -1287,7 +1288,7 @@ function movePercentValue(fieldName, mainBox, subBox){
 	}
 }
 
-/*Flyttar Ja/Nej-värde från slave till master*/
+/*Flyttar Ja/Nej-vï¿½rde frï¿½n slave till master*/
 function moveYesNoValue(fieldName, mainBox, subBox){
 	m_pCurrentRecords[m_nMainSide].Record.Value(fieldName) = m_pCurrentRecords[m_nSubSide].Record.Value(fieldName);
 	
@@ -1301,7 +1302,7 @@ function moveYesNoValue(fieldName, mainBox, subBox){
 	intChanges ++;
 }
 
-/*Flyttar färgvärde från slave till master*/
+/*Flyttar fï¿½rgvï¿½rde frï¿½n slave till master*/
 function moveColorValue(fieldName, mainBox, subBox){
 	if (subBox.colorRGB == "") {
 		alert(Resources.getText("noColor"));
@@ -1318,7 +1319,7 @@ function moveColorValue(fieldName, mainBox, subBox){
 	}
 }
 
-/*Flyttar textvärde presenterat på flera rader från slave till master*/
+/*Flyttar textvï¿½rde presenterat pï¿½ flera rader frï¿½n slave till master*/
 function moveMultiLineText(fieldName, mainBox, subBox, object){
 	if (subBox.innerHTML == "") {
 		alert(Resources.getText("tooltip.noValue"));
@@ -1334,7 +1335,7 @@ function moveMultiLineText(fieldName, mainBox, subBox, object){
 	}
 }
 
-/*Flyttar textvärde presenterat på en rad från slave till master*/
+/*Flyttar textvï¿½rde presenterat pï¿½ en rad frï¿½n slave till master*/
 function moveSingleLineText(fieldName, mainBox, subBox, object){
 	if (mainBox.value == "") {
 		m_pCurrentRecords[m_nMainSide].Record.Value(fieldName) = m_pCurrentRecords[m_nSubSide].Record.Value(fieldName);
@@ -1347,7 +1348,7 @@ function moveSingleLineText(fieldName, mainBox, subBox, object){
 		
 }
 
-/*Flyttar värde i enkel länk från slave till master*/
+/*Flyttar vï¿½rde i enkel lï¿½nk frï¿½n slave till master*/
 function moveLinkValue(fieldName, mainBox, subBox) {
 	m_pCurrentRecords[m_nMainSide].Record.Value(fieldName) = m_pCurrentRecords[m_nSubSide].Record.Value(fieldName);
 	mainBox.value = subBox.value;
@@ -1356,7 +1357,7 @@ function moveLinkValue(fieldName, mainBox, subBox) {
 	intChanges ++;
 }
 
-/*Flyttar värde i numeriskt eller datum fält från slave till master*/
+/*Flyttar vï¿½rde i numeriskt eller datum fï¿½lt frï¿½n slave till master*/
 function moveNumeralOrDateValue(fieldName, mainBox, subBox) {
 	m_pCurrentRecords[m_nMainSide].Record.Value(fieldName) = m_pCurrentRecords[m_nSubSide].Record.Value(fieldName);
 	mainBox.value = subBox.value;
@@ -1364,7 +1365,7 @@ function moveNumeralOrDateValue(fieldName, mainBox, subBox) {
 	intChanges ++;
 }
 
-/*Flyttar värde i Alternativfält från slave till master*/
+/*Flyttar vï¿½rde i Alternativfï¿½lt frï¿½n slave till master*/
 function moveAlternativeValue(fieldName, mainBox, subBox) {
 	m_pCurrentRecords[m_nMainSide].Record.Value(fieldName) = m_pCurrentRecords[m_nSubSide].Record.Value(fieldName);
 	mainBox.value = subBox.value;
@@ -1372,7 +1373,7 @@ function moveAlternativeValue(fieldName, mainBox, subBox) {
 	intChanges ++;
 }
 
-/*Flyttar id från ett mutlirelationsfält till ett annat. Kontrollerar att de inte finns dubbelt. */
+/*Flyttar id frï¿½n ett mutlirelationsfï¿½lt till ett annat. Kontrollerar att de inte finns dubbelt. */
 function moveValuesMultiLinkData(mainBox, subBox) {
 	var j = 0;
 	var blnFound = false;
@@ -1387,10 +1388,10 @@ function moveValuesMultiLinkData(mainBox, subBox) {
 			
 			for (var i = 0 ; i < strSlaveValues.length; i++) {
 				while (j < strMasterValues.length && ! blnFound && intNumberOfRecords < intMaxRecord) {
-					strMasterValue = strMasterValues[j].split(" ");    
+					strMasterValue = strMasterValues[j].split(" ");ï¿½ ï¿½ 
 					strMasterValue = strMasterValue.join(""); 
 					
-					strSlaveValue = strSlaveValues[i].split(" ");    
+					strSlaveValue = strSlaveValues[i].split(" ");ï¿½ ï¿½ 
 					strSlaveValue = strSlaveValue.join(""); 
 					
 					if (AreStringsEqual(strSlaveValue, strMasterValue)) {
@@ -1414,7 +1415,7 @@ function moveValuesMultiLinkData(mainBox, subBox) {
 	return strNewValues;
 }
 
-/*Flyttar multilänksrader från slave till master. */
+/*Flyttar multilï¿½nksrader frï¿½n slave till master. */
 function moveHTMLMultiLinkData(mainBox, subBox){
 	var j = 0;
 	var blnFound = false;
@@ -1511,7 +1512,7 @@ function moveHTMLMultiLinkData(mainBox, subBox){
 	}
 }
 
-/*Flyttar data från mängdfält i slave till master*/
+/*Flyttar data frï¿½n mï¿½ngdfï¿½lt i slave till master*/
 function moveDatasetData(mainBox, subBox) {
 	var j = 0;
 	var blnFound = false;
@@ -1527,10 +1528,10 @@ function moveDatasetData(mainBox, subBox) {
 		
 		for (var i = 0 ; i < strSlaveValues.length; i++) {
 			while (j < strMasterValues.length && ! blnFound) {
-				strMasterTempValue = strMasterValues[j].split(" ");    
+				strMasterTempValue = strMasterValues[j].split(" ");ï¿½ ï¿½ 
 				strMasterTempValue = strMasterTempValue.join(""); 
 				
-				strSlaveTempValue = strSlaveValues[i].split(" ");    
+				strSlaveTempValue = strSlaveValues[i].split(" ");ï¿½ ï¿½ 
 				strSlaveTempValue = strSlaveTempValue.join(""); 
 				
 				if (AreStringsEqual(strSlaveTempValue, strMasterTempValue))
@@ -1551,7 +1552,7 @@ function moveDatasetData(mainBox, subBox) {
 	return strNewValues;
 }
 
-/*Visar meny me möjlighet att välja om man vill lägga samman värde eller skriva över.*/
+/*Visar meny me mï¿½jlighet att vï¿½lja om man vill lï¿½gga samman vï¿½rde eller skriva ï¿½ver.*/
 function functionMoveOrConsolidateValue() {
 	window.event.cancelBubble = true;
 	
@@ -1563,7 +1564,7 @@ function functionMoveOrConsolidateValue() {
 }
 
 
-/*Ändrar className i dropdown meny*/
+/*ï¿½ndrar className i dropdown meny*/
 function switchClass() {
 	el=event.srcElement;
 	
@@ -1604,7 +1605,7 @@ function getFieldInfo(view, fields) {
             case lkFieldTypeSQL:
                 break;
             case lkFieldTypeMultiLink:
-                /*Tillåt inte kopiering av virtuella flikar*/
+                /*Tillï¿½t inte kopiering av virtuella flikar*/
                 if (pField.LinkedField.Class.Attribute("sql").length == 0)
                     fields.Add(pField);
                         
@@ -1643,7 +1644,7 @@ function getFields() {
                 case lkFieldTypeSQL:
                     break;
                 case lkFieldTypeMultiLink:
-                    /*Tillåt inte kopiering av virtuella flikar*/
+                    /*Tillï¿½t inte kopiering av virtuella flikar*/
                     if (pField.LinkedField.Class.Attribute("sql").length == 0)
                         m_strFields += m_strFields.length > 0 ? ";" + pField.Name : pField.Name;
                             
@@ -1660,7 +1661,7 @@ function getFields() {
 	return m_strFields;
 }
 
-/*Hämtar valda poster från Lime och kollar om det finns någon post som all sammanslagning måste ske till*/
+/*Hï¿½mtar valda poster frï¿½n Lime och kollar om det finns nï¿½gon post som all sammanslagning mï¿½ste ske till*/
 function getSelectedRecords(){
     var pApplication = getApplication();
     var pExplorer = null;
@@ -1726,7 +1727,7 @@ function getSelectedRecords(){
     }
 }
 
-/*Flyttar information från Slave till Master om fältet är fyllt i Slave men inte i master*/
+/*Flyttar information frï¿½n Slave till Master om fï¿½ltet ï¿½r fyllt i Slave men inte i master*/
 function moveWhereEmpty(){
 	for(var i = 0; i < window.document.all("arrow").length; i ++){	
 		var objArrow = window.document.all.arrow[i];
@@ -1764,7 +1765,7 @@ function moveWhereEmpty(){
 	alert(Resources.getText("alert.movedAllFields"));
 }
 
-/*Flyttar alla relationer från slave till master*/
+/*Flyttar alla relationer frï¿½n slave till master*/
 function moveAllRelations(){
 	for(var i = 0; i < window.document.all("arrow").length; i ++){	
 		var objArrow = window.document.all.arrow[i];
@@ -1778,7 +1779,7 @@ function moveAllRelations(){
 	alert(Resources.getText("alert.movedAllRelations"));
 }
 
-/*Byter riktning på pilarna*/
+/*Byter riktning pï¿½ pilarna*/
 function changeArrow(){
 	if (pickMe[0].checked == true){
 		if (m_pMergeRecords.Count > 2) {
@@ -1808,7 +1809,7 @@ function changeArrow(){
 	window.document.all("txt_title" + m_nSubSide).innerHTML = Resources.getText("page.doublet");
 }
 
-/* Kontrollerar om ett värde är detsamma som ett annat */
+/* Kontrollerar om ett vï¿½rde ï¿½r detsamma som ett annat */
 function AreStringsEqual(string1, string2) { 
     var len = string1.length; 
 
