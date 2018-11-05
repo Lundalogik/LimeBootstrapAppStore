@@ -1,6 +1,0 @@
-﻿<div data-app="{app:'infotiles', config:{showOnEmpty: true}}"></div>
-
-
-
-<!-- 		EXPLANATION TO CONFIG ARGUMENTS ABOVE:													-->
-<!--		showOnEmpty: if the InfoTiles should be visible if there aren't any data to show			-->
