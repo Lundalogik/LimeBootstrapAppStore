@@ -2,10 +2,10 @@
 This repository is going to be replaced by separate repositories for each add-on. **Do not add new folders** to this repository anymore. If you have a new add-on that needs version control, please contact [Fredrik Eriksson](mailto:fredrik.eriksson@lundalogik.se) for instructions on how to do it. Updating existing add-ons here is fine until they are migrated to separate repositories. After migrating an add-on the folder here will be emptied and a redirect link will be inserted in the README file.
 
 # LIME Bootstrap AppStore
-This repo contains all apps available for LIME Bootstrap. The appstore itself can be found [here](http://www.lime-bootstrap.com/appstore/).
+This repo contains all apps available for LIME Bootstrap. The appstore itself can be found [here](https://store.lime-crm.com/).
 
 ## Building apps
-Check out the [manual page](http://docs.lime-bootstrap.com/en/latest/buildingApps/).
+Check out the [manual page](https://www.lime-bootstrap.com/).
 
 ## Committing an app
 Any app committed, containing a valid `app.json`-file will automatically be added to the AppStore. As soon as you visit the AppStore, a complete rebuild will be trigged, and your app should show up. The purpose of the `app.json`-file is to provide information about the app, versioning and installation.
